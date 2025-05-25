@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DHI Staff Dashboard - Digital Hyperspace Indonesia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+@extends('layouts.app')
+
+@section('content')
     <script>
       tailwind.config = {
         theme: {
@@ -21,50 +13,8 @@
         },
       };
     </script>
-    <script src="main.js" defer></script>
   </head>
   <body class="bg-gray-50">
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex items-center">
-            <a href="/management-system/index.html" class="flex items-center">
-              <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
-            </a>
-          </div>
-          <div class="flex items-center space-x-4">
-            <button
-              class="relative p-1 rounded-full text-gray-400 hover:text-gray-500"
-              onclick="toggleNotifications()"
-            >
-              <span
-                class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center"
-                >5</span
-              >
-              <i class="fas fa-bell text-xl"></i>
-            </button>
-            <div class="relative">
-              <button
-              class="flex items-center space-x-2"
-              onclick="window.location.href='/management-system/dhi-profile.html'"
-            >
-              <img
-                class="h-8 w-8 rounded-full"
-                src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff"
-                alt="Profile"
-              />
-            </button>
-              <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                <a href="/management-system/profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                <a href="/management-system/settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                <a href="/management-system/login.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -224,4 +174,6 @@
       </div>
     </div>
   </body>
-</html> 
+</html>
+
+@endsection

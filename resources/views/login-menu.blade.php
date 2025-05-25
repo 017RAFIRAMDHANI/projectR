@@ -1,38 +1,21 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registration Portal - Digital Hyperspace Indonesia</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#2563eb",
-            secondary: "#64748b",
+@extends('layouts.app')
+
+@section('content')
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2563eb",
+              secondary: "#64748b",
+            },
           },
         },
-      },
-    };
-  </script>
+      };
+    </script>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
-  <!-- Navbar -->
-  <nav class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        <div class="flex items-center">
-          <a href="index.html" class="flex items-center">
-            <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-20">
-          </a>
-        </div>
-        <div></div>
-      </div>
-    </div>
-  </nav>
+
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col items-center justify-center py-12">
@@ -47,7 +30,7 @@
           Visitor Permit Request
         </a>
       </div>
-      
+
       <div class="flex flex-col space-y-4">
         <button onclick="window.location.href='vendor-dashboard.html'" class="w-44 h-24 bg-white border-2 border-primary text-primary text-lg font-semibold rounded-lg shadow hover:bg-primary hover:text-white transition">
           Vendor
@@ -65,4 +48,7 @@
     </button>
   </main>
 </body>
-</html> 
+</html>
+
+
+@endsection

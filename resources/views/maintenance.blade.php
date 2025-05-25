@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Maintenance - Digital Hyperspace Indonesia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+@extends('layouts.app')
+
+@section('content')
     <script>
       tailwind.config = {
         theme: {
@@ -21,7 +13,6 @@
         },
       };
     </script>
-    <script src="main.js" defer></script>
     <script>
       // Function to toggle notifications panel
       function toggleNotifications() {
@@ -39,7 +30,7 @@
       function toggleTaskStatus(taskId) {
         const statusElement = document.getElementById(`task-status-${taskId}`);
         const currentStatus = statusElement.textContent.trim();
-        
+
         if (currentStatus === 'Pending') {
           statusElement.textContent = 'In Progress';
           statusElement.classList.remove('bg-yellow-100', 'text-yellow-800');
@@ -74,19 +65,19 @@
         const location = document.getElementById('taskLocation').value;
         const dueDate = document.getElementById('taskDueDate').value;
         const priority = document.getElementById('taskPriority').value;
-        
+
         if (!title || !description || !location || !dueDate || !priority) {
           alert('Please fill in all fields');
           return;
         }
-        
+
         // In a real application, this would send data to the server
         // For now, we'll just close the modal
         closeAddTaskModal();
-        
+
         // Reset form
         document.getElementById('taskForm').reset();
-        
+
         // Show success message
         alert('New maintenance task added successfully!');
       }
@@ -95,7 +86,7 @@
       document.addEventListener('click', function(event) {
         const panel = document.getElementById('notificationsPanel');
         const button = document.querySelector('button[onclick="toggleNotifications()"]');
-        
+
         if (!panel.contains(event.target) && !button.contains(event.target) && !panel.classList.contains('hidden')) {
           panel.classList.add('hidden');
         }
@@ -105,7 +96,7 @@
       document.addEventListener('click', function(event) {
         const menu = document.getElementById('userMenu');
         const button = document.querySelector('button[onclick="toggleUserMenu()"]');
-        
+
         if (!menu.contains(event.target) && !button.contains(event.target) && !menu.classList.contains('hidden')) {
           menu.classList.add('hidden');
         }
@@ -115,7 +106,7 @@
       document.addEventListener('click', function(event) {
         const modal = document.getElementById('addTaskModal');
         const modalContent = document.getElementById('modalContent');
-        
+
         if (modalContent && !modalContent.contains(event.target) && !modal.classList.contains('hidden')) {
           modal.classList.add('hidden');
         }
@@ -123,53 +114,13 @@
     </script>
   </head>
   <body class="bg-gray-50">
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex items-center">
-            <a href="/management-system/index.html" class="flex items-center">
-              <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
-            </a>
-          </div>
-          <div class="flex items-center space-x-4">
-            <button
-              class="relative p-1 rounded-full text-gray-400 hover:text-gray-500"
-              onclick="toggleNotifications()"
-            >
-              <span
-                class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center"
-                >4</span
-              >
-              <i class="fas fa-bell text-xl"></i>
-            </button>
-            <div class="relative">
-              <button
-              class="flex items-center space-x-2"
-              onclick="toggleUserMenu()"
-            >
-              <img
-                class="h-8 w-8 rounded-full"
-                src="https://ui-avatars.com/api/?name=FH&background=2563eb&color=fff"
-                alt="Profile"
-              />
-            </button>
-              <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                <a href="/management-system/profile.html?role=FH" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                <a href="/management-system/settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                <a href="/management-system/login.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Maintenance Tasks</h1>
-        <button 
+        <button
           onclick="addNewTask()"
           class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition"
         >
@@ -200,10 +151,10 @@
           </div>
           <div>
             <label for="searchFilter" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
-            <input 
-              type="text" 
-              id="searchFilter" 
-              placeholder="Search tasks..." 
+            <input
+              type="text"
+              id="searchFilter"
+              placeholder="Search tasks..."
               class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
             >
           </div>
@@ -247,7 +198,7 @@
                 </button>
               </td>
             </tr>
-            
+
             <!-- Task 2 -->
             <tr>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -271,7 +222,7 @@
                 </button>
               </td>
             </tr>
-            
+
             <!-- Task 3 -->
             <tr>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -295,7 +246,7 @@
                 </button>
               </td>
             </tr>
-            
+
             <!-- Task 4 -->
             <tr>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -365,29 +316,29 @@
             <i class="fas fa-times"></i>
           </button>
         </div>
-        
+
         <form id="taskForm" class="space-y-4">
           <div>
             <label for="taskTitle" class="block text-sm font-medium text-gray-700">Task Title</label>
             <input type="text" id="taskTitle" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
           </div>
-          
+
           <div>
             <label for="taskDescription" class="block text-sm font-medium text-gray-700">Description</label>
             <textarea id="taskDescription" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"></textarea>
           </div>
-          
+
           <div>
             <label for="taskLocation" class="block text-sm font-medium text-gray-700">Location</label>
             <input type="text" id="taskLocation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
           </div>
-          
+
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label for="taskDueDate" class="block text-sm font-medium text-gray-700">Due Date</label>
               <input type="datetime-local" id="taskDueDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
             </div>
-            
+
             <div>
               <label for="taskPriority" class="block text-sm font-medium text-gray-700">Priority</label>
               <select id="taskPriority" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
@@ -398,7 +349,7 @@
             </div>
           </div>
         </form>
-        
+
         <div class="mt-6 flex justify-end space-x-3">
           <button onclick="closeAddTaskModal()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
             Cancel
@@ -410,4 +361,6 @@
       </div>
     </div>
   </body>
-</html> 
+</html>
+
+@endsection

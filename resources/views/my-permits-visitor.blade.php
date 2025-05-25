@@ -1,37 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Permits - Digital Hyperspace Indonesia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('layouts.app')
+
+@section('content')
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#2563eb",
-                        secondary: "#64748b",
-                    },
-                },
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2563eb",
+              secondary: "#64748b",
             },
-        };
+          },
+        },
+      };
     </script>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <a href="visitor-dashboard.html" class="flex items-center">
-                        <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-20">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+
 
     <!-- Main Content -->
     <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
@@ -140,4 +124,7 @@
     renderPermits();
     </script>
 </body>
-</html> 
+</html>
+
+
+@endsection

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inventory - Digital Hyperspace Indonesia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+@extends('layouts.app')
+
+@section('content')
     <script>
       tailwind.config = {
         theme: {
@@ -21,7 +13,6 @@
         },
       };
     </script>
-    <script src="main.js" defer></script>
     <script>
       // Function to toggle notifications panel
       function toggleNotifications() {
@@ -54,19 +45,19 @@
         const quantity = document.getElementById('itemQuantity').value;
         const location = document.getElementById('itemLocation').value;
         const status = document.getElementById('itemStatus').value;
-        
+
         if (!name || !category || !quantity || !location || !status) {
           alert('Please fill in all fields');
           return;
         }
-        
+
         // In a real application, this would send data to the server
         // For now, we'll just close the modal
         closeAddItemModal();
-        
+
         // Reset form
         document.getElementById('itemForm').reset();
-        
+
         // Show success message
         alert('New inventory item added successfully!');
       }
@@ -75,7 +66,7 @@
       function viewItemDetails(itemId, data) {
         // Set the modal title
         document.getElementById('modalTitle').textContent = 'Item Details';
-        
+
         // Set the item data in the table
         document.getElementById('itemName').textContent = data.name;
         document.getElementById('itemCategory').textContent = data.category;
@@ -83,7 +74,7 @@
         document.getElementById('itemLocation').textContent = data.location;
         document.getElementById('itemStatus').textContent = data.status;
         document.getElementById('itemLastUpdated').textContent = data.lastUpdated;
-        
+
         // Show the modal
         document.getElementById('itemDetailsModal').classList.remove('hidden');
       }
@@ -97,7 +88,7 @@
       function updateItemStatus(itemId, newStatus) {
         const statusElement = document.getElementById(`item-status-${itemId}`);
         const currentStatus = statusElement.textContent.trim();
-        
+
         if (currentStatus === 'In Stock') {
           statusElement.textContent = 'Low Stock';
           statusElement.classList.remove('bg-green-100', 'text-green-800');
@@ -118,18 +109,18 @@
         const categoryFilter = document.getElementById('categoryFilter').value;
         const statusFilter = document.getElementById('statusFilter').value;
         const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
-        
+
         const items = document.querySelectorAll('.inventory-item');
-        
+
         items.forEach(item => {
           const itemCategory = item.getAttribute('data-category');
           const itemStatus = item.querySelector('.item-status').textContent.trim().toLowerCase();
           const itemText = item.textContent.toLowerCase();
-          
+
           const categoryMatch = categoryFilter === 'all' || itemCategory === categoryFilter;
           const statusMatch = statusFilter === 'all' || itemStatus === statusFilter;
           const searchMatch = searchFilter === '' || itemText.includes(searchFilter);
-          
+
           if (categoryMatch && statusMatch && searchMatch) {
             item.classList.remove('hidden');
           } else {
@@ -142,7 +133,7 @@
       document.addEventListener('click', function(event) {
         const panel = document.getElementById('notificationsPanel');
         const button = document.querySelector('button[onclick="toggleNotifications()"]');
-        
+
         if (!panel.contains(event.target) && !button.contains(event.target) && !panel.classList.contains('hidden')) {
           panel.classList.add('hidden');
         }
@@ -152,7 +143,7 @@
       document.addEventListener('click', function(event) {
         const menu = document.getElementById('userMenu');
         const button = document.querySelector('button[onclick="toggleUserMenu()"]');
-        
+
         if (!menu.contains(event.target) && !button.contains(event.target) && !menu.classList.contains('hidden')) {
           menu.classList.add('hidden');
         }
@@ -164,11 +155,11 @@
         const itemDetailsModal = document.getElementById('itemDetailsModal');
         const addItemContent = document.getElementById('addItemContent');
         const itemDetailsContent = document.getElementById('itemDetailsContent');
-        
+
         if (addItemContent && !addItemContent.contains(event.target) && !addItemModal.classList.contains('hidden')) {
           addItemModal.classList.add('hidden');
         }
-        
+
         if (itemDetailsContent && !itemDetailsContent.contains(event.target) && !itemDetailsModal.classList.contains('hidden')) {
           itemDetailsModal.classList.add('hidden');
         }
@@ -183,53 +174,13 @@
     </script>
   </head>
   <body class="bg-gray-50">
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex items-center">
-            <a href="/management-system/index.html" class="flex items-center">
-              <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
-            </a>
-          </div>
-          <div class="flex items-center space-x-4">
-            <button
-              class="relative p-1 rounded-full text-gray-400 hover:text-gray-500"
-              onclick="toggleNotifications()"
-            >
-              <span
-                class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center"
-                >4</span
-              >
-              <i class="fas fa-bell text-xl"></i>
-            </button>
-            <div class="relative">
-              <button
-              class="flex items-center space-x-2"
-              onclick="toggleUserMenu()"
-            >
-              <img
-                class="h-8 w-8 rounded-full"
-                src="https://ui-avatars.com/api/?name=FH&background=2563eb&color=fff"
-                alt="Profile"
-              />
-            </button>
-              <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                <a href="/management-system/profile.html?role=FH" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                <a href="/management-system/settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                <a href="/management-system/login.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Inventory Management</h1>
-        <button 
+        <button
           onclick="addNewItem()"
           class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition"
         >
@@ -261,10 +212,10 @@
           </div>
           <div>
             <label for="searchFilter" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
-            <input 
-              type="text" 
-              id="searchFilter" 
-              placeholder="Search inventory..." 
+            <input
+              type="text"
+              id="searchFilter"
+              placeholder="Search inventory..."
               class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
             >
           </div>
@@ -310,7 +261,7 @@
                 </button>
               </td>
             </tr>
-            
+
             <!-- Item 2 -->
             <tr id="item-2" class="inventory-item" data-category="it-equipment">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Network Cables</td>
@@ -336,7 +287,7 @@
                 </button>
               </td>
             </tr>
-            
+
             <!-- Item 3 -->
             <tr id="item-3" class="inventory-item" data-category="furniture">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Office Chairs</td>
@@ -362,7 +313,7 @@
                 </button>
               </td>
             </tr>
-            
+
             <!-- Item 4 -->
             <tr id="item-4" class="inventory-item" data-category="maintenance">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Light Bulbs</td>
@@ -388,7 +339,7 @@
                 </button>
               </td>
             </tr>
-            
+
             <!-- Item 5 -->
             <tr id="item-5" class="inventory-item" data-category="it-equipment">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">USB Drives</td>
@@ -460,13 +411,13 @@
             <i class="fas fa-times"></i>
           </button>
         </div>
-        
+
         <form id="itemForm" class="space-y-4">
           <div>
             <label for="itemName" class="block text-sm font-medium text-gray-700">Item Name</label>
             <input type="text" id="itemName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
           </div>
-          
+
           <div>
             <label for="itemCategory" class="block text-sm font-medium text-gray-700">Category</label>
             <select id="itemCategory" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
@@ -476,17 +427,17 @@
               <option value="maintenance">Maintenance</option>
             </select>
           </div>
-          
+
           <div>
             <label for="itemQuantity" class="block text-sm font-medium text-gray-700">Quantity</label>
             <input type="text" id="itemQuantity" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
           </div>
-          
+
           <div>
             <label for="itemLocation" class="block text-sm font-medium text-gray-700">Location</label>
             <input type="text" id="itemLocation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
           </div>
-          
+
           <div>
             <label for="itemStatus" class="block text-sm font-medium text-gray-700">Status</label>
             <select id="itemStatus" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
@@ -496,7 +447,7 @@
             </select>
           </div>
         </form>
-        
+
         <div class="mt-6 flex justify-end space-x-3">
           <button onclick="closeAddItemModal()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
             Cancel
@@ -517,7 +468,7 @@
             <i class="fas fa-times"></i>
           </button>
         </div>
-        
+
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -554,7 +505,7 @@
             </tbody>
           </table>
         </div>
-        
+
         <div class="mt-6 flex justify-end">
           <button onclick="closeItemDetailsModal()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
             Close
@@ -563,4 +514,6 @@
       </div>
     </div>
   </body>
-</html> 
+</html>
+
+@endsection
