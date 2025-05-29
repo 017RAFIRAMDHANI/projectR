@@ -10,7 +10,7 @@ class VendorList extends Component
     public $vendors = [];  // To store the list of vendors from the database
 
     // Set polling interval (in seconds)
-    protected $pollingInterval = 10; // Update data every 10 seconds
+    protected $pollingInterval = 1; // Update data every 10 seconds
 
     public function mount()
     {
