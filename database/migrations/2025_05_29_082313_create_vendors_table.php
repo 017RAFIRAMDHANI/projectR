@@ -13,34 +13,34 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->increments('id_vendor');
-            $table->string('company_name', 255);
-            $table->string('requestor_name', 255);
-            $table->string('location_of_work', 255);
-            $table->string('building_level_room', 20);
-            $table->string('work_description', 20);
-            $table->string('email', 255);
-            $table->string('phone_number', 15);
-            $table->string('permit_number', 15);
-            $table->string('start_date');
-            $table->string('end_date');
-            $table->string('number_plate');
-            $table->string('vehicle_types');
-            $table->string('worker1_name');
-            $table->string('worker1_id_nopermit');
-            $table->string('worker2_name');
-            $table->string('worker2_id_nopermit');
-            $table->string('worker3_name');
-            $table->string('worker3_id_nopermit');
-            $table->string('worker4_name');
-            $table->string('worker4_id_nopermit');
-            $table->string('worker5_name');
-            $table->string('worker5_id_nopermit');
-            $table->string('generate_dust');
-            $table->string('protection_system')->nullable();
-            $table->string('file_mos')->nullable();
+           $table->string('company_name', 255)->nullable();
+    $table->string('requestor_name', 255)->nullable();
+    $table->string('location_of_work', 255)->nullable();
+    $table->string('building_level_room')->nullable();
+    $table->string('work_description')->nullable();
+    $table->string('email', 255)->nullable();
+    $table->string('phone_number', 15)->nullable();
+    $table->string('permit_number', 15)->nullable();
+    $table->string('start_date')->nullable();
+    $table->string('end_date')->nullable();
+    $table->string('number_plate')->nullable();
+    $table->string('vehicle_types')->nullable();
+    $table->string('worker1_name')->nullable();
+    $table->string('worker1_id_nopermit')->nullable();
+    $table->string('worker2_name')->nullable();
+    $table->string('worker2_id_nopermit')->nullable();
+    $table->string('worker3_name')->nullable();
+    $table->string('worker3_id_nopermit')->nullable();
+    $table->string('worker4_name')->nullable();
+    $table->string('worker4_id_nopermit')->nullable();
+    $table->string('worker5_name')->nullable();
+    $table->string('worker5_id_nopermit')->nullable();
+    $table->string('generate_dust')->nullable();
+    $table->string('protection_system')->nullable();
+    $table->string('file_mos')->nullable();
             $table->boolean('status_approval_DHI')->default(false); // Default false (pending)
             $table->boolean('status_approval_FH')->default(false); // Default false (pending)
-            $table->enum('mode', ['Urgent', 'Normal']);
+            $table->string('mode')->nullable();
             $table->timestamps();
         });
     }
