@@ -37,6 +37,7 @@ class HomeController extends Controller
 
     $response = $service->spreadsheets_values->get($spreadsheetId, $range);
     $values = $response->getValues();
+   
    //dd($values);
     $firstRow = true;  // Variabel untuk mengecek baris pertama
  foreach ($values as $key => $row) {

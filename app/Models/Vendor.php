@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
     use HasFactory;
-      protected $table = 'vendors';
-
+    protected $table = 'vendors';
+    protected $primaryKey = 'id_vendor';
     // Tentukan kolom yang bisa diisi secara massal
     protected $fillable = [
         'company_name',
