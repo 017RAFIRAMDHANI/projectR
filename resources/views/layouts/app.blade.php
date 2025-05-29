@@ -87,6 +87,8 @@
 
 <main>
      @yield('content')
+     @livewire('vendor-list')
+     @livewireScripts
 </main>
 
 

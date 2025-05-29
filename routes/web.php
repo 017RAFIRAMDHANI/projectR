@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\VendorList;
+// use App\Livewire\VendorList;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,9 +19,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('/');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('/');
 Route::redirect('home','/');
-Route::get('/', VendorList::class)->name('home');
+// Route::get('/', VendorList::class)->name('home');
 
 Route::get('/permit-details', function () {
     return view('permit-details');
