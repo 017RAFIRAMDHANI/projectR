@@ -14,7 +14,7 @@
       };
     </script>
   <body class="bg-gray-50">
-     
+
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -175,6 +175,8 @@
           </div>
         </div>
 
+
+
         <!-- Recent Activity Section -->
         <div class="lg:col-span-1">
           <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -237,6 +239,19 @@
             </div>
           </div>
         </div>
+         <table class="min-w-full table-auto border-collapse border border-gray-200">
+    
+    <tbody>
+        @foreach ($values as $row)
+        <tr class="hover:bg-gray-100">
+            @foreach ($row as $column)
+                <td class="px-4 py-2 border border-gray-300">{{ $column }}</td>
+            @endforeach
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
       </div>
     </main>
 
