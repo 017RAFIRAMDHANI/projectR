@@ -19,6 +19,7 @@
     <script src="{{asset('js/main.js')}}" defer></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     @vite('resources/js/app.js')
 </head>
 <body>
 
@@ -87,8 +88,7 @@
 
 <main>
      @yield('content')
-     @livewire('vendor-list')
-     @livewireScripts
+
 </main>
 
 

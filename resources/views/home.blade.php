@@ -239,21 +239,12 @@
             </div>
           </div>
         </div>
-         <table class="min-w-full table-auto border-collapse border border-gray-200">
-    
-    <tbody>
-        @foreach ($values as $row)
-        <tr class="hover:bg-gray-100">
-            @foreach ($row as $column)
-                <td class="px-4 py-2 border border-gray-300">{{ $column }}</td>
-            @endforeach
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+
 
       </div>
     </main>
 
+ @livewire('vendor-list')
+     @livewireScripts
    @include('layouts.footer')
 @endsection
