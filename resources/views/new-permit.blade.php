@@ -113,8 +113,28 @@
                         </div>
                     </div>
                 </div>
-
+   <div class="space-y-4">
+                    <div>
+                        <label for="number_plate" class="block text-sm font-medium text-gray-700 ">Number Plate</label>
+                        <input type="text" id="number_plate" name="number_plate"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+                    </div>
+                    </div>
                 <!-- Additional Information -->
+                 <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 ">Vehicle Types	</label>
+                        <div class="mt-2 space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="vehicle_types" value="Mobil"  class="text-primary focus:ring-primary">
+                                <span class="ml-2">Mobil</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="vehicle_types" value="Motor"  class="text-primary focus:ring-primary">
+                                <span class="ml-2">Motor</span>
+                            </label>
+                        </div>
+                    </div>
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 ">Does work generate dust?</label>
@@ -129,6 +149,7 @@
                             </label>
                         </div>
                     </div>
+
                     <div>
                         <label for="protectionSystem" class="block text-sm font-medium text-gray-700">Protection System Affected</label>
                         <input type="text" id="protectionSystem" name="protection_system"

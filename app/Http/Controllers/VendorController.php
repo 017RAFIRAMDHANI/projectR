@@ -28,18 +28,20 @@ public function store(Request $request)
             'start_date' => 'required',
             'end_date' => 'required',
             'generate_dust' => 'required',
+            'vehicle_types' => 'required',
+            'number_plate' => 'required',
             'protection_system' => 'required|string',
             'file_mos' => 'required|file|mimes:pdf,doc,docx|max:10240',
             'worker1_name' => 'required|string|max:255',
             'worker1_id_nopermit' => 'required|string|max:255',
-            'worker2_name' => 'nullable|string|max:255',
-            'worker2_id_nopermit' => 'nullable|string|max:255',
-            'worker3_name' => 'nullable|string|max:255',
-            'worker3_id_nopermit' => 'nullable|string|max:255',
-            'worker4_name' => 'nullable|string|max:255',
-            'worker4_id_nopermit' => 'nullable|string|max:255',
-            'worker5_name' => 'nullable|string|max:255',
-            'worker5_id_nopermit' => 'nullable|string|max:255',
+            'worker2_name' => 'required|string|max:255',
+            'worker2_id_nopermit' => 'required|string|max:255',
+            'worker3_name' => 'required|string|max:255',
+            'worker3_id_nopermit' => 'required|string|max:255',
+            'worker4_name' => 'required|string|max:255',
+            'worker4_id_nopermit' => 'required|string|max:255',
+            'worker5_name' => 'required|string|max:255',
+            'worker5_id_nopermit' => 'required|string|max:255',
             'mode' => 'required|string',
         ]);
 
@@ -48,6 +50,15 @@ public function store(Request $request)
             $fileMos = $request->file('file_mos')->store('mos_files', 'public');
                Log::info('File Path:', ['file_mos' => $fileMos]);
         }
+
+          // Generate permit number in format "VD-YYMM-XXX"
+        $date = new \DateTime();
+        $year = $date->format('y'); // Last two digits of the year
+        $month = $date->format('m'); // Month
+        $random = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT); // Random 3 digit number
+        $permitNumber = "VD-{$year}{$month}-{$random}";
+
+
 
         // Create Vendor record
         $vendor = Vendor::create([
@@ -62,6 +73,8 @@ public function store(Request $request)
             'end_date' => $validatedData['end_date'],
             'generate_dust' => $validatedData['generate_dust'],
             'protection_system' => $validatedData['protection_system'],
+            'number_plate' => $validatedData['number_plate'],
+            'vehicle_types' => $validatedData['vehicle_types'],
             'file_mos' => $fileMos,
             'worker1_name' => $validatedData['worker1_name'],
             'worker1_id_nopermit' => $validatedData['worker1_id_nopermit'],
@@ -74,6 +87,7 @@ public function store(Request $request)
             'worker5_name' => $validatedData['worker5_name'],
             'worker5_id_nopermit' => $validatedData['worker5_id_nopermit'],
             'mode' => $validatedData['mode'],
+            'permit_number' =>  $permitNumber,
         ]);
 
         // Return a success response with data
