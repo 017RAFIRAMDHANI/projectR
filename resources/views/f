@@ -1,0 +1,101 @@
+
+{{--
+<script>
+    let workerCount = 1;
+
+    function addWorker() {
+        if (workerCount >= 5) {
+            alert('Maximum 5 workers allowed');
+            return;
+        }
+
+        workerCount++;
+        const workerHtml = `
+            <div class="worker-entry grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Worker ${workerCount} - Name</label>
+                    <input type="text" name="worker${workerCount}_name"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Worker ${workerCount} - ID No/Permit No</label>
+                    <input type="text" name="worker${workerCount}_id_nopermit"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+                </div>
+            </div>
+        `;
+        document.getElementById('additionalWorkers').insertAdjacentHTML('beforeend', workerHtml);
+    }
+
+    function clearForm() {
+        document.getElementById('permitForm').reset();
+        document.getElementById('additionalWorkers').innerHTML = '';
+        workerCount = 1;
+    }
+
+    document.getElementById('permitForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Create FormData object
+const formData = new FormData();
+formData.append('company_name', document.getElementById('companyName').value);
+// Add other form fields similarly
+formData.append('file_mos', document.getElementById('mosFile').files[0]);
+
+        // Add form values to FormData
+        formData.append('company_name', document.getElementById('companyName').value);
+        formData.append('requestor_name', document.getElementById('requestorName').value);
+        formData.append('email', document.getElementById('requestorEmail').value);
+        formData.append('phone_number', document.getElementById('requestorPhone').value);
+        formData.append('location_of_work', document.getElementById('location').value);
+        formData.append('building_level_room', document.getElementById('buildingInfo').value);
+        formData.append('work_description', document.getElementById('purpose').value);
+        formData.append('start_date', document.getElementById('startDate').value);
+        formData.append('end_date', document.getElementById('endDate').value);
+        formData.append('generate_dust', document.querySelector('input[name="generate_dust"]:checked').value);
+        formData.append('protection_system', document.getElementById('protectionSystem').value);
+        formData.append('file_mos', document.getElementById('mosFile').files[0]);
+        formData.append('mode', document.querySelector('input[name="mode"]:checked').value);
+
+        // Add workers data dynamically
+        for (let i = 1; i <= workerCount; i++) {
+            const workerName = document.querySelector(`input[name="worker${i}_name"]`)?.value;
+            const workerId = document.querySelector(`input[name="worker${i}_id_nopermit"]`)?.value;
+            if (workerName && workerId) {
+                formData.append(`worker${i}_name`, workerName);
+                formData.append(`worker${i}_id_nopermit`, workerId);
+            }
+        }
+
+        // Send data via POST request using fetch
+        fetch("{{ route('vendor_store') }}", {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle success (show success message, clear form, etc.)
+            if (data.success) {
+                alert('Permit request submitted successfully!');
+                clearForm();
+            } else {
+                alert('There was an issue submitting the form.');
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting form:', error);
+            alert('There was an error submitting the form.');
+        });
+    });
+
+    function generatePermitId() {
+        const date = new Date();
+        const year = date.getFullYear().toString().substr(-2);
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+        return `VD-${year}${month}-${random}`;
+    }
+</script> --}}

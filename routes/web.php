@@ -23,6 +23,13 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('/'
 Route::redirect('home','/');
 // Route::get('/', VendorList::class)->name('home');
 
+// vendor const
+Route::get('/new-permit',[App\Http\Controllers\VendorController::class, 'create'])->name('vendor_create');
+Route::post('/vendor_store',[App\Http\Controllers\VendorController::class, 'store'])->name('vendor.store');
+
+
+
+
 Route::get('/permit-details', function () {
     return view('permit-details');
 });
@@ -31,13 +38,10 @@ Route::get('/approvals', function () {
     return view('approvals');
 });
 
-Route::get('/new-permit', function () {
-    return view('new-permit');
-});
 
-Route::get('/permits', function () {
-    return view('permits');
-});
+// Route::get('/permits', function () {
+//     return view('permits');
+// });
 
 Route::get('/database', function () {
     return view('database');

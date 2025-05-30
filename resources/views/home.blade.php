@@ -50,7 +50,7 @@
             </h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button
-                onclick="window.location.href='new-permit.html'"
+                onclick="window.location.href='{{route('vendor_create')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
               >
                 <i
@@ -66,7 +66,7 @@
               >
                 <i class="fas fa-check-circle text-green-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700"
-                  >Approve Permits</span
+                  >My Permits</span
                 >
               </button>
               <button

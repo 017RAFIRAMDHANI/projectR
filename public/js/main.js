@@ -10,7 +10,7 @@ class PageManager {
             'profile': '/profile.html',
             'new-permit': '/new-permit.html'
         };
-        
+
         this.currentPage = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
         this.initializeNavigation();
         this.initializeCommonElements();
@@ -60,7 +60,7 @@ class PageManager {
 
             // Close notifications when clicking outside
             document.addEventListener('click', (e) => {
-                if (!notificationsPanel.contains(e.target) && 
+                if (!notificationsPanel.contains(e.target) &&
                     !notificationBtn.contains(e.target)) {
                     notificationsPanel.classList.add('hidden');
                 }
@@ -125,11 +125,11 @@ class PageManager {
                     <i class="fas fa-trash"></i>
                 </button>
             `;
-            
+
             // Add remove worker functionality
             const removeBtn = workerDiv.querySelector('button');
             removeBtn.onclick = () => workerDiv.remove();
-            
+
             container.appendChild(workerDiv);
         }
     }
@@ -231,4 +231,4 @@ window.initializeCharts = () => {
 };
 
 // Initialize charts when window loads
-window.addEventListener('load', window.initializeCharts); 
+window.addEventListener('load', window.initializeCharts);
