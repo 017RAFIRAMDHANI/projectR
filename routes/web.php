@@ -26,6 +26,7 @@ Route::redirect('home','/');
 // vendor const
 Route::get('/new-permit',[App\Http\Controllers\VendorController::class, 'create'])->name('vendor_create');
 Route::post('/vendor_store',[App\Http\Controllers\VendorController::class, 'store'])->name('vendor.store');
+Route::get('/permits',[App\Http\Controllers\VendorController::class, 'view'])->name('vendor.view');
 
 
 
@@ -39,9 +40,6 @@ Route::get('/approvals', function () {
 });
 
 
-// Route::get('/permits', function () {
-//     return view('permits');
-// });
 
 Route::get('/database', function () {
     return view('database');

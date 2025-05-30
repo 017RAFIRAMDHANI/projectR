@@ -107,4 +107,7 @@ public function store(Request $request)
 }
 
 
+public function view(){
+    return view('permits');
+}
 }

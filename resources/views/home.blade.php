@@ -61,7 +61,7 @@
                 >
               </button>
               <button
-                onclick="window.location.href='permits.html'"
+                onclick="window.location.href='{{route('vendor.view')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition"
               >
                 <i class="fas fa-check-circle text-green-600 text-xl mb-2"></i>
