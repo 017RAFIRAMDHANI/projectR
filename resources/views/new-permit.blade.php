@@ -120,11 +120,11 @@
                         <label class="block text-sm font-medium text-gray-700 ">Does work generate dust?</label>
                         <div class="mt-2 space-x-4">
                             <label class="inline-flex items-center">
-                                <input type="radio" name="generate_dust" value="yes"  class="text-primary focus:ring-primary">
+                                <input type="radio" name="generate_dust" value="Yes"  class="text-primary focus:ring-primary">
                                 <span class="ml-2">Yes</span>
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="radio" name="generate_dust" value="no"  class="text-primary focus:ring-primary">
+                                <input type="radio" name="generate_dust" value="No"  class="text-primary focus:ring-primary">
                                 <span class="ml-2">No</span>
                             </label>
                         </div>
@@ -223,11 +223,11 @@
                         <label class="block text-sm font-medium text-gray-700 ">Urgency</label>
                         <div class="mt-2 space-x-4">
                             <label class="inline-flex items-center">
-                                <input type="radio" name="mode" value="urgent"  class="text-primary focus:ring-primary">
+                                <input type="radio" name="mode" value="Urgent"  class="text-primary focus:ring-primary">
                                 <span class="ml-2">Urgent</span>
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="radio" name="mode" value="normal"  class="text-primary focus:ring-primary">
+                                <input type="radio" name="mode" value="Normal"  class="text-primary focus:ring-primary">
                                 <span class="ml-2">Normal</span>
                             </label>
                         </div>

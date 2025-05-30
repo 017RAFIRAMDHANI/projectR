@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vendor;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -44,7 +45,8 @@ class Controller extends BaseController
 
             $permitNumber = isset($row[7]) ? $row[7] : null;  // Column H (Permit Number)
             $vendor = Vendor::where('permit_number', $permitNumber)->first();
-
+           $startDate = isset($row[21]) ? Carbon::createFromFormat('d/m/Y', $row[21])->format('Y-m-d') : null;  // Column V
+           $endDate = isset($row[22]) ? Carbon::createFromFormat('d/m/Y', $row[22])->format('Y-m-d') : null;  // Column W
             if (!$vendor) {
                 Vendor::create([
                     'company_name' => isset($row[1]) ? $row[1] : null,  // Column B (Company Name)
@@ -55,8 +57,8 @@ class Controller extends BaseController
                     'email' => isset($row[19]) ? $row[19] : null,  // Column T (Email)
                     'phone_number' => isset($row[20]) ? $row[20] : null,  // Column U (Phone Number)
                     'permit_number' => $permitNumber,  // Column H
-                    'start_date' => isset($row[21]) ? $row[21] : null,  // Column V
-                    'end_date' => isset($row[22]) ? $row[22] : null,  // Column W
+                    'start_date' => $startDate,  // Column V
+                    'end_date' => $endDate,  // Column W
                     'number_plate' => $numberPlate,  // Column X
                     'vehicle_types' => isset($row[25]) ? $row[25] : null,  // Column Z
                     'worker1_name' => isset($row[6]) ? $row[6] : null,  // Column G
