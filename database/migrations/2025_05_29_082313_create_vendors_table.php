@@ -38,8 +38,8 @@ return new class extends Migration
     $table->string('generate_dust')->nullable();
     $table->string('protection_system')->nullable();
     $table->string('file_mos')->nullable();
-            $table->boolean('status_approval_DHI')->default(false)->nullable(); // Default false (pending)
-            $table->boolean('status_approval_FH')->default(false)->nullable(); // Default false (pending)
+            $table->string('status_approval_DHI')->nullable(); // Default false (pending)
+            $table->string('status_approval_FH')->nullable(); // Default false (pending)
             $table->string('mode')->nullable();
             $table->timestamps();
         });

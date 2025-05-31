@@ -35,25 +35,26 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <select class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                        <option>All Status</option>
-                        <option>Pending</option>
-                        <option>Approved</option>
-                        <option>Rejected</option>
+                    <select id="statusApprovalDHI" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                        <option value="">All Status</option>
+                      <option value="Pending">Pending</option>
+                         <option value="Reject">Reject</option>
+                        <option value="2">2</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
-                    <input type="date" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                    <input type="date"  class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Company</label>
-                    <input type="text" placeholder="Search company"    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                    <input type="text" placeholder="Search company" value="{{ $searchCompany ?? '' }}"  id="searchCompany" name="searchCompany"  class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
-                 <input type="text" name="searchData" id="searchData" value="{{ request()->query('searchData') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-
+                    <form   method="GET">
+                 <input type="text" name="searchData" id="searchData" value="{{ $search ?? null }}" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+</form>
                 </div>
             </div>
         </div>
@@ -63,7 +64,7 @@
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
             <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> #</th>
+
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> No. Permit</th>
 
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
@@ -98,12 +99,10 @@
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200" id="TablesData">
-@php
-       $i = $vendors->firstItem() ?? 1;
-@endphp
+
           @foreach ($vendors as  $vendor)
                 <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">      {{ $i++ }}</td>
+
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $vendor->permit_number }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->company_name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->requestor_name }}</td>
@@ -130,8 +129,8 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->generate_dust }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->protection_system }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->file_mos }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->status_approval_DHI ? 'Approved' : 'Pending' }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->status_approval_FH ? 'Approved' : 'Pending' }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->status_approval_DHI  }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->status_approval_FH  }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->mode }}</td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button class="text-primary hover:text-blue-700" >View</button>
@@ -144,9 +143,9 @@
 
 
             <div>
-                <div style="padding: 10px" id="paginationLinks">
+                <div style="padding: 10px" id="pagination">
                     <!-- Pagination Links -->
-                    {{ $vendors->links('pagination::tailwind') }}
+                    {{-- {{ $vendors->links('pagination::tailwind') }} --}}
                 </div>
 
 
@@ -158,6 +157,76 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+<script>
+    $(document).ready(function(){
+        // For general search (searching across all columns)
+        $("#searchData").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#TablesData tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+
+            // Hide pagination when filtering
+            $("#pagination").hide();
+        });
+
+        // For company search (searching only in the company column)
+        $("#searchCompany").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#TablesData tr").filter(function() {
+                // Only toggle the row if the company column contains the search term
+                var companyName = $(this).find('td').eq(1).text().toLowerCase();  // Assuming company_name is in the second column (index 1)
+                $(this).toggle(companyName.indexOf(value) > -1);
+            });
+
+            // Hide pagination when filtering
+            $("#pagination").hide();
+        });
+    });
+
+</script>
+<script>
+    $(document).ready(function(){
+        // For Status filter (Status Approval DHI)
+        $("#statusApprovalDHI").on("change", function() {
+            var value = $(this).val();  // Get the selected value (Pending, Approved, or Rejected)
+
+            console.log("Selected Value: " + value); // Log the selected filter value
+
+            // Loop through each row and filter based on the status
+            $("#TablesData tr").filter(function() {
+                // Find the correct index for the status column in the table (27th column = index 26)
+                var statusText = $(this).find('td').eq(26).text().trim();  // Adjusted to eq(26)
+
+                console.log("Row Status Text: " + statusText); // Log the status value in each row
+
+                // If "All Status" is selected (empty value), show all rows
+                if (value === "") {
+                    $(this).show();
+                } else {
+                    // Compare the status value as string
+                    $(this).toggle(statusText === value);  // Compare string to string
+                }
+            });
+
+            // Hide pagination while filtering
+            $("#pagination").hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Check column indices by logging the table contents
+        $("#TablesData tr").each(function(rowIndex, row) {
+            $(row).find("td").each(function(colIndex, cell) {
+                console.log("Row " + rowIndex + ", Column " + colIndex + ": " + $(cell).text().trim());
+            });
+        });
+    });
+</script>
+
+
+{{--
 <script>
   $(document).ready(function(){
     var debounceTimeout;
@@ -233,7 +302,7 @@
       }, 100); // Tunggu 500ms setelah pengguna berhenti mengetik
     });
   });
-</script>
+</script> --}}
 
 
     </main>
