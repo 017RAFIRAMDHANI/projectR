@@ -26,7 +26,8 @@ Route::redirect('home','/');
 // vendor const
 Route::get('/new-permit',[App\Http\Controllers\VendorController::class, 'create'])->name('vendor_create');
 Route::post('/vendor_store',[App\Http\Controllers\VendorController::class, 'store'])->name('vendor.store');
-Route::get('/permits',[App\Http\Controllers\VendorController::class, 'view'])->name('vendor.view');
+Route::get('/permits',[App\Http\Controllers\VendorController::class, 'index'])->name('vendor.view');
+Route::get('/search-vendors', [App\Http\Controllers\VendorController::class, 'search'])->name('vendor.search');
 
 
 

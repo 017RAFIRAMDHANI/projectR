@@ -1,38 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-   <script>
-    @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            html: "{{ nl2br(session('success')) }}",  // Convert \n to <br>
-            confirmButtonText: 'OK'
-        });
-    @elseif(session('error'))
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "{{ nl2br(session('error')) }}",  // Convert \n to <br>
-            confirmButtonText: 'Try Again'
-        });
-    @endif
 
-    @if($errors->any())
-        let errorMessages = "";
-        @foreach($errors->all() as $error)
-            errorMessages += "{{ $error }}<br>";  // Use <br> for new lines
-        @endforeach
-        Swal.fire({
-            icon: 'error',
-            title: 'Validation Errors',
-            html: errorMessages,  // Display with HTML for line breaks
-            confirmButtonText: 'Close'
-        });
-    @endif
-</script>
 
 
     <script>

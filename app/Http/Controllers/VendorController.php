@@ -8,6 +8,60 @@ use Illuminate\Support\Facades\Log;
 
 class VendorController extends Controller
 {
+
+public function search(Request $request)
+{
+    $search = $request->input('searchData'); // Ambil data pencarian
+if($search) {
+
+  $vendors = Vendor::where('company_name', 'LIKE', "%{$search}%")
+    ->orWhere('requestor_name', 'LIKE', "%{$search}%")
+    ->orWhere('location_of_work', 'LIKE', "%{$search}%")
+    ->orWhere('building_level_room', 'LIKE', "%{$search}%")
+    ->orWhere('work_description', 'LIKE', "%{$search}%")
+    ->orWhere('email', 'LIKE', "%{$search}%")
+    ->orWhere('phone_number', 'LIKE', "%{$search}%")
+    ->orWhere('permit_number', 'LIKE', "%{$search}%")
+    ->orWhere('start_date', 'LIKE', "%{$search}%")
+    ->orWhere('end_date', 'LIKE', "%{$search}%")
+    ->orWhere('number_plate', 'LIKE', "%{$search}%")
+    ->orWhere('vehicle_types', 'LIKE', "%{$search}%")
+    ->orWhere('worker1_name', 'LIKE', "%{$search}%")
+    ->orWhere('worker1_id_nopermit', 'LIKE', "%{$search}%")
+    ->orWhere('worker2_name', 'LIKE', "%{$search}%")
+    ->orWhere('worker2_id_nopermit', 'LIKE', "%{$search}%")
+    ->orWhere('worker3_name', 'LIKE', "%{$search}%")
+    ->orWhere('worker3_id_nopermit', 'LIKE', "%{$search}%")
+    ->orWhere('worker4_name', 'LIKE', "%{$search}%")
+    ->orWhere('worker4_id_nopermit', 'LIKE', "%{$search}%")
+    ->orWhere('worker5_name', 'LIKE', "%{$search}%")
+    ->orWhere('worker5_id_nopermit', 'LIKE', "%{$search}%")
+    ->orWhere('generate_dust', 'LIKE', "%{$search}%")
+    ->orWhere('protection_system', 'LIKE', "%{$search}%")
+    ->orWhere('file_mos', 'LIKE', "%{$search}%")
+    ->orWhere('mode', 'LIKE', "%{$search}%")
+    ->get();
+   }
+
+
+
+
+    // Kembalikan data ke JavaScript dalam format JSON
+    return response()->json($vendors);
+}
+
+public function index(Request $request)
+{
+
+
+        $vendors = Vendor::orderBy('created_at', 'asc')->paginate(10);
+
+    return view('permits', [
+        'vendors' => $vendors
+    ]);
+}
+
+
       public function create()
 {
         return view('new-permit');
@@ -107,7 +161,5 @@ public function store(Request $request)
 }
 
 
-public function view(){
-    return view('permits');
-}
+
 }
