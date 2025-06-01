@@ -40,6 +40,7 @@ return new class extends Migration
     $table->string('file_mos')->nullable();
             $table->string('status_approval_DHI')->nullable(); // Default false (pending)
             $table->string('status_approval_FH')->nullable(); // Default false (pending)
+            $table->string('status')->nullable(); // Default false (pending)
             $table->string('mode')->nullable();
             $table->timestamps();
         });

@@ -39,6 +39,7 @@ class Vendor extends Model
         'file_mos',
         'status_approval_DHI',
         'status_approval_FH',
-        'mode'
+        'mode',
+        'status'
     ];
 }

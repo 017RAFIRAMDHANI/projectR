@@ -74,8 +74,9 @@ class Controller extends BaseController
                     'generate_dust' => isset($row[16]) ? $row[16] : null,  // Column Q
                     'protection_system' => isset($row[17]) ? $row[17] : null,  // Column R
                     'file_mos' => isset($row[23]) ? $row[23] : null,  // Column W
-                    'status_approval_DHI' => false,  // Default false
-                    'status_approval_FH' => false,  // Default false
+                    'status' => 'Pending',  // Default 'Pending'
+                    'status_approval_DHI' => 'Pending',  // Default 'Pending'
+                    'status_approval_FH' => 'Pending',  // Default 'Pending'
                     'mode' => isset($row[18]) ? $row[18] : null,  // Column S (Urgency)
                 ]);
             }

@@ -19,7 +19,7 @@
     {{-- <script src="{{asset('js/main.js')}}" defer></script> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-     @vite('resources/js/app.js')
+     {{-- @vite('resources/js/app.js') --}}
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>

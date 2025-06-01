@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class VendorController extends Controller
 {
@@ -51,6 +52,27 @@ class VendorController extends Controller
 
     // Kembalikan data ke JavaScript dalam format JSON
 //}
+public function approve(Request $request)
+{
+    $vendor = Vendor::where('permit_number', $request->permit_number)->first();
+    if ($vendor) {
+        $vendor->status = 'Approved';
+        $vendor->save();
+        return response()->json(['success' => true]);
+    }
+    return response()->json(['success' => false], 404);
+}
+
+public function reject(Request $request)
+{
+    $vendor = Vendor::where('permit_number', $request->permit_number)->first();
+    if ($vendor) {
+        $vendor->status = 'Reject';
+        $vendor->save();
+        return response()->json(['success' => true]);
+    }
+    return response()->json(['success' => false], 404);
+}
 
 public function index(Request $request)
 {
@@ -96,14 +118,15 @@ public function index(Request $request)
 
 }else{
 
-    $vendors = $vendors->orderBy('created_at', 'asc')->get();
+    $vendors = $vendors->orderBy('created_at', 'desc')->get();
 }
 
    // Apply ordering and pagination
-
+    $vendorOne = Vendor::whereNotNull('file_mos')->first();
    return view('permits', [
        'vendors' => $vendors,
-       'search' => $search
+       'search' => $search,
+       'vendorOne' => $vendorOne,
    ]);
 }
 
@@ -188,10 +211,12 @@ public function store(Request $request)
             'worker5_id_nopermit' => $validatedData['worker5_id_nopermit'],
             'mode' => $validatedData['mode'],
             'permit_number' =>  $permitNumber,
+            'status' =>  'Pending',
+
         ]);
 
         // Return a success response with data
-        return redirect()->route('vendor_create')->with('success', 'Vendor permit request submitted successfully!');
+        return redirect()->route('vendor.index')->with('success', 'Vendor permit request submitted successfully!');
 
     } catch (\Illuminate\Validation\ValidationException $e) {
         // Handle validation errors

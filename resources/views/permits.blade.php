@@ -35,16 +35,16 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <select id="statusApprovalDHI" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                    <select id="statusApproval" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
                         <option value="">All Status</option>
                       <option value="Pending">Pending</option>
+                      <option value="Approved">Approved</option>
                          <option value="Reject">Reject</option>
-                        <option value="2">2</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
-                    <input type="date"  class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                    <input type="date" id="EndDate"  class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Company</label>
@@ -74,7 +74,7 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Work Description</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone Number</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Number</th>
+
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Date</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">End Date</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Number Plate</th>
@@ -92,6 +92,8 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Generate Dust</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Protection System</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File MOS</th>
+
+                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Approval DHI</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Approval FH</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mode</th>
@@ -111,7 +113,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->work_description }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->email }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->phone_number }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->permit_number }}</td>
+
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->start_date }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->end_date }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->number_plate }}</td>
@@ -128,13 +130,76 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->worker5_id_nopermit }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->generate_dust }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->protection_system }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->file_mos }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->status_approval_DHI  }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->status_approval_FH  }}</td>
+
+
+<td class="px-6 py-4 whitespace-nowrap">
+
+
+  <button class="view-pdf-btn" type="button" data-file="{{ Str::startsWith($vendor->file_mos, 'http') ? $vendor->file_mos : asset('storage/' . $vendor->file_mos) }}"
+>
+    LIHAT FILE
+</button>
+
+
+
+</td>
+
+
+<td id="status-approval-{{ $vendor->permit_number }}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+       {{ $vendor->status == 'Approved' ? 'bg-green-100 text-green-800' :
+           ($vendor->status == 'Reject' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
+        {{ $vendor->status ?? 'Pending' }}
+    </span>
+</td>
+<td >
+    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+        {{ $vendor->status_approval_DHI == 'Approved' ? 'bg-green-100 text-green-800' :
+           ($vendor->status_approval_DHI == 'Pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
+        {{ $vendor->status_approval_DHI ?? 'Pending'}}
+    </span>
+</td>
+
+
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+        {{ $vendor->status_approval_FH == 'Approved' ? 'bg-green-100 text-green-800' :
+           ($vendor->status_approval_FH == 'Pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
+        {{ $vendor->status_approval_FH ?? 'Pending'}}
+    </span>
+</td>
+
+
+
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->mode }}</td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button class="text-primary hover:text-blue-700" >View</button>
-                        </td>
+                            <button class=" mx-2 text-primary hover:text-blue-700" >View</button>
+
+@php
+    $isDisabled = in_array($vendor->status, ['Approved', 'Reject']);
+@endphp
+
+<button
+    id="approve-btn-{{ $vendor->permit_number }}"
+    onclick="approvePermit('{{ $vendor->permit_number }}')"
+    class="approve-btn bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded transition
+        {{ $isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}"
+    {{ $isDisabled ? 'disabled title=Tindakan sudah dilakukan' : '' }}>
+    <i class="fas fa-check mr-1"></i> Approve
+</button>
+
+<button
+    id="reject-btn-{{ $vendor->permit_number }}"
+    onclick="rejectPermit('{{ $vendor->permit_number }}')"
+    class="reject-btn bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded transition
+        {{ $isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}"
+    {{ $isDisabled ? 'disabled title=Tindakan sudah dilakukan' : '' }}>
+    <i class="fas fa-times mr-1"></i> Reject
+</button>
+
+
+</td>
+
                 </tr>
             @endforeach
         </tbody>
@@ -188,7 +253,7 @@
 <script>
     $(document).ready(function(){
         // For Status filter (Status Approval DHI)
-        $("#statusApprovalDHI").on("change", function() {
+        $("#statusApproval").on("change", function() {
             var value = $(this).val();  // Get the selected value (Pending, Approved, or Rejected)
 
             console.log("Selected Value: " + value); // Log the selected filter value
@@ -196,7 +261,7 @@
             // Loop through each row and filter based on the status
             $("#TablesData tr").filter(function() {
                 // Find the correct index for the status column in the table (27th column = index 26)
-                var statusText = $(this).find('td').eq(26).text().trim();  // Adjusted to eq(26)
+                var statusText = $(this).find('td').eq(25).text().trim();  // Adjusted to eq(26)
 
                 console.log("Row Status Text: " + statusText); // Log the status value in each row
 
@@ -223,6 +288,126 @@
             });
         });
     });
+</script>
+<script>
+    $(document).ready(function(){
+        // For End Date filter
+        $("#EndDate").on("input", function() {
+            var selectedDate = $(this).val();  // Get the selected date in format yyyy-mm-dd
+            console.log("Selected End Date: ", selectedDate);  // Log the selected date
+
+            if (selectedDate === "") {
+                // Jika dikosongkan (Clear), tampilkan semua baris
+                $("#TablesData tr").show();
+                $("#pagination").show();
+                return;
+            }
+            // Loop through each row and filter based on the end_date
+            $("#TablesData tr").filter(function() {
+                var endDateText = $(this).find('td').eq(9).text().trim();  // Assuming 'end_date' is in the 11th column (index 10)
+
+                // Log the end date in each row for debugging
+                console.log("Row End Date: " + endDateText);
+
+                // Compare the selected date with the row's end_date
+                $(this).toggle(endDateText === selectedDate);  // Show only rows that match the selected date
+            });
+
+            // Hide pagination while filtering
+            $("#pagination").hide();
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll('.view-pdf-btn');
+
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const filePath = btn.getAttribute('data-file');
+
+                // Deteksi apakah filePath adalah URL Google Drive / http
+                const isUrl = filePath.startsWith('http');
+
+                // Jika link langsung (contoh Google Drive), langsung buka
+                if (isUrl) {
+                    window.open(filePath, '_blank');
+                    return;
+                }
+
+                // Ambil ekstensi file dari path lokal
+                const fileExtension = filePath.split('.').pop().toLowerCase();
+
+                const baseUrlFile = "{{ route('preview-file', ['url' => '']) }}";
+
+                let route = '';
+
+                if (fileExtension === 'pdf') {
+                    route = baseUrlFile + encodeURIComponent(filePath);
+                }
+
+                // Jika route ditemukan, buka
+                if (route) {
+                    window.open(route, '_blank');
+                } else {
+                    alert("Tipe file tidak didukung");
+                }
+            });
+        });
+    });
+</script>
+<script>
+function disableButtons(permitNumber) {
+    const approveBtn = document.getElementById('approve-btn-' + permitNumber);
+    const rejectBtn = document.getElementById('reject-btn-' + permitNumber);
+
+    [approveBtn, rejectBtn].forEach(btn => {
+        if (btn) {
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            btn.title = 'Tindakan sudah dilakukan';
+        }
+    });
+}
+
+function approvePermit(permitNumber) {
+    $.ajax({
+        url: "{{ route('vendors.approve') }}",
+        type: "POST",
+        data: {
+            _token: '{{ csrf_token() }}',
+            permit_number: permitNumber
+        },
+        success: function (response) {
+            if (response.success) {
+                $('#status-approval-' + permitNumber).html(
+                    `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>`
+                );
+                disableButtons(permitNumber);
+            }
+        }
+    });
+}
+
+function rejectPermit(permitNumber) {
+    $.ajax({
+        url: "{{ route('vendors.reject') }}",
+        type: "POST",
+        data: {
+            _token: '{{ csrf_token() }}',
+            permit_number: permitNumber
+        },
+        success: function (response) {
+            if (response.success) {
+                $('#status-approval-' + permitNumber).html(
+                    `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Reject</span>`
+                );
+                disableButtons(permitNumber);
+            }
+        }
+    });
+}
+
 </script>
 
 
@@ -259,6 +444,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vendor.requestor_name}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vendor.location_of_work}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vendor.building_level_room}</td>
+
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vendor.work_description}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vendor.email}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vendor.phone_number}</td>
