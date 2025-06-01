@@ -24,10 +24,10 @@
         <!-- Page Header -->
         <div class="mb-8 flex justify-between items-center">
             <h1 class="text-2xl font-bold text-gray-900">Permit Management</h1>
-            <button class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center">
+            <a href="{{route('vendor_create')}}" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center">
                 <i class="fas fa-plus mr-2"></i>
                 New Permit
-            </button>
+            </a>
         </div>
 
         <!-- Filters -->

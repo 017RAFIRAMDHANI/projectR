@@ -28,9 +28,11 @@ Route::get('/new-permit',[App\Http\Controllers\VendorController::class, 'create'
 Route::post('/vendor_store',[App\Http\Controllers\VendorController::class, 'store'])->name('vendor.store');
 Route::get('/permits',[App\Http\Controllers\VendorController::class, 'index'])->name('vendor.index');
 Route::get('/search-vendors', [App\Http\Controllers\VendorController::class, 'search'])->name('vendor.search');
-
 Route::post('/vendors/approve', [App\Http\Controllers\VendorController::class, 'approve'])->name('vendors.approve');
 Route::post('/vendors/reject', [App\Http\Controllers\VendorController::class, 'reject'])->name('vendors.reject');
+
+// profile const
+Route::get('/profile/{id}',[App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 
 
 Route::get('/preview-file', function () {

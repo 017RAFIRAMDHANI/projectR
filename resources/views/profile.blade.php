@@ -13,211 +13,7 @@
         },
       };
     </script>
-    <script>
-        // Function to determine user role and load appropriate profile data
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get user role from localStorage or URL parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            const userRole = urlParams.get('role') || localStorage.getItem('userRole') || 'DHI';
 
-            // Set page title based on role
-            document.title = `${userRole} Profile - Digital Hyperspace Indonesia`;
-
-            // Update profile content based on role
-            updateProfileContent(userRole);
-        });
-
-        function updateProfileContent(role) {
-            // Update profile image
-            const profileImage = document.getElementById('profileImage');
-            profileImage.src = `https://ui-avatars.com/api/?name=${role}&size=128&background=2563eb&color=fff`;
-            profileImage.alt = `${role} Profile`;
-
-            // Update profile title
-            const profileTitle = document.getElementById('profileTitle');
-            profileTitle.textContent = role === 'FH' ? 'Facility Handler' : 'DHI Staff';
-
-            // Update profile ID
-            const profileId = document.getElementById('profileId');
-            profileId.textContent = `ID: ${role}-2024-001`;
-
-            // Update profile information based on role
-            const profileData = getProfileData(role);
-
-            // Update name
-            document.getElementById('fullName').textContent = profileData.name;
-
-            // Update email
-            document.getElementById('email').textContent = profileData.email;
-
-            // Update phone
-            document.getElementById('phone').textContent = profileData.phone;
-
-            // Update department
-            document.getElementById('department').textContent = profileData.department;
-
-            // Update position
-            document.getElementById('position').textContent = profileData.position;
-
-            // Update join date
-            document.getElementById('joinDate').textContent = profileData.joinDate;
-
-            // Update bio
-            document.getElementById('bio').textContent = profileData.bio;
-
-            // Update skills
-            const skillsContainer = document.getElementById('skillsContainer');
-            skillsContainer.innerHTML = '';
-            profileData.skills.forEach(skill => {
-                const skillElement = document.createElement('span');
-                skillElement.className = 'px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs';
-                skillElement.textContent = skill;
-                skillsContainer.appendChild(skillElement);
-            });
-
-            // Update recent activity
-            const activityContainer = document.getElementById('activityContainer');
-            activityContainer.innerHTML = '';
-            profileData.recentActivity.forEach(activity => {
-                const activityElement = document.createElement('div');
-                activityElement.className = 'flex items-start';
-
-                const iconElement = document.createElement('div');
-                iconElement.className = 'flex-shrink-0';
-
-                const iconSpan = document.createElement('span');
-                iconSpan.className = `inline-flex items-center justify-center h-8 w-8 rounded-full ${activity.iconBg}`;
-
-                const icon = document.createElement('i');
-                icon.className = `${activity.icon} ${activity.iconColor}`;
-                iconSpan.appendChild(icon);
-                iconElement.appendChild(iconSpan);
-
-                const contentElement = document.createElement('div');
-                contentElement.className = 'ml-4';
-
-                const titleElement = document.createElement('p');
-                titleElement.className = 'text-sm font-medium text-gray-900';
-                titleElement.textContent = activity.title;
-
-                const descriptionElement = document.createElement('p');
-                descriptionElement.className = 'text-sm text-gray-500';
-                descriptionElement.textContent = activity.description;
-
-                const timeElement = document.createElement('p');
-                timeElement.className = 'text-xs text-gray-400';
-                timeElement.textContent = activity.time;
-
-                contentElement.appendChild(titleElement);
-                contentElement.appendChild(descriptionElement);
-                contentElement.appendChild(timeElement);
-
-                activityElement.appendChild(iconElement);
-                activityElement.appendChild(contentElement);
-
-                activityContainer.appendChild(activityElement);
-            });
-        }
-
-        function getProfileData(role) {
-            if (role === 'FH') {
-                return {
-                    name: 'John Doe',
-                    email: 'john.doe@digitalhyperspace.com',
-                    phone: '+62 812 3456 7890',
-                    department: 'Facility Management',
-                    position: 'Senior Facility Handler',
-                    joinDate: 'January 15, 2023',
-                    bio: 'Experienced facility handler with 5+ years of experience in managing office facilities, maintenance schedules, and ensuring smooth operations of all facility-related activities.',
-                    skills: ['Facility Management', 'Maintenance', 'HVAC Systems', 'Security Protocols', 'Emergency Response'],
-                    recentActivity: [
-                        {
-                            title: 'Approved maintenance permit',
-                            description: 'Permit #DHI/PERMIT/2024/04/0003',
-                            time: 'Today, 10:30 AM',
-                            icon: 'fas fa-check',
-                            iconBg: 'bg-green-100',
-                            iconColor: 'text-green-600'
-                        },
-                        {
-                            title: 'Marked permit as pending',
-                            description: 'Permit #DHI/PERMIT/2024/04/0002',
-                            time: 'Yesterday, 3:45 PM',
-                            icon: 'fas fa-clock',
-                            iconBg: 'bg-yellow-100',
-                            iconColor: 'text-yellow-600'
-                        },
-                        {
-                            title: 'Rejected installation permit',
-                            description: 'Permit #DHI/PERMIT/2024/04/0001',
-                            time: 'April 10, 2024, 11:20 AM',
-                            icon: 'fas fa-times',
-                            iconBg: 'bg-red-100',
-                            iconColor: 'text-red-600'
-                        }
-                    ]
-                };
-            } else {
-                return {
-                    name: 'Jane Smith',
-                    email: 'jane.smith@digitalhyperspace.com',
-                    phone: '+62 812 3456 7891',
-                    department: 'Digital Hyperspace Indonesia',
-                    position: 'Permit Manager',
-                    joinDate: 'March 1, 2022',
-                    bio: 'Dedicated permit manager with expertise in overseeing facility access requests, ensuring compliance with security protocols, and managing the approval workflow for various facility-related permits.',
-                    skills: ['Permit Management', 'Security Protocols', 'Risk Assessment', 'Compliance', 'Documentation'],
-                    recentActivity: [
-                        {
-                            title: 'Approved urgent permit',
-                            description: 'Permit #DHI/PERMIT/2024/04/0005',
-                            time: 'Today, 9:15 AM',
-                            icon: 'fas fa-check',
-                            iconBg: 'bg-green-100',
-                            iconColor: 'text-green-600'
-                        },
-                        {
-                            title: 'Marked permit as pending',
-                            description: 'Permit #DHI/PERMIT/2024/04/0004',
-                            time: 'Yesterday, 4:30 PM',
-                            icon: 'fas fa-clock',
-                            iconBg: 'bg-yellow-100',
-                            iconColor: 'text-yellow-600'
-                        },
-                        {
-                            title: 'Rejected urgent permit',
-                            description: 'Permit #DHI/PERMIT/2024/04/0003',
-                            time: 'April 12, 2024, 2:45 PM',
-                            icon: 'fas fa-times',
-                            iconBg: 'bg-red-100',
-                            iconColor: 'text-red-600'
-                        }
-                    ]
-                };
-            }
-        }
-
-        function toggleEditMode() {
-            const viewMode = document.getElementById('viewMode');
-            const editMode = document.getElementById('editMode');
-
-            if (viewMode.classList.contains('hidden')) {
-                // Switch to view mode
-                viewMode.classList.remove('hidden');
-                editMode.classList.add('hidden');
-            } else {
-                // Switch to edit mode
-                viewMode.classList.add('hidden');
-                editMode.classList.remove('hidden');
-            }
-        }
-
-        function saveProfile() {
-            // In a real application, this would save the profile data to a server
-            alert('Profile saved successfully!');
-            toggleEditMode();
-        }
-    </script>
 </head>
 <body class="bg-gray-50">
 
@@ -234,7 +30,7 @@
                             <i class="fas fa-camera text-gray-500"></i>
                         </button>
                     </div>
-                    <h2 id="profileTitle" class="mt-4 text-xl font-semibold text-gray-900">DHI Staff</h2>
+                    <h2 id="profileTitle" class="mt-4 text-xl font-semibold text-gray-900">{{$dataID->role}}</h2>
                     <p id="profileId" class="text-gray-500">ID: DHI-2024-001</p>
                     <div class="mt-4 flex space-x-2">
                         <button id="editButton" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700" onclick="toggleEditMode()">
@@ -250,27 +46,27 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-500">Full Name</label>
-                            <p id="fullName" class="mt-1 text-sm text-gray-900">Jane Smith</p>
+                            <p id="fullName" class="mt-1 text-sm text-gray-900">{{$dataID->name}}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-500">Email</label>
-                            <p id="email" class="mt-1 text-sm text-gray-900">jane.smith@digitalhyperspace.com</p>
+                            <p id="email" class="mt-1 text-sm text-gray-900">{{$dataID->email}}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-500">Phone</label>
-                            <p id="phone" class="mt-1 text-sm text-gray-900">+62 812 3456 7891</p>
+                            <p id="phone" class="mt-1 text-sm text-gray-900">masih statis</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-500">Department</label>
-                            <p id="department" class="mt-1 text-sm text-gray-900">Digital Hyperspace Indonesia</p>
+                            <p id="department" class="mt-1 text-sm text-gray-900">masih statis</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-500">Position</label>
-                            <p id="position" class="mt-1 text-sm text-gray-900">Permit Manager</p>
+                            <p id="position" class="mt-1 text-sm text-gray-900">{{$dataID->role}}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-500">Join Date</label>
-                            <p id="joinDate" class="mt-1 text-sm text-gray-900">March 1, 2022</p>
+                            <p id="joinDate" class="mt-1 text-sm text-gray-900">{{$dataID->created_at}}</p>
                         </div>
                     </div>
 

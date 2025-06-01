@@ -25,22 +25,23 @@
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="bg-white p-6 rounded-lg shadow-sm">
               <h3 class="text-gray-500 text-sm font-medium">Pending Permits</h3>
-              <p class="mt-2 text-3xl font-semibold text-primary">12</p>
+              <p class="mt-2 text-3xl font-semibold text-primary">{{$PendingCount}}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-sm">
               <h3 class="text-gray-500 text-sm font-medium">
                 Approved Permits
               </h3>
-              <p class="mt-2 text-3xl font-semibold text-green-600">45</p>
+              <p class="mt-2 text-3xl font-semibold text-green-600">{{$approvedCount}}</p>
+            </div>
+               <div class="bg-white p-6 rounded-lg shadow-sm">
+              <h3 class="text-gray-500 text-sm font-medium">Reject Permits</h3>
+              <p class="mt-2 text-3xl font-semibold text-purple-600">{{$RejectCount}}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-sm">
               <h3 class="text-gray-500 text-sm font-medium">Active Visitors</h3>
               <p class="mt-2 text-3xl font-semibold text-blue-600">8</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm">
-              <h3 class="text-gray-500 text-sm font-medium">Total Databases</h3>
-              <p class="mt-2 text-3xl font-semibold text-purple-600">5</p>
-            </div>
+
           </div>
 
           <!-- Quick Actions -->
@@ -102,19 +103,19 @@
               <!-- Permit Status Distribution -->
               <div class="grid grid-cols-4 gap-4">
                 <div class="text-center">
-                  <div class="text-2xl font-semibold text-primary">12</div>
+                  <div class="text-2xl font-semibold text-primary">{{$PendingCount}}</div>
                   <div class="text-sm text-gray-500">Pending</div>
                 </div>
                 <div class="text-center">
-                  <div class="text-2xl font-semibold text-green-600">45</div>
+                  <div class="text-2xl font-semibold text-green-600">{{$approvedCount}}</div>
                   <div class="text-sm text-gray-500">Approved</div>
                 </div>
                 <div class="text-center">
-                  <div class="text-2xl font-semibold text-red-600">3</div>
+                  <div class="text-2xl font-semibold text-red-600">{{$RejectCount}}</div>
                   <div class="text-sm text-gray-500">Rejected</div>
                 </div>
                 <div class="text-center">
-                  <div class="text-2xl font-semibold text-orange-600">5</div>
+                  <div class="text-2xl font-semibold text-orange-600">{{$allPermit}}</div>
                   <div class="text-sm text-gray-500">On Hold</div>
                 </div>
               </div>
@@ -243,8 +244,8 @@
 
       </div>
     </main>
-
+{{--
  @livewire('vendor-list')
-     @livewireScripts
+     @livewireScripts --}}
    @include('layouts.footer')
 @endsection

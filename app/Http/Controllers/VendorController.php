@@ -81,6 +81,9 @@ public function index(Request $request)
 
    $vendors = Vendor::query();
 
+
+
+
    if ($search) {
       // Apply the search filters
       $vendors = $vendors->where('company_name', 'LIKE', "%{$search}%")
@@ -127,6 +130,7 @@ public function index(Request $request)
        'vendors' => $vendors,
        'search' => $search,
        'vendorOne' => $vendorOne,
+      
    ]);
 }
 

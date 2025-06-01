@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        parent::__construct(); 
+        parent::__construct();
 
 //         $client = new Google_Client();
 //     $client->setAuthConfig(config('google.credentials_path'));
@@ -92,7 +92,18 @@ class HomeController extends Controller
 
   public function index()
 {
-    return view('home');
+     $approvedCount = Vendor::where('status', 'Approved')->count();
+     $PendingCount = Vendor::where('status', 'Pending')->count();
+     $RejectCount = Vendor::where('status', 'Reject')->count();
+      $allPermit = Vendor::count();
+
+
+    return view('home',[
+        'approvedCount' => $approvedCount,
+        'PendingCount' => $PendingCount,
+        'allPermit' => $allPermit,
+        'RejectCount' => $RejectCount
+    ]);
 }
 
 
