@@ -105,7 +105,7 @@
           @foreach ($vendors as  $vendor)
                 <tr>
 
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $vendor->permit_number }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $vendor->permit_number ?? '-' }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->company_name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->requestor_name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vendor->location_of_work }}</td>
@@ -145,7 +145,7 @@
 </td>
 
 
-<td id="status-approval-{{ $vendor->permit_number }}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+<td id="status-approval-{{ $vendor->primary_number }}" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
        {{ $vendor->status == 'Approved' ? 'bg-green-100 text-green-800' :
            ($vendor->status == 'Reject' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
@@ -180,8 +180,8 @@
 @endphp
 
 <button
-    id="approve-btn-{{ $vendor->permit_number }}"
-    onclick="approvePermit('{{ $vendor->permit_number }}')"
+    id="approve-btn-{{ $vendor->primary_number }}"
+    onclick="approvePermit('{{ $vendor->primary_number }}')"
     class="approve-btn bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded transition
         {{ $isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}"
     {{ $isDisabled ? 'disabled title=Tindakan sudah dilakukan' : '' }}>
@@ -189,8 +189,8 @@
 </button>
 
 <button
-    id="reject-btn-{{ $vendor->permit_number }}"
-    onclick="rejectPermit('{{ $vendor->permit_number }}')"
+    id="reject-btn-{{ $vendor->primary_number }}"
+    onclick="rejectPermit('{{ $vendor->primary_number }}')"
     class="reject-btn bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded transition
         {{ $isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}"
     {{ $isDisabled ? 'disabled title=Tindakan sudah dilakukan' : '' }}>
@@ -376,7 +376,7 @@ function approvePermit(permitNumber) {
         type: "POST",
         data: {
             _token: '{{ csrf_token() }}',
-            permit_number: permitNumber
+            primary_number: permitNumber
         },
         success: function (response) {
             if (response.success) {
@@ -395,7 +395,7 @@ function rejectPermit(permitNumber) {
         type: "POST",
         data: {
             _token: '{{ csrf_token() }}',
-            permit_number: permitNumber
+            primary_number: permitNumber
         },
         success: function (response) {
             if (response.success) {

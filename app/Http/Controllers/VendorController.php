@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class VendorController extends Controller
@@ -52,28 +53,60 @@ class VendorController extends Controller
 
     // Kembalikan data ke JavaScript dalam format JSON
 //}
-public function approve(Request $request)
-{
-    $vendor = Vendor::where('permit_number', $request->permit_number)->first();
-    if ($vendor) {
-        $vendor->status = 'Approved';
-        $vendor->save();
-        return response()->json(['success' => true]);
-    }
-    return response()->json(['success' => false], 404);
-}
+ public function approve(Request $request)
+    {
+        $vendor = Vendor::where('primary_number', $request->primary_number)->first();
+        if ($vendor) {
+            // Mengubah status menjadi Approved
+            $vendor->status = 'Approved';
 
-public function reject(Request $request)
-{
-    $vendor = Vendor::where('permit_number', $request->permit_number)->first();
-    if ($vendor) {
-        $vendor->status = 'Reject';
-        $vendor->save();
-        return response()->json(['success' => true]);
-    }
-    return response()->json(['success' => false], 404);
-}
+            // Generate Permit Number jika disetujui
+            $permitNumber = $this->generatePermitNumber();
+            $vendor->permit_number = $permitNumber;
 
+            // Simpan data vendor dengan permit number baru
+            $vendor->save();
+
+            // Kirim email pemberitahuan ke vendor
+            Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Approved', $permitNumber));
+            Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
+            
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 404);
+    }
+
+    public function reject(Request $request)
+    {
+        $vendor = Vendor::where('primary_number', $request->primary_number)->first();
+        if ($vendor) {
+            // Mengubah status menjadi Reject
+            $vendor->status = 'Reject';
+            $vendor->save();
+
+            // Kirim email pemberitahuan ke vendor
+            Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Rejected'));
+
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 404);
+    }
+
+    // Fungsi untuk generate permit number yang unik
+    public function generatePermitNumber()
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $permitNumber = '';
+        $length = 8;
+
+        // Generate nomor acak
+        for ($i = 0; $i < $length; $i++) {
+            $randomIndex = rand(0, strlen($characters) - 1);
+            $permitNumber .= $characters[$randomIndex];
+        }
+
+        return 'VD-' . date('Ym') . '-' . $permitNumber; // Format: VD-YYYYMM-8digitunik
+    }
 public function index(Request $request)
 {
    $search = $request->input('searchData');
@@ -130,7 +163,7 @@ public function index(Request $request)
        'vendors' => $vendors,
        'search' => $search,
        'vendorOne' => $vendorOne,
-      
+
    ]);
 }
 
@@ -178,14 +211,8 @@ public function store(Request $request)
                Log::info('File Path:', ['file_mos' => $fileMos]);
         }
 
-          // Generate permit number in format "VD-YYMM-XXX"
-        $date = new \DateTime();
-        $year = $date->format('y'); // Last two digits of the year
-        $month = $date->format('m'); // Month
-        $random = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT); // Random 3 digit number
-        $permitNumber = "VD-{$year}{$month}-{$random}";
 
-
+       $primaryNumber = $this->generateRandomPrimaryNumber();
 
         // Create Vendor record
         $vendor = Vendor::create([
@@ -214,7 +241,8 @@ public function store(Request $request)
             'worker5_name' => $validatedData['worker5_name'],
             'worker5_id_nopermit' => $validatedData['worker5_id_nopermit'],
             'mode' => $validatedData['mode'],
-            'permit_number' =>  $permitNumber,
+            'permit_number' =>  null,
+            'primary_number' =>  $primaryNumber,
             'status' =>  'Pending',
 
         ]);
@@ -235,6 +263,19 @@ public function store(Request $request)
     }
 }
 
+  public function generateRandomPrimaryNumber()
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Karakter yang bisa digunakan (huruf besar dan angka)
+        $primaryNumber = '';
+        $length = 8; // Panjang primary_number (8 karakter)
 
+        // Loop untuk menggenerate primary_number
+        for ($i = 0; $i < $length; $i++) {
+            $randomIndex = rand(0, strlen($characters) - 1); // Pilih karakter acak
+            $primaryNumber .= $characters[$randomIndex]; // Tambahkan karakter ke primary_number
+        }
+
+        return $primaryNumber; // Kembalikan primary_number yang sudah digenerate
+    }
 
 }

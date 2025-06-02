@@ -20,6 +20,7 @@ class Vendor extends Model
         'email',
         'phone_number',
         'permit_number',
+        'primary_number',
         'start_date',
         'end_date',
         'number_plate',

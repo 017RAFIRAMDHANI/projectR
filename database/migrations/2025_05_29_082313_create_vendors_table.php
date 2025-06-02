@@ -20,7 +20,8 @@ return new class extends Migration
     $table->string('work_description')->nullable();
     $table->string('email', 255)->nullable();
     $table->string('phone_number', 15)->nullable();
-    $table->string('permit_number', 15)->nullable();
+    $table->string('permit_number', 255)->nullable();
+    $table->string('primary_number', 15)->nullable();
     $table->string('start_date')->nullable();
     $table->string('end_date')->nullable();
     $table->string('number_plate')->nullable();

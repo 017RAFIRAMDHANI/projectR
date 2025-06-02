@@ -28,7 +28,7 @@ class Controller extends BaseController
         $service = new Google_Service_Sheets($client);
 
         $spreadsheetId = '1XsY2nAyvprk8vg72SjYwW1nn1pfLI4ekAKNZUBtRACY';  // Spreadsheet ID
-        $range = 'Form Responses 1!A:Z';  // Range data di Google Sheets (kolom A hingga Z)
+        $range = 'Form Responses 1!A:AA';  // Range data di Google Sheets (kolom A hingga Z)
 
         $response = $service->spreadsheets_values->get($spreadsheetId, $range);
         $values = $response->getValues();
@@ -43,8 +43,13 @@ class Controller extends BaseController
                 continue;
             }
 
-            $permitNumber = isset($row[7]) ? $row[7] : null;  // Column H (Permit Number)
-            $vendor = Vendor::where('permit_number', $permitNumber)->first();
+          // dd($row);
+            // Ambil primary_number yang sudah ada di Google Sheets (asumsi kolom 10 untuk primary_number)
+            $primary_number = isset($row[26]) ? $row[26] : null;
+
+            // Validasi apakah primary_number sudah ada di database
+            $vendor = Vendor::where('primary_number', $primary_number)->first();
+
            $startDate = isset($row[21]) ? Carbon::createFromFormat('d/m/Y', $row[21])->format('Y-m-d') : null;  // Column V
            $endDate = isset($row[22]) ? Carbon::createFromFormat('d/m/Y', $row[22])->format('Y-m-d') : null;  // Column W
             if (!$vendor) {
@@ -56,7 +61,8 @@ class Controller extends BaseController
                     'work_description' => isset($row[5]) ? $row[5] : null,  // Column F (Work Description)
                     'email' => isset($row[19]) ? $row[19] : null,  // Column T (Email)
                     'phone_number' => isset($row[20]) ? $row[20] : null,  // Column U (Phone Number)
-                    'permit_number' => $permitNumber,  // Column H
+                    'permit_number' => null,  // Column H
+                    'primary_number' => $primary_number,  // Column H
                     'start_date' => $startDate,  // Column V
                     'end_date' => $endDate,  // Column W
                     'number_plate' => $numberPlate,  // Column X
@@ -81,4 +87,10 @@ class Controller extends BaseController
                 ]);
             }
 
-        }}}
+        }}
+     private function generatePrimaryNumber()
+    {
+        // Misalnya menggunakan timestamp untuk membuat ID unik
+        return 'PN-' . time();  // Contoh: PN-1654092780
+    }
+    }
