@@ -70,7 +70,7 @@ class VendorController extends Controller
             // Kirim email pemberitahuan ke vendor
             Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Approved', $permitNumber));
             Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
-            
+
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false], 404);
@@ -191,7 +191,7 @@ public function store(Request $request)
             'vehicle_types' => 'required',
             'number_plate' => 'required',
             'protection_system' => 'required|string',
-            'file_mos' => 'required|file|mimes:pdf,doc,docx|max:10240',
+            'file_mos' => 'file|mimes:pdf,doc,docx|max:10240',
             'worker1_name' => 'required|string|max:255',
             'worker1_id_nopermit' => 'required|string|max:255',
             'worker2_name' => 'required|string|max:255',

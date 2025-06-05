@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visitor Dashboard - Digital Hyperspace Indonesia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+@extends('layouts.app')
+
+@section('content')
     <script>
       tailwind.config = {
         theme: {
@@ -21,43 +13,11 @@
         },
       };
     </script>
-    <script src="main.js" defer></script>
+
   </head>
   <body class="bg-gray-50">
     <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex items-center">
-            <a href="/management-system/visitor-dashboard.html" class="flex items-center">
-              <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-20">
-            </a>
-          </div>
-          <div class="flex items-center space-x-4">
-            <button
-              class="relative p-1 rounded-full text-gray-400 hover:text-gray-500"
-              onclick="toggleNotifications()"
-            >
-              <span
-                class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center"
-                >2</span
-              >
-              <i class="fas fa-bell text-xl"></i>
-            </button>
-            <button
-              class="flex items-center space-x-2"
-              onclick="window.location.href='/management-system/profile.html?role=visitor'"
-            >
-              <img
-                class="h-8 w-8 rounded-full"
-                src="https://ui-avatars.com/api/?name=Visitor&background=2563eb&color=fff"
-                alt="Visitor Profile"
-              />
-            </button>
-          </div>
-        </div>
-      </div>
-    </nav>
+
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -243,4 +203,6 @@
       </div>
     </div>
   </body>
-</html> 
+</html>
+
+@endsection

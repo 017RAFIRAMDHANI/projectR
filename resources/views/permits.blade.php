@@ -21,14 +21,21 @@
 
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Page Header -->
-        <div class="mb-8 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-gray-900">Permit Management</h1>
-            <a href="{{route('vendor_create')}}" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center">
-                <i class="fas fa-plus mr-2"></i>
-                New Permit
-            </a>
-        </div>
+ <div class="mb-8 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-900">Permit Management</h1>
+    <div class="flex gap-2">
+        <a href="{{route('vendor-dashboard')}}" class="bg-secondary text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center">
+      <i class="fas fa-home mr-2"></i>
+
+            Kembali
+        </a>
+        <a href="{{route('vendor_create')}}" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center">
+            <i class="fas fa-plus mr-2"></i>
+            New Permit
+        </a>
+    </div>
+</div>
+
 
         <!-- Filters -->
         <div class="bg-white p-4 rounded-lg shadow-sm mb-6">

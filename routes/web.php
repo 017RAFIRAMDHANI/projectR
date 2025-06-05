@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('/');
+Route::get('/vendor-dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('vendor-dashboard');
 Route::redirect('home','/');
 // Route::get('/', VendorList::class)->name('home');
 
@@ -34,6 +31,14 @@ Route::post('/vendors/reject', [App\Http\Controllers\VendorController::class, 'r
 // profile const
 Route::get('/profile/{id}',[App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 
+// menu login const
+Route::get('/',[App\Http\Controllers\PilihLoginController::class, 'index'])->name('/');
+
+// visitor const
+Route::get('/visitor-dashboard',[App\Http\Controllers\VisitorController::class, 'index'])->name('visitor-dashboard');
+
+// FH const
+Route::get('/fh-dashboard',[App\Http\Controllers\FHController::class, 'index'])->name('fh-dashboard');
 
 Route::get('/preview-file', function () {
     return view('preview-file');
@@ -70,9 +75,7 @@ Route::get('/fh-profile', function () {
     return view('fh-profile');
 });
 
-Route::get('/fh-dashboard', function () {
-    return view('fh-dashboard');
-});
+
 
 Route::get('/maintenance', function () {
     return view('maintenance');
@@ -102,13 +105,8 @@ Route::get('/new-permit-visitor', function () {
     return view('new-permit-visitor');
 });
 
-Route::get('/visitor-dashboard', function () {
-    return view('visitor-dashboard');
-});
 
-Route::get('/vendor-dashboard', function () {
-    return view('vendor-dashboard');
-});
+
 
 Route::get('/fm-permit-review', function () {
     return view('fm-permit-review');
@@ -118,6 +116,4 @@ Route::get('/active-tasks', function () {
     return view('active-tasks');
 });
 
-Route::get('/login-menu', function () {
-    return view('login-menu');
-});
+
