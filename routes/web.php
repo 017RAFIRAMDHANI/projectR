@@ -40,6 +40,23 @@ Route::get('/visitor-dashboard',[App\Http\Controllers\VisitorController::class, 
 // FH const
 Route::get('/fh-dashboard',[App\Http\Controllers\FHController::class, 'index'])->name('fh-dashboard');
 
+// DHI const
+Route::get('/dhi-dashboard',[App\Http\Controllers\DHIController::class, 'index'])->name('dhi-dashboard');
+Route::get('/employee-safety-list', function () {
+    return view('employee-safety-list');
+})->name('employee-safety-list');
+Route::get('/vehicle-list', function () {
+    return view('vehicle-list');
+})->name('vehicle-list');
+Route::get('/daily-report', function () {
+    return view('daily-report');
+})->name('daily-report');
+
+
+// Client const
+Route::get('/client-dashboard',[App\Http\Controllers\ClientController::class, 'index'])->name('client-dashboard');
+
+
 Route::get('/preview-file', function () {
     return view('preview-file');
 })->name('preview-file');
@@ -85,9 +102,7 @@ Route::get('/inventory', function () {
     return view('inventory');
 });
 
-Route::get('/dhi-dashboard', function () {
-    return view('dhi-dashboard');
-});
+
 
 Route::get('/permit-management', function () {
     return view('permit-management');

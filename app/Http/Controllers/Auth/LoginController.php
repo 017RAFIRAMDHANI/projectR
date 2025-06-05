@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    // protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -39,8 +39,30 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
-         protected function authenticated(Request $request, $user)
+  protected function authenticated(Request $request, $user)
     {
-        return redirect()->route('/'); // Sesuaikan dengan route yang kamu inginkan
+        // Cek role pengguna dan arahkan sesuai dengan role mereka
+        switch ($user->role) {
+            case 'Vendor':
+            case 'Visitor':
+                // Jika role Vendor atau Visitor, arahkan ke '/'
+                return redirect('/');
+
+            case 'DHI':
+                // Jika role DHI, arahkan ke /dhi-dashboard
+                return redirect('/dhi-dashboard');
+
+            case 'FH':
+                // Jika role FH, arahkan ke /fh-dashboard
+                return redirect('/fh-dashboard');
+
+            case 'Client':
+                // Jika role Client, arahkan ke /client-dashboard
+                return redirect('/client-dashboard');
+
+            default:
+                // Jika tidak ada role yang cocok, arahkan ke route default
+                return redirect('/');
+        }
     }
 }
