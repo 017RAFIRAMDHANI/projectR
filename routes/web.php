@@ -40,6 +40,7 @@ Route::get('/visitor-dashboard',[App\Http\Controllers\VisitorController::class, 
 // FH const
 Route::get('/fm-dashboard',[App\Http\Controllers\FHController::class, 'index'])->name('fm-dashboard');
 Route::get('/special-popup',[App\Http\Controllers\FHController::class, 'specialpopup'])->name('special-popup');
+Route::get('/approvals',[App\Http\Controllers\FHController::class, 'index_approve'])->name('index_approve');
 
 // DHI const
 Route::get('/dhi-dashboard',[App\Http\Controllers\DHIController::class, 'index'])->name('dhi-dashboard');
@@ -67,9 +68,6 @@ Route::get('/permit-details', function () {
     return view('permit-details');
 });
 
-Route::get('/approvals', function () {
-    return view('approvals');
-});
 
 
 

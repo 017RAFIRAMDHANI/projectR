@@ -92,7 +92,13 @@
           <div class="flex items-center">
             <a href="/management-system/index.html" class="flex items-center space-x-3">
             <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
-              <span class="text-lg font-semibold text-gray-800">{{Auth::user()->role}} Dashboard</span>
+              <span class="text-lg font-semibold text-gray-800">
+                @guest
+  @if (Auth::check() && Route::has('login'))
+                Dashboard   {{Auth::user()->role ?? ''}}
+             </span>
+                @endif
+                @endguest
             </a>
           </div>
           <div class="flex items-center space-x-4">
@@ -119,19 +125,25 @@
               </button>
               <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10 border border-gray-100">
                 <div class="px-4 py-2 border-b border-gray-100">
+
                   <p class="text-sm font-medium text-gray-900">
-                @if (Auth::user()->role == "FM")
-                Admin FM
-               @else
-               Client
-                @endif
+                 @guest
+    @if (Route::has('login'))
+        @if (Auth::check() && Auth::user()->role == "FM")
+            Admin FM
+        @elseif(Auth::check() && Auth::user()->role == "Client")
+        Client
+        @else
+        @endif
+    @endif
+@endguest
 
 
                 </p>
-                  <p class="text-xs text-gray-500">{{Auth::user()->email}}</p>
-                </div>
-                  @guest
-                            @if (Route::has('login'))
+            </div>
+            @guest
+                      @if (Route::has('login'))
+                  <p class="text-xs text-gray-500">{{Auth::check() && Auth::user()->email}}</p>
 
 
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="{{ route('login') }}">Login</a>

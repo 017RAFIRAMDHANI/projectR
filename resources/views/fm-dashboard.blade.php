@@ -210,7 +210,7 @@
                 <span class="text-sm font-medium text-gray-700">New Special</span>
               </button>
               <button
-                onclick="window.location.href='approvals.html'"
+                onclick="window.location.href='{{route('index_approve')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition"
               >
                 <i class="fas fa-check-circle text-green-600 text-xl mb-2"></i>

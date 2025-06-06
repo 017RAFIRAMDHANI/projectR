@@ -14,6 +14,17 @@
       };
     </script>
     <script>
+      // Function to toggle notifications panel
+      function toggleNotifications() {
+        const panel = document.getElementById('notificationsPanel');
+        panel.classList.toggle('hidden');
+      }
+
+      // Function to toggle user menu
+      function toggleUserMenu() {
+        const menu = document.getElementById('userMenu');
+        menu.classList.toggle('hidden');
+      }
 
       // Function to view permit details
       function viewPermitDetails(permitId, type, data) {
@@ -145,16 +156,64 @@
         document.getElementById('statusFilter').addEventListener('change', filterPermits);
         document.getElementById('searchFilter').addEventListener('input', filterPermits);
       });
+
+      // Pagination functionality
+      function goToPage(page) {
+        // In a real application, this would fetch the data for the selected page
+        console.log(`Navigating to page ${page}`);
+        // Update the active page button
+        document.querySelectorAll('[aria-current="page"]').forEach(el => {
+          el.removeAttribute('aria-current');
+          el.classList.remove('bg-primary', 'text-white');
+          el.classList.add('text-gray-900');
+        });
+        const newActiveButton = document.querySelector(`button:nth-child(${page + 1})`);
+        if (newActiveButton) {
+          newActiveButton.setAttribute('aria-current', 'page');
+          newActiveButton.classList.add('bg-primary', 'text-white');
+          newActiveButton.classList.remove('text-gray-900');
+        }
+      }
+
+      // Add click handlers to pagination buttons
+      document.querySelectorAll('nav button').forEach(button => {
+        if (button.textContent.match(/^\d+$/)) {
+          button.addEventListener('click', () => goToPage(parseInt(button.textContent)));
+        }
+      });
     </script>
+    <style>
+      .btn-hover {
+        transition: background-color 0.2s ease;
+      }
+      .btn-hover:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .btn-hover:active {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      .menu-item {
+        transition: background-color 0.2s ease;
+      }
+      .menu-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .menu-item:active {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    </style>
   </head>
   <body class="bg-gray-50">
-    <!-- Navbar -->
-
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Permit Approvals</h1>
+        <div class="flex items-center space-x-4">
+          <a href="fh-dashboard.html" class="text-gray-600 hover:text-primary transition-colors">
+            <i class="fas fa-arrow-left text-xl"></i>
+          </a>
+          <h1 class="text-2xl font-bold text-gray-900">Permit Approvals</h1>
+        </div>
         <div class="flex space-x-2">
           <span class="px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800">
             Visitor: <span id="visitorPendingCount">3</span> Pending
@@ -201,253 +260,243 @@
       </div>
 
       <!-- Permits Table -->
-      <div class="bg-white rounded-lg shadow-sm overflow-x-auto">
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Number</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <!-- Visitor Permit 1 -->
-              <tr id="permit-V001" class="visitor-permit permit-item hover:bg-gray-50">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">John Smith</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
+      <div class="bg-white rounded-lg shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="w-1/4 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Info</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <!-- Visitor Permit 1 -->
+            <tr id="permit-V001" class="visitor-permit permit-item border-l-4 border-red-500 bg-red-50">
+              <td class="px-4 py-4 text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</td>
+              <td class="px-4 py-4 text-sm text-gray-500">John Smith</td>
+              <td class="px-4 py-4">
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">Client Meeting</td>
+              <td class="px-4 py-4 text-sm text-gray-500">Today, 2:00 PM - 4:00 PM</td>
+              <td class="px-4 py-4">
+                <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+              </td>
+              <td class="px-4 py-4 text-sm font-medium">
+                <button onclick="viewPermitDetails('V001', 'visitor', {
+                  permitNumber: 'DHI/PERMIT/2024/04/0001',
+                  applicantName: 'John Smith',
+                  purpose: 'Client Meeting',
+                  location: 'Main Conference Room',
+                  startDate: 'Today, 2:00 PM',
+                  endDate: 'Today, 4:00 PM',
+                  status: 'Pending',
+                  submittedDate: 'April 15, 2024, 10:30 AM'
+                })" class="text-primary hover:text-blue-700">
+                  <i class="fas fa-eye"></i> View
+                </button>
+              </td>
+            </tr>
+            {{-- @foreach($vendorVisitors as $item)
+            <tr id="permit-{{ $item->id_vendor_visitor }}" class="permit-item">
+                <td class="px-4 py-4 text-sm font-medium text-gray-900">
+                    @if($item->vendor)
+                        {{ $item->vendor->id_vendor }}
+                    @elseif($item->visitor)
+                        {{ $item->visitor->id_visitor }}
+                    @else
+                        N/A
+                    @endif
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Client Meeting</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Today, 2:00 PM - 4:00 PM</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                <td class="px-4 py-4 text-sm text-gray-500">
+                    @if($item->vendor)
+                        {{ $item->vendor->name }}
+                    @elseif($item->visitor)
+                        {{ $item->visitor->name }}
+                    @else
+                        N/A
+                    @endif
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium action-buttons">
-                  <button onclick="viewPermitDetails('V001', 'visitor', {
-                    permitNumber: 'DHI/PERMIT/2024/04/0001',
-                    applicantName: 'John Smith',
-                    purpose: 'Client Meeting',
-                    location: 'Main Conference Room',
-                    startDate: 'Today, 2:00 PM',
-                    endDate: 'Today, 4:00 PM',
-                    status: 'Pending',
-                    submittedDate: 'April 15, 2024, 10:30 AM'
-                  })" class="text-primary hover:text-blue-700 mr-3">
-                    <i class="fas fa-eye"></i> View
-                  </button>
-                  <button onclick="approvePermit('V001', 'visitor')" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded mr-2 transition">
-                    <i class="fas fa-check mr-1"></i> Approve
-                  </button>
-                  <button onclick="rejectPermit('V001', 'visitor')" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded transition">
-                    <i class="fas fa-times mr-1"></i> Reject
-                  </button>
+                <td class="px-4 py-4">
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                        @if($item->vendor)
+                            Vendor
+                        @elseif($item->visitor)
+                            Visitor
+                        @else
+                            N/A
+                        @endif
+                    </span>
                 </td>
-              </tr>
+                <td class="px-4 py-4 text-sm text-gray-500">Job Interview</td>
+                <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
+                <td class="px-4 py-4">
+                    <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                </td>
+                <td class="px-4 py-4 text-sm font-medium">
+                    <button onclick="viewPermitDetails('{{ $item->id_vendor_visitor }}', '{{ $item->vendor ? 'vendor' : 'visitor' }}', {
+                        permitNumber: 'DHI/PERMIT/2024/04/0002',
+                        applicantName: '{{ $item->vendor ? $item->vendor->name : $item->visitor->name }}',
+                        purpose: 'Job Interview',
+                        location: 'HR Office',
+                        startDate: 'Tomorrow, 10:00 AM',
+                        endDate: 'Tomorrow, 11:30 AM',
+                        status: 'Pending',
+                        submittedDate: 'April 16, 2024, 9:15 AM'
+                    })" class="text-primary hover:text-blue-700">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                </td>
+            </tr>
+        @endforeach --}}
+    {{-- @foreach($vendors as $vendor)
 
-              <!-- Visitor Permit 2 -->
-              <tr id="permit-V002" class="visitor-permit permit-item">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0002</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sarah Johnson</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Job Interview</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium action-buttons">
-                  <button onclick="viewPermitDetails('V002', 'visitor', {
-                    permitNumber: 'DHI/PERMIT/2024/04/0002',
-                    applicantName: 'Sarah Johnson',
-                    purpose: 'Job Interview',
-                    location: 'HR Office',
-                    startDate: 'Tomorrow, 10:00 AM',
-                    endDate: 'Tomorrow, 11:30 AM',
-                    status: 'Pending',
-                    submittedDate: 'April 16, 2024, 9:15 AM'
-                  })" class="text-primary hover:text-blue-700 mr-3">
-                    <i class="fas fa-eye"></i> View
-                  </button>
-                  <button onclick="approvePermit('V002', 'visitor')" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded mr-2 transition">
-                    <i class="fas fa-check mr-1"></i> Approve
-                  </button>
-                  <button onclick="rejectPermit('V002', 'visitor')" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded transition">
-                    <i class="fas fa-times mr-1"></i> Reject
-                  </button>
-                </td>
-              </tr>
+            <!-- Visitor Permit 2 -->
+            <tr id="permit-V002" class="visitor-permit permit-item">
+              <td class="px-4 py-4 text-sm font-medium text-gray-900">{{$vendor->id_vendor}}</td>
+              <td class="px-4 py-4 text-sm text-gray-500">Sarah Johnson</td>
+              <td class="px-4 py-4">
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">Job Interview</td>
+              <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
+              <td class="px-4 py-4">
+                <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+              </td>
+              <td class="px-4 py-4 text-sm font-medium">
+                <button onclick="viewPermitDetails('V002', 'visitor', {
+                  permitNumber: 'DHI/PERMIT/2024/04/0002',
+                  applicantName: 'Sarah Johnson',
+                  purpose: 'Job Interview',
+                  location: 'HR Office',
+                  startDate: 'Tomorrow, 10:00 AM',
+                  endDate: 'Tomorrow, 11:30 AM',
+                  status: 'Pending',
+                  submittedDate: 'April 16, 2024, 9:15 AM'
+                })" class="text-primary hover:text-blue-700">
+                  <i class="fas fa-eye"></i> View
+                </button>
+              </td>
+            </tr>
 
-              <!-- Visitor Permit 3 -->
-              <tr id="permit-V003" class="visitor-permit permit-item">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0003</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Michael Brown</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Project Review</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">April 20, 2024, 1:00 PM - 3:00 PM</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium action-buttons">
-                  <button onclick="viewPermitDetails('V003', 'visitor', {
-                    permitNumber: 'DHI/PERMIT/2024/04/0003',
-                    applicantName: 'Michael Brown',
-                    purpose: 'Project Review',
-                    location: 'Project Room 3',
-                    startDate: 'April 20, 2024, 1:00 PM',
-                    endDate: 'April 20, 2024, 3:00 PM',
-                    status: 'Pending',
-                    submittedDate: 'April 17, 2024, 2:45 PM'
-                  })" class="text-primary hover:text-blue-700 mr-3">
-                    <i class="fas fa-eye"></i> View
-                  </button>
-                  <button onclick="approvePermit('V003', 'visitor')" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded mr-2 transition">
-                    <i class="fas fa-check mr-1"></i> Approve
-                  </button>
-                  <button onclick="rejectPermit('V003', 'visitor')" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded transition">
-                    <i class="fas fa-times mr-1"></i> Reject
-                  </button>
-                </td>
-              </tr>
 
-              <!-- Vendor Permit 1 -->
-              <tr id="permit-VD001" class="vendor-permit permit-item">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0004</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Tech Solutions Inc.</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">Vendor</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Server Maintenance</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Today, 3:00 PM - 5:00 PM</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium action-buttons">
-                  <button onclick="viewPermitDetails('VD001', 'vendor', {
-                    permitNumber: 'DHI/PERMIT/2024/04/0004',
-                    applicantName: 'Tech Solutions Inc.',
-                    purpose: 'Server Maintenance',
-                    location: 'Server Room',
-                    startDate: 'Today, 3:00 PM',
-                    endDate: 'Today, 5:00 PM',
-                    status: 'Pending',
-                    submittedDate: 'April 16, 2024, 11:20 AM'
-                  })" class="text-primary hover:text-blue-700 mr-3">
-                    <i class="fas fa-eye"></i> View
-                  </button>
-                  <button onclick="approvePermit('VD001', 'vendor')" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded mr-2 transition">
-                    <i class="fas fa-check mr-1"></i> Approve
-                  </button>
-                  <button onclick="rejectPermit('VD001', 'vendor')" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded transition">
-                    <i class="fas fa-times mr-1"></i> Reject
-                  </button>
-                </td>
-              </tr>
+@endforeach
+--}}
+   @foreach($vendorVisitors as $item)
 
-              <!-- Vendor Permit 2 -->
-              <tr id="permit-VD002" class="vendor-permit permit-item">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0005</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Clean Pro Services</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">Vendor</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Office Cleaning</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Tomorrow, 8:00 AM - 10:00 AM</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium action-buttons">
-                  <button onclick="viewPermitDetails('VD002', 'vendor', {
-                    permitNumber: 'DHI/PERMIT/2024/04/0005',
-                    applicantName: 'Clean Pro Services',
-                    purpose: 'Office Cleaning',
-                    location: 'Entire Office Area',
-                    startDate: 'Tomorrow, 8:00 AM',
-                    endDate: 'Tomorrow, 10:00 AM',
-                    status: 'Pending',
-                    submittedDate: 'April 17, 2024, 3:30 PM'
-                  })" class="text-primary hover:text-blue-700 mr-3">
-                    <i class="fas fa-eye"></i> View
-                  </button>
-                  <button onclick="approvePermit('VD002', 'vendor')" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded mr-2 transition">
-                    <i class="fas fa-check mr-1"></i> Approve
-                  </button>
-                  <button onclick="rejectPermit('VD002', 'vendor')" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded transition">
-                    <i class="fas fa-times mr-1"></i> Reject
-                  </button>
-                </td>
-              </tr>
+            <!-- Visitor Permit 2 -->
+            <tr id="permit-V002" class="visitor-permit permit-item">
+              <td class="px-4 py-4 text-sm font-medium text-gray-900">
+                  @if($item->vendor)
+                        {{ $item->vendor->id_vendor }}
+                    @elseif($item->visitor)
+                        {{ $item->visitor->id_visitor }}
 
-              <!-- Approved Permit Example -->
-              <tr id="permit-V004" class="visitor-permit permit-item">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0006</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Emily Davis</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Client Presentation</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">April 18, 2024, 9:00 AM - 11:00 AM</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Approved</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium action-buttons">
-                  <button onclick="viewPermitDetails('V004', 'visitor', {
-                    permitNumber: 'DHI/PERMIT/2024/04/0006',
-                    applicantName: 'Emily Davis',
-                    purpose: 'Client Presentation',
-                    location: 'Conference Room A',
-                    startDate: 'April 18, 2024, 9:00 AM',
-                    endDate: 'April 18, 2024, 11:00 AM',
-                    status: 'Approved',
-                    submittedDate: 'April 15, 2024, 3:20 PM'
-                  })" class="text-primary hover:text-blue-700">
-                    <i class="fas fa-eye"></i> View
-                  </button>
-                </td>
-              </tr>
+                    @endif
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">
+                    @if($item->vendor)
+                        {{ $item->vendor->requestor_name }}
+                    @elseif($item->visitor)
+                        {{ $item->visitor->requestor_name }}
 
-              <!-- Rejected Permit Example -->
-              <tr id="permit-VD003" class="vendor-permit permit-item">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0007</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Security Systems Ltd.</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">Vendor</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Security Camera Installation</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">April 22, 2024, 1:00 PM - 5:00 PM</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Rejected</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium action-buttons">
-                  <button onclick="viewPermitDetails('VD003', 'vendor', {
-                    permitNumber: 'DHI/PERMIT/2024/04/0007',
-                    applicantName: 'Security Systems Ltd.',
-                    purpose: 'Security Camera Installation',
-                    location: 'Entire Building',
-                    startDate: 'April 22, 2024, 1:00 PM',
-                    endDate: 'April 22, 2024, 5:00 PM',
-                    status: 'Rejected',
-                    submittedDate: 'April 16, 2024, 4:15 PM'
-                  })" class="text-primary hover:text-blue-700">
-                    <i class="fas fa-eye"></i> View
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    @endif
+              </td>
+              <td class="px-4 py-4">
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                       @if($item->vendor)
+                            Vendor
+                        @elseif($item->visitor)
+                            Visitor
+
+                        @endif
+                </span>
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">Job Interview</td>
+              <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
+              <td class="px-4 py-4">
+                <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+              </td>
+              <td class="px-4 py-4 text-sm font-medium">
+                <button onclick="viewPermitDetails('V002', 'visitor', {
+                  permitNumber: 'DHI/PERMIT/2024/04/0002',
+                  applicantName: 'Sarah Johnson',
+                  purpose: 'Job Interview',
+                  location: 'HR Office',
+                  startDate: 'Tomorrow, 10:00 AM',
+                  endDate: 'Tomorrow, 11:30 AM',
+                  status: 'Pending',
+                  submittedDate: 'April 16, 2024, 9:15 AM'
+                })" class="text-primary hover:text-blue-700">
+                  <i class="fas fa-eye"></i> View
+                </button>
+              </td>
+            </tr>
+
+
+@endforeach  
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+        <div class="flex flex-1 justify-between sm:hidden">
+          <button class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+            Previous
+          </button>
+          <button class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+            Next
+          </button>
+        </div>
+        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm text-gray-700">
+              Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">97</span> results
+            </p>
+          </div>
+          <div>
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <button class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                <span class="sr-only">Previous</span>
+                <i class="fas fa-chevron-left text-sm"></i>
+              </button>
+              <button aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                1
+              </button>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                2
+              </button>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                3
+              </button>
+              <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+                ...
+              </span>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                8
+              </button>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                9
+              </button>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                10
+              </button>
+              <button class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                <span class="sr-only">Next</span>
+                <i class="fas fa-chevron-right text-sm"></i>
+              </button>
+            </nav>
+          </div>
         </div>
       </div>
     </main>
 
-   @include('layouts.footer')
 
     <!-- Permit Details Modal -->
     <div id="permitDetailsModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">

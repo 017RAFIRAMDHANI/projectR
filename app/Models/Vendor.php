@@ -43,4 +43,9 @@ class Vendor extends Model
         'mode',
         'status'
     ];
+
+      public function Vendor_Visitor()
+    {
+        return $this->hasMany(Vendor_Visitor::class, 'id_vendor');
+    }
 }
