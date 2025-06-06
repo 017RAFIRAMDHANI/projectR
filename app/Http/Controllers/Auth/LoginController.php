@@ -52,9 +52,9 @@ class LoginController extends Controller
                 // Jika role DHI, arahkan ke /dhi-dashboard
                 return redirect('/dhi-dashboard');
 
-            case 'FH':
+            case 'FM':
                 // Jika role FH, arahkan ke /fh-dashboard
-                return redirect('/fh-dashboard');
+                return redirect('/fm-dashboard');
 
             case 'Client':
                 // Jika role Client, arahkan ke /client-dashboard

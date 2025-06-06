@@ -8,6 +8,9 @@ class FHController extends Controller
 {
     //
     public function index(){
-        return view('fh-dashboard');
+        return view('fm-dashboard');
+    }
+    public function specialpopup(){
+        return view('special-popup');
     }
 }

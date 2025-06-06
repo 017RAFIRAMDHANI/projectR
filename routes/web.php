@@ -38,7 +38,8 @@ Route::get('/',[App\Http\Controllers\PilihLoginController::class, 'index'])->nam
 Route::get('/visitor-dashboard',[App\Http\Controllers\VisitorController::class, 'index'])->name('visitor-dashboard');
 
 // FH const
-Route::get('/fh-dashboard',[App\Http\Controllers\FHController::class, 'index'])->name('fh-dashboard');
+Route::get('/fm-dashboard',[App\Http\Controllers\FHController::class, 'index'])->name('fm-dashboard');
+Route::get('/special-popup',[App\Http\Controllers\FHController::class, 'specialpopup'])->name('special-popup');
 
 // DHI const
 Route::get('/dhi-dashboard',[App\Http\Controllers\DHIController::class, 'index'])->name('dhi-dashboard');

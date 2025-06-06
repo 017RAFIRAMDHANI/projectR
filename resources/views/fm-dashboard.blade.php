@@ -13,7 +13,6 @@
         },
       };
     </script>
-    <script src="main.js" defer></script>
     <script>
       // Function to toggle notifications panel
       function toggleNotifications() {
@@ -136,7 +135,6 @@
   </head>
   <body class="bg-gray-50">
 
-
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -144,8 +142,8 @@
         <div class="lg:col-span-2 space-y-8">
           <!-- Welcome Message -->
           <div class="welcome-banner rounded-lg shadow-sm p-6 text-white">
-            <h1 class="text-2xl font-bold mb-2">Selamat Datang, Admin!</h1>
-            <p class="text-white/80">Berikut adalah ringkasan aktivitas hari ini</p>
+            <h1 class="text-2xl font-bold mb-2">Welcome, Admin!</h1>
+            <p class="text-white/80">Here's today's activity summary</p>
           </div>
 
           <!-- Stats Grid -->
@@ -153,38 +151,38 @@
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Karyawan</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Total Employees</h3>
                   <p class="mt-2 text-3xl font-bold text-primary">120</p>
                 </div>
                 <div class="p-3 rounded-full bg-blue-50">
                   <i class="fas fa-users text-primary text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+3 dari bulan lalu</p>
+              <p class="mt-2 text-xs text-gray-500">+3 from last month</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Kendaraan</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Total Vehicles</h3>
                   <p class="mt-2 text-3xl font-bold text-green-600">45</p>
                 </div>
                 <div class="p-3 rounded-full bg-green-50">
                   <i class="fas fa-car text-green-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+1 minggu ini</p>
+              <p class="mt-2 text-xs text-gray-500">+1 this week</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Visitor Hari Ini</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Today's Visitors</h3>
                   <p class="mt-2 text-3xl font-bold text-yellow-600">15</p>
                 </div>
                 <div class="p-3 rounded-full bg-yellow-50">
                   <i class="fas fa-user-clock text-yellow-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+5 dari kemarin</p>
+              <p class="mt-2 text-xs text-gray-500">+5 from yesterday</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
@@ -196,7 +194,7 @@
                   <i class="fas fa-tasks text-red-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">2 memerlukan perhatian</p>
+              <p class="mt-2 text-xs text-gray-500">2 require attention</p>
             </div>
           </div>
 
@@ -205,31 +203,45 @@
             <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button
-                onclick="window.location.href='maintenance.html'"
+                onclick="window.location.href='{{route('special-popup')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
               >
-                <i class="fas fa-tools text-primary text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Maintenance</span>
+                <i class="fas fa-star text-primary text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">New Special</span>
               </button>
               <button
                 onclick="window.location.href='approvals.html'"
                 class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition"
               >
                 <i class="fas fa-check-circle text-green-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Approvals</span>
+                <span class="text-sm font-medium text-gray-700">Approval</span>
               </button>
               <button
-                onclick="window.location.href='inventory.html'"
+                onclick="window.location.href='vehicles.html'"
                 class="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition"
               >
-                <i class="fas fa-boxes text-purple-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Inventory</span>
+                <i class="fas fa-car text-purple-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Vehicle Data</span>
+              </button>
+              <button
+                onclick="window.location.href='employees.html'"
+                class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition"
+              >
+                <i class="fas fa-users text-yellow-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Employee Data</span>
+              </button>
+              <button
+                onclick="window.location.href='safety-induction.html'"
+                class="flex flex-col items-center justify-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition"
+              >
+                <i class="fas fa-clipboard-check text-red-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Safety Induction</span>
               </button>
               <button
                 onclick="window.location.href='reports.html'"
-                class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                class="flex flex-col items-center justify-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
               >
-                <i class="fas fa-chart-bar text-gray-600 text-xl mb-2"></i>
+                <i class="fas fa-chart-bar text-indigo-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Reports</span>
               </button>
             </div>
@@ -249,27 +261,27 @@
               </div>
             </div>
 
-            <!-- Visitor Permit Requests -->
             <div class="mb-6">
               <h3 class="text-md font-medium text-gray-700 mb-3">Visitor Permits</h3>
               <div class="space-y-4">
                 <!-- Visitor Permit 1 -->
-                <div id="permit-V001" class="visitor-permit flex items-center justify-between p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+                <div id="permit-V001" class="visitor-permit flex items-center justify-between p-4 bg-red-50 rounded-lg border-l-4 border-red-500 relative overflow-hidden">
+                  <div class="absolute top-0 right-0 w-24 h-24 bg-red-100 opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
                   <div>
-                    <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</p>
+                    <div class="flex items-center space-x-2">
+                      <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</p>
+                      <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full flex items-center">
+                        <i class="fas fa-exclamation-circle mr-1 animate-pulse"></i>
+                        Urgent
+                      </span>
+                    </div>
                     <p class="text-xs text-gray-500">Visitor: John Smith</p>
                     <p class="text-xs text-gray-500">Purpose: Client Meeting</p>
                     <p class="text-xs text-gray-500">Date: Today, 2:00 PM - 4:00 PM</p>
                   </div>
                   <div class="flex space-x-2">
-                    <button onclick="viewPermitDetails('V001')" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-medium hover:bg-blue-200">
+                    <button onclick="viewPermitDetails('V001')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
                       View Details
-                    </button>
-                    <button onclick="approvePermit('V001', 'visitor')" class="px-3 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium hover:bg-green-200">
-                      Approve
-                    </button>
-                    <button onclick="rejectPermit('V001', 'visitor')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200">
-                      Reject
                     </button>
                   </div>
                 </div>
@@ -286,12 +298,6 @@
                     <button onclick="viewPermitDetails('V002')" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-medium hover:bg-blue-200">
                       View Details
                     </button>
-                    <button onclick="approvePermit('V002', 'visitor')" class="px-3 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium hover:bg-green-200">
-                      Approve
-                    </button>
-                    <button onclick="rejectPermit('V002', 'visitor')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200">
-                      Reject
-                    </button>
                   </div>
                 </div>
               </div>
@@ -302,22 +308,23 @@
               <h3 class="text-md font-medium text-gray-700 mb-3">Vendor Permits</h3>
               <div class="space-y-4">
                 <!-- Vendor Permit 1 -->
-                <div id="permit-VD001" class="vendor-permit flex items-center justify-between p-4 bg-gray-50 rounded-lg border-l-4 border-purple-500">
+                <div id="permit-VD001" class="vendor-permit flex items-center justify-between p-4 bg-red-50 rounded-lg border-l-4 border-red-500 relative overflow-hidden">
+                  <div class="absolute top-0 right-0 w-24 h-24 bg-red-100 opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
                   <div>
-                    <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0003</p>
+                    <div class="flex items-center space-x-2">
+                      <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0003</p>
+                      <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full flex items-center">
+                        <i class="fas fa-exclamation-circle mr-1 animate-pulse"></i>
+                        Urgent
+                      </span>
+                    </div>
                     <p class="text-xs text-gray-500">Vendor: PT. ABC Services</p>
                     <p class="text-xs text-gray-500">Purpose: Equipment Maintenance</p>
                     <p class="text-xs text-gray-500">Date: Today, 1:00 PM - 5:00 PM</p>
                   </div>
                   <div class="flex space-x-2">
-                    <button onclick="viewPermitDetails('VD001')" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-medium hover:bg-blue-200">
+                    <button onclick="viewPermitDetails('VD001')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
                       View Details
-                    </button>
-                    <button onclick="approvePermit('VD001', 'vendor')" class="px-3 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium hover:bg-green-200">
-                      Approve
-                    </button>
-                    <button onclick="rejectPermit('VD001', 'vendor')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200">
-                      Reject
                     </button>
                   </div>
                 </div>
@@ -334,12 +341,6 @@
                     <button onclick="viewPermitDetails('VD002')" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-medium hover:bg-blue-200">
                       View Details
                     </button>
-                    <button onclick="approvePermit('VD002', 'vendor')" class="px-3 py-1 bg-green-100 text-green-800 rounded-md text-xs font-medium hover:bg-green-200">
-                      Approve
-                    </button>
-                    <button onclick="rejectPermit('VD002', 'vendor')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200">
-                      Reject
-                    </button>
                   </div>
                 </div>
               </div>
@@ -349,31 +350,6 @@
 
         <!-- Sidebar -->
         <div class="lg:col-span-1 space-y-8">
-          <!-- Maintenance Schedule -->
-          <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Maintenance Schedule</h2>
-            <div class="space-y-4">
-              <div class="flex items-start space-x-3">
-                <div class="p-2 rounded-full bg-yellow-100">
-                  <i class="fas fa-exclamation-triangle text-yellow-600"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">AC Maintenance</p>
-                  <p class="text-xs text-gray-500">Due in 2 days</p>
-                </div>
-              </div>
-              <div class="flex items-start space-x-3">
-                <div class="p-2 rounded-full bg-red-100">
-                  <i class="fas fa-exclamation-circle text-red-600"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">Fire Alarm System</p>
-                  <p class="text-xs text-gray-500">Due today</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Recent Activities -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Activities</h2>
@@ -408,40 +384,21 @@
             </div>
           </div>
 
-          <!-- Quick Links -->
-          <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Menu Tambahan</h2>
-            <div class="space-y-3">
-              <a href="daily-report.html" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
-                <i class="fas fa-clipboard-list text-primary text-xl mr-3"></i>
-                <span>Laporan Harian</span>
-              </a>
-              <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
-                <i class="fas fa-chart-bar text-primary text-xl mr-3"></i>
-                <span>Laporan Statistik</span>
-              </a>
-              <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
-                <i class="fas fa-cog text-primary text-xl mr-3"></i>
-                <span>Pengaturan</span>
-              </a>
-            </div>
-          </div>
-
           <!-- Quick Tips -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Tips</h2>
             <div class="space-y-3">
               <div class="flex items-start space-x-3">
                 <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
-                <p class="text-sm text-gray-600">Gunakan Quick Actions untuk akses cepat ke fitur yang sering digunakan</p>
+                <p class="text-sm text-gray-600">Use Quick Actions for quick access to frequently used features</p>
               </div>
               <div class="flex items-start space-x-3">
                 <i class="fas fa-bell text-primary mt-1"></i>
-                <p class="text-sm text-gray-600">Periksa notifikasi untuk update terbaru</p>
+                <p class="text-sm text-gray-600">Check notifications for latest updates</p>
               </div>
               <div class="flex items-start space-x-3">
                 <i class="fas fa-chart-line text-green-500 mt-1"></i>
-                <p class="text-sm text-gray-600">Lihat statistik untuk monitoring aktivitas</p>
+                <p class="text-sm text-gray-600">View statistics for activity monitoring</p>
               </div>
             </div>
           </div>
@@ -449,68 +406,7 @@
       </div>
     </main>
 
-    <!-- Notifications Panel -->
-    <div
-      id="notificationsPanel"
-      class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200"
-    >
-      <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-900">Notifikasi</h3>
-        <button onclick="toggleNotifications()" class="text-gray-400 btn-hover">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="divide-y divide-gray-200 max-h-96 overflow-y-auto">
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-red-100">
-              <i class="fas fa-exclamation-circle text-red-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Maintenance Alert</p>
-              <p class="text-sm text-gray-500">Fire alarm system maintenance due today</p>
-              <p class="text-xs text-gray-400 mt-1">5 minutes ago</p>
-            </div>
-          </div>
-        </div>
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-yellow-100">
-              <i class="fas fa-user-clock text-yellow-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">New Permit Request</p>
-              <p class="text-sm text-gray-500">Visitor permit from John Smith</p>
-              <p class="text-xs text-gray-400 mt-1">15 minutes ago</p>
-            </div>
-          </div>
-        </div>
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-green-100">
-              <i class="fas fa-check-circle text-green-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Task Completed</p>
-              <p class="text-sm text-gray-500">Generator maintenance completed</p>
-              <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
-            </div>
-          </div>
-        </div>
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-blue-100">
-              <i class="fas fa-truck text-blue-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Vendor Delivery</p>
-              <p class="text-sm text-gray-500">Office supplies delivery scheduled</p>
-              <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <!-- Permit Details Modal -->
     <div id="permitDetailsModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">

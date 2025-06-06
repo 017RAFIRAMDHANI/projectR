@@ -243,7 +243,7 @@
     </main>
 
     <!-- Notifications Panel -->
-    <div
+    {{-- <div
       id="notificationsPanel"
       class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200"
     >
@@ -291,7 +291,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
 
     <script>
       function toggleNotifications() {

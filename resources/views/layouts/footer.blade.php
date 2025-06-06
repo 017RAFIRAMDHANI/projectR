@@ -90,29 +90,64 @@
 
       });
 </script>
-
   <div
       id="notificationsPanel"
       class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200"
     >
-      <div class="p-4 border-b border-gray-200">
+      <div class="p-4 border-b border-gray-200 flex justify-between items-center">
         <h3 class="text-lg font-medium text-gray-900">Notifications</h3>
+        <button onclick="toggleNotifications()" class="text-gray-400 btn-hover">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
       <div class="divide-y divide-gray-200 max-h-96 overflow-y-auto">
-        <div class="p-4 hover:bg-gray-50">
-          <p class="text-sm font-medium text-gray-900">New Visitor Permit Request</p>
-          <p class="text-sm text-gray-500">John Smith - Client Meeting</p>
-          <p class="text-xs text-gray-400 mt-1">Just now</p>
+        <div class="p-4 menu-item">
+          <div class="flex items-start space-x-3">
+            <div class="p-2 rounded-full bg-red-100">
+              <i class="fas fa-exclamation-circle text-red-600"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-900">Maintenance Alert</p>
+              <p class="text-sm text-gray-500">Fire alarm system maintenance due today</p>
+              <p class="text-xs text-gray-400 mt-1">5 minutes ago</p>
+            </div>
+          </div>
         </div>
-        <div class="p-4 hover:bg-gray-50">
-          <p class="text-sm font-medium text-gray-900">New Vendor Permit Request</p>
-          <p class="text-sm text-gray-500">Tech Solutions Inc. - Server Maintenance</p>
-          <p class="text-xs text-gray-400 mt-1">30 minutes ago</p>
+        <div class="p-4 menu-item">
+          <div class="flex items-start space-x-3">
+            <div class="p-2 rounded-full bg-yellow-100">
+              <i class="fas fa-user-clock text-yellow-600"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-900">New Permit Request</p>
+              <p class="text-sm text-gray-500">Visitor permit from John Smith</p>
+              <p class="text-xs text-gray-400 mt-1">15 minutes ago</p>
+            </div>
+          </div>
         </div>
-        <div class="p-4 hover:bg-gray-50">
-          <p class="text-sm font-medium text-gray-900">Maintenance Request</p>
-          <p class="text-sm text-gray-500">Server room requires immediate attention</p>
-          <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
+        <div class="p-4 menu-item">
+          <div class="flex items-start space-x-3">
+            <div class="p-2 rounded-full bg-green-100">
+              <i class="fas fa-check-circle text-green-600"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-900">Task Completed</p>
+              <p class="text-sm text-gray-500">Generator maintenance completed</p>
+              <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-4 menu-item">
+          <div class="flex items-start space-x-3">
+            <div class="p-2 rounded-full bg-blue-100">
+              <i class="fas fa-truck text-blue-600"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-900">Vendor Delivery</p>
+              <p class="text-sm text-gray-500">Office supplies delivery scheduled</p>
+              <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
