@@ -17,15 +17,17 @@ class FHController extends Controller
         return view('special-popup');
     }
     public function index_approve(){
-    // $vendors = Vendor::all();
-    // $visitors = Visitor::all();
 
-    // // Kirim data vendor dan visitor ke view
-    // return view('approvals', compact('vendors', 'visitors'));
-    $vendorVisitors = Vendor_Visitor::with(['vendor', 'visitor'])->get();
+    // $vendorVisitors = Vendor_Visitor::with(['vendor', 'visitor'])->get();
 
-        // Kirim data ke view
-        return view('approvals', compact('vendorVisitors'));
+    //     // Kirim data ke view
+    //     return view('approvals', compact('vendorVisitors'));
 
+    $vendorVisitors = Vendor_Visitor::with(['vendor', 'visitor'])
+        ->orderByRaw("CASE WHEN mode = 'URGENT' THEN 1 ELSE 2 END")  // Urutkan URGENT di atas
+        ->get();
+
+    // Kirim data ke view
+    return view('approvals', compact('vendorVisitors'));
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('id_vendor')->nullable();  // Gunakan unsignedInteger jika id_vendor adalah integer
             $table->unsignedInteger('id_visitor')->nullable();  // Gunakan unsignedInteger jika id_visitor adalah integer
             $table->string('type')->nullable();
+            $table->string('mode')->nullable();
             $table->timestamps();
 
             // Menambahkan foreign key constraint

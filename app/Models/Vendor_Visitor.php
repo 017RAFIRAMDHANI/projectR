@@ -8,9 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor_Visitor extends Model
 {
     use HasFactory;
-      protected $table = 'vendor__visitors'; 
+      protected $table = 'vendor__visitors';
     protected $primaryKey = 'id_vendor_visitor';
-
+   protected $fillable = [
+    'id_vendor',
+    'id_visitor',
+    'type',
+    'mode',
+   ];
     // Relasi dengan tabel Vendor
     public function vendor()
     {

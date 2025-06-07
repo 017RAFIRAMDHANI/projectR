@@ -209,21 +209,7 @@
                 </div>
 
                 <!-- Urgency -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 ">Urgency</label>
-                        <div class="mt-2 space-x-4">
-                            <label class="inline-flex items-center">
-                                <input type="radio" required name="mode" value="Urgent"  class="text-primary focus:ring-primary">
-                                <span class="ml-2">Urgent</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" required name="mode" value="Normal"  class="text-primary focus:ring-primary">
-                                <span class="ml-2">Normal</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+               
 
                <!-- Submit, Clear, and Back Buttons -->
 <!-- Submit, Clear, and Back Buttons -->

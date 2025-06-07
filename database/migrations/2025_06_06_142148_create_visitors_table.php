@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('requestor_name', 255)->nullable();
             $table->string('building_level_room')->nullable();
             $table->string('work_description')->nullable();
+            $table->string('mode')->nullable();
             $table->string('email', 255)->nullable();
             $table->timestamps();
         });

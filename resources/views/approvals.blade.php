@@ -389,7 +389,7 @@
    @foreach($vendorVisitors as $item)
 
             <!-- Visitor Permit 2 -->
-            <tr id="permit-V002" class="visitor-permit permit-item">
+            <tr id="permit-V002" class="visitor-permit permit-item @if($item->mode == "Urgent" ) border-l-4 border-red-500 bg-red-50 @endif">
               <td class="px-4 py-4 text-sm font-medium text-gray-900">
                   @if($item->vendor)
                         {{ $item->vendor->id_vendor }}
@@ -407,19 +407,57 @@
                     @endif
               </td>
               <td class="px-4 py-4">
-                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-                       @if($item->vendor)
-                            Vendor
-                        @elseif($item->visitor)
-                            Visitor
+              <span class="px-2 py-1 text-xs font-medium rounded-full
+    @if($item->vendor)
+        bg-purple-100 text-purple-800  <!-- Vendor, warna ungu -->
+    @elseif($item->visitor)
+        bg-blue-100 text-blue-800  <!-- Visitor, warna biru -->
+    @endif
+">
+    @if($item->vendor)
+        Vendor
+    @elseif($item->visitor)
+        Visitor
+    @endif
+</span>
 
-                        @endif
-                </span>
               </td>
-              <td class="px-4 py-4 text-sm text-gray-500">Job Interview</td>
+              <td class="px-4 py-4 text-sm text-gray-500">
+                      @if($item->vendor)
+                        {{ $item->vendor->work_description }}
+                    @elseif($item->visitor)
+                        {{ $item->visitor->work_description }}
+
+                    @endif
+              </td>
               <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
               <td class="px-4 py-4">
-                <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+            <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
+    @if($item->vendor)
+        @if($item->vendor->status == 'Approve')
+            bg-green-100 text-green-800  <!-- Jika Approve, warna hijau -->
+        @elseif($item->vendor->status == 'Reject')
+            bg-red-100 text-red-800  <!-- Jika Reject, warna merah -->
+        @else
+            bg-yellow-100 text-yellow-800  <!-- Status lain, warna kuning -->
+        @endif
+    @elseif($item->visitor)
+        @if($item->visitor->status == 'Approve')
+            bg-green-100 text-green-800  <!-- Jika Approve, warna hijau -->
+        @elseif($item->visitor->status == 'Reject')
+            bg-red-100 text-red-800  <!-- Jika Reject, warna merah -->
+        @else
+            bg-yellow-100 text-yellow-800  <!-- Status lain, warna kuning -->
+        @endif
+    @endif
+">
+    @if($item->vendor)
+        {{ $item->vendor->status ?? '' }}
+    @elseif($item->visitor)
+        {{ $item->visitor->status ?? 'Pending' }}
+    @endif
+</span>
+
               </td>
               <td class="px-4 py-4 text-sm font-medium">
                 <button onclick="viewPermitDetails('V002', 'visitor', {
@@ -438,7 +476,7 @@
             </tr>
 
 
-@endforeach  
+@endforeach
 
           </tbody>
         </table>

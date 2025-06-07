@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vendor;
+use App\Models\Vendor_Visitor;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -53,7 +54,7 @@ class Controller extends BaseController
            $startDate = isset($row[21]) ? Carbon::createFromFormat('d/m/Y', $row[21])->format('Y-m-d') : null;  // Column V
            $endDate = isset($row[22]) ? Carbon::createFromFormat('d/m/Y', $row[22])->format('Y-m-d') : null;  // Column W
             if (!$vendor) {
-                Vendor::create([
+                $vendor =  Vendor::create([
                     'company_name' => isset($row[1]) ? $row[1] : null,  // Column B (Company Name)
                     'requestor_name' => isset($row[2]) ? $row[2] : null,  // Column C (Requestor Name)
                     'location_of_work' => isset($row[3]) ? $row[3] : null,  // Column D (Location of Work)
@@ -85,6 +86,17 @@ class Controller extends BaseController
                     'status_approval_FH' => 'Pending',  // Default 'Pending'
                     'mode' => isset($row[18]) ? $row[18] : null,  // Column S (Urgency)
                 ]);
+
+
+            $id_vendor = $vendor->id_vendor;
+
+
+            Vendor_Visitor::create([
+                  'id_vendor' => $id_vendor,
+                  'type' => 'Vendor',
+                  'mode' => 'Normal',
+
+                    ]);
             }
 
         }}

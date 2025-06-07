@@ -202,7 +202,7 @@ public function store(Request $request)
             'worker4_id_nopermit' => 'required|string|max:255',
             'worker5_name' => 'required|string|max:255',
             'worker5_id_nopermit' => 'required|string|max:255',
-            'mode' => 'required|string',
+
         ]);
 
    if ($request->hasFile('file_mos')) {
@@ -240,7 +240,7 @@ public function store(Request $request)
             'worker4_id_nopermit' => $validatedData['worker4_id_nopermit'],
             'worker5_name' => $validatedData['worker5_name'],
             'worker5_id_nopermit' => $validatedData['worker5_id_nopermit'],
-            'mode' => $validatedData['mode'],
+            'mode' => 'Urgent',
             'permit_number' =>  null,
             'primary_number' =>  $primaryNumber,
             'status' =>  'Pending',
