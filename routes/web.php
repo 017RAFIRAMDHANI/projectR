@@ -41,6 +41,7 @@ Route::get('/visitor-dashboard',[App\Http\Controllers\VisitorController::class, 
 Route::get('/fm-dashboard',[App\Http\Controllers\FHController::class, 'index'])->name('fm-dashboard');
 Route::get('/special-popup',[App\Http\Controllers\FHController::class, 'specialpopup'])->name('special-popup');
 Route::get('/approvals',[App\Http\Controllers\FHController::class, 'index_approve'])->name('index_approve');
+Route::get('/view/{id_vendor}',[App\Http\Controllers\FHController::class, 'view'])->name('vendor_view');
 
 // DHI const
 Route::get('/dhi-dashboard',[App\Http\Controllers\DHIController::class, 'index'])->name('dhi-dashboard');

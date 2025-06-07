@@ -58,8 +58,8 @@
         <div class="lg:col-span-2 space-y-8">
           <!-- Welcome Message -->
           <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-sm p-6 text-white">
-            <h1 class="text-2xl font-bold mb-2">Selamat Datang, Satpam!</h1>
-            <p class="text-white/80">Berikut adalah ringkasan aktivitas hari ini</p>
+            <h1 class="text-2xl font-bold mb-2">Welcome, Security!</h1>
+            <p class="text-white/80">Here is today's activity summary</p>
           </div>
 
           <!-- Stats Grid -->
@@ -67,38 +67,38 @@
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Kendaraan</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Total Vehicles</h3>
                   <p class="mt-2 text-3xl font-bold text-primary">150</p>
                 </div>
                 <div class="p-3 rounded-full bg-blue-50">
                   <i class="fas fa-car text-primary text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+5 dari bulan lalu</p>
+              <p class="mt-2 text-xs text-gray-500">+5 from last month</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Karyawan</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Total Employees</h3>
                   <p class="mt-2 text-3xl font-bold text-green-600">75</p>
                 </div>
                 <div class="p-3 rounded-full bg-green-50">
                   <i class="fas fa-users text-green-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+3 minggu ini</p>
+              <p class="mt-2 text-xs text-gray-500">+3 this week</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Kendaraan Masuk</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Vehicles In</h3>
                   <p class="mt-2 text-3xl font-bold text-yellow-600">25</p>
                 </div>
                 <div class="p-3 rounded-full bg-yellow-50">
                   <i class="fas fa-clock text-yellow-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">Hari ini</p>
+              <p class="mt-2 text-xs text-gray-500">Today</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
@@ -110,29 +110,29 @@
                   <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">Perlu perhatian</p>
+              <p class="mt-2 text-xs text-gray-500">Needs attention</p>
             </div>
           </div>
 
           <!-- Quick Actions -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Aksi Cepat</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
               <a href="vehicle-list.html" class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
                 <i class="fas fa-car text-primary text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Daftar Kendaraan</span>
+                <span class="text-sm font-medium text-gray-700">Vehicle List</span>
               </a>
               <a href="employee-safety-list.html" class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
                 <i class="fas fa-users text-green-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Daftar Karyawan</span>
+                <span class="text-sm font-medium text-gray-700">Employee List</span>
               </a>
-              <a href="daily-report.html" class="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
-                <i class="fas fa-clipboard-list text-purple-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Laporan Harian</span>
+              <a href="employee-safety-list.html" class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
+                <i class="fas fa-clipboard-check text-yellow-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Safety Induction List</span>
               </a>
-              <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-                <i class="fas fa-cog text-gray-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Pengaturan</span>
+              <a href="reports.html" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                <i class="fas fa-chart-bar text-gray-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Report</span>
               </a>
             </div>
           </div>
@@ -140,23 +140,23 @@
           <!-- Active Tasks -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="text-lg font-medium text-gray-900">Tugas Aktif</h2>
-              <a href="tasks.html" class="text-sm text-primary hover:text-blue-700">Lihat Semua</a>
+              <h2 class="text-lg font-medium text-gray-900">Active Tasks</h2>
+              <a href="tasks.html" class="text-sm text-primary hover:text-blue-700">View All</a>
             </div>
             <div class="space-y-4">
               <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
-                  <p class="text-sm font-medium text-gray-900">Pemeriksaan Kendaraan</p>
-                  <p class="text-xs text-gray-500">Jadwal: Hari ini, 14:00</p>
-                  <p class="text-xs text-gray-500">Prioritas: Tinggi</p>
+                  <p class="text-sm font-medium text-gray-900">Vehicle Inspection</p>
+                  <p class="text-xs text-gray-500">Schedule: Today, 14:00</p>
+                  <p class="text-xs text-gray-500">Priority: High</p>
                 </div>
                 <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Urgent</span>
               </div>
               <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
-                  <p class="text-sm font-medium text-gray-900">Verifikasi STNK</p>
-                  <p class="text-xs text-gray-500">Jadwal: Besok, 10:00</p>
-                  <p class="text-xs text-gray-500">Prioritas: Sedang</p>
+                  <p class="text-sm font-medium text-gray-900">STNK Verification</p>
+                  <p class="text-xs text-gray-500">Schedule: Tomorrow, 10:00</p>
+                  <p class="text-xs text-gray-500">Priority: Medium</p>
                 </div>
                 <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
               </div>
@@ -167,13 +167,14 @@
         <!-- Recent Activities -->
         <div class="lg:col-span-1">
           <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Aktivitas Terbaru</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Activities</h2>
             <div class="space-y-4">
               <div class="flex items-start space-x-4">
                 <div class="p-2 rounded-full bg-blue-100">
                   <i class="fas fa-car text-blue-600"></i>
                 </div>
                 <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-900">New vehicle entry</p>
                   <p class="text-sm font-medium text-gray-900">Kendaraan baru masuk</p>
                   <p class="text-sm text-gray-500">Toyota Avanza (B 1234 ABC)</p>
                   <p class="text-xs text-gray-400 mt-1">5 menit yang lalu</p>
@@ -205,56 +206,7 @@
       </div>
     </main>
 
-    <!-- Notifications Panel -->
-    <div
-      id="notificationsPanel"
-      class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200"
-    >
-      <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-900">Notifikasi</h3>
-        <button onclick="toggleNotifications()" class="text-gray-400 btn-hover">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="divide-y divide-gray-200 max-h-96 overflow-y-auto">
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-red-100">
-              <i class="fas fa-exclamation-circle text-red-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">STNK Expired</p>
-              <p class="text-sm text-gray-500">5 kendaraan memiliki STNK yang akan expired dalam 30 hari</p>
-              <p class="text-xs text-gray-400 mt-1">5 menit yang lalu</p>
-            </div>
-          </div>
-        </div>
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-yellow-100">
-              <i class="fas fa-car text-yellow-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Kendaraan Masuk</p>
-              <p class="text-sm text-gray-500">25 kendaraan masuk hari ini</p>
-              <p class="text-xs text-gray-400 mt-1">1 jam yang lalu</p>
-            </div>
-          </div>
-        </div>
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-green-100">
-              <i class="fas fa-users text-green-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Karyawan Baru</p>
-              <p class="text-sm text-gray-500">3 karyawan baru terdaftar minggu ini</p>
-              <p class="text-xs text-gray-400 mt-1">2 jam yang lalu</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <script>
       function toggleNotifications() {
@@ -297,6 +249,5 @@
     </script>
   </body>
 </html>
-
 
 @endsection

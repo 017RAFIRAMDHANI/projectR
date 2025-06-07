@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vendor;
+use App\Models\Vendor_Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -246,9 +247,17 @@ public function store(Request $request)
             'status' =>  'Pending',
 
         ]);
+              $id_vendor = $vendor->id_vendor;
 
+
+            Vendor_Visitor::create([
+                  'id_vendor' => $id_vendor,
+                  'type' => 'Vendor',
+                  'mode' => 'Urgent',
+
+                    ]);
         // Return a success response with data
-        return redirect()->route('vendor.index')->with('success', 'Vendor permit request submitted successfully!');
+        return redirect()->route('index_approve')->with('success', 'Vendor permit request submitted successfully!');
 
     } catch (\Illuminate\Validation\ValidationException $e) {
         // Handle validation errors

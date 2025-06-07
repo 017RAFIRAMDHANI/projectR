@@ -56,58 +56,9 @@
     </style>
   </head>
   <body class="bg-gray-50">
+    <!-- Navbar -->
 
 
-    <!-- Notifications Panel -->
-    <div
-      id="notificationsPanel"
-      class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200"
-    >
-      <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-900">Notifikasi</h3>
-        <button onclick="toggleNotifications()" class="text-gray-400 btn-hover">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="divide-y divide-gray-200 max-h-96 overflow-y-auto">
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-red-100">
-              <i class="fas fa-exclamation-circle text-red-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">STNK Akan Expired</p>
-              <p class="text-sm text-gray-500">Kendaraan dengan plat B 1234 ABC</p>
-              <p class="text-xs text-gray-400 mt-1">5 menit yang lalu</p>
-            </div>
-          </div>
-        </div>
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-yellow-100">
-              <i class="fas fa-tools text-yellow-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Maintenance Diperlukan</p>
-              <p class="text-sm text-gray-500">Kendaraan dengan plat B 5678 DEF</p>
-              <p class="text-xs text-gray-400 mt-1">15 menit yang lalu</p>
-            </div>
-          </div>
-        </div>
-        <div class="p-4 menu-item">
-          <div class="flex items-start space-x-3">
-            <div class="p-2 rounded-full bg-green-100">
-              <i class="fas fa-check-circle text-green-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Kendaraan Baru Ditambahkan</p>
-              <p class="text-sm text-gray-500">Kendaraan dengan plat B 9012 GHI</p>
-              <p class="text-xs text-gray-400 mt-1">1 jam yang lalu</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -115,16 +66,16 @@
       <div class="mb-6">
         <a href="client-dashboard.html" class="inline-flex items-center text-gray-600 hover:text-gray-900">
           <i class="fas fa-arrow-left mr-2"></i>
-          Kembali ke Dashboard
+          Back to Dashboard
         </a>
       </div>
 
       <div class="bg-white rounded-lg shadow-sm p-6">
         <!-- Back Button and Page Title -->
         <div class="flex justify-between items-center mb-6">
-          <h1 class="text-2xl font-semibold text-gray-900">Daftar Kendaraan</h1>
+          <h1 class="text-2xl font-semibold text-gray-900">Vehicle List</h1>
           <button onclick="addNewVehicle()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700">
-            Tambah Kendaraan
+            Add Vehicle
           </button>
         </div>
 
@@ -133,22 +84,27 @@
           <div class="flex-1 min-w-[200px]">
             <input
               type="text"
-              placeholder="Cari kendaraan..."
+              placeholder="Search vehicle..."
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <select class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
-            <option value="">Semua Tipe</option>
-            <option value="mobil">Mobil</option>
-            <option value="motor">Motor</option>
-            <option value="truck">Truck</option>
+            <option value="">All Types</option>
+            <option value="car">Car</option>
+            <option value="motorcycle">Motorcycle</option>
           </select>
-          <select class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
-            <option value="">Status Kendaraan</option>
-            <option value="active">Aktif</option>
-            <option value="maintenance">Maintenance</option>
-            <option value="inactive">Tidak Aktif</option>
-          </select>
+          <div class="flex gap-2">
+            <input
+              type="date"
+              placeholder="From Date"
+              class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <input
+              type="date"
+              placeholder="To Date"
+              class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
         </div>
 
         <!-- Vehicle List Table -->
@@ -156,44 +112,55 @@
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No. Polisi</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Merk</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tahun</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STNK Expired</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">License Plate</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request Date</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expiry Date</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Catatan</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <!-- Sample Vehicle Row -->
               <tr class="table-row-hover">
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">B 1234 ABC</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Mobil</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Toyota</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Avanza</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2020</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Car</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PT. Example Visitor</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-20</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-21</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <input type="date" class="text-sm border border-gray-300 rounded-md px-2 py-1" />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Aktif</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <textarea class="text-sm border border-gray-300 rounded-md px-2 py-1" rows="1" placeholder="Tambah catatan..."></textarea>
+                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button class="text-primary hover:text-blue-700 mr-3 action-btn" title="Edit">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="text-yellow-600 hover:text-yellow-700 mr-3 action-btn" title="Lihat Detail">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                  <button class="text-red-600 hover:text-red-700 action-btn" title="Hapus">
-                    <i class="fas fa-trash"></i>
-                  </button>
+                  <div class="flex space-x-2">
+                    <button onclick="editVehicle('B 1234 ABC')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="viewVehicleDetails('B 1234 ABC')" class="text-blue-600 hover:text-blue-900" title="View Details">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="table-row-hover">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">B 5678 DEF</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Motorcycle</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PT. Example Vendor</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-19</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-20</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Inactive</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <div class="flex space-x-2">
+                    <button onclick="editVehicle('B 5678 DEF')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="viewVehicleDetails('B 5678 DEF')" class="text-blue-600 hover:text-blue-900" title="View Details">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -204,22 +171,22 @@
         <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
           <div class="flex flex-1 justify-between sm:hidden">
             <button class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              Sebelumnya
+              Previous
             </button>
             <button class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              Selanjutnya
+              Next
             </button>
           </div>
           <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
             <div>
               <p class="text-sm text-gray-700">
-                Menampilkan <span class="font-medium">1</span> sampai <span class="font-medium">10</span> dari <span class="font-medium">20</span> data
+                Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">20</span> entries
               </p>
             </div>
             <div>
               <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                 <button class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 pagination-btn">
-                  <span class="sr-only">Sebelumnya</span>
+                  <span class="sr-only">Previous</span>
                   <i class="fas fa-chevron-left text-sm"></i>
                 </button>
                 <button aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary pagination-btn">
@@ -229,7 +196,7 @@
                   2
                 </button>
                 <button class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 pagination-btn">
-                  <span class="sr-only">Selanjutnya</span>
+                  <span class="sr-only">Next</span>
                   <i class="fas fa-chevron-right text-sm"></i>
                 </button>
               </nav>
@@ -244,7 +211,7 @@
       <div class="relative top-20 mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white">
         <div class="mt-3">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-medium text-gray-900">Tambah Kendaraan Baru</h3>
+            <h3 class="text-lg font-medium text-gray-900">Add New Vehicle</h3>
             <button onclick="closeModal()" class="text-gray-400 hover:text-gray-500">
               <i class="fas fa-times"></i>
             </button>
@@ -252,53 +219,49 @@
           <form id="vehicleForm" class="space-y-4">
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700">No. Polisi</label>
+                <label class="block text-sm font-medium text-gray-700">License Plate</label>
                 <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700">Tipe Kendaraan</label>
+                <label class="block text-sm font-medium text-gray-700">Vehicle Type</label>
                 <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
-                  <option value="">Pilih Tipe</option>
-                  <option value="mobil">Mobil</option>
-                  <option value="motor">Motor</option>
-                  <option value="truck">Truck</option>
+                  <option value="">Select Type</option>
+                  <option value="car">Car</option>
+                  <option value="motorcycle">Motorcycle</option>
                 </select>
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Merk</label>
-                <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Model</label>
-                <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
-              </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Company</label>
+              <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
             </div>
 
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700">Tahun</label>
-                <input type="number" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+                <label class="block text-sm font-medium text-gray-700">Request Date</label>
+                <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700">STNK Expired</label>
+                <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
                 <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700">Catatan</label>
-              <textarea class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" rows="3" placeholder="Tambahkan catatan..."></textarea>
+              <label class="block text-sm font-medium text-gray-700">Status</label>
+              <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
             </div>
 
             <div class="flex justify-end gap-3">
               <button type="button" onclick="closeModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
-                Batal
+                Cancel
               </button>
               <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md text-sm hover:bg-blue-700">
-                Simpan
+                Save
               </button>
             </div>
           </form>
@@ -311,7 +274,7 @@
       <div class="relative top-20 mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white">
         <div class="mt-3">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-medium text-gray-900">Detail Kendaraan</h3>
+            <h3 class="text-lg font-medium text-gray-900">Vehicle Details</h3>
             <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-500">
               <i class="fas fa-times"></i>
             </button>
@@ -319,40 +282,34 @@
           <div class="space-y-4">
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700">No. Polisi</label>
+                <label class="block text-sm font-medium text-gray-700">License Plate</label>
                 <p class="mt-1 text-sm text-gray-900" id="detailPlate">B 1234 ABC</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700">Tipe Kendaraan</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailType">Mobil</p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Merk</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailBrand">Toyota</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Model</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailModel">Avanza</p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Tahun</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailYear">2020</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">STNK Expired</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailStnkExpired">31/12/2024</p>
+                <label class="block text-sm font-medium text-gray-700">Vehicle Type</label>
+                <p class="mt-1 text-sm text-gray-900" id="detailType">Car</p>
               </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700">Catatan</label>
-              <p class="mt-1 text-sm text-gray-900" id="detailNotes">Kendaraan dalam kondisi baik</p>
+              <label class="block text-sm font-medium text-gray-700">Company</label>
+              <p class="mt-1 text-sm text-gray-900" id="detailCompany">PT. Example Visitor</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Request Date</label>
+                <p class="mt-1 text-sm text-gray-900" id="detailRequestDate">2024-03-20</p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
+                <p class="mt-1 text-sm text-gray-900" id="detailExpiryDate">2024-03-21</p>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Status</label>
+              <p class="mt-1 text-sm text-gray-900" id="detailStatus">Active</p>
             </div>
           </div>
         </div>
@@ -364,7 +321,7 @@
       <div class="relative top-20 mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white">
         <div class="mt-3">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-medium text-gray-900">Edit Kendaraan</h3>
+            <h3 class="text-lg font-medium text-gray-900">Edit Vehicle</h3>
             <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500">
               <i class="fas fa-times"></i>
             </button>
@@ -372,53 +329,49 @@
           <form id="editForm" class="space-y-4">
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700">No. Polisi</label>
+                <label class="block text-sm font-medium text-gray-700">License Plate</label>
                 <input type="text" id="editPlate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required readonly />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700">Tipe Kendaraan</label>
+                <label class="block text-sm font-medium text-gray-700">Vehicle Type</label>
                 <select id="editType" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
-                  <option value="">Pilih Tipe</option>
-                  <option value="mobil">Mobil</option>
-                  <option value="motor">Motor</option>
-                  <option value="truck">Truck</option>
+                  <option value="">Select Type</option>
+                  <option value="car">Car</option>
+                  <option value="motorcycle">Motorcycle</option>
                 </select>
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Merk</label>
-                <input type="text" id="editBrand" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Model</label>
-                <input type="text" id="editModel" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
-              </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Company</label>
+              <input type="text" id="editCompany" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
             </div>
 
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700">Tahun</label>
-                <input type="number" id="editYear" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+                <label class="block text-sm font-medium text-gray-700">Request Date</label>
+                <input type="date" id="editRequestDate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700">STNK Expired</label>
-                <input type="date" id="editStnkExpired" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+                <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
+                <input type="date" id="editExpiryDate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700">Catatan</label>
-              <textarea id="editNotes" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" rows="3" placeholder="Tambahkan catatan..."></textarea>
+              <label class="block text-sm font-medium text-gray-700">Status</label>
+              <select id="editStatus" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
             </div>
 
             <div class="flex justify-end gap-3">
               <button type="button" onclick="closeEditModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
-                Batal
+                Cancel
               </button>
               <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md text-sm hover:bg-blue-700">
-                Simpan Perubahan
+                Save Changes
               </button>
             </div>
           </form>
@@ -439,22 +392,20 @@
         // Di sini Anda bisa menambahkan logika untuk mengambil data kendaraan dari server
         const vehicleData = {
           plate: 'B 1234 ABC',
-          type: 'Mobil',
-          brand: 'Toyota',
-          model: 'Avanza',
-          year: '2020',
-          stnkExpired: '31/12/2024',
-          notes: 'Kendaraan dalam kondisi baik'
+          type: 'Car',
+          company: 'PT. Example Visitor',
+          requestDate: '2024-03-20',
+          expiryDate: '2024-03-21',
+          status: 'Active'
         };
 
         // Mengisi data ke modal detail
         document.getElementById('detailPlate').textContent = vehicleData.plate;
         document.getElementById('detailType').textContent = vehicleData.type;
-        document.getElementById('detailBrand').textContent = vehicleData.brand;
-        document.getElementById('detailModel').textContent = vehicleData.model;
-        document.getElementById('detailYear').textContent = vehicleData.year;
-        document.getElementById('detailStnkExpired').textContent = vehicleData.stnkExpired;
-        document.getElementById('detailNotes').textContent = vehicleData.notes;
+        document.getElementById('detailCompany').textContent = vehicleData.company;
+        document.getElementById('detailRequestDate').textContent = vehicleData.requestDate;
+        document.getElementById('detailExpiryDate').textContent = vehicleData.expiryDate;
+        document.getElementById('detailStatus').textContent = vehicleData.status;
 
         // Menampilkan modal
         document.getElementById('detailModal').classList.remove('hidden');
@@ -468,22 +419,20 @@
         // Di sini Anda bisa menambahkan logika untuk mengambil data kendaraan dari server
         const vehicleData = {
           plate: 'B 1234 ABC',
-          type: 'mobil',
-          brand: 'Toyota',
-          model: 'Avanza',
-          year: '2020',
-          stnkExpired: '2024-12-31',
-          notes: 'Kendaraan dalam kondisi baik'
+          type: 'car',
+          company: 'PT. Example Visitor',
+          requestDate: '2024-03-20',
+          expiryDate: '2024-03-21',
+          status: 'active'
         };
 
         // Mengisi data ke form edit
         document.getElementById('editPlate').value = vehicleData.plate;
         document.getElementById('editType').value = vehicleData.type;
-        document.getElementById('editBrand').value = vehicleData.brand;
-        document.getElementById('editModel').value = vehicleData.model;
-        document.getElementById('editYear').value = vehicleData.year;
-        document.getElementById('editStnkExpired').value = vehicleData.stnkExpired;
-        document.getElementById('editNotes').value = vehicleData.notes;
+        document.getElementById('editCompany').value = vehicleData.company;
+        document.getElementById('editRequestDate').value = vehicleData.requestDate;
+        document.getElementById('editExpiryDate').value = vehicleData.expiryDate;
+        document.getElementById('editStatus').value = vehicleData.status;
 
         // Menampilkan modal
         document.getElementById('editModal').classList.remove('hidden');

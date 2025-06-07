@@ -30,4 +30,11 @@ class FHController extends Controller
     // Kirim data ke view
     return view('approvals', compact('vendorVisitors'));
     }
+
+    public function view($id_vendor){
+       $dataVendor =  Vendor::where('id_vendor',$id_vendor)->first();
+        return view('permit-details-vendor',[
+            "dataVendor" => $dataVendor
+        ]);
+    }
 }

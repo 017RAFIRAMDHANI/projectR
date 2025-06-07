@@ -221,6 +221,9 @@
           <span class="px-3 py-1 text-sm font-medium rounded-full bg-purple-100 text-purple-800">
             Vendor: <span id="vendorPendingCount">2</span> Pending
           </span>
+            <span class="px-3 py-1 text-sm font-medium rounded-full bg-red-100 text-red-800">
+            Urgent: <span id="urgentCount">2</span>
+          </span>
           <span class="px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800">
             Total: <span id="totalPendingCount">5</span> Pending
           </span>
@@ -274,6 +277,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
+
             <!-- Visitor Permit 1 -->
             <tr id="permit-V001" class="visitor-permit permit-item border-l-4 border-red-500 bg-red-50">
               <td class="px-4 py-4 text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</td>
@@ -460,18 +464,10 @@
 
               </td>
               <td class="px-4 py-4 text-sm font-medium">
-                <button onclick="viewPermitDetails('V002', 'visitor', {
-                  permitNumber: 'DHI/PERMIT/2024/04/0002',
-                  applicantName: 'Sarah Johnson',
-                  purpose: 'Job Interview',
-                  location: 'HR Office',
-                  startDate: 'Tomorrow, 10:00 AM',
-                  endDate: 'Tomorrow, 11:30 AM',
-                  status: 'Pending',
-                  submittedDate: 'April 16, 2024, 9:15 AM'
-                })" class="text-primary hover:text-blue-700">
-                  <i class="fas fa-eye"></i> View
-                </button>
+              <a href="{{ route($item->vendor ? 'vendor_view' : '/', $item->vendor ? $item->vendor->id_vendor : $item->visitor->id_visitor) }}" class="text-primary hover:text-blue-700">
+  <i class="fas fa-eye"></i> View
+</a>
+
               </td>
             </tr>
 

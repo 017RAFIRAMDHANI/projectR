@@ -93,12 +93,12 @@
             <a href="/management-system/index.html" class="flex items-center space-x-3">
             <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
               <span class="text-lg font-semibold text-gray-800">
-                @guest
-  @if (Auth::check() && Route::has('login'))
+
+  @if (Auth::check())
                 Dashboard   {{Auth::user()->role ?? ''}}
              </span>
                 @endif
-                @endguest
+                
             </a>
           </div>
           <div class="flex items-center space-x-4">
@@ -127,23 +127,28 @@
                 <div class="px-4 py-2 border-b border-gray-100">
 
                   <p class="text-sm font-medium text-gray-900">
-                 @guest
-    @if (Route::has('login'))
+
+
         @if (Auth::check() && Auth::user()->role == "FM")
             Admin FM
         @elseif(Auth::check() && Auth::user()->role == "Client")
         Client
         @else
         @endif
-    @endif
-@endguest
+
+
 
 
                 </p>
+              <p class="text-xs text-gray-500">
+    @if(Auth::check())
+        {{ Auth::user()->email }}
+    @endif
+</p>
+
             </div>
             @guest
                       @if (Route::has('login'))
-                  <p class="text-xs text-gray-500">{{Auth::check() && Auth::user()->email}}</p>
 
 
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="{{ route('login') }}">Login</a>
