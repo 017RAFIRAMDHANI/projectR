@@ -217,7 +217,7 @@
             <div>
                 <div style="padding: 10px" id="pagination">
                     <!-- Pagination Links -->
-                    {{-- {{ $vendors->links('pagination::tailwind') }} --}}
+                    {{ $vendors->links('pagination::tailwind') }}
                 </div>
 
 

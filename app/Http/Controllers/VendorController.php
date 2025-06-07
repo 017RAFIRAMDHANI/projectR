@@ -145,17 +145,17 @@ public function index(Request $request)
          ->orWhere('generate_dust', 'LIKE', "%{$search}%")
          ->orWhere('protection_system', 'LIKE', "%{$search}%")
          ->orWhere('file_mos', 'LIKE', "%{$search}%")
-         ->orWhere('mode', 'LIKE', "%{$search}%")->get();
+         ->orWhere('mode', 'LIKE', "%{$search}%")->paginate(2);
 
 
 
 
         }else if($searchCompany){
-            $vendors = $vendors->where('company_name', 'LIKE', "%{$searchCompany}%")->get();
+            $vendors = $vendors->where('company_name', 'LIKE', "%{$searchCompany}%")->paginate(2);
 
 }else{
 
-    $vendors = $vendors->orderBy('created_at', 'desc')->get();
+    $vendors = $vendors->orderBy('created_at', 'desc')->paginate(2);
 }
 
    // Apply ordering and pagination
