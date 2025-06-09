@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -178,33 +179,35 @@ public function store(Request $request)
 {
     try {
         // Validate the incoming request data
-        $validatedData = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'requestor_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone_number' => 'required|string|max:15',
-            'location_of_work' => 'required|string|max:255',
-            'building_level_room' => 'required|string|max:255',
-            'work_description' => 'required|string',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'generate_dust' => 'required',
-            'vehicle_types' => 'required',
-            'number_plate' => 'required',
-            'protection_system' => 'required|string',
-            'file_mos' => 'file|mimes:pdf,doc,docx|max:10240',
-            'worker1_name' => 'required|string|max:255',
-            'worker1_id_nopermit' => 'required|string|max:255',
-            'worker2_name' => 'required|string|max:255',
-            'worker2_id_nopermit' => 'required|string|max:255',
-            'worker3_name' => 'required|string|max:255',
-            'worker3_id_nopermit' => 'required|string|max:255',
-            'worker4_name' => 'required|string|max:255',
-            'worker4_id_nopermit' => 'required|string|max:255',
-            'worker5_name' => 'required|string|max:255',
-            'worker5_id_nopermit' => 'required|string|max:255',
-
-        ]);
+      $validatedData = $request->validate([
+        'email' => 'required|email',
+        'validity_date_from' => 'required',
+        'validity_date_to' => 'required',
+        'validity_time_from' => 'required',
+        'validity_time_to' => 'required',
+        'company_name' => 'required|string|max:255',
+        'requestor_name' => 'required|string|max:255',
+        'company_contact' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:15',
+        'location_of_work' => 'required|string|max:255',
+        'building_level_room' => 'required|string|max:255',
+        'purpose' => 'required|string|max:255',
+        'purpose_details' => 'required|string',
+        'total_worker' => 'nullable',
+        'worker1_name' => 'required|string|max:255',
+        'worker1_id_card' => 'required|string|max:255',
+        'worker1_birthdate' => 'required',
+        'generate_dust' => 'required',
+        'state_cause' => 'nullable|string',
+        'method' => 'nullable|string',
+        'any_fire' => 'required',
+        'isolation_of' => 'nullable',
+        'isolation_name' => 'nullable|string|max:255',
+        'isolation_date' => 'nullable',
+        'file_mos' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+        'number_plate' => 'nullable|string|max:255',
+        'vehicle_types' => 'nullable',
+    ]);
 
    if ($request->hasFile('file_mos')) {
             // Store file in the 'mos_files' directory within 'public' disk
@@ -213,39 +216,67 @@ public function store(Request $request)
         }
 
 
-       $primaryNumber = $this->generateRandomPrimaryNumber();
+       //$primaryNumber = $this->generateRandomPrimaryNumber();
+    $isolationOf = $request->has('isolation_of') ? implode(',', $request->isolation_of) : null;
 
         // Create Vendor record
         $vendor = Vendor::create([
-            'company_name' => $validatedData['company_name'],
-            'requestor_name' => $validatedData['requestor_name'],
-            'email' => $validatedData['email'],
-            'phone_number' => $validatedData['phone_number'],
-            'location_of_work' => $validatedData['location_of_work'],
-            'building_level_room' => $validatedData['building_level_room'],
-            'work_description' => $validatedData['work_description'],
-            'start_date' => $validatedData['start_date'],
-            'end_date' => $validatedData['end_date'],
-            'generate_dust' => $validatedData['generate_dust'],
-            'protection_system' => $validatedData['protection_system'],
-            'number_plate' => $validatedData['number_plate'],
-            'vehicle_types' => $validatedData['vehicle_types'],
-            'file_mos' => $fileMos,
-            'worker1_name' => $validatedData['worker1_name'],
-            'worker1_id_nopermit' => $validatedData['worker1_id_nopermit'],
-            'worker2_name' => $validatedData['worker2_name'],
-            'worker2_id_nopermit' => $validatedData['worker2_id_nopermit'],
-            'worker3_name' => $validatedData['worker3_name'],
-            'worker3_id_nopermit' => $validatedData['worker3_id_nopermit'],
-            'worker4_name' => $validatedData['worker4_name'],
-            'worker4_id_nopermit' => $validatedData['worker4_id_nopermit'],
-            'worker5_name' => $validatedData['worker5_name'],
-            'worker5_id_nopermit' => $validatedData['worker5_id_nopermit'],
-            'mode' => 'Urgent',
-            'permit_number' =>  null,
-            'primary_number' =>  $primaryNumber,
-            'status' =>  'Pending',
-
+             'email' => $request->email,
+    'validity_date_from' => Carbon::parse($request->validity_date_from)->format('Y-m-d'),
+    'validity_date_to' => Carbon::parse($request->validity_date_to)->format('Y-m-d'),
+    'validity_time_from' => $request->validity_time_from,
+    'validity_time_to' => $request->validity_time_to,
+    'company_name' => $request->company_name,
+    'requestor_name' => $request->requestor_name,
+    'company_contact' => $request->company_contact,
+    'phone_number' => $request->phone_number,
+    'location_of_work' => $request->location_of_work,
+    'building_level_room' => $request->building_level_room,
+    'purpose' => $request->purpose,
+    'purpose_details' => $request->purpose_details,
+    'total_worker' => $request->total_worker,
+    'worker1_name' => $request->worker1_name,
+    'worker1_id_card' => $request->worker1_id_card,
+    'worker1_birthdate' => Carbon::parse($request->worker1_birthdate)->format('Y-m-d'),
+    'worker2_name' => $request->worker2_name,
+    'worker2_id_card' => $request->worker2_id_card,
+    'worker2_birthdate' => Carbon::parse($request->worker2_birthdate)->format('Y-m-d'),
+    'worker3_name' => $request->worker3_name,
+    'worker3_id_card' => $request->worker3_id_card,
+    'worker3_birthdate' => Carbon::parse($request->worker3_birthdate)->format('Y-m-d'),
+    'worker4_name' => $request->worker4_name,
+    'worker4_id_card' => $request->worker4_id_card,
+    'worker4_birthdate' => Carbon::parse($request->worker4_birthdate)->format('Y-m-d'),
+    'worker5_name' => $request->worker5_name,
+    'worker5_id_card' => $request->worker5_id_card,
+    'worker5_birthdate' => Carbon::parse($request->worker5_birthdate)->format('Y-m-d'),
+    'worker6_name' => $request->worker6_name,
+    'worker6_id_card' => $request->worker6_id_card,
+    'worker6_birthdate' => Carbon::parse($request->worker6_birthdate)->format('Y-m-d'),
+    'worker7_name' => $request->worker7_name,
+    'worker7_id_card' => $request->worker7_id_card,
+    'worker7_birthdate' => Carbon::parse($request->worker7_birthdate)->format('Y-m-d'),
+    'worker8_name' => $request->worker8_name,
+    'worker8_id_card' => $request->worker8_id_card,
+    'worker8_birthdate' => Carbon::parse($request->worker8_birthdate)->format('Y-m-d'),
+    'worker9_name' => $request->worker9_name,
+    'worker9_id_card' => $request->worker9_id_card,
+    'worker9_birthdate' => Carbon::parse($request->worker9_birthdate)->format('Y-m-d'),
+    'worker10_name' => $request->worker10_name,
+    'worker10_id_card' => $request->worker10_id_card,
+    'worker10_birthdate' => Carbon::parse($request->worker10_birthdate)->format('Y-m-d'),
+    'generate_dust' => $request->generate_dust,
+    'state_cause' => $request->state_cause,
+    'method' => $request->method,
+    'any_fire' => $request->any_fire,
+    'isolation_of' => $isolationOf,
+    'isolation_name' => $request->isolation_name,
+    'isolation_date' => $request->isolation_date ? Carbon::parse($request->isolation_date)->format('Y-m-d H:i:s') : null,
+    'file_mos' => isset($fileMos) ? $fileMos : null,
+    'number_plate' => $request->number_plate,
+    'vehicle_types' => $request->vehicle_types,
+    'status' => 'Pending',
+    'mode' => 'Urgent',
         ]);
               $id_vendor = $vendor->id_vendor;
 

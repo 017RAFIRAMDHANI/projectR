@@ -203,7 +203,7 @@
             <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button
-                onclick="window.location.href='{{route('special-popup')}}'"
+                onclick="window.location.href='{{route('vendor_create')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
               >
                 <i class="fas fa-star text-primary text-xl mb-2"></i>
