@@ -9,52 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 
 class VendorController extends Controller
 {
 
-// public function search(Request $request)
-// {
-//     $search = $request->input('searchData'); // Ambil data pencarian
-// if($search) {
-
-//   $vendors = Vendor::where('company_name', 'LIKE', "%{$search}%")
-//     ->orWhere('requestor_name', 'LIKE', "%{$search}%")
-//     ->orWhere('location_of_work', 'LIKE', "%{$search}%")
-//     ->orWhere('building_level_room', 'LIKE', "%{$search}%")
-//     ->orWhere('work_description', 'LIKE', "%{$search}%")
-//     ->orWhere('email', 'LIKE', "%{$search}%")
-//     ->orWhere('phone_number', 'LIKE', "%{$search}%")
-//     ->orWhere('permit_number', 'LIKE', "%{$search}%")
-//     ->orWhere('start_date', 'LIKE', "%{$search}%")
-//     ->orWhere('end_date', 'LIKE', "%{$search}%")
-//     ->orWhere('number_plate', 'LIKE', "%{$search}%")
-//     ->orWhere('vehicle_types', 'LIKE', "%{$search}%")
-//     ->orWhere('worker1_name', 'LIKE', "%{$search}%")
-//     ->orWhere('worker1_id_nopermit', 'LIKE', "%{$search}%")
-//     ->orWhere('worker2_name', 'LIKE', "%{$search}%")
-//     ->orWhere('worker2_id_nopermit', 'LIKE', "%{$search}%")
-//     ->orWhere('worker3_name', 'LIKE', "%{$search}%")
-//     ->orWhere('worker3_id_nopermit', 'LIKE', "%{$search}%")
-//     ->orWhere('worker4_name', 'LIKE', "%{$search}%")
-//     ->orWhere('worker4_id_nopermit', 'LIKE', "%{$search}%")
-//     ->orWhere('worker5_name', 'LIKE', "%{$search}%")
-//     ->orWhere('worker5_id_nopermit', 'LIKE', "%{$search}%")
-//     ->orWhere('generate_dust', 'LIKE', "%{$search}%")
-//     ->orWhere('protection_system', 'LIKE', "%{$search}%")
-//     ->orWhere('file_mos', 'LIKE', "%{$search}%")
-//     ->orWhere('mode', 'LIKE', "%{$search}%")
-//     ->get();
-
-//     return response()->json($vendors);
-
-//    }
-
-
-
-
-    // Kembalikan data ke JavaScript dalam format JSON
-//}
 
  public function __construct()
     {
@@ -73,12 +34,18 @@ class VendorController extends Controller
             // Generate Permit Number jika disetujui
             $permitNumber = $this->generatePermitNumber();
             $vendor->permit_number = $permitNumber;
+          $vendor->save();
+        $pdfContent = view('pdf_permit', compact('vendor', 'permitNumber'))->render();
 
-            // Simpan data vendor dengan permit number baru
-            $vendor->save();
+        // Create PDF from HTML content
+        $pdf = FacadePdf::loadHTML($pdfContent);
 
-            // Kirim email pemberitahuan ke vendor
-            Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Approved', $permitNumber));
+        // Save the generated PDF in storage
+        $filePath = storage_path('app/public/permit_to_work_' . $permitNumber . '.pdf');
+        $pdf->save($filePath);
+
+        // Kirim email pemberitahuan ke vendor
+       Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Approved', $permitNumber,$filePath));
             Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
 
             return response()->json(['success' => true]);
@@ -329,3 +296,46 @@ public function store(Request $request)
     }
 
 }
+
+// public function search(Request $request)
+// {
+//     $search = $request->input('searchData'); // Ambil data pencarian
+// if($search) {
+
+//   $vendors = Vendor::where('company_name', 'LIKE', "%{$search}%")
+//     ->orWhere('requestor_name', 'LIKE', "%{$search}%")
+//     ->orWhere('location_of_work', 'LIKE', "%{$search}%")
+//     ->orWhere('building_level_room', 'LIKE', "%{$search}%")
+//     ->orWhere('work_description', 'LIKE', "%{$search}%")
+//     ->orWhere('email', 'LIKE', "%{$search}%")
+//     ->orWhere('phone_number', 'LIKE', "%{$search}%")
+//     ->orWhere('permit_number', 'LIKE', "%{$search}%")
+//     ->orWhere('start_date', 'LIKE', "%{$search}%")
+//     ->orWhere('end_date', 'LIKE', "%{$search}%")
+//     ->orWhere('number_plate', 'LIKE', "%{$search}%")
+//     ->orWhere('vehicle_types', 'LIKE', "%{$search}%")
+//     ->orWhere('worker1_name', 'LIKE', "%{$search}%")
+//     ->orWhere('worker1_id_nopermit', 'LIKE', "%{$search}%")
+//     ->orWhere('worker2_name', 'LIKE', "%{$search}%")
+//     ->orWhere('worker2_id_nopermit', 'LIKE', "%{$search}%")
+//     ->orWhere('worker3_name', 'LIKE', "%{$search}%")
+//     ->orWhere('worker3_id_nopermit', 'LIKE', "%{$search}%")
+//     ->orWhere('worker4_name', 'LIKE', "%{$search}%")
+//     ->orWhere('worker4_id_nopermit', 'LIKE', "%{$search}%")
+//     ->orWhere('worker5_name', 'LIKE', "%{$search}%")
+//     ->orWhere('worker5_id_nopermit', 'LIKE', "%{$search}%")
+//     ->orWhere('generate_dust', 'LIKE', "%{$search}%")
+//     ->orWhere('protection_system', 'LIKE', "%{$search}%")
+//     ->orWhere('file_mos', 'LIKE', "%{$search}%")
+//     ->orWhere('mode', 'LIKE', "%{$search}%")
+//     ->get();
+
+//     return response()->json($vendors);
+
+//    }
+
+
+
+
+    // Kembalikan data ke JavaScript dalam format JSON
+//}
