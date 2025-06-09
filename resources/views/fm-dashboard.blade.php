@@ -216,15 +216,22 @@
                 <i class="fas fa-check-circle text-green-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Approval</span>
               </button>
+                      <button
+                onclick="window.location.href='{{route('permit-data')}}'"
+                class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition"
+              >
+                <i class="fas fa-users text-orange-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Visitor & Vendor</span>
+              </button>
               <button
-                onclick="window.location.href='vehicles.html'"
+                onclick="window.location.href='{{route('vehicle-list')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition"
               >
                 <i class="fas fa-car text-purple-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Vehicle Data</span>
               </button>
               <button
-                onclick="window.location.href='employees.html'"
+                onclick="window.location.href='{{route('employee-data')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition"
               >
                 <i class="fas fa-users text-yellow-600 text-xl mb-2"></i>

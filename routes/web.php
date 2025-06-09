@@ -17,7 +17,21 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/vendor-dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('vendor-dashboard');
+
 Route::redirect('home','/');
+Route::get('/', function () {
+    if (Auth::check()) { // Check if user is authenticated
+        if (Auth::user()->role == 'FM') {
+            return redirect('fm-dashboard'); // Redirect to FM's specific dashboard
+        } elseif (Auth::user()->role == 'DHI') {
+            return redirect('dhi-dashboard'); // Redirect to DHI's specific dashboard
+        }elseif (Auth::user()->role == 'Client') {
+            return redirect('client-dashboard'); // Redirect to DHI's specific dashboard
+        }
+    }
+    return view('auth.login'); // Default login page if not authenticated or roles don't match
+});
+
 // Route::get('/', VendorList::class)->name('home');
 
 // vendor const
@@ -31,8 +45,6 @@ Route::post('/vendors/reject', [App\Http\Controllers\VendorController::class, 'r
 // profile const
 Route::get('/profile/{id}',[App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 
-// menu login const
-Route::get('/',[App\Http\Controllers\PilihLoginController::class, 'index'])->name('/');
 
 // visitor const
 Route::get('/visitor-dashboard',[App\Http\Controllers\VisitorController::class, 'index'])->name('visitor-dashboard');
@@ -53,6 +65,12 @@ Route::get('/vehicle-list', function () {
 Route::get('/daily-report', function () {
     return view('daily-report');
 })->name('daily-report');
+Route::get('/permit-data', function () {
+    return view('permit-data');
+})->name('permit-data');
+Route::get('/employee-data', function () {
+    return view('employee-data');
+})->name('employee-data');
 
 
 // Client const

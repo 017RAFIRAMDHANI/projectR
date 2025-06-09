@@ -49,6 +49,7 @@
     </style>
   </head>
   <body class="bg-gray-50">
+    <!-- Navbar -->
 
 
     <!-- Main Content -->
@@ -91,26 +92,26 @@
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Vehicles In</h3>
-                  <p class="mt-2 text-3xl font-bold text-yellow-600">25</p>
+                  <h3 class="text-gray-500 text-sm font-medium">Visitor & Vendor</h3>
+                  <p class="mt-2 text-3xl font-bold text-orange-600">20</p>
                 </div>
-                <div class="p-3 rounded-full bg-yellow-50">
-                  <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                <div class="p-3 rounded-full bg-orange-50">
+                  <i class="fas fa-users text-orange-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">Today</p>
+              <p class="mt-2 text-xs text-gray-500">+2 today</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">STNK Expired</h3>
-                  <p class="mt-2 text-3xl font-bold text-red-600">5</p>
+                  <h3 class="text-gray-500 text-sm font-medium">Safety Induction</h3>
+                  <p class="mt-2 text-3xl font-bold text-yellow-600">12</p>
                 </div>
-                <div class="p-3 rounded-full bg-red-50">
-                  <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                <div class="p-3 rounded-full bg-yellow-50">
+                  <i class="fas fa-clipboard-check text-yellow-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">Needs attention</p>
+              <p class="mt-2 text-xs text-gray-500">Updated</p>
             </div>
           </div>
 
@@ -118,7 +119,11 @@
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <a href="vehicle-list.html" class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+              <a href="permit-data.html" class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
+                <i class="fas fa-users text-orange-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Visitor & Vendor</span>
+              </a>
+              <a href="vehicle-list-client.html" class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
                 <i class="fas fa-car text-primary text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Vehicle List</span>
               </a>
@@ -144,21 +149,45 @@
               <a href="tasks.html" class="text-sm text-primary hover:text-blue-700">View All</a>
             </div>
             <div class="space-y-4">
-              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div>
-                  <p class="text-sm font-medium text-gray-900">Vehicle Inspection</p>
-                  <p class="text-xs text-gray-500">Schedule: Today, 14:00</p>
-                  <p class="text-xs text-gray-500">Priority: High</p>
+              <div class="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
+                <div class="flex items-center">
+                  <i class="fas fa-users text-orange-600 text-xl mr-3"></i>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">Permit Verification</p>
+                    <p class="text-xs text-gray-500">Check and verify visitor & vendor permits</p>
+                  </div>
                 </div>
-                <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Urgent</span>
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-800">Today</span>
               </div>
-              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div>
-                  <p class="text-sm font-medium text-gray-900">STNK Verification</p>
-                  <p class="text-xs text-gray-500">Schedule: Tomorrow, 10:00</p>
-                  <p class="text-xs text-gray-500">Priority: Medium</p>
+              <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                <div class="flex items-center">
+                  <i class="fas fa-car text-blue-600 text-xl mr-3"></i>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">Vehicle Inspection</p>
+                    <p class="text-xs text-gray-500">Inspect vehicles for compliance</p>
+                  </div>
                 </div>
-                <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Ongoing</span>
+              </div>
+              <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+                <div class="flex items-center">
+                  <i class="fas fa-users text-green-600 text-xl mr-3"></i>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">Employee Safety Check</p>
+                    <p class="text-xs text-gray-500">Review employee safety status</p>
+                  </div>
+                </div>
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Weekly</span>
+              </div>
+              <div class="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">
+                <div class="flex items-center">
+                  <i class="fas fa-clipboard-check text-yellow-600 text-xl mr-3"></i>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">Safety Induction Review</p>
+                    <p class="text-xs text-gray-500">Update and review safety induction records</p>
+                  </div>
+                </div>
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Monthly</span>
               </div>
             </div>
           </div>
@@ -206,6 +235,7 @@
       </div>
     </main>
 
+    <!-- Notifications Panel -->
 
 
     <script>

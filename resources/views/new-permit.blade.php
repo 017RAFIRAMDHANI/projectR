@@ -413,8 +413,22 @@
               </label>
             </div>
           </div>
+               <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 required">Urgency</label>
+            <div class="flex space-x-6">
+              <label class="inline-flex items-center">
+                <input type="radio" name="mode" value="Urgent" required class="text-primary focus:ring-primary">
+                <span class="ml-2">Urgent</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="mode" value="Normal" required class="text-primary focus:ring-primary">
+                <span class="ml-2">Normal</span>
+              </label>
+            </div>
+          </div>
         </div>
         <div class="flex justify-end space-x-4 mt-8">
+          <a href="{{route('fm-dashboard')}}" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">Kembali</a>
           <button type="reset" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">Clear Form</button>
           <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">Submit</button>
         </div>

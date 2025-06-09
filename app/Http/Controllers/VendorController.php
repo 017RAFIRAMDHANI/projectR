@@ -55,9 +55,17 @@ class VendorController extends Controller
 
     // Kembalikan data ke JavaScript dalam format JSON
 //}
+
+ public function __construct()
+    {
+        $this->middleware('auth');
+        parent::__construct();
+
+    }
+
  public function approve(Request $request)
     {
-        $vendor = Vendor::where('primary_number', $request->primary_number)->first();
+        $vendor = Vendor::where('id_vendor', $request->id_vendor)->first();
         if ($vendor) {
             // Mengubah status menjadi Approved
             $vendor->status = 'Approved';
@@ -207,6 +215,7 @@ public function store(Request $request)
         'file_mos' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         'number_plate' => 'nullable|string|max:255',
         'vehicle_types' => 'nullable',
+        'mode' => 'required',
     ]);
 
    if ($request->hasFile('file_mos')) {
@@ -275,8 +284,9 @@ public function store(Request $request)
     'file_mos' => isset($fileMos) ? $fileMos : null,
     'number_plate' => $request->number_plate,
     'vehicle_types' => $request->vehicle_types,
+    'mode' => $request->mode,
     'status' => 'Pending',
-    'mode' => 'Urgent',
+
         ]);
               $id_vendor = $vendor->id_vendor;
 
@@ -284,7 +294,7 @@ public function store(Request $request)
             Vendor_Visitor::create([
                   'id_vendor' => $id_vendor,
                   'type' => 'Vendor',
-                  'mode' => 'Urgent',
+                  'mode' => $request->mode,
 
                     ]);
         // Return a success response with data

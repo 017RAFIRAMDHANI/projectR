@@ -60,90 +60,109 @@
         <div class="lg:col-span-2 space-y-8">
           <!-- Welcome Message -->
           <div class="bg-gradient-to-r from-primary to-blue-600 rounded-lg shadow-sm p-6 text-white">
-            <h1 class="text-2xl font-bold mb-2">Selamat Datang, Admin!</h1>
-            <p class="text-blue-100">Berikut adalah ringkasan aktivitas hari ini</p>
+            <h1 class="text-2xl font-bold mb-2">Welcome, Admin!</h1>
+            <p class="text-blue-100">Here is today's activity summary</p>
           </div>
 
           <!-- Stats Grid -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white p-6 rounded-lg shadow-sm stat-card">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Karyawan</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Total Employees</h3>
                   <p class="mt-2 text-3xl font-bold text-primary">150</p>
                 </div>
                 <div class="p-3 rounded-full bg-blue-50">
                   <i class="fas fa-users text-primary text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+5 dari bulan lalu</p>
+              <p class="mt-2 text-xs text-gray-500">+5 from last month</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm stat-card">
+            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Kendaraan</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Total Vehicles</h3>
                   <p class="mt-2 text-3xl font-bold text-green-600">75</p>
                 </div>
                 <div class="p-3 rounded-full bg-green-50">
                   <i class="fas fa-car text-green-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+2 minggu ini</p>
+              <p class="mt-2 text-xs text-gray-500">+2 this week</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm stat-card">
+            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Visitor Hari Ini</h3>
+                  <h3 class="text-gray-500 text-sm font-medium">Today's Visitors</h3>
                   <p class="mt-2 text-3xl font-bold text-yellow-600">25</p>
                 </div>
                 <div class="p-3 rounded-full bg-yellow-50">
                   <i class="fas fa-user-clock text-yellow-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+8 dari kemarin</p>
+              <p class="mt-2 text-xs text-gray-500">+8 from yesterday</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm stat-card">
+            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Pending Approval</h3>
-                  <p class="mt-2 text-3xl font-bold text-red-600">8</p>
+                  <h3 class="text-gray-500 text-sm font-medium">Safety Induction Completed</h3>
+                  <p class="mt-2 text-3xl font-bold text-red-600">120</p>
                 </div>
                 <div class="p-3 rounded-full bg-red-50">
-                  <i class="fas fa-tasks text-red-600 text-xl"></i>
+                  <i class="fas fa-clipboard-check text-red-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">3 memerlukan perhatian</p>
+              <p class="mt-2 text-xs text-gray-500">+3 this week</p>
             </div>
           </div>
 
           <!-- Quick Actions -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <a href="#" class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg btn-hover">
-                <i class="fas fa-user-plus text-primary text-2xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Visitor</span>
-              </a>
-              <a href="#" class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg btn-hover">
-                <i class="fas fa-truck text-green-600 text-2xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Vendor</span>
-              </a>
-              <a href="{{route('vehicle-list')}}" class="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-lg btn-hover">
-                <i class="fas fa-car text-purple-600 text-2xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Kendaraan</span>
-              </a>
-              <a href="{{route('employee-safety-list')}}" class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg btn-hover">
-                <i class="fas fa-users text-yellow-600 text-2xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Karyawan</span>
-              </a>
+              <button
+                onclick="window.location.href='permit-data.html'"
+                class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition"
+              >
+                <i class="fas fa-users text-orange-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Visitor & Vendor</span>
+              </button>
+              <button
+                onclick="window.location.href='vehicle-list.html'"
+                class="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition"
+              >
+                <i class="fas fa-car text-purple-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Vehicle Data</span>
+              </button>
+              <button
+                onclick="window.location.href='employee-safety-list.html'"
+                class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition"
+              >
+                <i class="fas fa-users text-yellow-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Employee Data</span>
+              </button>
+              <button
+                onclick="window.location.href='safety-induction.html'"
+                class="flex flex-col items-center justify-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition"
+              >
+                <i class="fas fa-clipboard-check text-red-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Safety Induction</span>
+              </button>
+              <button
+                onclick="window.location.href='reports.html'"
+                class="flex flex-col items-center justify-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
+              >
+                <i class="fas fa-chart-bar text-indigo-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Reports</span>
+              </button>
             </div>
           </div>
 
           <!-- Recent Activities -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="text-lg font-semibold text-gray-900">Aktivitas Terbaru</h2>
-              <a href="#" class="text-sm text-primary btn-hover px-2 py-1 rounded">Lihat Semua</a>
+              <h2 class="text-lg font-semibold text-gray-900">Recent Activities</h2>
+              <a href="#" class="text-sm text-primary btn-hover px-2 py-1 rounded">View All</a>
             </div>
             <div class="space-y-4">
               <div class="flex items-start space-x-4 p-3 rounded-lg btn-hover">
@@ -151,9 +170,9 @@
                   <i class="fas fa-user-plus text-primary"></i>
                 </div>
                 <div class="flex-1">
-                  <p class="text-sm font-medium text-gray-900">Visitor baru terdaftar</p>
-                  <p class="text-sm text-gray-500">John Doe dari PT ABC</p>
-                  <p class="text-xs text-gray-400 mt-1">5 menit yang lalu</p>
+                  <p class="text-sm font-medium text-gray-900">New visitor registered</p>
+                  <p class="text-sm text-gray-500">John Doe from PT ABC</p>
+                  <p class="text-xs text-gray-400 mt-1">5 minutes ago</p>
                 </div>
               </div>
               <div class="flex items-start space-x-4 p-3 rounded-lg btn-hover">
@@ -161,9 +180,9 @@
                   <i class="fas fa-clipboard-check text-yellow-600"></i>
                 </div>
                 <div class="flex-1">
-                  <p class="text-sm font-medium text-gray-900">Approval vendor baru</p>
+                  <p class="text-sm font-medium text-gray-900">New vendor approved</p>
                   <p class="text-sm text-gray-500">PT XYZ</p>
-                  <p class="text-xs text-gray-400 mt-1">1 jam yang lalu</p>
+                  <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
                 </div>
               </div>
               <div class="flex items-start space-x-4 p-3 rounded-lg btn-hover">
@@ -171,9 +190,9 @@
                   <i class="fas fa-car text-green-600"></i>
                 </div>
                 <div class="flex-1">
-                  <p class="text-sm font-medium text-gray-900">Kendaraan baru terdaftar</p>
+                  <p class="text-sm font-medium text-gray-900">New vehicle registered</p>
                   <p class="text-sm text-gray-500">Toyota Avanza (B 1234 ABC)</p>
-                  <p class="text-xs text-gray-400 mt-1">2 jam yang lalu</p>
+                  <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
                 </div>
               </div>
             </div>
@@ -184,38 +203,19 @@
         <div class="lg:col-span-1 space-y-8">
           <!-- User Management -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Manajemen User</h2>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">User Management</h2>
             <div class="space-y-3">
               <a href="register.html" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
                 <i class="fas fa-user-plus text-primary text-xl mr-3"></i>
-                <span>Tambah User</span>
+                <span>Add User</span>
               </a>
               <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
                 <i class="fas fa-users-cog text-primary text-xl mr-3"></i>
-                <span>Daftar User</span>
+                <span>User List</span>
               </a>
               <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
                 <i class="fas fa-user-shield text-primary text-xl mr-3"></i>
-                <span>Manajemen Role</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Additional Links -->
-          <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Menu Tambahan</h2>
-            <div class="space-y-3">
-              <a href="{{route('daily-report')}}" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
-                <i class="fas fa-clipboard-list text-primary text-xl mr-3"></i>
-                <span>Laporan Harian</span>
-              </a>
-              <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
-                <i class="fas fa-chart-bar text-primary text-xl mr-3"></i>
-                <span>Laporan Statistik</span>
-              </a>
-              <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
-                <i class="fas fa-cog text-primary text-xl mr-3"></i>
-                <span>Pengaturan</span>
+                <span>Role Management</span>
               </a>
             </div>
           </div>
@@ -226,15 +226,15 @@
             <div class="space-y-3">
               <div class="flex items-start space-x-3">
                 <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
-                <p class="text-sm text-gray-600">Gunakan Quick Actions untuk akses cepat ke fitur yang sering digunakan</p>
+                <p class="text-sm text-gray-600">Use Quick Actions for fast access to frequently used features</p>
               </div>
               <div class="flex items-start space-x-3">
                 <i class="fas fa-bell text-primary mt-1"></i>
-                <p class="text-sm text-gray-600">Periksa notifikasi untuk update terbaru</p>
+                <p class="text-sm text-gray-600">Check notifications for the latest updates</p>
               </div>
               <div class="flex items-start space-x-3">
                 <i class="fas fa-chart-line text-green-500 mt-1"></i>
-                <p class="text-sm text-gray-600">Lihat statistik untuk monitoring aktivitas</p>
+                <p class="text-sm text-gray-600">View statistics to monitor activities</p>
               </div>
             </div>
           </div>
@@ -243,7 +243,7 @@
     </main>
 
     <!-- Notifications Panel -->
-    {{-- <div
+    <div
       id="notificationsPanel"
       class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200"
     >
@@ -291,7 +291,7 @@
           </div>
         </div>
       </div>
-    </div> --}}
+    </div>
 
     <script>
       function toggleNotifications() {

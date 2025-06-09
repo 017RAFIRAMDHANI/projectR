@@ -56,7 +56,6 @@
     </style>
   </head>
   <body class="bg-gray-50">
-    <!-- Navbar -->
 
 
 
@@ -74,9 +73,11 @@
         <!-- Back Button and Page Title -->
         <div class="flex justify-between items-center mb-6">
           <h1 class="text-2xl font-semibold text-gray-900">Vehicle List</h1>
+          @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
           <button onclick="addNewVehicle()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700">
             Add Vehicle
           </button>
+@endif
         </div>
 
         <!-- Search and Filter -->
@@ -134,9 +135,11 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="flex space-x-2">
+                       @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
                     <button onclick="editVehicle('B 1234 ABC')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
                       <i class="fas fa-edit"></i>
                     </button>
+                    @endif
                     <button onclick="viewVehicleDetails('B 1234 ABC')" class="text-blue-600 hover:text-blue-900" title="View Details">
                       <i class="fas fa-eye"></i>
                     </button>
@@ -154,9 +157,11 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="flex space-x-2">
+   @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
                     <button onclick="editVehicle('B 5678 DEF')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
                       <i class="fas fa-edit"></i>
                     </button>
+@endif
                     <button onclick="viewVehicleDetails('B 5678 DEF')" class="text-blue-600 hover:text-blue-900" title="View Details">
                       <i class="fas fa-eye"></i>
                     </button>
@@ -526,5 +531,6 @@
     </script>
   </body>
 </html>
+
 
 @endsection

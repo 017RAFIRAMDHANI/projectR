@@ -98,7 +98,7 @@
                 Dashboard   {{Auth::user()->role ?? ''}}
              </span>
                 @endif
-                
+
             </a>
           </div>
           <div class="flex items-center space-x-4">
@@ -158,7 +158,7 @@
 
                             @else
 
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 menu-item">
+                <a href="{{route('profile',Auth::user()->id)}}" class="block px-4 py-2 text-sm text-gray-700 menu-item">
                   <i class="fas fa-user-circle mr-2"></i>Profile
                 </a>
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 menu-item">

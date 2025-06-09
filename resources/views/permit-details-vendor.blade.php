@@ -18,7 +18,10 @@
   <body class="bg-gray-50">
     <!-- Navbar -->
 
+<form id="permitForm" action="{{route('vendors.approve')}}" method="POST">
+   @csrf
 
+   <input type="hidden" name="id_vendor" value="{{$dataVendor->id_vendor}}">
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="mb-6 flex justify-between items-center">
@@ -187,11 +190,13 @@
             </h3>
             <div id="actionButtons" class="space-y-3">
               <button
-                onclick="openApproveConfirmModal()"
+                type="submit"
+                  id="submitButton"
                 class="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition mb-2"
               >
                 <i class="fas fa-check mr-2"></i> Approve Permit
               </button>
+            </form>
               <button
                 onclick="openRejectConfirmModal()"
                 class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition mb-2"
@@ -235,6 +240,28 @@
         </div>
       </div>
     </div>
+
+<script>
+   // Listen for click event on the submit button
+   document.getElementById('submitButton').addEventListener('click', function (e) {
+      e.preventDefault(); // Prevent form submission
+
+      // Show SweetAlert confirmation popup
+      Swal.fire({
+         title: 'Are you sure?',
+         text: 'You are about to approve this permit.',
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: 'Yes, approve it!',
+         cancelButtonText: 'No, cancel!',
+      }).then((result) => {
+         if (result.isConfirmed) {
+            // If user clicks 'Yes', submit the form
+            document.getElementById('permitForm').submit();
+         }
+      });
+   });
+</script>
     <script>
       // Function to toggle notifications panel
       function toggleNotifications() {
@@ -327,12 +354,12 @@
       }
 
       let confirmAction = null;
-      function openApproveConfirmModal() {
-        confirmAction = 'approve';
-        document.getElementById('confirmModalTitle').textContent = 'Are you sure?';
-        document.getElementById('confirmModalText').textContent = 'Are you sure you want to approve this permit?';
-        document.getElementById('confirmModal').classList.remove('hidden');
-      }
+    //   function openApproveConfirmModal() {
+    //     confirmAction = 'approve';
+    //     document.getElementById('confirmModalTitle').textContent = 'Are you sure?';
+    //     document.getElementById('confirmModalText').textContent = 'Are you sure you want to approve this permit?';
+    //     document.getElementById('confirmModal').classList.remove('hidden');
+    //   }
       function openRejectConfirmModal() {
         confirmAction = 'reject';
         openRejectModal();

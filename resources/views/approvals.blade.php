@@ -95,30 +95,7 @@
         document.getElementById('totalPendingCount').textContent = visitorPendingCount + vendorPendingCount;
       }
 
-      // Function to filter permits
-      function filterPermits() {
-        const typeFilter = document.getElementById('typeFilter').value;
-        const statusFilter = document.getElementById('statusFilter').value;
-        const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
 
-        const permits = document.querySelectorAll('.permit-item');
-
-        permits.forEach(permit => {
-          const permitType = permit.classList.contains('visitor-permit') ? 'visitor' : 'vendor';
-          const permitStatus = permit.querySelector('.permit-status').textContent.trim().toLowerCase();
-          const permitText = permit.textContent.toLowerCase();
-
-          const typeMatch = typeFilter === 'all' || (typeFilter === 'visitor' && permitType === 'visitor') || (typeFilter === 'vendor' && permitType === 'vendor');
-          const statusMatch = statusFilter === 'all' || (statusFilter === 'pending' && permitStatus === 'pending') || (statusFilter === 'approved' && permitStatus === 'approved') || (statusFilter === 'rejected' && permitStatus === 'rejected');
-          const searchMatch = searchFilter === '' || permitText.includes(searchFilter);
-
-          if (typeMatch && statusMatch && searchMatch) {
-            permit.classList.remove('hidden');
-          } else {
-            permit.classList.add('hidden');
-          }
-        });
-      }
 
       // Close notifications panel when clicking outside
       document.addEventListener('click', function(event) {
@@ -150,30 +127,7 @@
         }
       });
 
-      // Add event listeners for filters
-      document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('typeFilter').addEventListener('change', filterPermits);
-        document.getElementById('statusFilter').addEventListener('change', filterPermits);
-        document.getElementById('searchFilter').addEventListener('input', filterPermits);
-      });
 
-      // Pagination functionality
-      function goToPage(page) {
-        // In a real application, this would fetch the data for the selected page
-        console.log(`Navigating to page ${page}`);
-        // Update the active page button
-        document.querySelectorAll('[aria-current="page"]').forEach(el => {
-          el.removeAttribute('aria-current');
-          el.classList.remove('bg-primary', 'text-white');
-          el.classList.add('text-gray-900');
-        });
-        const newActiveButton = document.querySelector(`button:nth-child(${page + 1})`);
-        if (newActiveButton) {
-          newActiveButton.setAttribute('aria-current', 'page');
-          newActiveButton.classList.add('bg-primary', 'text-white');
-          newActiveButton.classList.remove('text-gray-900');
-        }
-      }
 
       // Add click handlers to pagination buttons
       document.querySelectorAll('nav button').forEach(button => {
@@ -209,7 +163,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex justify-between items-center mb-6">
         <div class="flex items-center space-x-4">
-          <a href="fh-dashboard.html" class="text-gray-600 hover:text-primary transition-colors">
+          <a href="{{route('fm-dashboard')}}" class="text-gray-600 hover:text-primary transition-colors">
             <i class="fas fa-arrow-left text-xl"></i>
           </a>
           <h1 class="text-2xl font-bold text-gray-900">Permit Approvals</h1>
@@ -254,7 +208,8 @@
             <label for="searchFilter" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
             <input
               type="text"
-              id="searchFilter"
+              name="searchData"
+              id="searchData"
               placeholder="Search permits..."
               class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
             >
@@ -276,7 +231,7 @@
               <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
+{{--
 
             <!-- Visitor Permit 1 -->
             <tr id="permit-V001" class="visitor-permit permit-item border-l-4 border-red-500 bg-red-50">
@@ -304,7 +259,7 @@
                   <i class="fas fa-eye"></i> View
                 </button>
               </td>
-            </tr>
+            </tr> --}}
             {{-- @foreach($vendorVisitors as $item)
             <tr id="permit-{{ $item->id_vendor_visitor }}" class="permit-item">
                 <td class="px-4 py-4 text-sm font-medium text-gray-900">
@@ -390,15 +345,16 @@
 
 @endforeach
 --}}
+  <tbody class="bg-white divide-y divide-gray-200" id="TablesData">
    @foreach($vendorVisitors as $item)
 
             <!-- Visitor Permit 2 -->
             <tr id="permit-V002" class="visitor-permit permit-item @if($item->mode == "Urgent" ) border-l-4 border-red-500 bg-red-50 @endif">
               <td class="px-4 py-4 text-sm font-medium text-gray-900">
                   @if($item->vendor)
-                        {{ $item->vendor->id_vendor }}
+                        {{ $item->vendor->permit_number ?? '-' }}
                     @elseif($item->visitor)
-                        {{ $item->visitor->id_visitor }}
+                        {{ $item->visitor->permit_number ?? '-' }}
 
                     @endif
               </td>
@@ -428,9 +384,9 @@
               </td>
               <td class="px-4 py-4 text-sm text-gray-500">
                       @if($item->vendor)
-                        {{ $item->vendor->work_description }}
+                        {{ $item->vendor->purpose ?? '' }}
                     @elseif($item->visitor)
-                        {{ $item->visitor->work_description }}
+                        {{ $item->visitor->purpose ?? '' }}
 
                     @endif
               </td>
@@ -464,7 +420,7 @@
 
               </td>
               <td class="px-4 py-4 text-sm font-medium">
-              <a href="{{ route($item->vendor ? 'vendor_view' : '/', $item->vendor ? $item->vendor->id_vendor : $item->visitor->id_visitor) }}" class="text-primary hover:text-blue-700">
+              <a href="{{ route($item->vendor ? 'vendor_view' : 'vendor_create', $item->vendor ? $item->vendor->id_vendor : $item->visitor->id_visitor) }}" class="text-primary hover:text-blue-700">
   <i class="fas fa-eye"></i> View
 </a>
 
@@ -542,63 +498,29 @@
           </button>
         </div>
 
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Field</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Permit Number</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="permitNumber">-</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Applicant Name</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="applicantName">-</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Applicant Type</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="applicantType">-</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Purpose</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="purpose">-</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Location</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="location">-</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Start Date/Time</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="startDate">-</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">End Date/Time</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="endDate">-</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Status</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="status">-</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Submitted Date</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" id="submittedDate">-</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
-        <div class="mt-6 flex justify-end">
-          <button onclick="closePermitDetailsModal()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-            Close
-          </button>
-        </div>
+
       </div>
     </div>
   </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+<script>
+    $(document).ready(function(){
+        // For general search (searching across all columns)
+        $("#searchData").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#TablesData tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+
+
+        });
+
+        // For company search (searching only in the company column)
+
+    });
+
+</script>
 @endsection
