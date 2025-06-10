@@ -362,7 +362,7 @@
                     @if($item->vendor)
                         {{ $item->vendor->requestor_name }}
                     @elseif($item->visitor)
-                        {{ $item->visitor->requestor_name }}
+                        {{ $item->visitor->pic_name }}
 
                     @endif
               </td>
