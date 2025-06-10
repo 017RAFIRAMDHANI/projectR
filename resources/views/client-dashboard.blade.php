@@ -119,19 +119,19 @@
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <a href="permit-data.html" class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
+              <a href="{{route('permit-data')}}" class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
                 <i class="fas fa-users text-orange-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Visitor & Vendor</span>
               </a>
-              <a href="vehicle-list-client.html" class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+              <a href="{{route('vehicle-list')}}" class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
                 <i class="fas fa-car text-primary text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Vehicle List</span>
               </a>
-              <a href="employee-safety-list.html" class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
+              <a href="{{route('employee-data')}}" class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
                 <i class="fas fa-users text-green-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Employee List</span>
               </a>
-              <a href="employee-safety-list.html" class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
+              <a href="{{route('employee-safety-list-client')}}" class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
                 <i class="fas fa-clipboard-check text-yellow-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Safety Induction List</span>
               </a>

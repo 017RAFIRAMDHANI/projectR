@@ -121,28 +121,28 @@
             <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button
-                onclick="window.location.href='permit-data.html'"
+                onclick="window.location.href='{{route('permit-data')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition"
               >
                 <i class="fas fa-users text-orange-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Visitor & Vendor</span>
               </button>
               <button
-                onclick="window.location.href='vehicle-list.html'"
+                onclick="window.location.href='{{route('vehicle-list')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition"
               >
                 <i class="fas fa-car text-purple-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Vehicle Data</span>
               </button>
               <button
-                onclick="window.location.href='employee-safety-list.html'"
+                onclick="window.location.href='{{route('employee-data')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition"
               >
                 <i class="fas fa-users text-yellow-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Employee Data</span>
               </button>
               <button
-                onclick="window.location.href='safety-induction.html'"
+                onclick="window.location.href='{{route('employee-safety-list-fm')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition"
               >
                 <i class="fas fa-clipboard-check text-red-600 text-xl mb-2"></i>
@@ -205,7 +205,7 @@
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-900 mb-4">User Management</h2>
             <div class="space-y-3">
-              <a href="register.html" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
+              <a href="{{route('')}}" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
                 <i class="fas fa-user-plus text-primary text-xl mr-3"></i>
                 <span>Add User</span>
               </a>

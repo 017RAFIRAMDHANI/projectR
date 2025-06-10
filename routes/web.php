@@ -71,10 +71,16 @@ Route::get('/permit-data', function () {
 Route::get('/employee-data', function () {
     return view('employee-data');
 })->name('employee-data');
+Route::get('/employee-safety-list-fm', function () {
+    return view('employee-safety-list-fm');
+})->name('employee-safety-list-fm');
 
 
 // Client const
 Route::get('/client-dashboard',[App\Http\Controllers\ClientController::class, 'index'])->name('client-dashboard');
+Route::get('/employee-safety-list-client', function () {
+    return view('employee-safety-list-client');
+})->name('employee-safety-list-client');
 
 
 Route::get('/preview-file', function () {
