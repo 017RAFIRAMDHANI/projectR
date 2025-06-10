@@ -133,6 +133,8 @@
             Admin FM
         @elseif(Auth::check() && Auth::user()->role == "Client")
         Client
+        @elseif(Auth::check() && Auth::user()->role == "DHI")
+        Admin DHI
         @else
         @endif
 

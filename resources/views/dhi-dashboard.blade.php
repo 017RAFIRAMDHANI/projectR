@@ -205,7 +205,7 @@
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-900 mb-4">User Management</h2>
             <div class="space-y-3">
-              <a href="{{route('')}}" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
+              <a href="" class="flex items-center p-3 bg-gray-50 rounded-lg menu-item">
                 <i class="fas fa-user-plus text-primary text-xl mr-3"></i>
                 <span>Add User</span>
               </a>
