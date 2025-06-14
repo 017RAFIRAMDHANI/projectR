@@ -46,7 +46,7 @@ class VendorController extends Controller
 
         // Kirim email pemberitahuan ke vendor
        Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Approved', $permitNumber,$filePath));
-            Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
+            // Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
 
             return response()->json(['success' => true]);
         }
@@ -55,7 +55,7 @@ class VendorController extends Controller
 
     public function reject(Request $request)
     {
-        $vendor = Vendor::where('primary_number', $request->primary_number)->first();
+        $vendor = Vendor::where('id_vendor', $request->id_vendor)->first();
         if ($vendor) {
             // Mengubah status menjadi Reject
             $vendor->status = 'Reject';

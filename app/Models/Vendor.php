@@ -62,6 +62,7 @@ class Vendor extends Model
         'any_fire',
         'isolation_of',
         'isolation_name',
+        'check_one_approve',
         'isolation_date',
         'file_mos',
         'number_plate',

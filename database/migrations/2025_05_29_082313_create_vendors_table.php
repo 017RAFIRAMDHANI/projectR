@@ -67,6 +67,7 @@ return new class extends Migration
             $table->string('file_mos')->nullable();
             $table->string('number_plate')->nullable();
             $table->string('vehicle_types')->nullable();
+            $table->integer('check_one_approve')->nullable();
             $table->string('primary_number', 255)->nullable();
             $table->string('permit_number', 255)->nullable();
             $table->string('status')->nullable(); // Default false (pending)

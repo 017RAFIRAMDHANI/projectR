@@ -77,6 +77,7 @@ Route::get('/employee-safety-list-fm', function () {
 
 
 // Client const
+Route::get('/datamasuk',[App\Http\Controllers\DataMasuk::class, 'index'])->name('datamasuk');
 Route::get('/client-dashboard',[App\Http\Controllers\ClientController::class, 'index'])->name('client-dashboard');
 Route::get('/employee-safety-list-client', function () {
     return view('employee-safety-list-client');

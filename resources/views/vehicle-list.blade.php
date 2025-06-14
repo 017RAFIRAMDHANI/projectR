@@ -73,7 +73,7 @@
         <!-- Back Button and Page Title -->
         <div class="flex justify-between items-center mb-6">
           <h1 class="text-2xl font-semibold text-gray-900">Vehicle List</h1>
-          @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
+           @if(Auth::user()->access_vehicle_create == 1)
           <button onclick="addNewVehicle()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700">
             Add Vehicle
           </button>
@@ -119,8 +119,10 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request Date</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expiry Date</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                      @if(Auth::user()->access_vehicle_view == 1 || Auth::user()->access_vehicle_edit == 1 || Auth::user()->access_vehicle_create == 1)
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
+             @endif
+            </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <!-- Sample Vehicle Row -->
@@ -135,14 +137,16 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="flex space-x-2">
-                       @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
+                       @if(Auth::user()->access_vehicle_edit == 1)
                     <button onclick="editVehicle('B 1234 ABC')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
                       <i class="fas fa-edit"></i>
                     </button>
                     @endif
+     @if(Auth::user()->access_vehicle_view == 1)
                     <button onclick="viewVehicleDetails('B 1234 ABC')" class="text-blue-600 hover:text-blue-900" title="View Details">
                       <i class="fas fa-eye"></i>
                     </button>
+  @endif
                   </div>
                 </td>
               </tr>
@@ -157,14 +161,16 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="flex space-x-2">
-   @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
-                    <button onclick="editVehicle('B 5678 DEF')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
+                       @if(Auth::user()->access_vehicle_edit == 1)
+                    <button onclick="editVehicle('B 1234 ABC')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
                       <i class="fas fa-edit"></i>
                     </button>
-@endif
-                    <button onclick="viewVehicleDetails('B 5678 DEF')" class="text-blue-600 hover:text-blue-900" title="View Details">
+                    @endif
+     @if(Auth::user()->access_vehicle_view == 1)
+                    <button onclick="viewVehicleDetails('B 1234 ABC')" class="text-blue-600 hover:text-blue-900" title="View Details">
                       <i class="fas fa-eye"></i>
                     </button>
+  @endif
                   </div>
                 </td>
               </tr>

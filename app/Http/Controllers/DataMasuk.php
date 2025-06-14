@@ -6,24 +6,24 @@ use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
 use App\Models\Visitor;
 use Carbon\Carbon;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
 use Google_Client;
 use Google_Service_Sheets;
-use Illuminate\Support\Facades\Log;
 
-class Controller extends BaseController
+class DataMasuk extends Controller
 {
-    use AuthorizesRequests, ValidatesRequests;
-
-       public function __construct()
+         public function __construct()
     {
-      //  $this->fetchVendorData();
-       // $this->fetchVisitorData();
+
+      $this->fetchVendorData();
+       $this->fetchVisitorData();
+
+    }
+    public function index(){
+
     }
 
-    public function fetchVisitorData(){
+      public function fetchVisitorData(){
    $client = new Google_Client();
         $client->setAuthConfig(config('google.credentials_path'));
         $client->addScope(Google_Service_Sheets::SPREADSHEETS_READONLY);
