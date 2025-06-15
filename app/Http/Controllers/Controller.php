@@ -12,6 +12,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Google_Client;
 use Google_Service_Sheets;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\FetchVendorData;
+use Illuminate\Support\Facades\Redis;
 
 class Controller extends BaseController
 {
@@ -19,6 +21,7 @@ class Controller extends BaseController
 
        public function __construct()
     {
+        FetchVendorData::dispatch();
       //  $this->fetchVendorData();
        // $this->fetchVisitorData();
     }

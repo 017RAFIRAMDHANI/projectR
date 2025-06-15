@@ -1,129 +1,36 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Jobs;
 
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
-use App\Models\Visitor;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Google_Client;
 use Google_Service_Sheets;
-use Illuminate\Support\Facades\Log;
 
-class DataMasuk extends Controller
+class FetchVendorData implements ShouldQueue
 {
-         public function __construct()
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct()
     {
-
-      $this->fetchVendorData();
-       $this->fetchVisitorData();
-
-    }
-    public function index(Request $request){
-   
+        //
     }
 
-      public function fetchVisitorData(){
-   $client = new Google_Client();
-        $client->setAuthConfig(config('google.credentials_path'));
-        $client->addScope(Google_Service_Sheets::SPREADSHEETS_READONLY);
-
-        $service = new Google_Service_Sheets($client);
-
-
-
-        $spreadsheetId2 = '1R95TSACrTB2t1v2trYnew6aiXeHdqEDDqB4emlNjQ1M';  // Spreadsheet ID
-        $range2 = 'Form Responses 1!A:AZ';  // Range data di Google Sheets (kolom A hingga Z)
-
-        $response2 = $service->spreadsheets_values->get($spreadsheetId2, $range2);
-        $values2 = $response2->getValues();
-
-
-  foreach ($values2 as $key2 => $row2) {
-            if ($key2 == 0) continue;  // Skip header row
-
-    $primary_number2 = isset($row2[51]) ? $row2[51] : null;
-
-            // Validasi apakah primary_number2 sudah ada di database
-            $visitor = Visitor::where('primary_number', $primary_number2)->first();
-
-              if (!$visitor) {
-
-            $visitor = Visitor::create([
-    'email' => isset($row2[1]) ? $row2[1] : null,
-    'request_date_from' => isset($row2[2]) ? $row2[2] : null,
-    'request_date_to' => isset($row2[3]) ? $row2[3] : null,
-    'purpose' => isset($row2[4]) ? $row2[4] : null,
-    'purpose_detail' => isset($row2[5]) ? $row2[5] : null,
-    'area' => isset($row2[6]) ? $row2[6] : null,
-    'name_1' => isset($row2[7]) ? $row2[7] : null,
-    'id_card_1' => isset($row2[8]) ? $row2[8] : null,
-    'name_2' => isset($row2[9]) ? $row2[9] : null,
-    'id_card_2' => isset($row2[10]) ? $row2[10] : null,
-    'name_3' => isset($row2[11]) ? $row2[11] : null,
-    'id_card_3' => isset($row2[12]) ? $row2[12] : null,
-    'name_4' => isset($row2[13]) ? $row2[13] : null,
-    'id_card_4' => isset($row2[14]) ? $row2[14] : null,
-    'name_5' => isset($row2[15]) ? $row2[15] : null,
-    'id_card_5' => isset($row2[16]) ? $row2[16] : null,
-    'name_6' => isset($row2[17]) ? $row2[17] : null,
-    'id_card_6' => isset($row2[18]) ? $row2[18] : null,
-    'name_7' => isset($row2[19]) ? $row2[19] : null,
-    'id_card_7' => isset($row2[20]) ? $row2[20] : null,
-    'name_8' => isset($row2[21]) ? $row2[21] : null,
-    'id_card_8' => isset($row2[22]) ? $row2[22] : null,
-    'name_9' => isset($row2[23]) ? $row2[23] : null,
-    'id_card_9' => isset($row2[24]) ? $row2[24] : null,
-    'name_10' => isset($row2[25]) ? $row2[25] : null,
-    'id_card_10' => isset($row2[26]) ? $row2[26] : null,
-    'qty_1' => isset($row2[27]) ? $row2[27] : null,
-    'material_1' => isset($row2[28]) ? $row2[28] : null,
-    'qty_2' => isset($row2[29]) ? $row2[29] : null,
-    'material_2' => isset($row2[30]) ? $row2[30] : null,
-    'qty_3' => isset($row2[31]) ? $row2[31] : null,
-    'material_3' => isset($row2[32]) ? $row2[32] : null,
-    'qty_4' => isset($row2[33]) ? $row2[33] : null,
-    'material_4' => isset($row2[34]) ? $row2[34] : null,
-    'qty_5' => isset($row2[35]) ? $row2[35] : null,
-    'material_5' => isset($row2[36]) ? $row2[36] : null,
-    'qty_6' => isset($row2[37]) ? $row2[37] : null,
-    'material_6' => isset($row2[38]) ? $row2[38] : null,
-    'qty_7' => isset($row2[39]) ? $row2[39] : null,
-    'material_7' => isset($row2[40]) ? $row2[40] : null,
-    'qty_8' => isset($row2[41]) ? $row2[41] : null,
-    'material_8' => isset($row2[42]) ? $row2[42] : null,
-    'qty_9' => isset($row2[43]) ? $row2[43] : null,
-    'material_9' => isset($row2[44]) ? $row2[44] : null,
-    'qty_10' => isset($row2[45]) ? $row2[45] : null,
-    'material_10' => isset($row2[46]) ? $row2[46] : null,
-    'pic_name' => isset($row2[47]) ? $row2[47] : null,
-    'contact_number' => isset($row2[48]) ? $row2[48] : null,
-    'car_plate_no' => isset($row2[49]) ? $row2[49] : null,
-    'vehicle_type' => isset($row2[50]) ? $row2[50] : null,
-    'primary_number' => $primary_number2,
-    'permit_number' => isset($row2[52]) ? $row2[52] : null,
-    'status' => 'Pending', // Default false (pending)
-    'mode' => 'Normal'
-]);
-
-            $id_visitor = $visitor->id_visitor;
-
-
-            Vendor_Visitor::create([
-                  'id_visitor' => $id_visitor,
-                  'type' => 'Visitor',
-                  'mode' => 'Normal',
-
-                    ]);
- }
-  }
-
-
-    }
-    public function fetchVendorData()
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
     {
-        $client = new Google_Client();
+           $client = new Google_Client();
         $client->setAuthConfig(config('google.credentials_path'));
         $client->addScope(Google_Service_Sheets::SPREADSHEETS_READONLY);
 
@@ -227,8 +134,6 @@ Vendor_Visitor::create([
 }
             }
 
-        }
 
     }
-
-
+}

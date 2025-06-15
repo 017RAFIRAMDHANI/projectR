@@ -32,6 +32,25 @@ return [
     | choice installed on your machine before you begin development.
     |
     */
+'redis' => [
+    'client' => env('REDIS_CLIENT', 'predis'), // Pastikan 'predis' jika menggunakan Predis
+    'options' => [
+        'cluster' => env('REDIS_CLUSTER', 'predis'),
+        'prefix' => env('REDIS_PREFIX', 'laravel_database_'),
+    ],
+    'default' => [
+        'host' => env('REDIS_HOST', '127.0.0.1'),
+        'password' => env('REDIS_PASSWORD', null),
+        'port' => env('REDIS_PORT', 6379),
+        'database' => 0,
+    ],
+    'cache' => [
+        'host' => env('REDIS_HOST', '127.0.0.1'),
+        'password' => env('REDIS_PASSWORD', null),
+        'port' => env('REDIS_PORT', 6379),
+        'database' => 1,
+    ],
+],
 
     'connections' => [
 
