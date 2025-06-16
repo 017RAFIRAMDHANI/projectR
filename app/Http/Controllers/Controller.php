@@ -21,7 +21,7 @@ class Controller extends BaseController
 
        public function __construct()
     {
-        FetchVendorData::dispatch();
+       // FetchVendorData::dispatch();
       //  $this->fetchVendorData();
        // $this->fetchVisitorData();
     }

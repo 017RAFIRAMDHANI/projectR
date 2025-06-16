@@ -21,7 +21,7 @@ class DataMasuk extends Controller
 
     }
     public function index(Request $request){
-   
+
     }
 
       public function fetchVisitorData(){
@@ -129,8 +129,8 @@ class DataMasuk extends Controller
 
         $service = new Google_Service_Sheets($client);
 
-        $spreadsheetId = '1dak8fWnKPc58hTm5QAxLmqr92L3vBW4WQLRKDEL_L20';  // Spreadsheet ID
-        $range = 'Form Responses 1!A:BD';  // Range data di Google Sheets (kolom A hingga Z)
+        $spreadsheetId = '1Ra4aL3f8oi-HcIFduL69IlePauKVd6v6BeihJ9AcC-c';  // Spreadsheet ID
+        $range = 'Form Responses 1!A:CD';  // Range data di Google Sheets (kolom A hingga Z)
 
         $response = $service->spreadsheets_values->get($spreadsheetId, $range);
         $values = $response->getValues();
@@ -141,76 +141,101 @@ class DataMasuk extends Controller
 
 
             // Ambil primary_number yang sudah ada di Google Sheets (asumsi kolom 10 untuk primary_number)
-            $primary_number = isset($row[55]) ? $row[55] : null;
+            $primary_number = isset($row[81]) ? $row[81] : null;
 
             // Validasi apakah primary_number sudah ada di database
             $vendor = Vendor::where('primary_number', $primary_number)->first();
 
-         //  $startDate = isset($row[21]) ? Carbon::createFromFormat('d/m/Y', $row[21])->format('Y-m-d') : null;  // Column V
-        //   $endDate = isset($row[22]) ? Carbon::createFromFormat('d/m/Y', $row[22])->format('Y-m-d') : null;  // Column W
-            if (!$vendor) {
-             $vendor = Vendor::create([
-  'email' => isset($row[1]) ? $row[1] : null,
-    'validity_date_from' => isset($row[2]) ? Carbon::createFromFormat('d/m/Y', $row[2])->format('Y-m-d') : null,
-    'validity_date_to' => isset($row[3]) ? Carbon::createFromFormat('d/m/Y', $row[3])->format('Y-m-d') : null,
-    'validity_time_from' => isset($row[4]) ? $row[4] : null,
-    'validity_time_to' => isset($row[5]) ? $row[5] : null,
-    'company_name' => isset($row[6]) ? $row[6] : null,
-    'requestor_name' => isset($row[7]) ? $row[7] : null,
-    'company_contact' => isset($row[8]) ? $row[8] : null,
-    'phone_number' => isset($row[9]) ? $row[9] : null,
-    'location_of_work' => isset($row[10]) ? $row[10] : null,
-    'building_level_room' => isset($row[11]) ? $row[11] : null,
-    'purpose' => isset($row[12]) ? $row[12] : null,
-    'purpose_details' => isset($row[13]) ? $row[13] : null,
-    'total_worker' => isset($row[14]) ? $row[14] : null,
-    'worker1_name' => isset($row[15]) ? $row[15] : null,
-    'worker1_id_card' => isset($row[16]) ? $row[16] : null,
-    'worker1_birthdate' => isset($row[17]) ? Carbon::createFromFormat('d/m/Y', $row[17])->format('Y-m-d') : null,
-    'worker2_name' => isset($row[18]) ? $row[18] : null,
-    'worker2_id_card' => isset($row[19]) ? $row[19] : null,
-    'worker2_birthdate' => isset($row[20]) ? Carbon::createFromFormat('d/m/Y', $row[20])->format('Y-m-d') : null,
-    'worker3_name' => isset($row[21]) ? $row[21] : null,
-    'worker3_id_card' => isset($row[22]) ? $row[22] : null,
-    'worker3_birthdate' => isset($row[23]) ? Carbon::createFromFormat('d/m/Y', $row[23])->format('Y-m-d') : null,
-    'worker4_name' => isset($row[24]) ? $row[24] : null,
-    'worker4_id_card' => isset($row[25]) ? $row[25] : null,
-    'worker4_birthdate' => isset($row[26]) ? Carbon::createFromFormat('d/m/Y', $row[26])->format('Y-m-d') : null,
-    'worker5_name' => isset($row[27]) ? $row[27] : null,
-    'worker5_id_card' => isset($row[28]) ? $row[28] : null,
-    'worker5_birthdate' => isset($row[29]) ? Carbon::createFromFormat('d/m/Y', $row[29])->format('Y-m-d') : null,
-    'worker6_name' => isset($row[30]) ? $row[30] : null,
-    'worker6_id_card' => isset($row[31]) ? $row[31] : null,
-    'worker6_birthdate' => isset($row[32]) ? Carbon::createFromFormat('d/m/Y', $row[32])->format('Y-m-d') : null,
-    'worker7_name' => isset($row[33]) ? $row[33] : null,
-    'worker7_id_card' => isset($row[34]) ? $row[34] : null,
-    'worker7_birthdate' => isset($row[35]) ? Carbon::createFromFormat('d/m/Y', $row[35])->format('Y-m-d') : null,
-    'worker8_name' => isset($row[36]) ? $row[36] : null,
-    'worker8_id_card' => isset($row[37]) ? $row[37] : null,
-    'worker8_birthdate' => isset($row[38]) ? Carbon::createFromFormat('d/m/Y', $row[38])->format('Y-m-d') : null,
-    'worker9_name' => isset($row[39]) ? $row[39] : null,
-    'worker9_id_card' => isset($row[40]) ? $row[40] : null,
-    'worker9_birthdate' => isset($row[41]) ? Carbon::createFromFormat('d/m/Y', $row[41])->format('Y-m-d') : null,
-    'worker10_name' => isset($row[42]) ? $row[42] : null,
-    'worker10_id_card' => isset($row[43]) ? $row[43] : null,
-    'worker10_birthdate' => isset($row[44]) ? Carbon::createFromFormat('d/m/Y', $row[44])->format('Y-m-d') : null,
-    'generate_dust' => isset($row[45]) ? $row[45] : null,
-    'state_cause' => isset($row[46]) ? $row[46] : null,
-    'method' => isset($row[47]) ? $row[47] : null,
-    'any_fire' => isset($row[48]) ? $row[48] : null,
-    'isolation_of' => isset($row[49]) ? $row[49] : null,
-    'isolation_name' => isset($row[50]) ? $row[50] : null,
-    'isolation_date' => isset($row[51]) ?  $row[51] : null,
-    'file_mos' => isset($row[52]) ? $row[52] : null,
-    'number_plate' => isset($row[53]) ? $row[53] : null,
-    'vehicle_types' => isset($row[54]) ? $row[54] : null,
-    'primary_number' => $primary_number,
+           $validity_date_from = isset($row[6]) ? Carbon::createFromFormat('d/m/Y', $row[6])->format('Y-m-d') : null;  // Column validity_date_from
+           $validity_date_to = isset($row[7]) ? Carbon::createFromFormat('d/m/Y', $row[7])->format('Y-m-d') : null;  // Column validity_date_from
 
+            if (!$vendor) {
+          $vendor = Vendor::create([
+    'email' => isset($row[1]) ? $row[1] : null,
+    'company_name' => isset($row[2]) ? $row[2] : null,
+    'company_contact' => isset($row[3]) ? $row[3] : null,
+    'requestor_name' => isset($row[4]) ? $row[4] : null,
+    'phone_number' => isset($row[5]) ? $row[5] : null,
+    'validity_date_from' => $validity_date_from ? $validity_date_from : null,
+    'validity_date_to' => $validity_date_to ? $validity_date_to : null,
+    'work_description' => isset($row[8]) ? $row[8] : null,
+    'building' => isset($row[9]) ? $row[9] : null,
+    'level' => isset($row[10]) ? $row[10] : null,
+    'specific_location' => isset($row[11]) ? $row[11] : null,
+    'vehicle_types' => isset($row[12]) ? $row[12] : null,
+    'number_plate' => isset($row[13]) ? $row[13] : null,
+    'worker1_name' => isset($row[14]) ? $row[14] : null,
+    'worker1_id_card' => isset($row[15]) ? $row[15] : null,
+    'worker2_name' => isset($row[16]) ? $row[16] : null,
+    'worker2_id_card' => isset($row[17]) ? $row[17] : null,
+    'worker3_name' => isset($row[18]) ? $row[18] : null,
+    'worker3_id_card' => isset($row[19]) ? $row[19] : null,
+    'worker4_name' => isset($row[20]) ? $row[20] : null,
+    'worker4_id_card' => isset($row[21]) ? $row[21] : null,
+    'worker5_name' => isset($row[22]) ? $row[22] : null,
+    'worker5_id_card' => isset($row[23]) ? $row[23] : null,
+    'worker6_name' => isset($row[24]) ? $row[24] : null,
+    'worker6_id_card' => isset($row[25]) ? $row[25] : null,
+    'worker7_name' => isset($row[26]) ? $row[26] : null,
+    'worker7_id_card' => isset($row[27]) ? $row[27] : null,
+    'worker8_name' => isset($row[28]) ? $row[28] : null,
+    'worker8_id_card' => isset($row[29]) ? $row[29] : null,
+    'worker9_name' => isset($row[30]) ? $row[30] : null,
+    'worker9_id_card' => isset($row[31]) ? $row[31] : null,
+    'worker10_name' => isset($row[32]) ? $row[32] : null,
+    'worker10_id_card' => isset($row[33]) ? $row[33] : null,
+    'worker11_name' => isset($row[34]) ? $row[34] : null,
+    'worker11_id_card' => isset($row[35]) ? $row[35] : null,
+    'worker12_name' => isset($row[36]) ? $row[36] : null,
+    'worker12_id_card' => isset($row[37]) ? $row[37] : null,
+    'worker13_name' => isset($row[38]) ? $row[38] : null,
+    'worker13_id_card' => isset($row[39]) ? $row[39] : null,
+    'worker14_name' => isset($row[40]) ? $row[40] : null,
+    'worker14_id_card' => isset($row[41]) ? $row[41] : null,
+    'worker15_name' => isset($row[42]) ? $row[42] : null,
+    'worker15_id_card' => isset($row[43]) ? $row[43] : null,
+    'worker16_name' => isset($row[44]) ? $row[44] : null,
+    'worker16_id_card' => isset($row[45]) ? $row[45] : null,
+    'worker17_name' => isset($row[46]) ? $row[46] : null,
+    'worker17_id_card' => isset($row[47]) ? $row[47] : null,
+    'worker18_name' => isset($row[48]) ? $row[48] : null,
+    'worker18_id_card' => isset($row[49]) ? $row[49] : null,
+    'worker19_name' => isset($row[50]) ? $row[50] : null,
+    'worker19_id_card' => isset($row[51]) ? $row[51] : null,
+    'worker20_name' => isset($row[52]) ? $row[52] : null,
+    'worker20_id_card' => isset($row[53]) ? $row[53] : null,
+    'worker21_name' => isset($row[54]) ? $row[54] : null,
+    'worker21_id_card' => isset($row[55]) ? $row[55] : null,
+    'worker22_name' => isset($row[56]) ? $row[56] : null,
+    'worker22_id_card' => isset($row[57]) ? $row[57] : null,
+    'worker23_name' => isset($row[58]) ? $row[58] : null,
+    'worker23_id_card' => isset($row[59]) ? $row[59] : null,
+    'worker24_name' => isset($row[60]) ? $row[60] : null,
+    'worker24_id_card' => isset($row[61]) ? $row[61] : null,
+    'worker25_name' => isset($row[62]) ? $row[62] : null,
+    'worker25_id_card' => isset($row[63]) ? $row[63] : null,
+    'worker26_name' => isset($row[64]) ? $row[64] : null,
+    'worker26_id_card' => isset($row[65]) ? $row[65] : null,
+    'worker27_name' => isset($row[66]) ? $row[66] : null,
+    'worker27_id_card' => isset($row[67]) ? $row[67] : null,
+    'worker28_name' => isset($row[68]) ? $row[68] : null,
+    'worker28_id_card' => isset($row[69]) ? $row[69] : null,
+    'worker29_name' => isset($row[70]) ? $row[70] : null,
+    'worker29_id_card' => isset($row[71]) ? $row[71] : null,
+    'worker30_name' => isset($row[72]) ? $row[72] : null,
+    'worker30_id_card' => isset($row[73]) ? $row[73] : null,
+    'generate_dust' => isset($row[74]) ? $row[74] : null,
+    'fire_system' => isset($row[75]) ? $row[75] : null,
+    'isolation_of' => isset($row[76]) ? $row[76] : null,
+    'isolation_name' => isset($row[77]) ? $row[77] : null,
+    'isolation_date' => isset($row[78]) ? $row[78] : null,
+    'up_id_card_foto' => isset($row[79]) ? $row[79] : null,
+    'file_mos' => isset($row[80]) ? $row[80] : null,
+    'primary_number' => isset($row[81]) ? $row[81] : null,
+    'check_one_approve' => isset($row[82]) ? $row[82] : null,
     'status' => 'Pending',
     'mode' => 'Normal',
 ]);
-
-
 
 
 
