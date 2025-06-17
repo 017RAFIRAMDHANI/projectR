@@ -188,7 +188,7 @@ class DataMasuk extends Controller
     'upload_id_card_foto' => isset($row2[133]) ? $row2[133] : null,
     'primary_number' => $primary_number2 ?? null,
     'status' =>  'Pending', // Default value for status
-    'mode' => 'Normal',
+    
 ]);
 
             $id_visitor = $visitor->id_visitor;

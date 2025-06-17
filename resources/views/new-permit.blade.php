@@ -99,13 +99,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Purpose Details</label>
                         <textarea name="purpose_detail" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
                     </div>
-                      <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Urgency</label>
-                <select name="mode" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
-                    <option value="Normal">Normal</option>
-                    <option value="Urgent">Urgent</option>
-                </select>
-              </div>
+                      
           </div>
         </div>
 

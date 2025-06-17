@@ -149,8 +149,7 @@ $table->string('upload_id_card_foto', 255)->nullable();
 $table->string('primary_number', 255)->nullable();
 
             $table->string('permit_number', 255)->nullable();
-            $table->string('status')->nullable(); // Default false (pending)
-            $table->string('mode')->nullable();
+            $table->string('status')->nullable(); 
             $table->timestamps();
         });
     }

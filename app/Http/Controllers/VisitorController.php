@@ -156,7 +156,7 @@ class VisitorController extends Controller
     'primary_number' => 'nullable|string|max:255',
     'permit_number' => 'nullable|string|max:255',
     'status' => 'nullable|string|max:255',
-    'mode' => 'nullable|string|max:255',
+
 ]);
 
 
@@ -301,7 +301,7 @@ class VisitorController extends Controller
     'quantity_30' => $validatedData['quantity_30'] ?? null,
     'upload_id_card_foto' => $fileCard ?? null,
     'status' => 'Pending',
-    'mode' => $validatedData['mode'] ?? null,
+   
 ]);
 
 

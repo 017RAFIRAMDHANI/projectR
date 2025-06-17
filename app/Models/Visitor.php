@@ -153,6 +153,6 @@ class Visitor extends Model
         'primary_number',
         'permit_number',
         'status',
-        'mode',
+      
     ];
 }
