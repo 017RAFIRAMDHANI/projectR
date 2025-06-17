@@ -45,9 +45,9 @@ Route::post('/vendors/reject', [App\Http\Controllers\VendorController::class, 'r
 // profile const
 Route::get('/profile/{id}',[App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 
-
 // visitor const
 Route::get('/visitor-dashboard',[App\Http\Controllers\VisitorController::class, 'index'])->name('visitor-dashboard');
+Route::post('/visitor_store', [App\Http\Controllers\VisitorController::class, 'store'])->name('visitor.store');
 
 // FH const
 Route::get('/fm-dashboard',[App\Http\Controllers\FHController::class, 'index'])->name('fm-dashboard');

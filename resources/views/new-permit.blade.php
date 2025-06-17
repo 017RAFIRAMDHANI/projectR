@@ -69,17 +69,19 @@
 
         <!-- Visitor Section -->
         <div id="visitorSection" style="display:none;">
+            <form action="{{route('visitor.store')}}" method="POST" enctype="multipart/form-data">
+                @csrf
             <!-- General Info -->
             <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Visitor Information</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Destination Email</label>
-                        <input type="email" name="destinationEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="example@email.com">
+                        <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="example@email.com">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Purpose</label>
-                        <select name="purpose" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <select name="purpose_visit" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Purpose</option>
                             <option value="Visitor">Visitor</option>
                             <option value="Delivery">Delivery</option>
@@ -87,16 +89,23 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Requested Date From</label>
-                        <input type="date" name="requestedDateFrom" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <input type="date" name="request_date_from" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                     </div>
           <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Requested Date To</label>
-                        <input type="date" name="requestedDateTo" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <input type="date" name="request_date_to" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Purpose Details</label>
-                        <textarea name="purposeDetails" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
+                        <textarea name="purpose_detail" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
                     </div>
+                      <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Urgency</label>
+                <select name="mode" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <option value="Normal">Normal</option>
+                    <option value="Urgent">Urgent</option>
+                </select>
+              </div>
           </div>
         </div>
 
@@ -115,13 +124,19 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Level</label>
-                        <select id="levelSelect" name="level" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
-                            <option value="">Select Level</option>
-                        </select>
+                <select id="vendorLevelSelect" name="level" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                  <option value="">Select Level</option>
+                  <option value="Level 1">Level 1</option>
+                  <option value="Level 2">Level 2</option>
+                  <option value="Level 3">Level 3</option>
+                  <option value="Level 4 (Admin Building Only)">Level 4 (Admin Building Only)</option>
+                  <option value="Level 5 (DC Building Only)">Level 5 (DC Building Only)</option>
+                  <option value="N/A (For External Areas)">N/A (For External Areas)</option>
+                </select>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Specific Location / Room</label>
-                        <input type="text" name="specificLocation" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor">
+                        <input type="text" name="specific_location" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor">
                     </div>
           </div>
           </div>
@@ -177,19 +192,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">PIC Name</label>
-                        <input type="text" name="picName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <input type="text" name="pic_name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Contact Number</label>
-                        <input type="tel" name="contactNumber" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <input type="tel" name="pic_contact" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
               <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Car Plate No</label>
-                        <input type="text" name="carPlateNo" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <input type="text" name="car_plate_no" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
               </div>
               <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Type</label>
-                        <select name="vehicleType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <select name="vehicle_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Vehicle Type</option>
                             <option value="Car">Car</option>
                             <option value="Motorcycle">Motorcycle</option>
@@ -198,7 +213,7 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File (Optional)</label>
-              <input type="file" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+              <input type="file" name="upload_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
               <p class="mt-1 text-sm text-gray-500">You can upload a single file containing scans of all workers' ID cards (KTP).</p>
         </div>
           </div>
@@ -248,6 +263,13 @@
                     <!-- Material fields will be dynamically added here -->
             </div>
           </div>
+            <div class="flex justify-end space-x-4 mt-8">
+          <button type="reset" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">Clear Form</button>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                Submit Permit
+            </button>
+            </form>
+  </div>
         </div>
 
         <!-- Vendor Section -->
@@ -522,10 +544,12 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File (Optional)</label>
                 <input type="file" name="up_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                 <p class="mt-1 text-sm text-gray-500">You can upload a single file containing scans of all workers' ID cards (KTP).</p>
-          </div>
+
+
+            </div>
             </div>
           </div>
-        </div>
+
 
 
 
@@ -535,6 +559,7 @@
                 Submit Permit
             </button>
             </form>
+  </div>
         </div>
       </div>
   </main>
@@ -645,11 +670,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Full Name ${i}</label>
-                <input type="text" name="visitorName${i}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
+                <input type="text" name="name_${i}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">ID Card ${i}</label>
-                <input type="text" name="visitorId${i}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
+                <input type="text" name="id_card_${i}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
               </div>
             </div>
           `;
@@ -669,11 +694,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Material Name</label>
-                <input type="text" name="material${i}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <input type="text" name="material_${i}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-                <input type="text" name="quantity${i}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <input type="text" name="quantity_${i}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
               </div>
             </div>
           `;
