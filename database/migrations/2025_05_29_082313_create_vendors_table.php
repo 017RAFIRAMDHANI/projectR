@@ -100,6 +100,7 @@ $table->string('primary_number', 255)->nullable();
             $table->string('permit_number', 255)->nullable();
             $table->string('status')->nullable();
             $table->string('mode')->nullable();
+            $table->text('note_vendor')->nullable();
             $table->timestamps();
         });
     }

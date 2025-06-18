@@ -313,7 +313,7 @@
         <!-- Back to Dashboard Button -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="mb-4">
-                <a href="fh-dashboard.html" class="inline-flex items-center text-gray-600 hover:text-primary transition-colors">
+                <a href="{{route('/')}}" class="inline-flex items-center text-gray-600 hover:text-primary transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>
                     <span>Back to Dashboard</span>
                 </a>
@@ -438,9 +438,12 @@
                 <i class="fas fa-eye text-xs"></i>
               </button>
  @if($visitor->status == "Rejected" && $visitor->check_one_approve == null)
-              <button class="action-btn edit" title="Edit Permit">
+ <form action="#" method="POST">
+    @csrf
+         <input type="hidden" name="id_visitor" value="{{$visitor->id_visitor}}">
+              <button  class="action-btn edit" title="Edit Permit">
                 <i class="fas fa-edit text-xs"></i>
-              </button>
+              </button></form>
 @endif
             </div>
           </td>
@@ -514,9 +517,12 @@
                 <i class="fas fa-eye text-xs"></i>
               </button>
  @if($vendor->status == "Rejected" && $vendor->check_one_approve == null)
-              <button class="action-btn edit" title="Edit Permit">
+ <form action="{{route('vendors.approve')}}" method="POST">
+    @csrf
+         <input type="hidden" name="id_vendor" value="{{$vendor->id_vendor}}">
+              <button  class="action-btn edit" title="Edit Permit">
                 <i class="fas fa-edit text-xs"></i>
-              </button>
+              </button></form>
 @endif
             </div>
           </td>

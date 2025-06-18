@@ -15,6 +15,7 @@ class VendorStatusMail extends Mailable
     public $status;
     public $permitNumber;
     public $filePath;
+
     /**
      * Create a new message instance.
      *
@@ -26,6 +27,7 @@ class VendorStatusMail extends Mailable
         $this->status = $status;
         $this->permitNumber = $permitNumber;
         $this->filePath = $filePath; // Menyimpan file path PDF
+
     }
 
 
@@ -43,8 +45,10 @@ class VendorStatusMail extends Mailable
                       ->view('emails.vendor_status') // Pastikan Anda sudah membuat view ini
                       ->with([
                           'vendorName' => $this->vendor->company_name,
+                          'note_vendor' => $this->vendor->note_vendor,
                           'status' => $this->status,
                           'permitNumber' => $this->permitNumber,
+
                       ]);
 
         // Jika file PDF path tersedia, lampirkan file PDF tersebut

@@ -48,7 +48,7 @@ class VendorController extends Controller
        Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Approved', $permitNumber,$filePath));
             // Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
 
-            return response()->json(['success' => true]);
+           return back()->with('success', 'Permit Approve Success');
         }
         return response()->json(['success' => false], 404);
     }
@@ -56,15 +56,20 @@ class VendorController extends Controller
     public function reject(Request $request)
     {
         $vendor = Vendor::where('id_vendor', $request->id_vendor)->first();
+       // dd($request->all());
         if ($vendor) {
             // Mengubah status menjadi Reject
-            $vendor->status = 'Rejected';
-            $vendor->save();
+      $noted = $request->rejected ?? 'hmm '; // Jika tidak ada nilai, beri default 'No notes provided'
+
+$vendor->note_vendor = $noted;
+  $vendor->status = 'Rejected';
+$vendor->save();
 
             // Kirim email pemberitahuan ke vendor
-            Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Rejected'));
+            Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Rejected' ));
 
-            return response()->json(['success' => true]);
+           return back()->with('success', 'Permit Rejected Success');
+
         }
         return response()->json(['success' => false], 404);
     }
@@ -345,8 +350,9 @@ $vendor = Vendor::create([
         'mode' => $request->mode ?? null,
     ]);
 
-Log::info('Vendor created successfully', $vendor->toArray());
+// Log::info('Vendor created successfully', $vendor->toArray());
 
+      Mail::to($vendor->email)->send(new \App\Mail\VendorForm($vendor));
 
               $id_vendor = $vendor->id_vendor;
 

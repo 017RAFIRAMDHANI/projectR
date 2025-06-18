@@ -26,9 +26,9 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="mb-6 flex justify-between items-center">
         <div class="flex items-center">
-          <button onclick="window.location.href='approvals.html'" class="mr-4 text-gray-500 hover:text-gray-700">
+          <a href='{{route('index_approve')}}' class="mr-4 text-gray-500 hover:text-gray-700">
             <i class="fas fa-arrow-left text-xl"></i>
-          </button>
+          </a>
           <h1 class="text-2xl font-bold text-gray-900">Vendor Permit Details</h1>
         </div>
         <div class="flex space-x-3">
@@ -189,6 +189,7 @@
               <i class="fas fa-tasks mr-2 text-primary"></i> Actions
             </h3>
             <div id="actionButtons" class="space-y-3">
+                @if($dataVendor->check_one_approve == null && $dataVendor->status == 'Rejected' || $dataVendor->status == 'Pending')
               <button
                 type="submit"
                   id="submitButton"
@@ -196,38 +197,31 @@
               >
                 <i class="fas fa-check mr-2"></i> Approve Permit
               </button>
+              @endif
             </form>
-              <button
-                onclick="openRejectConfirmModal()"
-                class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition mb-2"
-              >
-                <i class="fas fa-times mr-2"></i> Reject Permit
-              </button>
-              <button
-                onclick="window.location.href='approvals.html'"
-                class="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
-              >
-                <i class="fas fa-arrow-left mr-2"></i> Back to Approvals
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+@if($dataVendor->status == 'Pending')
+          <form action="{{route('vendors.reject')}}" method="POST" id="rejectForm">
+        @csrf
+        <input type="hidden" name="id_vendor" value="{{$dataVendor->id_vendor}}">
+           <textarea name="rejected" id="rejectNoteInput" style="display:none;"></textarea>
+        <button
+            type="button"
+            id="rejectButton"
+            class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition mb-2"
+        >
+            <i class="fas fa-times mr-2"></i> Reject Permit
+        </button>
+ </form>
 
+@endif
 
-
-    <!-- Reject Modal -->
-    <div id="rejectModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg shadow-lg p-6 w-96">
-        <h3 class="text-lg font-semibold mb-2">Reject Permit</h3>
-        <textarea id="rejectNoteInput" class="w-full border border-gray-300 rounded-md p-2 mb-4" rows="3" placeholder="Enter note (optional)..."></textarea>
-        <div class="flex justify-end gap-2">
-          <button onclick="closeRejectModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">Cancel</button>
-          <button onclick="confirmReject()" class="px-4 py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">Confirm Reject</button>
-        </div>
-      </div>
-    </div>
+        <button
+            type="button"
+            onclick="window.location.href='{{route('index_approve')}}'"
+            class="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+        >
+            <i class="fas fa-arrow-left mr-2"></i> Back to Approvals
+        </button>
 
     <!-- Confirmation Modal -->
     <div id="confirmModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
@@ -240,7 +234,31 @@
         </div>
       </div>
     </div>
+<script>
+      document.getElementById('rejectButton').addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent form submission
 
+        // Show SweetAlert confirmation popup for rejection
+        Swal.fire({
+            title: 'Are you sure you want to reject this permit?',
+            text: 'Please provide a note for rejection (optional).',
+            icon: 'warning',
+            input: 'textarea',
+            inputPlaceholder: 'Enter rejection note...',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reject it!',
+            cancelButtonText: 'No, cancel!',
+            preConfirm: (note) => {
+                // If the user provides a note, save it in the hidden textarea field
+                if (note) {
+                    document.getElementById('rejectNoteInput').value = note;
+                }
+                // Submit the rejection form after confirmation
+                document.getElementById('rejectForm').submit();
+            }
+        });
+    });
+</script>
 <script>
    // Listen for click event on the submit button
    document.getElementById('submitButton').addEventListener('click', function (e) {
@@ -282,7 +300,7 @@
         document.getElementById('permitStatus').classList.remove('bg-yellow-100', 'text-yellow-800');
         document.getElementById('permitStatus').classList.add('bg-green-100', 'text-green-800');
         document.getElementById('actionButtons').innerHTML = `
-          <button onclick="window.location.href='approvals.html'" class="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition">
+          <button onclick="window.location.href='{{route('index_approve')}}'" class="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition">
             <i class="fas fa-arrow-left mr-2"></i> Back to Approvals
           </button>
         `;
@@ -295,7 +313,7 @@
         document.getElementById('permitStatus').classList.remove('bg-yellow-100', 'text-yellow-800');
         document.getElementById('permitStatus').classList.add('bg-red-100', 'text-red-800');
         document.getElementById('actionButtons').innerHTML = `
-          <button onclick="window.location.href='approvals.html'" class="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition">
+          <button onclick="window.location.href='{{route('index_approve')}}'" class="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition">
             <i class="fas fa-arrow-left mr-2"></i> Back to Approvals
           </button>
         `;
@@ -381,7 +399,7 @@
           var actionButtons = document.getElementById('actionButtons');
           if (actionButtons) {
             actionButtons.innerHTML = `
-              <button onclick=\"window.location.href='approvals.html'\" class=\"w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition\">
+              <button onclick=\"window.location.href='{{route('index_approve')}}'\" class=\"w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition\">
                 <i class=\"fas fa-arrow-left mr-2\"></i> Back to Approvals
               </button>
             `;

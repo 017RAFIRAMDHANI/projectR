@@ -37,36 +37,40 @@ class FHController extends Controller
 $jmlpending = Vendor::where('status', 'Pending')->count() + Visitor::where('status', 'Pending')->count();
 $jmlurgent = Vendor::where('mode','Urgent')->count();
     // Loop melalui setiap data dan cek validity_time
-     foreach ($vendors as $vendorVisitor) {
-        // Cek apakah validity_date_from dan validity_date_to ada
+       foreach ($vendors as $vendorVisitor) {
+
+         if ($vendorVisitor->mode == 'Urgent') {
+            continue;
+        }
+        // Check if validity_date_from and validity_date_to exist
         if ($vendorVisitor->validity_date_from && $vendorVisitor->validity_date_to) {
-            // Bersihkan nilai tanggal dari spasi atau karakter ekstra
+            // Clean the date values to remove spaces or extra characters
             $validityDateFrom = trim($vendorVisitor->validity_date_from);
             $validityDateTo = trim($vendorVisitor->validity_date_to);
 
-            // Parsing tanggal dengan format Y-m-d (tanpa waktu)
+            // Parse dates with the format Y-m-d (without time)
             try {
                 $validityFrom = \Carbon\Carbon::createFromFormat('Y-m-d', $validityDateFrom);
                 $validityTo = \Carbon\Carbon::createFromFormat('Y-m-d', $validityDateTo);
 
+                // Get today's date
+                $today = \Carbon\Carbon::today();
 
-                $diffDays = $validityFrom->diffInDays($validityTo);
+                // Calculate the difference in days between today and the validity_date_to
+                $diffDays = $today->diffInDays($validityTo, false); // 'false' to get a negative difference if validityTo is in the future
 
-
-
-                // Jika selisihnya kurang dari 3 hari, set status jadi REJECT jika statusnya masih PENDING
+                // If the difference is less than 3 days and the status is still PENDING, update to REJECTED
                 if ($diffDays < 3 && $vendorVisitor->status == 'Pending') {
                     $vendorVisitor->status = 'Rejected';
                     $vendorVisitor->save();
-                   Mail::to($vendorVisitor->email)->send(new \App\Mail\VendorReject($vendorVisitor, 'Rejected'));
+                    Mail::to($vendorVisitor->email)->send(new \App\Mail\VendorReject($vendorVisitor, 'Rejected'));
                 }
             } catch (\Carbon\Exceptions\InvalidFormatException $e) {
-                // Tangani error jika formatnya tidak sesuai
+                // Handle the error if the date format is incorrect
                 dd("Error parsing date: ", $e->getMessage());
             }
         }
     }
-
     // Kirim data ke view
     return view('approvals', compact('vendors','visitors','jmlvisitors','jmlvendors','jmlpending','jmlurgent'));
 }
