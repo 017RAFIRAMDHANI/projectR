@@ -50,7 +50,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         Log::info('Data received:', $data);  // Log the data first
- 
+
 
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],

@@ -56,10 +56,9 @@ Route::get('/view/{id_vendor}',[App\Http\Controllers\FHController::class, 'view'
 
 // DHI const
 Route::get('/dhi-dashboard',[App\Http\Controllers\DHIController::class, 'index'])->name('dhi-dashboard');
-
-Route::get('/regisuser', function () {
-    return view('regisuser');
-})->name('regisuser');
+Route::get('/regisuser',[App\Http\Controllers\DaftarUser::class, 'create'])->name('regisuser');
+Route::post('/regisuser',[App\Http\Controllers\DaftarUser::class, 'store'])->name('regisuser.store');
+ ;
 Route::get('/employee-safety-list', function () {
     return view('employee-safety-list');
 })->name('employee-safety-list');
