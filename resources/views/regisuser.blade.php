@@ -177,7 +177,7 @@
       <!-- Tombol Submit -->
       <div class="flex justify-end gap-3">
         <a
-          href="login.html"
+          href="{{route('dhi-dashboard')}}"
           class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
         >
           Kembali

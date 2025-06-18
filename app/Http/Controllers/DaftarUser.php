@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
 class DaftarUser extends Controller
 {
       public function store(Request $request)
@@ -42,4 +42,22 @@ class DaftarUser extends Controller
     {
         return view('regisuser');
     }
+    public function index()
+    {
+        $dataUser = User::paginate(20);
+        return view('user-list',[
+            "dataUser" => $dataUser
+        ]);
+    }
+    public function destroy($id)
+{
+    dd($id);
+}
+    public function permision($id)
+{
+     $dataUser = User::where('id',$id)->first();
+        return view('role-management',[
+            "dataUser" => $dataUser
+        ]);
+}
 }

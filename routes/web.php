@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DaftarUser;
 use Illuminate\Support\Facades\Route;
 // use App\Livewire\VendorList;
 /*
@@ -58,6 +59,11 @@ Route::get('/view/{id_vendor}',[App\Http\Controllers\FHController::class, 'view'
 Route::get('/dhi-dashboard',[App\Http\Controllers\DHIController::class, 'index'])->name('dhi-dashboard');
 Route::get('/regisuser',[App\Http\Controllers\DaftarUser::class, 'create'])->name('regisuser');
 Route::post('/regisuser',[App\Http\Controllers\DaftarUser::class, 'store'])->name('regisuser.store');
+Route::get('/user-list',[App\Http\Controllers\DaftarUser::class, 'index'])->name('user-list');
+Route::delete('/delete-user/{id}', [App\Http\Controllers\DaftarUser::class, 'destroy'])->name('delete-user');
+Route::get('/edit-user/{id}', [App\Http\Controllers\DaftarUser::class, 'edit'])->name('edit-user');
+Route::get('/permision-user/{id}', [App\Http\Controllers\DaftarUser::class, 'permision'])->name('permision-user');
+
  ;
 Route::get('/employee-safety-list', function () {
     return view('employee-safety-list');
