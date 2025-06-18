@@ -147,9 +147,9 @@ $table->text('material_30')->nullable();
 $table->text('quantity_30')->nullable();
 $table->string('upload_id_card_foto', 255)->nullable();
 $table->string('primary_number', 255)->nullable();
-
+   $table->integer('check_one_approve')->nullable();
             $table->string('permit_number', 255)->nullable();
-            $table->string('status')->nullable(); 
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

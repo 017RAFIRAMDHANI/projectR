@@ -28,20 +28,16 @@ class FHController extends Controller
 
     public function index_approve(){
 
-    // $vendorVisitors = Vendor_Visitor::with(['vendor', 'visitor'])->get();
 
-    //     // Kirim data ke view
-    //     return view('approvals', compact('vendorVisitors'));
-
-    // $vendorVisitors = Vendor::with(['vendor', 'visitor'])
-    //     ->orderByRaw("CASE WHEN mode = 'URGENT' THEN 1 ELSE 2 END")  // Urutkan URGENT di atas
-    //     ->get();
-
-        $vendorVisitors = Vendor::orderByRaw("CASE WHEN mode = 'URGENT' THEN 1 ELSE 2 END")  // Urutkan URGENT di atas
+        $vendors = Vendor::orderByRaw("CASE WHEN mode = 'URGENT' THEN 1 ELSE 2 END")  // Urutkan URGENT di atas
                             ->get();
-
+        $visitors = Visitor::paginate(2);
+        $jmlvisitors = Visitor::count();
+        $jmlvendors = Vendor::count();
+$jmlpending = Vendor::where('status', 'Pending')->count() + Visitor::where('status', 'Pending')->count();
+$jmlurgent = Vendor::where('mode','Urgent')->count();
     // Loop melalui setiap data dan cek validity_time
-     foreach ($vendorVisitors as $vendorVisitor) {
+     foreach ($vendors as $vendorVisitor) {
         // Cek apakah validity_date_from dan validity_date_to ada
         if ($vendorVisitor->validity_date_from && $vendorVisitor->validity_date_to) {
             // Bersihkan nilai tanggal dari spasi atau karakter ekstra
@@ -60,7 +56,7 @@ class FHController extends Controller
 
                 // Jika selisihnya kurang dari 3 hari, set status jadi REJECT jika statusnya masih PENDING
                 if ($diffDays < 3 && $vendorVisitor->status == 'Pending') {
-                    $vendorVisitor->status = 'Reject';
+                    $vendorVisitor->status = 'Rejected';
                     $vendorVisitor->save();
                    Mail::to($vendorVisitor->email)->send(new \App\Mail\VendorReject($vendorVisitor, 'Rejected'));
                 }
@@ -72,7 +68,7 @@ class FHController extends Controller
     }
 
     // Kirim data ke view
-    return view('approvals', compact('vendorVisitors'));
+    return view('approvals', compact('vendors','visitors','jmlvisitors','jmlvendors','jmlpending','jmlurgent'));
 }
 
 

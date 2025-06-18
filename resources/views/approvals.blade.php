@@ -13,129 +13,6 @@
         },
       };
     </script>
-    <script>
-      // Function to toggle notifications panel
-      function toggleNotifications() {
-        const panel = document.getElementById('notificationsPanel');
-        panel.classList.toggle('hidden');
-      }
-
-      // Function to toggle user menu
-      function toggleUserMenu() {
-        const menu = document.getElementById('userMenu');
-        menu.classList.toggle('hidden');
-      }
-
-      // Function to view permit details
-      function viewPermitDetails(permitId, type, data) {
-        // Redirect to the permit details page
-        window.location.href = `permit-details.html?id=${permitId}&type=${type}`;
-      }
-
-      // Function to close the permit details modal
-      function closePermitDetailsModal() {
-        document.getElementById('permitDetailsModal').classList.add('hidden');
-      }
-
-      // Function to approve permit
-      function approvePermit(permitId, type) {
-        // In a real application, this would send a request to the server
-        alert(`Permit ${permitId} (${type}) has been approved.`);
-
-        // Update UI to reflect the change
-        const permitElement = document.getElementById(`permit-${permitId}`);
-        const statusElement = permitElement.querySelector('.permit-status');
-
-        statusElement.textContent = 'Approved';
-        statusElement.classList.remove('bg-yellow-100', 'text-yellow-800');
-        statusElement.classList.add('bg-green-100', 'text-green-800');
-
-        // Disable action buttons
-        const actionButtons = permitElement.querySelectorAll('.action-buttons button');
-        actionButtons.forEach(button => {
-          button.disabled = true;
-          button.classList.add('opacity-50', 'cursor-not-allowed');
-        });
-
-        // Update counts
-        updatePermitCounts();
-      }
-
-      // Function to reject permit
-      function rejectPermit(permitId, type) {
-        // In a real application, this would send a request to the server
-        alert(`Permit ${permitId} (${type}) has been rejected.`);
-
-        // Update UI to reflect the change
-        const permitElement = document.getElementById(`permit-${permitId}`);
-        const statusElement = permitElement.querySelector('.permit-status');
-
-        statusElement.textContent = 'Rejected';
-        statusElement.classList.remove('bg-yellow-100', 'text-yellow-800');
-        statusElement.classList.add('bg-red-100', 'text-red-800');
-
-        // Disable action buttons
-        const actionButtons = permitElement.querySelectorAll('.action-buttons button');
-        actionButtons.forEach(button => {
-          button.disabled = true;
-          button.classList.add('opacity-50', 'cursor-not-allowed');
-        });
-
-        // Update counts
-        updatePermitCounts();
-      }
-
-      // Function to update permit counts
-      function updatePermitCounts() {
-        const visitorPendingCount = document.querySelectorAll('.visitor-permit .permit-status:not(.bg-green-100):not(.bg-red-100)').length;
-        const vendorPendingCount = document.querySelectorAll('.vendor-permit .permit-status:not(.bg-green-100):not(.bg-red-100)').length;
-
-        document.getElementById('visitorPendingCount').textContent = visitorPendingCount;
-        document.getElementById('vendorPendingCount').textContent = vendorPendingCount;
-        document.getElementById('totalPendingCount').textContent = visitorPendingCount + vendorPendingCount;
-      }
-
-
-
-      // Close notifications panel when clicking outside
-      document.addEventListener('click', function(event) {
-        const panel = document.getElementById('notificationsPanel');
-        const button = document.querySelector('button[onclick="toggleNotifications()"]');
-
-        if (!panel.contains(event.target) && !button.contains(event.target) && !panel.classList.contains('hidden')) {
-          panel.classList.add('hidden');
-        }
-      });
-
-      // Close user menu when clicking outside
-      document.addEventListener('click', function(event) {
-        const menu = document.getElementById('userMenu');
-        const button = document.querySelector('button[onclick="toggleUserMenu()"]');
-
-        if (!menu.contains(event.target) && !button.contains(event.target) && !menu.classList.contains('hidden')) {
-          menu.classList.add('hidden');
-        }
-      });
-
-      // Close modal when clicking outside
-      document.addEventListener('click', function(event) {
-        const modal = document.getElementById('permitDetailsModal');
-        const modalContent = document.getElementById('modalContent');
-
-        if (modalContent && !modalContent.contains(event.target) && !modal.classList.contains('hidden')) {
-          modal.classList.add('hidden');
-        }
-      });
-
-
-
-      // Add click handlers to pagination buttons
-      document.querySelectorAll('nav button').forEach(button => {
-        if (button.textContent.match(/^\d+$/)) {
-          button.addEventListener('click', () => goToPage(parseInt(button.textContent)));
-        }
-      });
-    </script>
     <style>
       .btn-hover {
         transition: background-color 0.2s ease;
@@ -155,376 +32,798 @@
       .menu-item:active {
         background-color: rgba(0, 0, 0, 0.1);
       }
+      .action-btn {
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        height: 28px;
+        margin: 0 2px;
+      }
+      .action-btn:hover {
+        transform: translateY(-1px);
+      }
+      .action-btn.edit {
+        background-color: rgba(37, 99, 235, 0.1);
+        color: #2563eb;
+      }
+      .action-btn.edit:hover {
+        background-color: rgba(37, 99, 235, 0.2);
+      }
+      .action-btn.view {
+        background-color: rgba(107, 114, 128, 0.1);
+        color: #4b5563;
+      }
+      .action-btn.view:hover {
+        background-color: rgba(107, 114, 128, 0.2);
+      }
+      .action-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 50;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        width: 90%;
+        max-width: 32rem;
+        position: relative;
+      }
+      .close {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        color: #6B7280;
+      }
+      .close:hover {
+        color: #374151;
+      }
+      /* Custom scrollbar styles */
+      .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #CBD5E0 #EDF2F7;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #EDF2F7;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #CBD5E0;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #A0AEC0;
+      }
+      /* Table container styles */
+      .table-container {
+        overflow: visible;
+      }
+      /* Fixed header styles */
+      .table-header {
+        position: sticky;
+        top: 0;
+        background-color: #F9FAFB;
+        z-index: 10;
+      }
+      /* Left tab styles */
+      .left-tab {
+        position: sticky;
+        top: 80px; /* Navbar height + some spacing */
+        width: 200px;
+        background-color: #F9FAFB;
+        border-right: 1px solid #E5E7EB;
+        height: fit-content;
+        z-index: 20;
+      }
+      .left-tab-item {
+        padding: 12px 16px;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .left-tab-item:hover {
+        background-color: #F3F4F6;
+      }
+      .left-tab-item.active {
+        background-color: #EFF6FF;
+        border-left-color: #2563EB;
+        color: #2563EB;
+      }
+      .left-tab-item i {
+        width: 20px;
+        text-align: center;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      /* Pagination styles */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: white;
+        border-top: 1px solid #E5E7EB;
+      }
+      .pagination button {
+        padding: 0.5rem 1rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 0.375rem;
+        background-color: white;
+        color: #374151;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+      }
+      .pagination button:hover:not(:disabled) {
+        background-color: #F3F4F6;
+      }
+      .pagination button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .pagination button.active {
+        background-color: #2563EB;
+        color: white;
+        border-color: #2563EB;
+      }
+      .pagination-info {
+        font-size: 0.875rem;
+        color: #6B7280;
+      }
+      /* Main content scrollbar */
+      .main-content {
+        height: calc(100vh - 64px); /* Subtract navbar height */
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #CBD5E0 #EDF2F7;
+      }
+      .main-content::-webkit-scrollbar {
+        width: 8px;
+      }
+      .main-content::-webkit-scrollbar-track {
+        background: #EDF2F7;
+        border-radius: 4px;
+      }
+      .main-content::-webkit-scrollbar-thumb {
+        background-color: #CBD5E0;
+        border-radius: 4px;
+      }
+      .main-content::-webkit-scrollbar-thumb:hover {
+        background-color: #A0AEC0;
+      }
+      /* Content area styles */
+      .content-area {
+        overflow: visible;
+      }
+      /* Table styles */
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+      th {
+        position: sticky;
+        top: 0;
+        background-color: #F9FAFB;
+        z-index: 10;
+        padding: 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #374151;
+        border-bottom: 2px solid #E5E7EB;
+        white-space: nowrap;
+      }
+      th:first-child {
+        width: 40px;
+        padding: 1rem 0.5rem;
+        text-align: center;
+      }
+      td {
+        padding: 1rem;
+        font-size: 0.875rem;
+        color: #4B5563;
+        border-bottom: 1px solid #E5E7EB;
+      }
+      td:first-child {
+        width: 40px;
+        padding: 1rem 0.5rem;
+        text-align: center;
+        color: #6B7280;
+        font-size: 0.75rem;
+      }
+      tr:hover {
+        background-color: #F9FAFB;
+      }
+      /* Status badge styles */
+      .permit-status {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+      /* Action button styles */
+      .action-container {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+      .action-btn {
+        padding: 0.375rem;
+        border-radius: 0.375rem;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .action-btn.view {
+        background-color: #EFF6FF;
+        color: #2563EB;
+      }
+      .action-btn.view:hover {
+        background-color: #DBEAFE;
+      }
+      .action-btn.edit {
+        background-color: #FEF3C7;
+        color: #92400E;
+      }
+      .action-btn.edit:hover {
+        background-color: #FDE68A;
+      }
     </style>
   </head>
   <body class="bg-gray-50">
 
+
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex justify-between items-center mb-6">
-        <div class="flex items-center space-x-4">
-          <a href="{{route('fm-dashboard')}}" class="text-gray-600 hover:text-primary transition-colors">
-            <i class="fas fa-arrow-left text-xl"></i>
-          </a>
-          <h1 class="text-2xl font-bold text-gray-900">Permit Approvals</h1>
-        </div>
-        <div class="flex space-x-2">
-          <span class="px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800">
-            Visitor: <span id="visitorPendingCount">3</span> Pending
-          </span>
-          <span class="px-3 py-1 text-sm font-medium rounded-full bg-purple-100 text-purple-800">
-            Vendor: <span id="vendorPendingCount">2</span> Pending
-          </span>
-            <span class="px-3 py-1 text-sm font-medium rounded-full bg-red-100 text-red-800">
-            Urgent: <span id="urgentCount">2</span>
-          </span>
-          <span class="px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800">
-            Total: <span id="totalPendingCount">5</span> Pending
-          </span>
-        </div>
-      </div>
+    <div class="main-content">
+        <!-- Back to Dashboard Button -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="mb-4">
+                <a href="fh-dashboard.html" class="inline-flex items-center text-gray-600 hover:text-primary transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
 
-      <!-- Filters -->
-      <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label for="typeFilter" class="block text-sm font-medium text-gray-700 mb-1">Permit Type</label>
-            <select id="typeFilter" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-              <option value="all">All Types</option>
-              <option value="visitor">Visitor</option>
-              <option value="vendor">Vendor</option>
-            </select>
-          </div>
-          <div>
-            <label for="statusFilter" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <select id="statusFilter" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
-          <div>
-            <label for="searchFilter" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
-            <input
-              type="text"
-              name="searchData"
-              id="searchData"
-              placeholder="Search permits..."
-              class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-            >
-          </div>
-        </div>
-      </div>
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600">Total Visitor Permits</p>
+                            <p class="text-2xl font-semibold text-gray-900" id="visitorCount">{{$jmlvisitors}}</p>
+                        </div>
+                        <div class="p-3 bg-blue-100 rounded-full">
+                            <i class="fas fa-user-friends text-blue-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600">Total Vendor Permits</p>
+                            <p class="text-2xl font-semibold text-gray-900" id="vendorCount">{{$jmlvendors}}</p>
+                        </div>
+                        <div class="p-3 bg-purple-100 rounded-full">
+                            <i class="fas fa-truck text-purple-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600">Pending Approvals</p>
+                            <p class="text-2xl font-semibold text-gray-900" id="totalPendingCount">{{$jmlpending}}</p>
+                        </div>
+                        <div class="p-3 bg-yellow-100 rounded-full">
+                            <i class="fas fa-clock text-yellow-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600">Urgent Permits</p>
+                            <p class="text-2xl font-semibold text-gray-900" id="urgentCount">{{$jmlurgent}}</p>
+                        </div>
+                        <div class="p-3 bg-red-100 rounded-full">
+                            <i class="fas fa-exclamation-circle text-red-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      <!-- Permits Table -->
-      <div class="bg-white rounded-lg shadow-sm">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="w-1/4 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Info</th>
-              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
-              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
-              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
-              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-{{--
+            <!-- Main Content Area -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex">
+                    <!-- Left Tab -->
+                    <div class="left-tab">
+                        <div class="left-tab-item active" onclick="switchTab('visitor')">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-user text-blue-600"></i>
+                                <span>Visitor Permits</span>
+                            </div>
+                        </div>
+                        <div class="left-tab-item" onclick="switchTab('vendor')">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-truck text-purple-600"></i>
+                                <span>Vendor Permits</span>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Visitor Permit 1 -->
-            <tr id="permit-V001" class="visitor-permit permit-item border-l-4 border-red-500 bg-red-50">
-              <td class="px-4 py-4 text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</td>
-              <td class="px-4 py-4 text-sm text-gray-500">John Smith</td>
-              <td class="px-4 py-4">
-                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
-              </td>
-              <td class="px-4 py-4 text-sm text-gray-500">Client Meeting</td>
-              <td class="px-4 py-4 text-sm text-gray-500">Today, 2:00 PM - 4:00 PM</td>
-              <td class="px-4 py-4">
-                <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-              </td>
-              <td class="px-4 py-4 text-sm font-medium">
-                <button onclick="viewPermitDetails('V001', 'visitor', {
-                  permitNumber: 'DHI/PERMIT/2024/04/0001',
-                  applicantName: 'John Smith',
-                  purpose: 'Client Meeting',
-                  location: 'Main Conference Room',
-                  startDate: 'Today, 2:00 PM',
-                  endDate: 'Today, 4:00 PM',
-                  status: 'Pending',
-                  submittedDate: 'April 15, 2024, 10:30 AM'
-                })" class="text-primary hover:text-blue-700">
-                  <i class="fas fa-eye"></i> View
-                </button>
-              </td>
-            </tr> --}}
-            {{-- @foreach($vendorVisitors as $item)
-            <tr id="permit-{{ $item->id_vendor_visitor }}" class="permit-item">
-                <td class="px-4 py-4 text-sm font-medium text-gray-900">
-                    @if($item->vendor)
-                        {{ $item->vendor->id_vendor }}
+                    <!-- Content Area -->
+                    <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200">
+                        <!-- Visitor Tab Content -->
+                        <div id="visitor-tab" class="tab-content active">
+                            <!-- Filter Visitor -->
+                            <div class="px-6 py-4 border-b border-gray-200 flex gap-4 bg-white">
+                                <input type="text" id="visitorSearchFilter" placeholder="Search visitors..." class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                <select id="visitorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="all">All Statuses</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                <input type="date" id="visitorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            </div>
+                            <div class="content-area">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Info</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200" id="visitorTableBody">
+@foreach ($visitors as $index => $visitor)
+                   <tr id="permit-VD001" class="visitor-permit permit-item" >
+                      <td class="px-4 py-2">{{ $index + 1 }}</td>
+                    <td class="px-4 py-2">{{ $visitor->permit_number ?? '-' }}</td>
+                    <td class="px-4 py-2">{{ $visitor->pic_name ?? '' }}</td>
+                    <td class="px-4 py-2">{{ $visitor->purpose_visit ?? '' }}</td>
+                    <td class="px-4 py-2">{{ $visitor->request_date_to ?? '' }}</td>
+                  <td class="px-4 py-2">
+    <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
+        {{ $visitor->status == 'Rejected' ? 'bg-red-100 text-red-800' : '' }}
+        {{ $visitor->status == 'Approved' ? 'bg-green-100 text-green-800' : '' }}
+        {{ $visitor->status == 'Pending' ? 'bg-yellow-100 text-yellow-800' : '' }}">
+        {{ $visitor->status }}
+    </span>
+</td>
 
-                        {{ $item->visitor->id_visitor }}
-                    @else
-                        N/A
-                    @endif
-                </td>
-                <td class="px-4 py-4 text-sm text-gray-500">
-                    @if($item->vendor)
-                        {{ $item->vendor->name }}
+                   <td class="px-4 py-4 text-sm font-medium">
+            <div class="action-container">
+              <button onclick="window.location.href=''" class="action-btn view" title="View Details">
 
-                        {{ $item->visitor->name }}
-                    @else
-                        N/A
-                    @endif
-                </td>
-                <td class="px-4 py-4">
-                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-                        @if($item->vendor)
-                            Vendor
-
-                            Visitor
-                        @else
-                            N/A
-                        @endif
-                    </span>
-                </td>
-                <td class="px-4 py-4 text-sm text-gray-500">Job Interview</td>
-                <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
-                <td class="px-4 py-4">
-                    <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                </td>
-                <td class="px-4 py-4 text-sm font-medium">
-                    <button onclick="viewPermitDetails('{{ $item->id_vendor_visitor }}', '{{ $item->vendor ? 'vendor' : 'visitor' }}', {
-                        permitNumber: 'DHI/PERMIT/2024/04/0002',
-                        applicantName: '{{ $item->vendor ? $item->vendor->name : $item->visitor->name }}',
-                        purpose: 'Job Interview',
-                        location: 'HR Office',
-                        startDate: 'Tomorrow, 10:00 AM',
-                        endDate: 'Tomorrow, 11:30 AM',
-                        status: 'Pending',
-                        submittedDate: 'April 16, 2024, 9:15 AM'
-                    })" class="text-primary hover:text-blue-700">
-                        <i class="fas fa-eye"></i> View
-                    </button>
-                </td>
-            </tr>
-        @endforeach --}}
-    {{-- @foreach($vendors as $vendor)
-
-            <!-- Visitor Permit 2 -->
-            <tr id="permit-V002" class="visitor-permit permit-item">
-              <td class="px-4 py-4 text-sm font-medium text-gray-900">{{$vendor->id_vendor}}</td>
-              <td class="px-4 py-4 text-sm text-gray-500">Sarah Johnson</td>
-              <td class="px-4 py-4">
-                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
-              </td>
-              <td class="px-4 py-4 text-sm text-gray-500">Job Interview</td>
-              <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
-              <td class="px-4 py-4">
-                <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-              </td>
-              <td class="px-4 py-4 text-sm font-medium">
-                <button onclick="viewPermitDetails('V002', 'visitor', {
-                  permitNumber: 'DHI/PERMIT/2024/04/0002',
-                  applicantName: 'Sarah Johnson',
-                  purpose: 'Job Interview',
-                  location: 'HR Office',
-                  startDate: 'Tomorrow, 10:00 AM',
-                  endDate: 'Tomorrow, 11:30 AM',
-                  status: 'Pending',
-                  submittedDate: 'April 16, 2024, 9:15 AM'
-                })" class="text-primary hover:text-blue-700">
-                  <i class="fas fa-eye"></i> View
-                </button>
-              </td>
-            </tr>
-
-
-@endforeach
---}}
-  <tbody class="bg-white divide-y divide-gray-200" id="TablesData">
-   @foreach($vendorVisitors as $item)
-
-            <!-- Visitor Permit 2 -->
-            <tr id="permit-V002" class="visitor-permit permit-item @if($item->mode == "Urgent" ) border-l-4 border-red-500 bg-red-50 @endif">
-              <td class="px-4 py-4 text-sm font-medium text-gray-900">
-
-                        {{ $item->permit_number ?? '-' }}
-
-
-
-
-              </td>
-              <td class="px-4 py-4 text-sm text-gray-500">
-
-                        {{ $item->requestor_name }}
-
-
-
-
-              </td>
-              <td class="px-4 py-4">
-              <span class="px-2 py-1 text-xs font-medium rounded-full
-
-        bg-purple-100 text-purple-800  <!-- Vendor, warna ungu -->
-
-        bg-blue-100 text-blue-800  <!-- Visitor, warna biru -->
-
-">
-
-        Vendor
-
-
-</span>
-
-              </td>
-              <td class="px-4 py-4 text-sm text-gray-500">
-
-
-
-                        {{ $item->purpose ?? '' }}
-
-
-              </td>
-              <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
-              <td class="px-4 py-4">
-            <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
-
-        @if($item->status == 'Approve')
-            bg-green-100 text-green-800  <!-- Jika Approve, warna hijau -->
-        @elseif($item->status == 'Reject')
-            bg-red-100 text-red-800  <!-- Jika Reject, warna merah -->
-        @else
-            bg-yellow-100 text-yellow-800  <!-- Status lain, warna kuning -->
-        @endif
-
-        @if($item->status == 'Approve')
-            bg-green-100 text-green-800  <!-- Jika Approve, warna hijau -->
-        @elseif($item->status == 'Reject')
-            bg-red-100 text-red-800  <!-- Jika Reject, warna merah -->
-        @else
-            bg-yellow-100 text-yellow-800  <!-- Status lain, warna kuning -->
-        @endif
-
-">
-
-
-
-        {{ $item->status ?? 'Pending' }}
-
-</span>
-
-              </td>
-              <td class="px-4 py-4 text-sm font-medium">
-                   <div class="flex space-x-2">
-     @if($item->status == "Reject" && $item->check_one_approve == null)
-                    <a href="">
-  <i class="fas fa-edit"></i></a>
+                <i class="fas fa-eye text-xs"></i>
+              </button>
+ @if($visitor->status == "Rejected" && $visitor->check_one_approve == null)
+              <button class="action-btn edit" title="Edit Permit">
+                <i class="fas fa-edit text-xs"></i>
+              </button>
 @endif
-              <a href="{{ route('vendor_view', $item->id_vendor) }}" class="text-primary hover:text-blue-700">
-  <i class="fas fa-eye"></i>
-</a>
-                   </div>
-              </td>
-            </tr>
+            </div>
+          </td>
+                </tr>
+            @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Pagination -->
+                            <div class="pagination">
+                                <button id="visitorPrevPage" onclick="changePage('visitor', 'prev')" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <div id="visitorPageNumbers" class="flex gap-2">
+                                    <!-- Page numbers will be populated here -->
+                                </div>
+                                <button id="visitorNextPage" onclick="changePage('visitor', 'next')">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                <span class="pagination-info" id="visitorPaginationInfo">Showing 1-20 of 20</span>
+                            </div>
+                        </div>
 
+                        <!-- Vendor Tab Content -->
+                        <div id="vendor-tab" class="tab-content">
+                            <!-- Filter Vendor -->
+                            <div class="px-6 py-4 border-b border-gray-200 flex gap-4 bg-white">
+                                <input type="text" id="vendorSearchFilter" placeholder="Search vendors..." class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                <select id="vendorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="all">All Statuses</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                <input type="date" id="vendorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            </div>
+                            <div class="content-area">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="table-header">
+                                        <tr>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Info</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200" id="vendorTableBody">
+  @foreach ($vendors as $index => $vendor)
+                   <tr id="permit-VD001" class="vendor-permit permit-item" @if($vendor->mode == "Urgent" ) style="background-color: rgb(254, 242, 242) !important; border-left: 4px solid rgb(239, 68, 68) !important;" @endif>
+                      <td class="px-4 py-2">{{ $index + 1 }}</td>
+                    <td class="px-4 py-2">{{ $vendor->permit_number ?? '-' }}</td>
+                    <td class="px-4 py-2">{{ $vendor->requestor_name ?? '' }}</td>
+                    <td class="px-4 py-2">{{ $vendor->work_description ?? '' }}</td>
+                    <td class="px-4 py-2">{{ $vendor->validity_date_to ?? '' }}</td>
+                  <td class="px-4 py-2">
+    <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
+        {{ $vendor->status == 'Rejected' ? 'bg-red-100 text-red-800' : '' }}
+        {{ $vendor->status == 'Approved' ? 'bg-green-100 text-green-800' : '' }}
+        {{ $vendor->status == 'Pending' ? 'bg-yellow-100 text-yellow-800' : '' }}">
+        {{ $vendor->status }}
+    </span>
+</td>
 
-@endforeach
+                   <td class="px-4 py-4 text-sm font-medium">
+            <div class="action-container">
+              <button onclick="window.location.href='{{ route('vendor_view', $vendor->id_vendor) }}'" class="action-btn view" title="View Details">
 
-          </tbody>
-        </table>
-      </div>
+                <i class="fas fa-eye text-xs"></i>
+              </button>
+ @if($vendor->status == "Rejected" && $vendor->check_one_approve == null)
+              <button class="action-btn edit" title="Edit Permit">
+                <i class="fas fa-edit text-xs"></i>
+              </button>
+@endif
+            </div>
+          </td>
+                </tr>
+            @endforeach
 
-      <!-- Pagination -->
-      <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-        <div class="flex flex-1 justify-between sm:hidden">
-          <button class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Previous
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Pagination -->
+                            <div class="pagination">
+                                <button id="vendorPrevPage" onclick="changePage('vendor', 'prev')" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <div id="vendorPageNumbers" class="flex gap-2">
+                                    <!-- Page numbers will be populated here -->
+                                </div>
+                                <button id="vendorNextPage" onclick="changePage('vendor', 'next')">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                <span class="pagination-info" id="vendorPaginationInfo">Showing 1-20 of 20</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Change Status</h2>
+        <p class="text-sm text-gray-600 mb-4">
+          This action can only be performed once. Once approved, if you need to reject this permit,
+          please use the Close Permit menu instead.
+        </p>
+        <div class="flex justify-end space-x-3">
+          <button onclick="closeEditModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+            Cancel
           </button>
-          <button class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Next
+          <button onclick="approvePermit()" class="px-4 py-2 bg-green-500 text-white rounded-md text-sm hover:bg-green-600">
+            Approve
           </button>
         </div>
-        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-          <div>
-            <p class="text-sm text-gray-700">
-              Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">97</span> results
-            </p>
-          </div>
-          <div>
-            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-              <button class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                <span class="sr-only">Previous</span>
-                <i class="fas fa-chevron-left text-sm"></i>
-              </button>
-              <button aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
-                1
-              </button>
-              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                2
-              </button>
-              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                3
-              </button>
-              <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
-                ...
-              </span>
-              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                8
-              </button>
-              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                9
-              </button>
-              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                10
-              </button>
-              <button class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                <span class="sr-only">Next</span>
-                <i class="fas fa-chevron-right text-sm"></i>
-              </button>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </main>
-
-
-    <!-- Permit Details Modal -->
-    <div id="permitDetailsModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-      <div id="modalContent" class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
-        <div class="flex justify-between items-center mb-4">
-          <h3 id="modalTitle" class="text-lg font-medium text-gray-900">Permit Details</h3>
-          <button onclick="closePermitDetailsModal()" class="text-gray-400 hover:text-gray-500">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-
-
-
       </div>
     </div>
-  </body>
-</html>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-<script>
-    $(document).ready(function(){
-        // For general search (searching across all columns)
-        $("#searchData").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#TablesData tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+    <script>
+      // Function to toggle notifications panel
+      function toggleNotifications() {
+        const panel = document.getElementById('notificationsPanel');
+        panel.classList.toggle('hidden');
+      }
 
+      // Function to toggle user menu
+      function toggleUserMenu() {
+        const menu = document.getElementById('userMenu');
+        menu.classList.toggle('hidden');
+      }
 
+      // Function to view permit details
+      function viewPermitDetails(permitId, type) {
+        window.location.href = `permit-details.html?id=${permitId}&type=${type}`;
+      }
+
+      // Function to switch tabs
+      function switchTab(type) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(tab => {
+          tab.classList.remove('active');
         });
 
-        // For company search (searching only in the company column)
+        // Show selected tab content
+        document.getElementById(`${type}-tab`).classList.add('active');
 
-    });
+        // Update tab items
+        document.querySelectorAll('.left-tab-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        document.querySelectorAll('.left-tab-item').forEach(item => {
+          if (item.textContent.toLowerCase().includes(type)) {
+            item.classList.add('active');
+          }
+        });
 
-</script>
+        // Update counts
+        updateCounts();
+      }
+
+      // Update counts
+      function updateCounts() {
+        const visitorCount = visitorData.length;
+        const vendorCount = vendorData.length;
+        const pendingCount = [...visitorData, ...vendorData].filter(item => item.status.toLowerCase() === 'pending').length;
+
+        document.getElementById('visitorCount').textContent = visitorCount;
+        document.getElementById('vendorCount').textContent = vendorCount;
+        document.getElementById('totalPendingCount').textContent = pendingCount;
+      }
+
+      // Function to filter permits
+      function filterPermits() {
+        ['visitor', 'vendor'].forEach(type => {
+          const statusFilter = document.getElementById(`${type}StatusFilter`).value;
+          const dateFilter = document.getElementById(`${type}DateFilter`).value;
+          const searchFilter = document.getElementById(`${type}SearchFilter`).value.toLowerCase();
+
+          const permits = document.querySelectorAll(`.${type}-permit`);
+          permits.forEach(permit => {
+            const permitStatus = permit.querySelector('.permit-status').textContent.trim().toLowerCase();
+            const permitText = permit.textContent.toLowerCase();
+            const permitDate = permit.querySelector('td:nth-child(4)').textContent;
+
+            const statusMatch = statusFilter === 'all' || permitStatus === statusFilter;
+            const dateMatch = !dateFilter || permitDate.includes(dateFilter);
+            const searchMatch = searchFilter === '' || permitText.includes(searchFilter);
+
+            if (statusMatch && dateMatch && searchMatch) {
+              permit.classList.remove('hidden');
+            } else {
+              permit.classList.add('hidden');
+            }
+          });
+        });
+
+        updateCounts();
+      }
+
+      // Add event listeners for filters
+      ['visitor', 'vendor'].forEach(type => {
+        document.getElementById(`${type}StatusFilter`).addEventListener('change', filterPermits);
+        document.getElementById(`${type}DateFilter`).addEventListener('change', filterPermits);
+        document.getElementById(`${type}SearchFilter`).addEventListener('input', filterPermits);
+      });
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', () => {
+        initializeData();
+        updateCounts();
+      });
+
+      // Pagination variables
+
+
+      // Initialize data
+
+
+      // Change page
+      function changePage(type, action) {
+          const data = type === 'visitor' ? visitorData : vendorData;
+          const totalPages = Math.ceil(data.length / itemsPerPage);
+          let newPage;
+
+          if (typeof action === 'number') {
+              newPage = action;
+          } else if (action === 'prev') {
+              newPage = (type === 'visitor' ? currentVisitorPage : currentVendorPage) - 1;
+          } else if (action === 'next') {
+              newPage = (type === 'visitor' ? currentVisitorPage : currentVendorPage) + 1;
+          }
+
+          if (newPage >= 1 && newPage <= totalPages) {
+              if (type === 'visitor') {
+                  currentVisitorPage = newPage;
+              } else {
+                  currentVendorPage = newPage;
+              }
+              updatePagination(type);
+              renderTable(type);
+          }
+      }
+
+
+
+      function renderPermitRow(item, type, rowNumber) {
+        const tr = document.createElement('tr');
+        tr.id = `permit-${item.id}`;
+        tr.className = `${type}-permit permit-item`;
+
+        // Apply urgent styling ONLY if it's a vendor permit and has urgent priority
+        // Apply directly as inline style to ensure it's static on hover
+        if (type === 'vendor' && item.priority && item.priority.toLowerCase() === 'urgent') {
+          tr.style.cssText = 'background-color: #FEF2F2 !important; border-left: 4px solid #EF4444 !important;';
+        }
+
+        tr.innerHTML = `
+          <td class="px-4 py-4 text-sm font-medium text-gray-900">${rowNumber}</td>
+          <td class="px-4 py-4 text-sm font-medium text-gray-900">
+            ${type === 'visitor' ? 'Visitor Permit' : 'Vendor Permit'}
+          </td>
+          <td class="px-4 py-4 text-sm text-gray-500">${item.applicant}</td>
+          <td class="px-4 py-4 text-sm text-gray-500">${item.purpose}</td>
+          <td class="px-4 py-4 text-sm text-gray-500">${item.dateTime}</td>
+          <td class="px-4 py-4">
+            <span class="permit-status px-2 py-1 text-xs font-medium rounded-full ${getStatusClass(item.status)}">${item.status}</span>
+          </td>
+          <td class="px-4 py-4 text-sm font-medium">
+            <div class="action-container">
+              <button onclick="viewPermitDetails('${item.id}', '${type}')" class="action-btn view" title="View Details">
+                <i class="fas fa-eye text-xs"></i>
+              </button>
+              ${item.status.toLowerCase() === 'rejected' ? `
+              <button onclick="editPermitDetails('${item.id}', '${type}')" class="action-btn edit" title="Edit Permit">
+                <i class="fas fa-edit text-xs"></i>
+              </button>
+              ` : ''}
+            </div>
+          </td>
+        `;
+        return tr;
+      }
+
+      // Get status class
+      function getStatusClass(status) {
+          switch (status.toLowerCase()) {
+              case 'pending':
+                  return 'bg-yellow-100 text-yellow-800';
+              case 'approved':
+                  return 'bg-green-100 text-green-800';
+              case 'rejected':
+                  return 'bg-red-100 text-red-800';
+              default:
+                  return 'bg-gray-100 text-gray-800';
+          }
+      }
+
+      // Add edit permit function
+      function editPermitDetails(id, type) {
+          const permitElement = document.getElementById(`permit-${id}`);
+          const statusElement = permitElement.querySelector('.permit-status');
+
+          if (statusElement.textContent.trim() === 'Rejected') {
+              currentPermitId = id;
+              currentPermitType = type;
+              document.getElementById('editModal').style.display = 'block';
+          }
+      }
+
+      function closeEditModal() {
+          document.getElementById('editModal').style.display = 'none';
+          currentPermitId = '';
+          currentPermitType = '';
+      }
+
+      function approvePermit() {
+          if (!currentPermitId || !currentPermitType) return;
+
+          const permitElement = document.getElementById(`permit-${currentPermitId}`);
+          const statusElement = permitElement.querySelector('.permit-status');
+
+          // Update status
+          statusElement.textContent = 'Approved';
+          statusElement.classList.remove('bg-red-100', 'text-red-800');
+          statusElement.classList.add('bg-green-100', 'text-green-800');
+
+          // Update action buttons
+          const actionContainer = permitElement.querySelector('.action-container');
+          actionContainer.innerHTML = `
+              <button onclick="viewPermitDetails('${currentPermitId}', '${currentPermitType}')" class="action-btn view" title="View Details">
+                  <i class="fas fa-eye text-xs"></i>
+              </button>
+          `;
+
+          // Update counts
+          updatePermitCounts();
+
+          // Close modal
+          closeEditModal();
+      }
+
+      // Add event listener to close modal when clicking outside
+      window.onclick = function(event) {
+          const modal = document.getElementById('editModal');
+          if (event.target === modal) {
+              closeEditModal();
+          }
+      }
+
+      function updateUrgentCount() {
+          const urgentCount = Array.from(document.querySelectorAll('.vendor-permit.permit-item')).filter(row => {
+            // Check if the inline style for border-left is present and matches the urgent color
+            return row.style.borderLeft.includes('4px solid rgb(239, 68, 68)') || // Check for RGB value
+                   row.style.borderLeft.includes('4px solid #EF4444'); // Check for hex value
+          }).length;
+          document.getElementById('urgentCount').textContent = urgentCount;
+      }
+
+      // Update the existing updatePermitCounts function to include urgent count
+      function updatePermitCounts() {
+          const visitorPendingCount = document.querySelectorAll('.visitor-permit .permit-status:not(.bg-green-100):not(.bg-red-100)').length;
+          const vendorPendingCount = document.querySelectorAll('.vendor-permit .permit-status:not(.bg-green-100):not(.bg-red-100)').length;
+
+          document.getElementById('visitorPendingCount').textContent = visitorPendingCount;
+          document.getElementById('vendorPendingCount').textContent = vendorPendingCount;
+          document.getElementById('totalPendingCount').textContent = visitorPendingCount + vendorPendingCount;
+          updateUrgentCount();
+      }
+
+      // Call updateUrgentCount on initial load
+      document.addEventListener('DOMContentLoaded', function() {
+          updateUrgentCount();
+      });
+    </script>
+  </body>
+</html>
+
+
 @endsection

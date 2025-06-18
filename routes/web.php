@@ -30,7 +30,7 @@ Route::get('/', function () {
         }
     }
     return view('auth.login'); // Default login page if not authenticated or roles don't match
-});
+})->name('/');
 
 // Route::get('/', VendorList::class)->name('home');
 

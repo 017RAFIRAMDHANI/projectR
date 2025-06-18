@@ -58,7 +58,7 @@ class VendorController extends Controller
         $vendor = Vendor::where('id_vendor', $request->id_vendor)->first();
         if ($vendor) {
             // Mengubah status menjadi Reject
-            $vendor->status = 'Reject';
+            $vendor->status = 'Rejected';
             $vendor->save();
 
             // Kirim email pemberitahuan ke vendor
@@ -259,7 +259,7 @@ public function store(Request $request)
        //$primaryNumber = $this->generateRandomPrimaryNumber();
        //$isolationOf = $request->has('isolation_of') ? implode(',', $request->isolation_of) : null;
 
-       
+
 $vendor = Vendor::create([
   'email' => $validatedData['email'] ?? null,  // Menggunakan null coalescing operator
     'company_name' => $validatedData['company_name'] ?? null,

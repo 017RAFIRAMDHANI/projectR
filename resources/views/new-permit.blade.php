@@ -41,7 +41,7 @@
   <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 py-12 w-full">
     <div class="mb-8">
       <div class="flex items-center mb-4">
-        <button onclick="window.location.href='dashboard.html'" class="flex items-center text-primary hover:underline text-base font-medium">
+        <button onclick="window.location.href='{{route('/')}}'" class="flex items-center text-primary hover:underline text-base font-medium">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
@@ -99,7 +99,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Purpose Details</label>
                         <textarea name="purpose_detail" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
                     </div>
-                      
+
           </div>
         </div>
 

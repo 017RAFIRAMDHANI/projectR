@@ -1,0 +1,530 @@
+@extends('layouts.app')
+
+@section('content')
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2563eb",
+              secondary: "#64748b",
+            },
+          },
+        },
+      };
+    </script>
+    <script>
+      // Function to toggle notifications panel
+      function toggleNotifications() {
+        const panel = document.getElementById('notificationsPanel');
+        panel.classList.toggle('hidden');
+      }
+
+      // Function to toggle user menu
+      function toggleUserMenu() {
+        const menu = document.getElementById('userMenu');
+        menu.classList.toggle('hidden');
+      }
+
+      // Function to view permit details
+      function viewPermitDetails(permitId, type, data) {
+        // Redirect to the permit details page
+        window.location.href = `permit-details.html?id=${permitId}&type=${type}`;
+      }
+
+      // Function to close the permit details modal
+      function closePermitDetailsModal() {
+        document.getElementById('permitDetailsModal').classList.add('hidden');
+      }
+
+      // Function to approve permit
+      function approvePermit(permitId, type) {
+        // In a real application, this would send a request to the server
+        alert(`Permit ${permitId} (${type}) has been approved.`);
+
+        // Update UI to reflect the change
+        const permitElement = document.getElementById(`permit-${permitId}`);
+        const statusElement = permitElement.querySelector('.permit-status');
+
+        statusElement.textContent = 'Approved';
+        statusElement.classList.remove('bg-yellow-100', 'text-yellow-800');
+        statusElement.classList.add('bg-green-100', 'text-green-800');
+
+        // Disable action buttons
+        const actionButtons = permitElement.querySelectorAll('.action-buttons button');
+        actionButtons.forEach(button => {
+          button.disabled = true;
+          button.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+
+        // Update counts
+        updatePermitCounts();
+      }
+
+      // Function to reject permit
+      function rejectPermit(permitId, type) {
+        // In a real application, this would send a request to the server
+        alert(`Permit ${permitId} (${type}) has been rejected.`);
+
+        // Update UI to reflect the change
+        const permitElement = document.getElementById(`permit-${permitId}`);
+        const statusElement = permitElement.querySelector('.permit-status');
+
+        statusElement.textContent = 'Rejected';
+        statusElement.classList.remove('bg-yellow-100', 'text-yellow-800');
+        statusElement.classList.add('bg-red-100', 'text-red-800');
+
+        // Disable action buttons
+        const actionButtons = permitElement.querySelectorAll('.action-buttons button');
+        actionButtons.forEach(button => {
+          button.disabled = true;
+          button.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+
+        // Update counts
+        updatePermitCounts();
+      }
+
+      // Function to update permit counts
+      function updatePermitCounts() {
+        const visitorPendingCount = document.querySelectorAll('.visitor-permit .permit-status:not(.bg-green-100):not(.bg-red-100)').length;
+        const vendorPendingCount = document.querySelectorAll('.vendor-permit .permit-status:not(.bg-green-100):not(.bg-red-100)').length;
+
+        document.getElementById('visitorPendingCount').textContent = visitorPendingCount;
+        document.getElementById('vendorPendingCount').textContent = vendorPendingCount;
+        document.getElementById('totalPendingCount').textContent = visitorPendingCount + vendorPendingCount;
+      }
+
+
+
+      // Close notifications panel when clicking outside
+      document.addEventListener('click', function(event) {
+        const panel = document.getElementById('notificationsPanel');
+        const button = document.querySelector('button[onclick="toggleNotifications()"]');
+
+        if (!panel.contains(event.target) && !button.contains(event.target) && !panel.classList.contains('hidden')) {
+          panel.classList.add('hidden');
+        }
+      });
+
+      // Close user menu when clicking outside
+      document.addEventListener('click', function(event) {
+        const menu = document.getElementById('userMenu');
+        const button = document.querySelector('button[onclick="toggleUserMenu()"]');
+
+        if (!menu.contains(event.target) && !button.contains(event.target) && !menu.classList.contains('hidden')) {
+          menu.classList.add('hidden');
+        }
+      });
+
+      // Close modal when clicking outside
+      document.addEventListener('click', function(event) {
+        const modal = document.getElementById('permitDetailsModal');
+        const modalContent = document.getElementById('modalContent');
+
+        if (modalContent && !modalContent.contains(event.target) && !modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+        }
+      });
+
+
+
+      // Add click handlers to pagination buttons
+      document.querySelectorAll('nav button').forEach(button => {
+        if (button.textContent.match(/^\d+$/)) {
+          button.addEventListener('click', () => goToPage(parseInt(button.textContent)));
+        }
+      });
+    </script>
+    <style>
+      .btn-hover {
+        transition: background-color 0.2s ease;
+      }
+      .btn-hover:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .btn-hover:active {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      .menu-item {
+        transition: background-color 0.2s ease;
+      }
+      .menu-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .menu-item:active {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center space-x-4">
+          <a href="{{route('fm-dashboard')}}" class="text-gray-600 hover:text-primary transition-colors">
+            <i class="fas fa-arrow-left text-xl"></i>
+          </a>
+          <h1 class="text-2xl font-bold text-gray-900">Permit Approvals</h1>
+        </div>
+        <div class="flex space-x-2">
+          <span class="px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800">
+            Visitor: <span id="visitorPendingCount">3</span> Pending
+          </span>
+          <span class="px-3 py-1 text-sm font-medium rounded-full bg-purple-100 text-purple-800">
+            Vendor: <span id="vendorPendingCount">2</span> Pending
+          </span>
+            <span class="px-3 py-1 text-sm font-medium rounded-full bg-red-100 text-red-800">
+            Urgent: <span id="urgentCount">2</span>
+          </span>
+          <span class="px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800">
+            Total: <span id="totalPendingCount">5</span> Pending
+          </span>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="typeFilter" class="block text-sm font-medium text-gray-700 mb-1">Permit Type</label>
+            <select id="typeFilter" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+              <option value="all">All Types</option>
+              <option value="visitor">Visitor</option>
+              <option value="vendor">Vendor</option>
+            </select>
+          </div>
+          <div>
+            <label for="statusFilter" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <select id="statusFilter" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          <div>
+            <label for="searchFilter" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+            <input
+              type="text"
+              name="searchData"
+              id="searchData"
+              placeholder="Search permits..."
+              class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Permits Table -->
+      <div class="bg-white rounded-lg shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="w-1/4 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Info</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+{{--
+
+            <!-- Visitor Permit 1 -->
+            <tr id="permit-V001" class="visitor-permit permit-item border-l-4 border-red-500 bg-red-50">
+              <td class="px-4 py-4 text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</td>
+              <td class="px-4 py-4 text-sm text-gray-500">John Smith</td>
+              <td class="px-4 py-4">
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">Client Meeting</td>
+              <td class="px-4 py-4 text-sm text-gray-500">Today, 2:00 PM - 4:00 PM</td>
+              <td class="px-4 py-4">
+                <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+              </td>
+              <td class="px-4 py-4 text-sm font-medium">
+                <button onclick="viewPermitDetails('V001', 'visitor', {
+                  permitNumber: 'DHI/PERMIT/2024/04/0001',
+                  applicantName: 'John Smith',
+                  purpose: 'Client Meeting',
+                  location: 'Main Conference Room',
+                  startDate: 'Today, 2:00 PM',
+                  endDate: 'Today, 4:00 PM',
+                  status: 'Pending',
+                  submittedDate: 'April 15, 2024, 10:30 AM'
+                })" class="text-primary hover:text-blue-700">
+                  <i class="fas fa-eye"></i> View
+                </button>
+              </td>
+            </tr> --}}
+            {{-- @foreach($vendorVisitors as $item)
+            <tr id="permit-{{ $item->id_vendor_visitor }}" class="permit-item">
+                <td class="px-4 py-4 text-sm font-medium text-gray-900">
+                    @if($item->vendor)
+                        {{ $item->vendor->id_vendor }}
+
+                        {{ $item->visitor->id_visitor }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td class="px-4 py-4 text-sm text-gray-500">
+                    @if($item->vendor)
+                        {{ $item->vendor->name }}
+
+                        {{ $item->visitor->name }}
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td class="px-4 py-4">
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                        @if($item->vendor)
+                            Vendor
+
+                            Visitor
+                        @else
+                            N/A
+                        @endif
+                    </span>
+                </td>
+                <td class="px-4 py-4 text-sm text-gray-500">Job Interview</td>
+                <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
+                <td class="px-4 py-4">
+                    <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                </td>
+                <td class="px-4 py-4 text-sm font-medium">
+                    <button onclick="viewPermitDetails('{{ $item->id_vendor_visitor }}', '{{ $item->vendor ? 'vendor' : 'visitor' }}', {
+                        permitNumber: 'DHI/PERMIT/2024/04/0002',
+                        applicantName: '{{ $item->vendor ? $item->vendor->name : $item->visitor->name }}',
+                        purpose: 'Job Interview',
+                        location: 'HR Office',
+                        startDate: 'Tomorrow, 10:00 AM',
+                        endDate: 'Tomorrow, 11:30 AM',
+                        status: 'Pending',
+                        submittedDate: 'April 16, 2024, 9:15 AM'
+                    })" class="text-primary hover:text-blue-700">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                </td>
+            </tr>
+        @endforeach --}}
+    {{-- @foreach($vendors as $vendor)
+
+            <!-- Visitor Permit 2 -->
+            <tr id="permit-V002" class="visitor-permit permit-item">
+              <td class="px-4 py-4 text-sm font-medium text-gray-900">{{$vendor->id_vendor}}</td>
+              <td class="px-4 py-4 text-sm text-gray-500">Sarah Johnson</td>
+              <td class="px-4 py-4">
+                <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Visitor</span>
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">Job Interview</td>
+              <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
+              <td class="px-4 py-4">
+                <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+              </td>
+              <td class="px-4 py-4 text-sm font-medium">
+                <button onclick="viewPermitDetails('V002', 'visitor', {
+                  permitNumber: 'DHI/PERMIT/2024/04/0002',
+                  applicantName: 'Sarah Johnson',
+                  purpose: 'Job Interview',
+                  location: 'HR Office',
+                  startDate: 'Tomorrow, 10:00 AM',
+                  endDate: 'Tomorrow, 11:30 AM',
+                  status: 'Pending',
+                  submittedDate: 'April 16, 2024, 9:15 AM'
+                })" class="text-primary hover:text-blue-700">
+                  <i class="fas fa-eye"></i> View
+                </button>
+              </td>
+            </tr>
+
+
+@endforeach
+--}}
+  <tbody class="bg-white divide-y divide-gray-200" id="TablesData">
+   @foreach($vendorVisitors as $item)
+
+            <!-- Visitor Permit 2 -->
+            <tr id="permit-V002" class="visitor-permit permit-item @if($item->mode == "Urgent" ) border-l-4 border-red-500 bg-red-50 @endif">
+              <td class="px-4 py-4 text-sm font-medium text-gray-900">
+
+                        {{ $item->permit_number ?? '-' }}
+
+
+
+
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">
+
+                        {{ $item->requestor_name }}
+
+
+
+
+              </td>
+              <td class="px-4 py-4">
+              <span class="px-2 py-1 text-xs font-medium rounded-full
+
+        bg-purple-100 text-purple-800  <!-- Vendor, warna ungu -->
+
+        bg-blue-100 text-blue-800  <!-- Visitor, warna biru -->
+
+">
+
+        Vendor
+
+
+</span>
+
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">
+
+
+
+                        {{ $item->purpose ?? '' }}
+
+
+              </td>
+              <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 10:00 AM - 11:30 AM</td>
+              <td class="px-4 py-4">
+            <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
+
+        @if($item->status == 'Approve')
+            bg-green-100 text-green-800  <!-- Jika Approve, warna hijau -->
+        @elseif($item->status == 'Reject')
+            bg-red-100 text-red-800  <!-- Jika Reject, warna merah -->
+        @else
+            bg-yellow-100 text-yellow-800  <!-- Status lain, warna kuning -->
+        @endif
+
+        @if($item->status == 'Approve')
+            bg-green-100 text-green-800  <!-- Jika Approve, warna hijau -->
+        @elseif($item->status == 'Reject')
+            bg-red-100 text-red-800  <!-- Jika Reject, warna merah -->
+        @else
+            bg-yellow-100 text-yellow-800  <!-- Status lain, warna kuning -->
+        @endif
+
+">
+
+
+
+        {{ $item->status ?? 'Pending' }}
+
+</span>
+
+              </td>
+              <td class="px-4 py-4 text-sm font-medium">
+                   <div class="flex space-x-2">
+     @if($item->status == "Reject" && $item->check_one_approve == null)
+                    <a href="">
+  <i class="fas fa-edit"></i></a>
+@endif
+              <a href="{{ route('vendor_view', $item->id_vendor) }}" class="text-primary hover:text-blue-700">
+  <i class="fas fa-eye"></i>
+</a>
+                   </div>
+              </td>
+            </tr>
+
+
+@endforeach
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+        <div class="flex flex-1 justify-between sm:hidden">
+          <button class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+            Previous
+          </button>
+          <button class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+            Next
+          </button>
+        </div>
+        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm text-gray-700">
+              Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">97</span> results
+            </p>
+          </div>
+          <div>
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <button class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                <span class="sr-only">Previous</span>
+                <i class="fas fa-chevron-left text-sm"></i>
+              </button>
+              <button aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                1
+              </button>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                2
+              </button>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                3
+              </button>
+              <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+                ...
+              </span>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                8
+              </button>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                9
+              </button>
+              <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                10
+              </button>
+              <button class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                <span class="sr-only">Next</span>
+                <i class="fas fa-chevron-right text-sm"></i>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+    <!-- Permit Details Modal -->
+    <div id="permitDetailsModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+      <div id="modalContent" class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+        <div class="flex justify-between items-center mb-4">
+          <h3 id="modalTitle" class="text-lg font-medium text-gray-900">Permit Details</h3>
+          <button onclick="closePermitDetailsModal()" class="text-gray-400 hover:text-gray-500">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // For general search (searching across all columns)
+        $("#searchData").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#TablesData tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+
+
+        });
+
+        // For company search (searching only in the company column)
+
+    });
+
+</script>
+@endsection
