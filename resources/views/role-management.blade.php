@@ -124,7 +124,212 @@
               </button>
             </div>
             <div id="permissionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <!-- Permissions will be dynamically loaded here -->
+              <!-- Static Permissions for all Roles -->
+
+              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-home text-primary mr-2"></i>
+                  <h3 class="text-md font-medium text-gray-700">New Special</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">View</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Create</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Update</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Delete</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-users text-primary mr-2"></i>
+                  <h3 class="text-md font-medium text-gray-700">Employee Data</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">View</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Create</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Update</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Delete</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-check-circle text-primary mr-2"></i>
+                  <h3 class="text-md font-medium text-gray-700">Approvals</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">View</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Create</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Update</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Delete</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-user-plus text-primary mr-2"></i>
+                  <h3 class="text-md font-medium text-gray-700">Visitor & Vendor</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">View</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Create</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Update</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Delete</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Vehicle List -->
+              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-car text-primary mr-2"></i>
+                  <h3 class="text-md font-medium text-gray-700">Vehicle List</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">View</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Create</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Update</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Delete</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Safety Induction -->
+              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-clipboard-check text-primary mr-2"></i>
+                  <h3 class="text-md font-medium text-gray-700">Safety Induction</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">View</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" disabled>
+                    <span class="text-sm text-gray-600">Create</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Update</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" disabled>
+                    <span class="text-sm text-gray-600">Delete</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Reports -->
+              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-chart-bar text-primary mr-2"></i>
+                  <h3 class="text-md font-medium text-gray-700">Reports</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" >
+                    <span class="text-sm text-gray-600">View</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" >
+                    <span class="text-sm text-gray-600">Create</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" >
+                    <span class="text-sm text-gray-600">Update</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" >
+                    <span class="text-sm text-gray-600">Delete</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Role Management -->
+              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-user-shield text-primary mr-2"></i>
+                  <h3 class="text-md font-medium text-gray-700">Role Management</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">View</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Create</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Update</span>
+                  </label>
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-primary" checked>
+                    <span class="text-sm text-gray-600">Delete</span>
+                  </label>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -132,69 +337,8 @@
     </main>
 
     <script>
-      // Role-based menu configurations
-      const roleMenus = {
-        dhi: [
-          { name: 'New Special', icon: 'fa-home', permissions: ['create'] },
-          { name: 'Employee Data', icon: 'fa-users', permissions: ['view', 'create', 'update', 'delete'] },
-          { name: 'Approvals', icon: 'fa-check-circle', permissions: ['view', 'update'] },
-          { name: 'Visitor & Vendor', icon: 'fa-user-plus', permissions: ['view', 'delete'] },
-          { name: 'Vehicle List', icon: 'fa-car', permissions: ['view', 'create', 'update', 'delete'] },
-          { name: 'Safety Induction', icon: 'fa-clipboard-check', permissions: ['view', 'update'] },
-          { name: 'Reports', icon: 'fa-chart-bar', permissions: ['view', 'create', 'update', 'delete'] },
-          { name: 'Role Management', icon: 'fa-user-shield', permissions: ['view', 'create', 'update', 'delete'] }
-        ],
-        fm: [
-          { name: 'New Special', icon: 'fa-home', permissions: ['create'] },
-          { name: 'Employee Data', icon: 'fa-users', permissions: ['view', 'create', 'update', 'delete'] },
-          { name: 'Approvals', icon: 'fa-check-circle', permissions: ['view', 'update'] },
-          { name: 'Visitor & Vendor', icon: 'fa-user-plus', permissions: ['view', 'delete'] },
-          { name: 'Vehicle List', icon: 'fa-car', permissions: ['view', 'create', 'update', 'delete'] },
-          { name: 'Safety Induction', icon: 'fa-clipboard-check', permissions: ['view', 'update'] },
-          { name: 'Reports', icon: 'fa-chart-bar', permissions: ['view', 'create'] },
-        ],
-        client: [
-          { name: 'Visitor & Vendor', icon: 'fa-user-plus', permissions: ['view', 'create'] },
-          { name: 'Vehicle List', icon: 'fa-car', permissions: ['view', 'create', 'update', 'delete'] },
-          { name: 'Employee Data', icon: 'fa-users', permissions: ['view', 'create', 'update', 'delete'] },
-          { name: 'Safety Induction List', icon: 'fa-clipboard-check', permissions: ['view'] },
-          { name: 'Reports', icon: 'fa-chart-bar', permissions: ['view', 'create'] },
-        ]
-      };
-
-      // Function to update permissions based on selected role
-      function updateUserRole(role) {
-        const container = document.getElementById('permissionsContainer');
-        container.innerHTML = ''; // Clear existing permissions
-
-        const menus = roleMenus[role];
-        menus.forEach(menu => {
-          const menuCard = document.createElement('div');
-          menuCard.className = 'bg-gray-50 p-4 rounded-lg border border-gray-200';
-          menuCard.innerHTML = `
-            <div class="flex items-center mb-3">
-              <i class="fas ${menu.icon} text-primary mr-2"></i>
-              <h3 class="text-md font-medium text-gray-700">${menu.name}</h3>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              ${['view', 'create', 'update', 'delete'].map(permission => `
-                <label class="flex items-center space-x-2">
-                  <input type="checkbox"
-                    class="form-checkbox h-4 w-4 text-primary"
-                    ${menu.permissions.includes(permission) ? 'checked' : ''}
-                    ${!menu.permissions.includes(permission) ? 'disabled' : ''}>
-                  <span class="text-sm text-gray-600">${permission.charAt(0).toUpperCase() + permission.slice(1)}</span>
-                </label>
-              `).join('')}
-            </div>
-          `;
-          container.appendChild(menuCard);
-        });
-      }
-
       // Function to save permissions
       function savePermissions() {
-        // Get all checkboxes
         const checkboxes = document.querySelectorAll('#permissionsContainer input[type="checkbox"]');
         const permissions = {};
 
@@ -209,13 +353,9 @@
           }
         });
 
-        // Here you would typically send this to your backend
         console.log('Saving permissions:', permissions);
         alert('Permissions saved successfully!');
       }
-
-      // Initialize with DHI role by default
-      updateUserRole('dhi');
     </script>
 </body>
 </html>
