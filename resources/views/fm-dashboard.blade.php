@@ -247,7 +247,7 @@
                 <span class="text-sm font-medium text-gray-700">Safety Induction</span>
               </button>
               <button
-                onclick="window.location.href='reports.html'"
+                onclick="window.location.href='{{route('reports')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
               >
                 <i class="fas fa-chart-bar text-indigo-600 text-xl mb-2"></i>

@@ -131,11 +131,11 @@
                 <i class="fas fa-users text-green-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Employee List</span>
               </a>
-              <a href="{{route('employee-safety-list-client')}}" class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
+              <a href="{{route('employee-safety-list')}}" class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
                 <i class="fas fa-clipboard-check text-yellow-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Safety Induction List</span>
               </a>
-              <a href="reports.html" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+              <a href="{{route('reports')}}" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
                 <i class="fas fa-chart-bar text-gray-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Report</span>
               </a>

@@ -1035,9 +1035,9 @@
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${capitalize(emp.type)}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             <div class="flex space-x-2">
-              <button onclick="viewEmployeeHistory('${emp.nik || emp.fullName}')" class="text-red-600 hover:text-red-700 font-medium" title="View History">
+              <a  href="/history" class="text-red-600 hover:text-red-700 font-medium" title="View History">
                 <i class="fas fa-history mr-1"></i>History
-              </button>
+              </a>
             </div>
           </td>
         `;

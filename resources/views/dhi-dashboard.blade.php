@@ -135,7 +135,7 @@
                 <i class="fas fa-check-circle text-blue-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Approvals</span>
               </button>
-              <button onclick="window.location.href='permit-data.html'" class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
+              <button onclick="window.location.href='{{route('permit-data')}}'" class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
                 <i class="fas fa-users text-orange-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Visitor & Vendor</span>
               </button>
@@ -147,11 +147,11 @@
                 <i class="fas fa-users text-yellow-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Employee Data</span>
               </button>
-              <button onclick="window.location.href='safety-induction.html'" class="flex flex-col items-center justify-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition">
+              <button onclick="window.location.href='{{route('employee-safety-list')}}'" class="flex flex-col items-center justify-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition">
                 <i class="fas fa-clipboard-check text-red-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Safety Induction</span>
               </button>
-              <button onclick="window.location.href='reports.html'" class="flex flex-col items-center justify-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
+              <button     onclick="window.location.href='{{route('reports')}}'" class="flex flex-col items-center justify-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
                 <i class="fas fa-chart-bar text-indigo-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Reports</span>
               </button>

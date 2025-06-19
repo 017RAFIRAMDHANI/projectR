@@ -65,7 +65,10 @@ Route::get('/edit-user/{id}', [App\Http\Controllers\DaftarUser::class, 'edit'])-
 Route::get('/permision-user/{id}', [App\Http\Controllers\DaftarUser::class, 'permision'])->name('permision-user');
 Route::put('/roleupdate/{id}',[App\Http\Controllers\DaftarUser::class, 'update'])->name('regisuser.update');
 
- ;
+
+Route::get('/history', function () {
+    return view('history');
+})->name('history');
 Route::get('/employee-safety-list', function () {
     return view('employee-safety-list');
 })->name('employee-safety-list');
@@ -112,7 +115,7 @@ Route::get('/database', function () {
 
 Route::get('/reports', function () {
     return view('reports');
-});
+})->name('reports');
 
 Route::get('/profile', function () {
     return view('profile');
