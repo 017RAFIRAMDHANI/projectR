@@ -189,6 +189,7 @@
               <i class="fas fa-tasks mr-2 text-primary"></i> Actions
             </h3>
             <div id="actionButtons" class="space-y-3">
+         @if(Auth::user()->access_approvals_edit == 1)
                 @if($dataVendor->check_one_approve == null && $dataVendor->status == 'Rejected' || $dataVendor->status == 'Pending')
               <button
                 type="submit"
@@ -214,6 +215,8 @@
  </form>
 
 @endif
+@endif
+
 
         <button
             type="button"

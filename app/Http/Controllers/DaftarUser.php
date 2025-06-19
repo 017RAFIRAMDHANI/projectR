@@ -70,6 +70,7 @@ class DaftarUser extends Controller
         'access_employe_create',
         'access_employe_edit',
         'access_employe_delete',
+        'access_employe_view',
         'access_approvals_view',
         'access_approvals_edit',
         'access_visvin_view',

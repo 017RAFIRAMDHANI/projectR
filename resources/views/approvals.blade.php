@@ -411,7 +411,9 @@
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                                     @if(Auth::user()->access_approvals_view == 1 || Auth::user()->access_approvals_edit == 1)
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" id="visitorTableBody">
@@ -433,10 +435,13 @@
 
                    <td class="px-4 py-4 text-sm font-medium">
             <div class="action-container">
+                         @if(Auth::user()->access_approvals_view == 1)
               <button onclick="window.location.href=''" class="action-btn view" title="View Details">
 
                 <i class="fas fa-eye text-xs"></i>
               </button>
+              @endif
+                       @if(Auth::user()->access_approvals_edit == 1)
  @if($visitor->status == "Rejected" && $visitor->check_one_approve == null)
  <form action="#" method="POST">
     @csrf
@@ -444,6 +449,7 @@
               <button  class="action-btn edit" title="Edit Permit">
                 <i class="fas fa-edit text-xs"></i>
               </button></form>
+@endif
 @endif
             </div>
           </td>
@@ -490,7 +496,9 @@
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                              @if(Auth::user()->access_approvals_view == 1 || Auth::user()->access_approvals_edit == 1)
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" id="vendorTableBody">
@@ -512,10 +520,13 @@
 
                    <td class="px-4 py-4 text-sm font-medium">
             <div class="action-container">
+         @if(Auth::user()->access_approvals_view == 1)
               <button onclick="window.location.href='{{ route('vendor_view', $vendor->id_vendor) }}'" class="action-btn view" title="View Details">
 
                 <i class="fas fa-eye text-xs"></i>
               </button>
+@endif
+         @if(Auth::user()->access_approvals_edit == 1)
  @if($vendor->status == "Rejected" && $vendor->check_one_approve == null)
  <form action="{{route('vendors.approve')}}" method="POST">
     @csrf
@@ -523,6 +534,7 @@
               <button  class="action-btn edit" title="Edit Permit">
                 <i class="fas fa-edit text-xs"></i>
               </button></form>
+@endif
 @endif
             </div>
           </td>

@@ -57,9 +57,11 @@
         <!-- Page Title and Add Button -->
         <div class="flex justify-between items-center mb-6">
           <h1 class="text-2xl font-semibold text-gray-900">Employee Data</h1>
+                   @if(Auth::user()->access_employe_create == 1)
           <button onclick="addNewEmployee()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700">
             Add Employee
           </button>
+          @endif
         </div>
 
         <!-- Search and Filter -->
@@ -109,28 +111,36 @@
             <tbody class="bg-white divide-y divide-gray-200">
               <!-- Sample Employee Row -->
               <tr class="table-row-hover">
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">John Doe</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Digital Hyperspace Indonesia</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Software Engineer</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Employee</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">John Doe 323</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Digital Hyperspace Indonesia 323</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Software Engineer 323</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Employee 323 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
+                     @if(Auth::user()->access_employe_view == 1)
                   <button onclick="previewIdCard('john-doe-id')" class="text-primary hover:text-blue-700">
                     <i class="fas fa-id-card mr-1"></i>View ID Card
                   </button>
+                  @endif
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                     @if(Auth::user()->access_employe_edit== 1)
                   <button class="text-primary hover:text-blue-700 mr-3" title="Edit" onclick="editEmployee('john-doe')">
                     <i class="fas fa-edit"></i>
                   </button>
+                  @endif
+                   @if(Auth::user()->access_employe_view == 1)
                   <button class="text-yellow-600 hover:text-yellow-700 mr-3" title="View Details" onclick="previewEmployee('john-doe')">
                     <i class="fas fa-eye"></i>
                   </button>
+                  @endif
+                   @if(Auth::user()->access_employe_delete == 1)
                   <button class="text-red-600 hover:text-red-700" title="Delete">
                     <i class="fas fa-trash"></i>
                   </button>
+                  @endif
                 </td>
               </tr>
             </tbody>
@@ -414,48 +424,48 @@
         menu.classList.toggle('hidden');
       }
 
-      // Function to filter employees
-      function filterEmployees() {
-        const typeFilter = document.getElementById('typeFilter').value;
-        const statusFilter = document.getElementById('statusFilter').value;
-        const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+    //   // Function to filter employees
+    //   function filterEmployees() {
+    //     const typeFilter = document.getElementById('typeFilter').value;
+    //     const statusFilter = document.getElementById('statusFilter').value;
+    //     const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
 
-        const employees = document.querySelectorAll('tbody tr');
+    //     const employees = document.querySelectorAll('tbody tr');
 
-        employees.forEach(employee => {
-          const employeeType = employee.querySelector('td:nth-child(4)').textContent.trim().toLowerCase();
-          const employeeStatus = employee.querySelector('td:nth-child(5) span').textContent.trim().toLowerCase();
-          const employeeText = employee.textContent.toLowerCase();
+    //     employees.forEach(employee => {
+    //       const employeeType = employee.querySelector('td:nth-child(4)').textContent.trim().toLowerCase();
+    //       const employeeStatus = employee.querySelector('td:nth-child(5) span').textContent.trim().toLowerCase();
+    //       const employeeText = employee.textContent.toLowerCase();
 
-          const typeMatch = typeFilter === 'all' || employeeType === typeFilter;
-          const statusMatch = statusFilter === 'all' || employeeStatus === statusFilter;
-          const searchMatch = searchFilter === '' || employeeText.includes(searchFilter);
+    //       const typeMatch = typeFilter === 'all' || employeeType === typeFilter;
+    //       const statusMatch = statusFilter === 'all' || employeeStatus === statusFilter;
+    //       const searchMatch = searchFilter === '' || employeeText.includes(searchFilter);
 
-          if (typeMatch && statusMatch && searchMatch) {
-            employee.classList.remove('hidden');
-          } else {
-            employee.classList.add('hidden');
-          }
-        });
-      }
+    //       if (typeMatch && statusMatch && searchMatch) {
+    //         employee.classList.remove('hidden');
+    //       } else {
+    //         employee.classList.add('hidden');
+    //       }
+    //     });
+    //   }
 
       // Function to go to page
-      function goToPage(page) {
-        // In a real application, this would fetch the data for the selected page
-        console.log(`Navigating to page ${page}`);
-        // Update the active page button
-        document.querySelectorAll('[aria-current="page"]').forEach(el => {
-          el.removeAttribute('aria-current');
-          el.classList.remove('bg-primary', 'text-white');
-          el.classList.add('text-gray-900');
-        });
-        const newActiveButton = document.querySelector(`button:nth-child(${page + 1})`);
-        if (newActiveButton) {
-          newActiveButton.setAttribute('aria-current', 'page');
-          newActiveButton.classList.add('bg-primary', 'text-white');
-          newActiveButton.classList.remove('text-gray-900');
-        }
-      }
+    //   function goToPage(page) {
+    //     // In a real application, this would fetch the data for the selected page
+    //     console.log(`Navigating to page ${page}`);
+    //     // Update the active page button
+    //     document.querySelectorAll('[aria-current="page"]').forEach(el => {
+    //       el.removeAttribute('aria-current');
+    //       el.classList.remove('bg-primary', 'text-white');
+    //       el.classList.add('text-gray-900');
+    //     });
+    //     const newActiveButton = document.querySelector(`button:nth-child(${page + 1})`);
+    //     if (newActiveButton) {
+    //       newActiveButton.setAttribute('aria-current', 'page');
+    //       newActiveButton.classList.add('bg-primary', 'text-white');
+    //       newActiveButton.classList.remove('text-gray-900');
+    //     }
+    //   }
 
       // Add event listeners for filters
       document.addEventListener('DOMContentLoaded', function() {
@@ -465,11 +475,11 @@
       });
 
       // Add click handlers to pagination buttons
-      document.querySelectorAll('nav button').forEach(button => {
-        if (button.textContent.match(/^\d+$/)) {
-          button.addEventListener('click', () => goToPage(parseInt(button.textContent)));
-        }
-      });
+    //   document.querySelectorAll('nav button').forEach(button => {
+    //     if (button.textContent.match(/^\d+$/)) {
+    //       button.addEventListener('click', () => goToPage(parseInt(button.textContent)));
+    //     }
+    //   });
 
       // Close notifications panel when clicking outside
       document.addEventListener('click', function(event) {
@@ -499,46 +509,55 @@
         document.getElementById('addEmployeeModal').classList.add('hidden');
         document.getElementById('addEmployeeForm').reset();
       }
-      function editEmployee(employeeId) {
-        console.log('Edit button clicked for employee:', employeeId);
-        console.log('Current employees data:', employeesData);
+    // Function to open the edit modal and fill the form with data
+function editEmployee(employeeId) {
+  // Example data for editing (you can fetch this from your actual data source later)
+  const employeeData = {
+    fullName: 'John Doe 323',
+    company: 'Digital Hyperspace Indonesia 323',
+    position: 'Software Engineer 323',
+    type: 'Employee 323',
+    status: 'active'
+  };
 
-        // Find the employee in the data array
-        const employeeIndex = employeesData.findIndex(emp => emp.fullName.replace(/\s+/g, '-') === employeeId);
-        console.log('Found employee at index:', employeeIndex);
+  // Populate the form with the employee data
+  document.getElementById('editFullName').value = employeeData.fullName;
+  document.getElementById('editCompany').value = employeeData.company;
+  document.getElementById('editPosition').value = employeeData.position;
+  document.getElementById('editType').value = employeeData.type;
+  document.getElementById('editStatus').value = employeeData.status;
 
-        if (employeeIndex === -1) {
-          console.error('Employee not found:', employeeId);
-          return;
-        }
+  // Show the modal
+  document.getElementById('editEmployeeModal').classList.remove('hidden');
+}
 
-        const employeeData = employeesData[employeeIndex];
-        console.log('Employee data to edit:', employeeData);
+// Function to close the edit modal
+function closeEditEmployeeModal() {
+  document.getElementById('editEmployeeModal').classList.add('hidden');
+}
 
-        // Set the form's data-index attribute
-        const editForm = document.getElementById('editEmployeeForm');
-        editForm.setAttribute('data-index', employeeIndex);
-        console.log('Set form data-index to:', employeeIndex);
+// Submit event for the edit form
+document.getElementById('editEmployeeForm').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-        // Populate the edit form
-        document.getElementById('editFullName').value = employeeData.fullName;
-        document.getElementById('editCompany').value = employeeData.company;
-        document.getElementById('editPosition').value = employeeData.position;
-        document.getElementById('editStatus').value = employeeData.status.toLowerCase();
+  // Get the form data
+  const updatedData = {
+    fullName: document.getElementById('editFullName').value,
+    company: document.getElementById('editCompany').value,
+    position: document.getElementById('editPosition').value,
+    type: document.getElementById('editType').value,
+    status: document.getElementById('editStatus').value
+  };
 
-        // Set ID card preview if exists
-        if (employeeData.idCard) {
-          editIdCardPreview.src = employeeData.idCard;
-          editIdCardPreview.classList.remove('hidden');
-          editUploadIcon.classList.add('hidden');
-        } else {
-          editIdCardPreview.classList.add('hidden');
-          editUploadIcon.classList.remove('hidden');
-        }
+  // Here, you can send this data to the server or use it to update your database.
 
-        // Show the modal
-        document.getElementById('editEmployeeModal').classList.remove('hidden');
-      }
+  // For now, we’ll just log it in the console.
+  console.log(updatedData);
+
+  // Close the modal
+  closeEditEmployeeModal();
+});
+
       function closeEditEmployeeModal() {
         document.getElementById('editEmployeeModal').classList.add('hidden');
         document.getElementById('editEmployeeForm').reset();
@@ -571,47 +590,47 @@
       ];
 
       // Save data to localStorage whenever it changes
-      function saveEmployeesData() {
-        localStorage.setItem('employeesData', JSON.stringify(employeesData));
-        console.log('Saved employees data:', employeesData);
-      }
+    //   function saveEmployeesData() {
+    //     localStorage.setItem('employeesData', JSON.stringify(employeesData));
+    //     console.log('Saved employees data:', employeesData);
+    //   }
 
-      function renderEmployeesTable() {
-        console.log('Rendering table with data:', employeesData);
-        const tbody = document.querySelector('tbody');
-        tbody.innerHTML = '';
-        employeesData.forEach((emp, idx) => {
-          const tr = document.createElement('tr');
-          tr.className = 'table-row-hover';
-          tr.innerHTML = `
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.fullName}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.company}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.position}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.type}</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <button onclick="previewIdCard('${emp.fullName.replace(/\s+/g, '-')}-id')" class="text-primary hover:text-blue-700">
-                <i class="fas fa-id-card mr-1"></i>View ID Card
-              </button>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span class="px-2 py-1 text-xs font-medium rounded-full ${emp.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}">${emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}</span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              <button class="text-primary hover:text-blue-700 mr-3" title="Edit" onclick="editEmployee('${emp.fullName.replace(/\s+/g, '-')}')">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="text-yellow-600 hover:text-yellow-700 mr-3" title="View Details" onclick="previewEmployee('${emp.fullName.replace(/\s+/g, '-')}')">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button class="text-red-600 hover:text-red-700" title="Delete" onclick="deleteEmployee(${idx})">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-        saveEmployeesData(); // Save after rendering
-      }
+    //   function renderEmployeesTable() {
+    //     console.log('Rendering table with data:', employeesData);
+    //     const tbody = document.querySelector('tbody');
+    //     tbody.innerHTML = '';
+    //     employeesData.forEach((emp, idx) => {
+    //       const tr = document.createElement('tr');
+    //       tr.className = 'table-row-hover';
+    //       tr.innerHTML = `
+    //         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.fullName}</td>
+    //         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.company}</td>
+    //         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.position}</td>
+    //         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.type}</td>
+    //         <td class="px-6 py-4 whitespace-nowrap">
+    //           <button onclick="previewIdCard('${emp.fullName.replace(/\s+/g, '-')}-id')" class="text-primary hover:text-blue-700">
+    //             <i class="fas fa-id-card mr-1"></i>View ID Card
+    //           </button>
+    //         </td>
+    //         <td class="px-6 py-4 whitespace-nowrap">
+    //           <span class="px-2 py-1 text-xs font-medium rounded-full ${emp.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}">${emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}</span>
+    //         </td>
+    //         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    //           <button class="text-primary hover:text-blue-700 mr-3" title="Edit" onclick="editEmployee('${emp.fullName.replace(/\s+/g, '-')}')">
+    //             <i class="fas fa-edit"></i>
+    //           </button>
+    //           <button class="text-yellow-600 hover:text-yellow-700 mr-3" title="View Details" onclick="previewEmployee('${emp.fullName.replace(/\s+/g, '-')}')">
+    //             <i class="fas fa-eye"></i>
+    //           </button>
+    //           <button class="text-red-600 hover:text-red-700" title="Delete" onclick="deleteEmployee(${idx})">
+    //             <i class="fas fa-trash"></i>
+    //           </button>
+    //         </td>
+    //       `;
+    //       tbody.appendChild(tr);
+    //     });
+    //     saveEmployeesData(); // Save after rendering
+    //   }
 
       // Confirmation modal logic
       let confirmAction = null;
@@ -753,28 +772,33 @@
         document.getElementById('idCardPreviewModal').classList.add('hidden');
       }
 
-      function previewEmployee(employeeId) {
-        // Here you would typically fetch employee data from your backend
-        const employeeData = {
-          id: employeeId,
-          fullName: 'John Doe',
-          company: 'Digital Hyperspace Indonesia',
-          position: 'Software Engineer',
-          type: 'Employee',
-          status: 'Active',
-          idCard: 'path/to/id-card-image.jpg'
-        };
+    // Function to open the preview modal and populate it with data
+function previewEmployee(employeeId) {
+  // Example data for previewing (you can fetch this from your actual data source later)
+  const employeeData = {
+    fullName: 'John Doe 323',
+    company: 'Digital Hyperspace Indonesia 323',
+    position: 'Software Engineer 323',
+    type: 'Employee 323',
+    status: 'Active'
+  };
 
-        // Populate the preview
-        document.getElementById('previewFullName').textContent = employeeData.fullName;
-        document.getElementById('previewCompany').textContent = employeeData.company;
-        document.getElementById('previewPosition').textContent = employeeData.position;
-        document.getElementById('previewType').textContent = employeeData.type;
-        document.getElementById('previewStatus').textContent = employeeData.status;
+  // Populate the preview modal with employee data
+  document.getElementById('previewFullName').textContent = employeeData.fullName;
+  document.getElementById('previewCompany').textContent = employeeData.company;
+  document.getElementById('previewPosition').textContent = employeeData.position;
+  document.getElementById('previewType').textContent = employeeData.type;
+  document.getElementById('previewStatus').textContent = employeeData.status;
 
-        // Show the modal
-        document.getElementById('previewEmployeeModal').classList.remove('hidden');
-      }
+  // Show the preview modal
+  document.getElementById('previewEmployeeModal').classList.remove('hidden');
+}
+
+// Function to close the preview modal
+function closePreviewEmployeeModal() {
+  document.getElementById('previewEmployeeModal').classList.add('hidden');
+}
+
     </script>
   </body>
 </html>

@@ -63,7 +63,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Back Button -->
       <div class="mb-6">
-        <a href="client-dashboard.html" class="inline-flex items-center text-gray-600 hover:text-gray-900">
+        <a href="{{route('/')}}" class="inline-flex items-center text-gray-600 hover:text-gray-900">
           <i class="fas fa-arrow-left mr-2"></i>
           Back to Dashboard
         </a>
