@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('role');
             $table->string('item1')->nullable();
             $table->string('item2')->nullable();
+            $table->string('item3')->nullable();
+            $table->string('item4')->nullable();
+            $table->string('item5')->nullable();
+            $table->string('item6')->nullable();
             $table->integer('access_role_create')->nullable();
             $table->integer('access_role_edit')->nullable();
             $table->integer('access_role_delete')->nullable();
@@ -37,7 +41,7 @@ return new class extends Migration
             $table->integer('access_employe_view')->nullable();
             $table->integer('access_employe_delete')->nullable();
             $table->integer('access_newspecial_create')->nullable();
-  
+
             $table->integer('access_approvals_view')->nullable();
             $table->integer('access_approvals_edit')->nullable();
             $table->integer('access_visvin_delete')->nullable();

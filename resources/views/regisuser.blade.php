@@ -13,32 +13,36 @@
     },
   };
 
-  function handleUserTypeChange() {
-    const userType = document.getElementById('userType').value;
-    const ClientInfo = document.getElementById('ClientInfo');
-    const FMInfo = document.getElementById('FMInfo');
-    const DHIInfo = document.getElementById('DHIInfo');
-    const additionalInfo = document.getElementById('additionalInfo');
+function handleUserTypeChange() {
+  const userType = document.getElementById('userType').value;
+  console.log(userType); // Debugging
+  const ClientInfo = document.getElementById('ClientInfo');
+  const FMInfo = document.getElementById('FMInfo');
+  const DHIInfo = document.getElementById('DHIInfo');
+  const additionalInfo = document.getElementById('additionalInfo');
 
-    // Reset semua form tambahan
-    ClientInfo.classList.add('hidden');
-    FMInfo.classList.add('hidden');
-    DHIInfo.classList.add('hidden');
+  // Reset semua form tambahan
+  ClientInfo.classList.add('hidden');
+  FMInfo.classList.add('hidden');
+  DHIInfo.classList.add('hidden');
 
-    // Periksa tipe user dan tampilkan input relevan
-    if (userType === 'Client') {
-      additionalInfo.classList.remove('hidden');
-      ClientInfo.classList.remove('hidden');
-    } else if (userType === 'FM') {
-      additionalInfo.classList.remove('hidden');
-      FMInfo.classList.remove('hidden');
-    } else if (userType === 'DHI') {
-      additionalInfo.classList.remove('hidden');
-      DHIInfo.classList.remove('hidden');
-    } else {
-      additionalInfo.classList.add('hidden');
-    }
+  // Periksa tipe user dan tampilkan input relevan
+  if (userType === 'Client') {
+    console.log('Client selected');
+    additionalInfo.classList.remove('hidden');
+    ClientInfo.classList.remove('hidden');
+  } else if (userType === 'FM') {
+    console.log('FM selected');
+    additionalInfo.classList.remove('hidden');
+    FMInfo.classList.remove('hidden');
+  } else if (userType === 'DHI') {
+    console.log('DHI selected');
+    additionalInfo.classList.remove('hidden');
+    DHIInfo.classList.remove('hidden');
+  } else {
+    additionalInfo.classList.add('hidden');
   }
+}
 </script>
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -135,7 +139,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">Nomor ID FM</label>
             <input
               type="text"
-              name="item1"
+              name="item3"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
@@ -143,7 +147,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">Area Bertugas</label>
             <input
               type="text"
-              name="item2"
+              name="item4"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
@@ -154,14 +158,14 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">Nomor ID DHI</label>
             <input
               type="text"
-              name=""
+              name="item5"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Departemen</label>
             <select
-              name=""
+              name="item6"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="">Pilih Departemen</option>
