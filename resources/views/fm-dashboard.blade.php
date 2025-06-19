@@ -238,7 +238,7 @@
                 <span class="text-sm font-medium text-gray-700">Employee Data</span>
               </button>
               <button
-                onclick="window.location.href='{{route('employee-safety-list-fm')}}'"
+                onclick="window.location.href='{{route('employee-safety-list')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition"
               >
                 <i class="fas fa-clipboard-check text-red-600 text-xl mb-2"></i>

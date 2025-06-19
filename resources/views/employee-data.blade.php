@@ -41,12 +41,13 @@
     </style>
   </head>
   <body class="bg-gray-50">
+    <!-- Navbar -->
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Back Button -->
       <div class="mb-6">
-        <a href="fh-dashboard.html" class="inline-flex items-center text-gray-600 hover:text-gray-900">
+        <a href="{{route('/')}}" class="inline-flex items-center text-gray-600 hover:text-gray-900">
           <i class="fas fa-arrow-left mr-2"></i>
           Back to Dashboard
         </a>
@@ -56,11 +57,9 @@
         <!-- Page Title and Add Button -->
         <div class="flex justify-between items-center mb-6">
           <h1 class="text-2xl font-semibold text-gray-900">Employee Data</h1>
- @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
           <button onclick="addNewEmployee()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700">
             Add Employee
           </button>
-@endif
         </div>
 
         <!-- Search and Filter -->
@@ -102,35 +101,37 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Card</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                   @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                @endif
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <!-- Sample Employee Row -->
               <tr class="table-row-hover">
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">John Doe 22</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">John Doe</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Digital Hyperspace Indonesia</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Software Engineer</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Employee</td>
                 <td class="px-6 py-4 whitespace-nowrap">
+                  <button onclick="previewIdCard('john-doe-id')" class="text-primary hover:text-blue-700">
+                    <i class="fas fa-id-card mr-1"></i>View ID Card
+                  </button>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
                   <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
                 </td>
-                @if(Auth::user()->role == "FM" || Auth::user()->role == "DHI")
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button class="text-primary hover:text-blue-700 mr-3" title="Edit">
+                  <button class="text-primary hover:text-blue-700 mr-3" title="Edit" onclick="editEmployee('john-doe')">
                     <i class="fas fa-edit"></i>
                   </button>
-                  <button class="text-yellow-600 hover:text-yellow-700 mr-3" title="View Details">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="text-red-600 hover:text-red-700" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                  <button class="text-yellow-600 hover:text-yellow-700 mr-3" title="View Details" onclick="previewEmployee('john-doe')">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="text-red-600 hover:text-red-700" title="Delete">
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </td>
-                @endif
               </tr>
             </tbody>
           </table>
@@ -177,38 +178,63 @@
 
     <!-- Add Employee Modal -->
     <div id="addEmployeeModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl mx-4">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold">Add Employee</h2>
           <button onclick="closeAddEmployeeModal()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
         </div>
         <form id="addEmployeeForm" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Full Name</label>
-            <input type="text" id="addFullName" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Company</label>
-            <input type="text" id="addCompany" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Position</label>
-            <input type="text" id="addPosition" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Type</label>
-            <input type="text" value="Employee" class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100" disabled />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Status</label>
-            <select id="addStatus" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Full Name</label>
+              <input type="text" id="addFullName" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Company</label>
+              <input type="text" id="addCompany" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Position</label>
+              <input type="text" id="addPosition" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Type</label>
+              <input type="text" value="Employee" class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100" disabled />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">ID Card / Passport</label>
+              <div class="mt-1">
+                <div class="flex items-center justify-center w-full">
+                  <label class="flex flex-col w-full h-48 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300 rounded-lg">
+                    <div class="flex flex-col items-center justify-center h-full">
+                      <img id="idCardPreview" src="" alt="" class="hidden w-full h-full object-contain p-4">
+                      <div id="uploadIcon" class="flex flex-col items-center justify-center p-6">
+                        <i class="fas fa-id-card text-gray-400 text-4xl mb-4"></i>
+                        <p class="text-base text-gray-600 font-medium mb-2">Click to upload ID Card or Passport</p>
+                        <p class="text-sm text-gray-500">PNG, JPG, or PDF (max. 2MB)</p>
+                      </div>
+                    </div>
+                    <input type="file" id="idCardInput" class="opacity-0" accept=".png,.jpg,.jpeg,.pdf" />
+                  </label>
+                </div>
+              </div>
+              <p class="mt-2 text-sm text-gray-500">Please upload a clear photo of your ID Card or Passport</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Status</label>
+              <select id="addStatus" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
           </div>
           <div class="flex justify-end gap-2">
-            <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">Cancel</button>
-            <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md text-sm hover:bg-blue-700">Add</button>
+            <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium hover:bg-blue-600">
+              Add Employee
+            </button>
           </div>
         </form>
       </div>
@@ -216,38 +242,65 @@
 
     <!-- Edit Employee Modal -->
     <div id="editEmployeeModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl mx-4">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold">Edit Employee</h2>
-          <button onclick="closeEditEmployeeModal()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+          <button onclick="closeEditEmployeeModal()" class="text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
         <form id="editEmployeeForm" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Full Name</label>
-            <input type="text" id="editFullName" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Company</label>
-            <input type="text" id="editCompany" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Position</label>
-            <input type="text" id="editPosition" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Type</label>
-            <input type="text" value="Employee" class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100" disabled />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Status</label>
-            <select id="editStatus" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Full Name</label>
+              <input type="text" id="editFullName" name="editFullName" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Company</label>
+              <input type="text" id="editCompany" name="editCompany" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Position</label>
+              <input type="text" id="editPosition" name="editPosition" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Type</label>
+              <input type="text" id="editType" name="editType" value="Employee" class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100" disabled />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">ID Card / Passport</label>
+              <div class="mt-1">
+                <div class="flex items-center justify-center w-full">
+                  <label class="flex flex-col w-full h-48 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300 rounded-lg">
+                    <div class="flex flex-col items-center justify-center h-full">
+                      <img id="editIdCardPreview" src="" alt="" class="hidden w-full h-full object-contain p-4">
+                      <div id="editUploadIcon" class="flex flex-col items-center justify-center p-6">
+                        <i class="fas fa-id-card text-gray-400 text-4xl mb-4"></i>
+                        <p class="text-base text-gray-600 font-medium mb-2">Click to upload ID Card or Passport</p>
+                        <p class="text-sm text-gray-500">PNG, JPG, or PDF (max. 2MB)</p>
+                      </div>
+                    </div>
+                    <input type="file" id="editIdCardInput" name="editIdCardInput" class="opacity-0" accept=".png,.jpg,.jpeg,.pdf" />
+                  </label>
+                </div>
+              </div>
+              <p class="mt-2 text-sm text-gray-500">Please upload a clear photo of your ID Card or Passport</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Status</label>
+              <select id="editStatus" name="editStatus" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
           </div>
           <div class="flex justify-end gap-2">
-            <button type="button" onclick="closeEditEmployeeModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">Cancel</button>
-            <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md text-sm hover:bg-blue-700">Save</button>
+            <button type="button" onclick="closeEditEmployeeModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium hover:bg-blue-600">
+              Save Changes
+            </button>
           </div>
         </form>
       </div>
@@ -255,48 +308,95 @@
 
     <!-- Preview Employee Modal -->
     <div id="previewEmployeeModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl mx-4">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold">Employee Details</h2>
           <button onclick="closePreviewEmployeeModal()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
         </div>
-        <div class="space-y-3">
-          <div>
-            <span class="block text-xs text-gray-500">Full Name</span>
-            <span id="previewFullName" class="block font-medium text-gray-900"></span>
+        <div class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Full Name</label>
+              <p id="previewFullName" class="mt-1 text-sm text-gray-900"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Company</label>
+              <p id="previewCompany" class="mt-1 text-sm text-gray-900"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Position</label>
+              <p id="previewPosition" class="mt-1 text-sm text-gray-900"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Type</label>
+              <p id="previewType" class="mt-1 text-sm text-gray-900"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">ID Card / Passport</label>
+              <div class="mt-1">
+                <button onclick="previewIdCard('preview-id')" class="text-primary hover:text-blue-700">
+                  <i class="fas fa-id-card mr-1"></i>View ID Card
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Status</label>
+              <p id="previewStatus" class="mt-1 text-sm text-gray-900"></p>
+            </div>
           </div>
-          <div>
-            <span class="block text-xs text-gray-500">Company</span>
-            <span id="previewCompany" class="block font-medium text-gray-900"></span>
+              </div>
+            </div>
           </div>
-          <div>
-            <span class="block text-xs text-gray-500">Position</span>
-            <span id="previewPosition" class="block font-medium text-gray-900"></span>
-          </div>
-          <div>
-            <span class="block text-xs text-gray-500">Type</span>
-            <span class="block font-medium text-gray-900">Employee</span>
-          </div>
-          <div>
-            <span class="block text-xs text-gray-500">Status</span>
-            <span id="previewStatus" class="block font-medium text-gray-900"></span>
-          </div>
+
+    <!-- ID Card Preview Modal -->
+    <div id="idCardPreviewModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl mx-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">ID Card / Passport Preview</h2>
+          <button onclick="closeIdCardPreview()" class="text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
-        <div class="flex justify-end mt-4">
-          <button onclick="closePreviewEmployeeModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">Close</button>
+        <div class="flex justify-center">
+          <img id="idCardPreviewImage" src="" alt="ID Card Preview" class="max-w-full max-h-[70vh] object-contain">
         </div>
       </div>
     </div>
 
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
-        <div class="mb-4">
-          <h3 id="confirmationMessage" class="text-lg font-medium text-gray-900 text-center">Are you sure you want to proceed?</h3>
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-4">
+        <div class="text-center">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Confirmation</h3>
+          <p id="confirmationMessage" class="text-sm text-gray-500 mb-6"></p>
+          <div class="flex justify-center space-x-4">
+            <button id="confirmNoBtn" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              Cancel
+            </button>
+            <button id="confirmYesBtn" class="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium hover:bg-blue-600">
+              Confirm
+            </button>
         </div>
-        <div class="flex justify-center gap-4">
-          <button id="confirmYesBtn" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700">Yes</button>
-          <button id="confirmNoBtn" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KTP Preview Modal -->
+    <div id="ktpPreviewModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+      <div class="bg-white rounded-lg p-4 max-w-2xl w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-900">KTP Photo Preview</h3>
+          <button onclick="closeKTPPreview()" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="relative">
+          <img
+            id="ktpPreviewLarge"
+            src=""
+            alt="KTP Photo Preview"
+            class="w-full h-auto rounded-lg"
+          />
         </div>
       </div>
     </div>
@@ -399,18 +499,52 @@
         document.getElementById('addEmployeeModal').classList.add('hidden');
         document.getElementById('addEmployeeForm').reset();
       }
-      function openEditEmployeeModal(index) {
-        const data = employeesData[index];
-        document.getElementById('editFullName').value = data.fullName;
-        document.getElementById('editCompany').value = data.company;
-        document.getElementById('editPosition').value = data.position;
-        document.getElementById('editStatus').value = data.status;
-        document.getElementById('editEmployeeForm').setAttribute('data-index', index);
+      function editEmployee(employeeId) {
+        console.log('Edit button clicked for employee:', employeeId);
+        console.log('Current employees data:', employeesData);
+
+        // Find the employee in the data array
+        const employeeIndex = employeesData.findIndex(emp => emp.fullName.replace(/\s+/g, '-') === employeeId);
+        console.log('Found employee at index:', employeeIndex);
+
+        if (employeeIndex === -1) {
+          console.error('Employee not found:', employeeId);
+          return;
+        }
+
+        const employeeData = employeesData[employeeIndex];
+        console.log('Employee data to edit:', employeeData);
+
+        // Set the form's data-index attribute
+        const editForm = document.getElementById('editEmployeeForm');
+        editForm.setAttribute('data-index', employeeIndex);
+        console.log('Set form data-index to:', employeeIndex);
+
+        // Populate the edit form
+        document.getElementById('editFullName').value = employeeData.fullName;
+        document.getElementById('editCompany').value = employeeData.company;
+        document.getElementById('editPosition').value = employeeData.position;
+        document.getElementById('editStatus').value = employeeData.status.toLowerCase();
+
+        // Set ID card preview if exists
+        if (employeeData.idCard) {
+          editIdCardPreview.src = employeeData.idCard;
+          editIdCardPreview.classList.remove('hidden');
+          editUploadIcon.classList.add('hidden');
+        } else {
+          editIdCardPreview.classList.add('hidden');
+          editUploadIcon.classList.remove('hidden');
+        }
+
+        // Show the modal
         document.getElementById('editEmployeeModal').classList.remove('hidden');
       }
       function closeEditEmployeeModal() {
         document.getElementById('editEmployeeModal').classList.add('hidden');
         document.getElementById('editEmployeeForm').reset();
+        // Reset ID card preview
+        editIdCardPreview.classList.add('hidden');
+        editUploadIcon.classList.remove('hidden');
       }
       function openPreviewEmployeeModal(index) {
         const data = employeesData[index];
@@ -424,6 +558,60 @@
         document.getElementById('previewEmployeeModal').classList.add('hidden');
       }
 
+      // Initialize employees data from localStorage if available
+      let employeesData = JSON.parse(localStorage.getItem('employeesData')) || [
+        {
+          fullName: 'John Doe',
+          company: 'Digital Hyperspace Indonesia',
+          position: 'Software Engineer',
+          type: 'Employee',
+          status: 'active',
+          idCard: null
+        }
+      ];
+
+      // Save data to localStorage whenever it changes
+      function saveEmployeesData() {
+        localStorage.setItem('employeesData', JSON.stringify(employeesData));
+        console.log('Saved employees data:', employeesData);
+      }
+
+      function renderEmployeesTable() {
+        console.log('Rendering table with data:', employeesData);
+        const tbody = document.querySelector('tbody');
+        tbody.innerHTML = '';
+        employeesData.forEach((emp, idx) => {
+          const tr = document.createElement('tr');
+          tr.className = 'table-row-hover';
+          tr.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.fullName}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.company}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.position}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.type}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <button onclick="previewIdCard('${emp.fullName.replace(/\s+/g, '-')}-id')" class="text-primary hover:text-blue-700">
+                <i class="fas fa-id-card mr-1"></i>View ID Card
+              </button>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full ${emp.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}">${emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <button class="text-primary hover:text-blue-700 mr-3" title="Edit" onclick="editEmployee('${emp.fullName.replace(/\s+/g, '-')}')">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="text-yellow-600 hover:text-yellow-700 mr-3" title="View Details" onclick="previewEmployee('${emp.fullName.replace(/\s+/g, '-')}')">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="text-red-600 hover:text-red-700" title="Delete" onclick="deleteEmployee(${idx})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+        saveEmployeesData(); // Save after rendering
+      }
 
       // Confirmation modal logic
       let confirmAction = null;
@@ -441,17 +629,51 @@
         confirmAction = null;
       };
 
+      // Add Employee with confirmation
+      document.getElementById('addEmployeeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        showConfirmation('Are you sure you want to add this employee?', function() {
+          const fullName = document.getElementById('addFullName').value;
+          const company = document.getElementById('addCompany').value;
+          const position = document.getElementById('addPosition').value;
+          const status = document.getElementById('addStatus').value;
+          employeesData.push({ fullName, company, position, type: 'employee', status });
+          renderEmployeesTable();
+          closeAddEmployeeModal();
+        });
+      });
 
       // Edit Employee with confirmation
       document.getElementById('editEmployeeForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const idx = this.getAttribute('data-index');
+        console.log('Submitting edit form with index:', idx);
+
+        if (idx === null) {
+          console.error('No employee index found');
+          return;
+        }
+
         showConfirmation('Are you sure you want to save changes to this employee?', function() {
-          employeesData[idx].fullName = document.getElementById('editFullName').value;
-          employeesData[idx].company = document.getElementById('editCompany').value;
-          employeesData[idx].position = document.getElementById('editPosition').value;
-          employeesData[idx].status = document.getElementById('editStatus').value;
+          console.log('Saving changes for employee at index:', idx);
+          console.log('Current employee data:', employeesData[idx]);
+
+          // Update employee data
+          employeesData[idx] = {
+            ...employeesData[idx],
+            fullName: document.getElementById('editFullName').value,
+            company: document.getElementById('editCompany').value,
+            position: document.getElementById('editPosition').value,
+            status: document.getElementById('editStatus').value,
+            idCard: editIdCardPreview.src || null
+          };
+
+          console.log('Updated employee data:', employeesData[idx]);
+
+          // Update the table and save data
           renderEmployeesTable();
+
+          // Close the modal
           closeEditEmployeeModal();
         });
       });
@@ -471,8 +693,91 @@
 
       // Initial render
       renderEmployeesTable();
+
+      // ID Card Preview
+      const idCardInput = document.getElementById('idCardInput');
+      const idCardPreview = document.getElementById('idCardPreview');
+      const uploadIcon = document.getElementById('uploadIcon');
+
+      idCardInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              idCardPreview.src = e.target.result;
+              idCardPreview.classList.remove('hidden');
+              uploadIcon.classList.add('hidden');
+            }
+          reader.readAsDataURL(file);
+          } else {
+            idCardPreview.classList.add('hidden');
+            uploadIcon.classList.remove('hidden');
+            alert('Please upload an image file (PNG, JPG, or JPEG)');
+      }
+        }
+      });
+
+      // Edit ID Card Preview
+      const editIdCardInput = document.getElementById('editIdCardInput');
+      const editIdCardPreview = document.getElementById('editIdCardPreview');
+      const editUploadIcon = document.getElementById('editUploadIcon');
+
+      editIdCardInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              editIdCardPreview.src = e.target.result;
+              editIdCardPreview.classList.remove('hidden');
+              editUploadIcon.classList.add('hidden');
+            }
+          reader.readAsDataURL(file);
+          } else {
+            editIdCardPreview.classList.add('hidden');
+            editUploadIcon.classList.remove('hidden');
+            alert('Please upload an image file (PNG, JPG, or JPEG)');
+      }
+        }
+      });
+
+      function previewIdCard(employeeId) {
+        // Here you would typically fetch the ID card image from your backend
+        const idCardImage = 'path/to/id-card-image.jpg'; // Replace with actual image path
+        document.getElementById('idCardPreviewImage').src = idCardImage;
+        document.getElementById('idCardPreviewModal').classList.remove('hidden');
+      }
+
+      function closeIdCardPreview() {
+        document.getElementById('idCardPreviewModal').classList.add('hidden');
+      }
+
+      function previewEmployee(employeeId) {
+        // Here you would typically fetch employee data from your backend
+        const employeeData = {
+          id: employeeId,
+          fullName: 'John Doe',
+          company: 'Digital Hyperspace Indonesia',
+          position: 'Software Engineer',
+          type: 'Employee',
+          status: 'Active',
+          idCard: 'path/to/id-card-image.jpg'
+        };
+
+        // Populate the preview
+        document.getElementById('previewFullName').textContent = employeeData.fullName;
+        document.getElementById('previewCompany').textContent = employeeData.company;
+        document.getElementById('previewPosition').textContent = employeeData.position;
+        document.getElementById('previewType').textContent = employeeData.type;
+        document.getElementById('previewStatus').textContent = employeeData.status;
+
+        // Show the modal
+        document.getElementById('previewEmployeeModal').classList.remove('hidden');
+      }
     </script>
   </body>
 </html>
+
 
 @endsection
