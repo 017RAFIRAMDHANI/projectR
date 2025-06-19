@@ -60,4 +60,50 @@ class DaftarUser extends Controller
             "dataUser" => $dataUser
         ]);
 }
+    public function update(Request $request,$id)
+{
+    $dataUser = User::findOrFail($id);
+
+    // Daftar nama-nama field yang akan diproses
+    $permissions = [
+        'access_newspecial_create',
+        'access_employe_create',
+        'access_employe_edit',
+        'access_employe_delete',
+        'access_approvals_view',
+        'access_approvals_edit',
+        'access_visvin_view',
+        'access_visvin_delete',
+        'access_vehicle_view',
+        'access_vehicle_create',
+        'access_vehicle_edit',
+        'access_vehicle_delete',
+        'access_safety_view',
+        'access_safety_edit',
+        'access_report_view',
+        'access_report_create',
+        'access_report_edit',
+        'access_report_delete',
+        'access_role_view',
+        'access_role_create',
+        'access_role_edit',
+        'access_role_delete',
+    ];
+
+    // Loop untuk memeriksa apakah checkbox dicentang dan set nilai 1 jika dicentang
+    foreach ($permissions as $permission) {
+        if ($request->has($permission) && $request->$permission == 'on') {
+            $dataUser->$permission = 1;
+        } else {
+            $dataUser->$permission = null;
+        }
+    }
+
+    // Simpan perubahan
+    $dataUser->save();
+
+    // Redirect atau beri response
+  return back()->with('success', 'User updated successfully!');
+
+}
 }

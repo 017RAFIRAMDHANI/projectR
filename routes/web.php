@@ -63,6 +63,7 @@ Route::get('/user-list',[App\Http\Controllers\DaftarUser::class, 'index'])->name
 Route::delete('/delete-user/{id}', [App\Http\Controllers\DaftarUser::class, 'destroy'])->name('delete-user');
 Route::get('/edit-user/{id}', [App\Http\Controllers\DaftarUser::class, 'edit'])->name('edit-user');
 Route::get('/permision-user/{id}', [App\Http\Controllers\DaftarUser::class, 'permision'])->name('permision-user');
+Route::put('/roleupdate/{id}',[App\Http\Controllers\DaftarUser::class, 'update'])->name('regisuser.update');
 
  ;
 Route::get('/employee-safety-list', function () {
