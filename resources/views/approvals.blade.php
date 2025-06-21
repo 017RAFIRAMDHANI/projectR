@@ -434,16 +434,16 @@
 </td>
 
                    <td class="px-4 py-4 text-sm font-medium">
-            <div class="action-container">
-                         @if(Auth::user()->access_approvals_view == 1)
-              <button onclick="window.location.href=''" class="action-btn view" title="View Details">
+             <div class="action-container">
+         @if(Auth::user()->access_approvals_view == 1)
+              <button onclick="window.location.href='{{ route('visitor_view', $visitor->id_visitor) }}'" class="action-btn view" title="View Details">
 
                 <i class="fas fa-eye text-xs"></i>
               </button>
-              @endif
-                       @if(Auth::user()->access_approvals_edit == 1)
+@endif
+         @if(Auth::user()->access_approvals_edit == 1)
  @if($visitor->status == "Rejected" && $visitor->check_one_approve == null)
- <form action="#" method="POST">
+ <form action="{{route('visitor.approve')}}" method="POST">
     @csrf
          <input type="hidden" name="id_visitor" value="{{$visitor->id_visitor}}">
               <button  class="action-btn edit" title="Edit Permit">

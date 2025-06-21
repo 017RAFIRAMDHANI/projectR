@@ -82,4 +82,11 @@ $jmlurgent = Vendor::where('mode','Urgent')->count();
             "dataVendor" => $dataVendor
         ]);
     }
+    public function view_visitor($id_visitor){
+        $dataVisitor =  Visitor::where('id_visitor',$id_visitor)->first();
+       
+        return view('permit-details-visitor',[
+            "dataVisitor" => $dataVisitor
+        ]);
+    }
 }

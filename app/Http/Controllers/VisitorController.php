@@ -4,15 +4,87 @@ namespace App\Http\Controllers;
 
 use App\Models\Visitor;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Support\Facades\Log;
 
 class VisitorController extends Controller
+
+
 {
     public function index(Request $request)
 {
  // return view('visitor-dashboard');
 
 }
+ public function reject(Request $request)
+    {
+        $visitor = Visitor::where('id_visitor', $request->id_visitor)->first();
+        
+       // dd($request->all());
+        if ($visitor) {
+            // Mengubah status menjadi Reject
+      $noted = $request->rejected ?? 'hmm '; // Jika tidak ada nilai, beri default 'No notes provided'
+
+$visitor->note_visitor = $noted;
+  $visitor->status = 'Rejected';
+$visitor->save();
+
+            // Kirim email pemberitahuan ke visitor
+            Mail::to($visitor->email)->send(new \App\Mail\VisitorStatusMail($visitor, 'Rejected' ));
+
+           return back()->with('success', 'Permit Rejected Success');
+
+        }
+        return response()->json(['success' => false], 404);
+    }
+
+   public function generatePermitNumber()
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $permitNumber = '';
+        $length = 8;
+
+        // Generate nomor acak
+        for ($i = 0; $i < $length; $i++) {
+            $randomIndex = rand(0, strlen($characters) - 1);
+            $permitNumber .= $characters[$randomIndex];
+        }
+
+        return 'VS-' . date('Ym') . '-' . $permitNumber; // Format: VD-YYYYMM-8digitunik
+    }
+ public function approve(Request $request)
+    {
+        $visitor = Visitor::where('id_visitor', $request->id_visitor)->first();
+        if ($visitor) {
+            // Mengubah status menjadi Approved
+            $visitor->status = 'Approved';
+
+            // Generate Permit Number jika disetujui
+            $permitNumber = $this->generatePermitNumber();
+            $visitor->permit_number = $permitNumber;
+          $visitor->save();
+        $pdfContent = view('pdf_permit', compact('visitor', 'permitNumber'))->render();
+
+        // Create PDF from HTML content
+        $pdf = FacadePdf::loadHTML($pdfContent);
+
+        // Save the generated PDF in storage
+        $filePath = storage_path('app/public/permit_to_work_' . $permitNumber . '.pdf');
+        $pdf->save($filePath);
+
+        // Kirim email pemberitahuan ke visitor
+       Mail::to($visitor->email)->send(new \App\Mail\VisitorStatusMail($visitor, 'Approved', $permitNumber,$filePath));
+            // Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
+
+           return back()->with('success', 'Permit Approve Success');
+        }
+        return response()->json(['success' => false], 404);
+    }
 
    public function store(Request $request)
 {
@@ -301,7 +373,7 @@ class VisitorController extends Controller
     'quantity_30' => $validatedData['quantity_30'] ?? null,
     'upload_id_card_foto' => $fileCard ?? null,
     'status' => 'Pending',
-   
+
 ]);
 
 
