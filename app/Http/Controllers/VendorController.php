@@ -59,7 +59,7 @@ class VendorController extends Controller
        // dd($request->all());
         if ($vendor) {
             // Mengubah status menjadi Reject
-      $noted = $request->rejected ?? 'hmm '; // Jika tidak ada nilai, beri default 'No notes provided'
+      $noted = $request->rejected ?? ' '; // Jika tidak ada nilai, beri default 'No notes provided'
 
 $vendor->note_vendor = $noted;
   $vendor->status = 'Rejected';

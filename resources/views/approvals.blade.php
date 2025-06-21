@@ -14,6 +14,7 @@
       };
     </script>
     <style>
+
       .btn-hover {
         transition: background-color 0.2s ease;
       }
@@ -443,12 +444,14 @@
 @endif
          @if(Auth::user()->access_approvals_edit == 1)
  @if($visitor->status == "Rejected" && $visitor->check_one_approve == null)
- <form action="{{route('visitor.approve')}}" method="POST">
+<form id="approve-form-{{$visitor->id_visitor}}" action="{{route('visitor.approve')}}" method="POST">
     @csrf
-         <input type="hidden" name="id_visitor" value="{{$visitor->id_visitor}}">
-              <button  class="action-btn edit" title="Edit Permit">
-                <i class="fas fa-edit text-xs"></i>
-              </button></form>
+    <input type="hidden" name="id_visitor" value="{{$visitor->id_visitor}}">
+    <button type="button" class="action-btn edit approve-btn" data-id="{{$visitor->id_visitor}}" title="Approve Permit">
+            <i class="fas fa-edit text-xs"></i> Approve
+    </button>
+</form>
+
 @endif
 @endif
             </div>
@@ -528,12 +531,14 @@
 @endif
          @if(Auth::user()->access_approvals_edit == 1)
  @if($vendor->status == "Rejected" && $vendor->check_one_approve == null)
- <form action="{{route('vendors.approve')}}" method="POST">
-    @csrf
-         <input type="hidden" name="id_vendor" value="{{$vendor->id_vendor}}">
-              <button  class="action-btn edit" title="Edit Permit">
-                <i class="fas fa-edit text-xs"></i>
-              </button></form>
+    <form id="approve-form-vendor-{{$vendor->id_vendor}}" action="{{route('vendors.approve')}}" method="POST">
+      @csrf
+      <input type="hidden" name="id_vendor" value="{{$vendor->id_vendor}}">
+      <button type="button" class="action-btn edit approve-btn-vendor" data-id="{{$vendor->id_vendor}}" title="Approve Vendor Permit">
+        <i class="fas fa-edit text-xs"></i> Approve
+      </button>
+    </form>
+
 @endif
 @endif
             </div>
@@ -583,6 +588,105 @@
         </div>
       </div>
     </div>
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Gunakan event delegation dengan menambahkan event listener ke body
+  document.body.addEventListener("click", function (e) {
+    if (e.target && e.target.matches(".approve-btn")) {  // Jika elemen yang diklik adalah tombol approve-btn
+      e.preventDefault();  // Menghindari form submit langsung
+
+      const id = e.target.getAttribute('data-id');  // Mendapatkan ID untuk form yang sesuai
+      const form = document.getElementById('approve-form-' + id);  // Menentukan form berdasarkan ID
+
+      // Log untuk memeriksa apakah tombol dan form ditemukan
+      console.log("Tombol approve-btn diklik");
+      console.log("ID Form: ", id);
+
+      if (form) {
+        console.log("Form ditemukan untuk ID: ", id);
+      } else {
+        console.log("Form tidak ditemukan untuk ID: ", id);
+      }
+
+      // Menampilkan SweetAlert untuk konfirmasi
+      Swal.fire({
+        title: 'Approve Permit?',
+        text: "Apakah Anda yakin ingin menyetujui permit ini?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Setujui!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Log untuk menunjukkan jika tombol konfirmasi di klik
+          console.log("Konfirmasi diterima. Menyubmit form.");
+          if (form) {
+            form.submit();  // Kirim form jika form ada
+          }
+        } else {
+          console.log("Konfirmasi dibatalkan.");
+        }
+      });
+    }
+  });
+});
+
+
+
+
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  // Event listener untuk tombol approve-btn pada form vendor
+  document.body.addEventListener("click", function (e) {
+    if (e.target && e.target.matches(".approve-btn-vendor")) {  // Tombol approve-btn untuk vendor
+      e.preventDefault();  // Menghindari form submit langsung
+
+      const id = e.target.getAttribute('data-id');  // Mendapatkan ID untuk form yang sesuai
+      const form = document.getElementById('approve-form-vendor-' + id);  // Menentukan form berdasarkan ID
+
+      // Log untuk memeriksa apakah tombol dan form ditemukan
+      console.log("Tombol approve-btn (Vendor) diklik");
+      console.log("ID Form: ", id);
+      if (form) {
+        console.log("Form ditemukan untuk Vendor ID: ", id);
+      } else {
+        console.log("Form tidak ditemukan untuk Vendor ID: ", id);
+      }
+
+      // Menampilkan SweetAlert untuk konfirmasi
+      Swal.fire({
+        title: 'Approve Vendor Permit?',
+        text: "Apakah Anda yakin ingin menyetujui permit vendor ini?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Setujui!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Log untuk menunjukkan jika tombol konfirmasi di klik
+          console.log("Konfirmasi diterima. Menyubmit form (Vendor).");
+          if (form) {
+            form.submit();  // Kirim form jika form ada
+          }
+        } else {
+          console.log("Konfirmasi dibatalkan (Vendor).");
+        }
+      });
+    }
+  });
+});
+
+</script>
+
+
+
 
     <script>
       // Function to toggle notifications panel
@@ -840,6 +944,10 @@
           updateUrgentCount();
       });
     </script>
+
+
+
+
   </body>
 </html>
 

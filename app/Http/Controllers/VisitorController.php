@@ -24,11 +24,11 @@ class VisitorController extends Controller
  public function reject(Request $request)
     {
         $visitor = Visitor::where('id_visitor', $request->id_visitor)->first();
-        
+
        // dd($request->all());
         if ($visitor) {
             // Mengubah status menjadi Reject
-      $noted = $request->rejected ?? 'hmm '; // Jika tidak ada nilai, beri default 'No notes provided'
+      $noted = $request->rejected ?? ' '; // Jika tidak ada nilai, beri default 'No notes provided'
 
 $visitor->note_visitor = $noted;
   $visitor->status = 'Rejected';
