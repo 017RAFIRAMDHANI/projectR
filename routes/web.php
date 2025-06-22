@@ -67,6 +67,9 @@ Route::delete('/delete-user/{id}', [App\Http\Controllers\DaftarUser::class, 'des
 Route::get('/edit-user/{id}', [App\Http\Controllers\DaftarUser::class, 'edit'])->name('edit-user');
 Route::get('/permision-user/{id}', [App\Http\Controllers\DaftarUser::class, 'permision'])->name('permision-user');
 Route::put('/roleupdate/{id}',[App\Http\Controllers\DaftarUser::class, 'update'])->name('regisuser.update');
+Route::get('/employee-data',[App\Http\Controllers\EmployeController::class, 'index'])->name('employee-data');
+Route::post('/employee-tambah',[App\Http\Controllers\EmployeController::class, 'store'])->name('employee-store');
+Route::post('/employee-edit',[App\Http\Controllers\EmployeController::class, 'update'])->name('employee-update');
 
 // client
 Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');
@@ -87,9 +90,6 @@ Route::get('/daily-report', function () {
 Route::get('/permit-data', function () {
     return view('permit-data');
 })->name('permit-data');
-Route::get('/employee-data', function () {
-    return view('employee-data');
-})->name('employee-data');
 Route::get('/employee-safety-list-fm', function () {
     return view('employee-safety-list-fm');
 })->name('employee-safety-list-fm');

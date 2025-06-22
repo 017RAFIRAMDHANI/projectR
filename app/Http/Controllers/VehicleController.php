@@ -8,10 +8,16 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
+          public function __construct()
+    {
+        $this->middleware('auth');
+
+
+    }
      public function delete(Request $request)
 {
     // Menampilkan data yang diterima untuk debugging
-    
+
 
     try {
         // Mencari kendaraan berdasarkan id_vehicle

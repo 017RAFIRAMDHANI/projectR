@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 class DaftarUser extends Controller
 {
+          public function __construct()
+    {
+        $this->middleware('auth');
+
+
+    }
  public function store(Request $request)
 {
 

@@ -21,6 +21,12 @@ class VisitorController extends Controller
  // return view('visitor-dashboard');
 
 }
+      public function __construct()
+    {
+        $this->middleware('auth');
+
+
+    }
  public function reject(Request $request)
     {
         $visitor = Visitor::where('id_visitor', $request->id_visitor)->first();
