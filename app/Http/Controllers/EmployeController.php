@@ -31,7 +31,7 @@ class EmployeController extends Controller
             'position' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'status' => 'required|in:Active,Inactive',
-            'file_card' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5048',
+            'file_card' => 'required|file|max:5048',
         ]);
     // Mendapatkan file yang diupload
         $file = $request->file('file_card');
@@ -67,7 +67,7 @@ class EmployeController extends Controller
             'position' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'status' => 'required|in:Active,Inactive',
-            'file_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5048',  // Nullable for updating without a new file
+            'file_card' => 'nullable|file|max:5048',  // Nullable for updating without a new file
         ]);
 
         // Mencari employee yang ingin diupdate
@@ -102,4 +102,20 @@ class EmployeController extends Controller
         return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
     }
 }
+
+public function delete(Request $request)
+{
+
+    try {
+        // Find and delete the employee
+        $employee = Employe::findOrFail($request->id_employe);
+
+        $employee->delete();
+
+        return redirect()->back()->with('success', 'Employee deleted successfully!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Error deleting employee: ' . $e->getMessage());
+    }
+}
+
 }

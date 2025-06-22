@@ -149,9 +149,14 @@
 </button>
                   @endif
                    @if(Auth::user()->access_employe_delete == 1)
-                  <button class="text-red-600 hover:text-red-700" title="Delete">
-                    <i class="fas fa-trash"></i>
-                  </button>
+                  <form id="deleteEmployeeForm" action="{{ route('employee-delete') }}" method="POST" class="inline">
+    @csrf
+    
+    <input type="hidden" name="id_employe" value="{{ $item->id_employe }}">
+    <button type="button" class="text-red-600 hover:text-red-700" title="Delete" onclick="confirmDelete()">
+        <i class="fas fa-trash"></i>
+    </button>
+</form>
                   @endif
                 </td>
               </tr>
@@ -523,7 +528,25 @@
         </div>
       </div>
     </div>
-
+<script>
+    function confirmDelete() {
+        // SweetAlert2 confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If the user confirms, submit the delete form
+                document.getElementById('deleteEmployeeForm').submit();
+            }
+        });
+    }
+</script>
 <script>
     function previewEmployee(id, name, company, position, type, status, fileCard) {
     // Populate modal fields with employee data

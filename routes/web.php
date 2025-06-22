@@ -70,6 +70,7 @@ Route::put('/roleupdate/{id}',[App\Http\Controllers\DaftarUser::class, 'update']
 Route::get('/employee-data',[App\Http\Controllers\EmployeController::class, 'index'])->name('employee-data');
 Route::post('/employee-tambah',[App\Http\Controllers\EmployeController::class, 'store'])->name('employee-store');
 Route::post('/employee-edit',[App\Http\Controllers\EmployeController::class, 'update'])->name('employee-update');
+Route::post('/employee-delete',[App\Http\Controllers\EmployeController::class, 'delete'])->name('employee-delete');
 
 // client
 Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');
