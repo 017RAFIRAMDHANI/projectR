@@ -71,6 +71,7 @@ Route::put('/roleupdate/{id}',[App\Http\Controllers\DaftarUser::class, 'update']
 // client
 Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');
 Route::post('/vehicle-create',[App\Http\Controllers\VehicleController::class, 'store'])->name('vehicle-store');
+Route::post('/vehicle-delete',[App\Http\Controllers\VehicleController::class, 'delete'])->name('vehicle-delete');
 Route::post('/vehicle-edit',[App\Http\Controllers\VehicleController::class, 'update'])->name('vehicle-update');
 
 

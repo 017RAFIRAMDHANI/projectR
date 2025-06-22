@@ -8,6 +8,31 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
+     public function delete(Request $request)
+{
+    // Menampilkan data yang diterima untuk debugging
+    
+
+    try {
+        // Mencari kendaraan berdasarkan id_vehicle
+        $vehicle = Vehicle::find($request->id_vehicle);
+
+        // Jika kendaraan tidak ditemukan, kembalikan pesan error
+        if (!$vehicle) {
+            return redirect()->route('vehicle-list')->with('error', 'Vehicle not found!');
+        }
+
+        // Menghapus data kendaraan
+        $vehicle->delete();
+
+        // Setelah berhasil dihapus, redirect dengan pesan sukses
+        return redirect()->back()->with('success', 'Vehicle deleted successfully!');
+    } catch (\Exception $e) {
+        // Menangani error dan mengembalikan pesan error
+        return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+    }
+}
+
        public function index(){
 
         $dataVehicle = Vehicle::paginate(20);

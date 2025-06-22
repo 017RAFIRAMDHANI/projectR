@@ -156,6 +156,16 @@
                       <i class="fas fa-eye"></i>
                     </button>
   @endif
+@if(Auth::user()->access_vehicle_delete == 1)
+    <form id="deleteForm{{$item->id_vehicle}}" action="{{route('vehicle-delete')}}" method="POST" style="display: none;">
+        @csrf
+        <input type="hidden" name="id_vehicle" value="{{$item->id_vehicle}}">
+    </form>
+    <button class="text-red-600 hover:text-red-700" title="Delete" onclick="confirmDelete({{ $item->id_vehicle }})">
+        <i class="fas fa-trash"></i>
+    </button>
+@endif
+
                   </div>
                 </td>
               </tr>
@@ -382,7 +392,26 @@
         </div>
       </div>
     </div>
+<script>
+    function confirmDelete(id) {
+    // Menampilkan SweetAlert2 konfirmasi
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Jika user mengkonfirmasi, submit form yang sudah disembunyikan
+            document.getElementById('deleteForm' + id).submit();
+        }
+    });
+}
 
+</script>
     <script>
       function
       openModal() {
