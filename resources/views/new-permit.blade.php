@@ -99,6 +99,10 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Purpose Details</label>
                         <textarea name="purpose_detail" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
                     </div>
+                    <div class="md:col-span-2">
+                         <label class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                        <input type="text" name="company_name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" >
+                    </div>
 
           </div>
         </div>
@@ -282,27 +286,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
                 <input type="text" name="company_name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
             </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Building</label>
-                <select id="vendorBuildingSelect" name="building" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" onchange="updateVendorLevelOptions()">
-                  <option value="">Select Building</option>
-                  <option value="Admin Building">Admin Building</option>
-                  <option value="DC Building">DC Building</option>
-                  <option value="External Areas">External Areas</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Level</label>
-                <select id="vendorLevelSelect" name="level" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
-                  <option value="">Select Level</option>
-                  <option value="Level 1">Level 1</option>
-                  <option value="Level 2">Level 2</option>
-                  <option value="Level 3">Level 3</option>
-                  <option value="Level 4 (Admin Building Only)">Level 4 (Admin Building Only)</option>
-                  <option value="Level 5 (DC Building Only)">Level 5 (DC Building Only)</option>
-                  <option value="N/A (For External Areas)">N/A (For External Areas)</option>
-                </select>
-              </div>
+              
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Urgency</label>
                 <select name="mode" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
@@ -363,7 +347,7 @@
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Building</label>
                 <select name="building" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
-                  <option value="">Select Building</option>
+                  <option value="" disabled>Select Building</option>
                   <option value="Admin Building">Admin Building</option>
                   <option value="DC Building">DC Building</option>
                   <option value="External">External</option>
@@ -372,7 +356,7 @@
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Level</label>
                 <select name="level" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
-                  <option value="">Select Level</option>
+                  <option value="" disabled>Select Level</option>
                   <option value="Level 1">Level 1</option>
                   <option value="Level 2">Level 2</option>
                   <option value="Level 3">Level 3</option>

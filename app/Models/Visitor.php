@@ -151,8 +151,9 @@ class Visitor extends Model
         'quantity_30',
         'upload_id_card_foto',
         'primary_number',
+        'company_name',
         'permit_number',
         'status',
-      
+
     ];
 }

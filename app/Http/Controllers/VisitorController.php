@@ -93,6 +93,7 @@ $visitor->save();
         // Validate the incoming request data
    $validatedData = $request->validate([
     'email' => 'required|email',
+    'company_name' => 'required',
     'request_date_from' => 'nullable|date',
     'request_date_to' => 'nullable|date',
     'purpose_visit' => 'nullable|string|max:255',
@@ -240,6 +241,7 @@ $visitor->save();
 
         $visitor = Visitor::create([
     'email' => $validatedData['email'] ?? null,
+    'company_name' => $validatedData['company_name'] ?? null,
     'request_date_from' => $validatedData['request_date_from'] ?? null,
     'request_date_to' => $validatedData['request_date_to'] ?? null,
     'purpose_visit' => $validatedData['purpose_visit'] ?? null,

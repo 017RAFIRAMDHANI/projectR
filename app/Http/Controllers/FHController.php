@@ -31,7 +31,7 @@ class FHController extends Controller
 
         $vendors = Vendor::orderByRaw("CASE WHEN mode = 'URGENT' THEN 1 ELSE 2 END")  // Urutkan URGENT di atas
                             ->get();
-        $visitors = Visitor::paginate(2);
+        $visitors = Visitor::paginate(20);
         $jmlvisitors = Visitor::count();
         $jmlvendors = Vendor::count();
 $jmlpending = Vendor::where('status', 'Pending')->count() + Visitor::where('status', 'Pending')->count();
@@ -90,7 +90,7 @@ foreach ($visitors as $visitor) {
 
             // Calculate the difference in days between today and the request_date_to for visitor
             $visitorDiffDays = $today->diffInDays($visitorRequestTo, false);
- 
+
             // If the difference is less than 3 days and the status is still PENDING, update to REJECTED
             if ($visitorDiffDays < 3 && $visitor->status == 'Pending') {
                 $visitor->status = 'Rejected';

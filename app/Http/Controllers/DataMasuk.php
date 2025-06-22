@@ -34,7 +34,7 @@ class DataMasuk extends Controller
 
 
         $spreadsheetId2 = '1c6B_07BZBJSfH70g086FgecFM9GQ9cvjsonL2oxNNF8';  // Spreadsheet ID
-        $range2 = 'Form Responses 1!A:EE';  // Range data di Google Sheets (kolom A hingga Z)
+        $range2 = 'Form Responses 1!A:EF';  // Range data di Google Sheets (kolom A hingga Z)
 
         $response2 = $service->spreadsheets_values->get($spreadsheetId2, $range2);
         $values2 = $response2->getValues();
@@ -187,8 +187,9 @@ class DataMasuk extends Controller
     'quantity_30' => isset($row2[132]) ? $row2[132] : null,
     'upload_id_card_foto' => isset($row2[133]) ? $row2[133] : null,
     'primary_number' => $primary_number2 ?? null,
+    'company_name' => isset($row2[135]) ? $row2[135] : null,
     'status' =>  'Pending', // Default value for status
-    
+
 ]);
 
             $id_visitor = $visitor->id_visitor;

@@ -150,7 +150,8 @@ $table->string('primary_number', 255)->nullable();
    $table->integer('check_one_approve')->nullable();
             $table->string('permit_number', 255)->nullable();
             $table->string('status')->nullable();
-                   $table->text('note_visitor')->nullable();
+            $table->text('note_visitor')->nullable();
+            $table->string('company_name')->nullable();
             $table->timestamps();
         });
     }
