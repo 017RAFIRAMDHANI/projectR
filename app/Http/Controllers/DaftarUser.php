@@ -11,6 +11,7 @@ class DaftarUser extends Controller
 {
  public function store(Request $request)
 {
+
     // Validasi data yang dimasukkan
     $validated = $request->validate([
         'name' => 'required|string|max:255',
@@ -191,6 +192,7 @@ class DaftarUser extends Controller
         'access_newspecial_create',
         'access_employe_create',
         'access_employe_edit',
+        'access_employe_view',
         'access_employe_delete',
         'access_approvals_view',
         'access_approvals_edit',

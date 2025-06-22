@@ -74,7 +74,7 @@
         <div class="flex justify-between items-center mb-6">
           <h1 class="text-2xl font-semibold text-gray-900">Vehicle List</h1>
            @if(Auth::user()->access_vehicle_create == 1)
-          <button onclick="addNewVehicle()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700">
+          <button onclick="openModal()" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700">
             Add Vehicle
           </button>
 @endif
@@ -126,21 +126,30 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <!-- Sample Vehicle Row -->
+
+              @foreach ($dataVehicle as $item)
+
+
               <tr class="table-row-hover">
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">B 1234 ABC</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Car</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PT. Example Visitor</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-20</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-21</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->number_plate}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->type}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->company}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->date_from}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->date_to}}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
+                 <span class="px-2 py-1 text-xs font-medium rounded-full
+    {{ $item->status == 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+    {{ ucfirst($item->status) }}
+</span>
+
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="flex space-x-2">
                        @if(Auth::user()->access_vehicle_edit == 1)
-                    <button onclick="editVehicle('B 1234 ABC')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
+              <button onclick="editVehicle({{$item->id_vehicle}}, '{{$item->number_plate}}', '{{$item->type}}', '{{$item->company}}', '{{$item->date_from}}', '{{$item->date_to}}', '{{$item->status}}')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
+    <i class="fas fa-edit"></i>
+</button>
+
                     @endif
      @if(Auth::user()->access_vehicle_view == 1)
                     <button onclick="viewVehicleDetails('B 1234 ABC')" class="text-blue-600 hover:text-blue-900" title="View Details">
@@ -150,30 +159,7 @@
                   </div>
                 </td>
               </tr>
-              <tr class="table-row-hover">
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">B 5678 DEF</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Motorcycle</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PT. Example Vendor</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-19</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-20</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Inactive</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <div class="flex space-x-2">
-                       @if(Auth::user()->access_vehicle_edit == 1)
-                    <button onclick="editVehicle('B 1234 ABC')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    @endif
-     @if(Auth::user()->access_vehicle_view == 1)
-                    <button onclick="viewVehicleDetails('B 1234 ABC')" class="text-blue-600 hover:text-blue-900" title="View Details">
-                      <i class="fas fa-eye"></i>
-                    </button>
-  @endif
-                  </div>
-                </td>
-              </tr>
+                   @endforeach
             </tbody>
           </table>
         </div>
@@ -227,43 +213,46 @@
               <i class="fas fa-times"></i>
             </button>
           </div>
-          <form id="vehicleForm" class="space-y-4">
+          <form id="vehicleForm" action="{{route('vehicle-store')}}" method="POST" class="space-y-4">
+            @csrf
+
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700">License Plate</label>
-                <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+                <input type="text" name="number_plate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700">Vehicle Type</label>
-                <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                <select name="type" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
                   <option value="">Select Type</option>
-                  <option value="car">Car</option>
-                  <option value="motorcycle">Motorcycle</option>
+                  <option value="Car">Car</option>
+                  <option value="Motorcycle">Motorcycle</option>
                 </select>
               </div>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-700">Company</label>
-              <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+              <input name="company" type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
             </div>
 
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700">Request Date</label>
-                <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+                <input name="date_from" type="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
-                <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+                <input name="date_to" type="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-700">Status</label>
-              <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+              <select name="status" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                <option disabled value="">Pilih Status...</option>
+                <option selected value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
               </select>
             </div>
 
@@ -337,43 +326,47 @@
               <i class="fas fa-times"></i>
             </button>
           </div>
-          <form id="editForm" class="space-y-4">
+          <form id="editForm" action="{{route('vehicle-update')}}" method="POST" class="space-y-4">
+            @csrf
+
             <div class="grid grid-cols-2 gap-4">
+                <input type="hidden" id="editVehicleId" name="id_vehicle">
+
               <div>
                 <label class="block text-sm font-medium text-gray-700">License Plate</label>
-                <input type="text" id="editPlate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required readonly />
+                <input type="text" id="editPlate" name="number_plate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700">Vehicle Type</label>
-                <select id="editType" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
-                  <option value="">Select Type</option>
-                  <option value="car">Car</option>
-                  <option value="motorcycle">Motorcycle</option>
+                <select name="type" id="editType" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                  <option disabled value="">Select Type</option>
+                  <option value="Car">Car</option>
+                  <option value="Motorcycle">Motorcycle</option>
                 </select>
               </div>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-700">Company</label>
-              <input type="text" id="editCompany" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+              <input type="text" name="company" id="editCompany" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
             </div>
 
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700">Request Date</label>
-                <input type="date" id="editRequestDate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+                <input type="date" name="date_from" id="editRequestDate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
-                <input type="date" id="editExpiryDate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+                <input type="date" name="date_to" id="editExpiryDate" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
               </div>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-700">Status</label>
-              <select id="editStatus" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+              <select name="status" id="editStatus" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
               </select>
             </div>
 
@@ -391,7 +384,8 @@
     </div>
 
     <script>
-      function addNewVehicle() {
+      function
+      openModal() {
         document.getElementById('vehicleModal').classList.remove('hidden');
       }
 
@@ -426,61 +420,29 @@
         document.getElementById('detailModal').classList.add('hidden');
       }
 
-      function editVehicle(plateNumber) {
-        // Di sini Anda bisa menambahkan logika untuk mengambil data kendaraan dari server
-        const vehicleData = {
-          plate: 'B 1234 ABC',
-          type: 'car',
-          company: 'PT. Example Visitor',
-          requestDate: '2024-03-20',
-          expiryDate: '2024-03-21',
-          status: 'active'
-        };
+  function editVehicle(id_vehicle, number_plate, type, company, date_from, date_to, status) {
+    // Mengisi data ke form edit modal
+    console.log('Edit button clicked');
+console.log(number_plate, type, company, date_from, date_to, status);
+    document.getElementById('editPlate').value = number_plate;
+    document.getElementById('editType').value = type;
+    document.getElementById('editCompany').value = company;
+    document.getElementById('editRequestDate').value = date_from;
+    document.getElementById('editExpiryDate').value = date_to;
+    document.getElementById('editStatus').value = status;
 
-        // Mengisi data ke form edit
-        document.getElementById('editPlate').value = vehicleData.plate;
-        document.getElementById('editType').value = vehicleData.type;
-        document.getElementById('editCompany').value = vehicleData.company;
-        document.getElementById('editRequestDate').value = vehicleData.requestDate;
-        document.getElementById('editExpiryDate').value = vehicleData.expiryDate;
-        document.getElementById('editStatus').value = vehicleData.status;
+    // Menyimpan id kendaraan di form
+    document.getElementById('editVehicleId').value = id_vehicle;
 
-        // Menampilkan modal
-        document.getElementById('editModal').classList.remove('hidden');
-      }
+    // Menampilkan modal edit
+    document.getElementById('editModal').classList.remove('hidden');
+}
 
       function closeEditModal() {
         document.getElementById('editModal').classList.add('hidden');
       }
 
       // Event listener untuk form
-      document.getElementById('vehicleForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // Di sini Anda bisa menambahkan logika untuk menyimpan data ke server
-        alert('Data kendaraan berhasil disimpan!');
-        closeModal();
-      });
-
-      // Event listener untuk form edit
-      document.getElementById('editForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // Di sini Anda bisa menambahkan logika untuk menyimpan perubahan ke server
-        alert('Data kendaraan berhasil diperbarui!');
-        closeEditModal();
-      });
-
-      // Update tombol aksi di tabel
-      document.querySelectorAll('tr').forEach(row => {
-        const editBtn = row.querySelector('button[title="Edit"]');
-        const viewBtn = row.querySelector('button[title="Lihat Detail"]');
-
-        if (editBtn) {
-          editBtn.onclick = () => editVehicle(row.cells[0].textContent);
-        }
-        if (viewBtn) {
-          viewBtn.onclick = () => viewVehicleDetails(row.cells[0].textContent);
-        }
-      });
 
       // Close modals when clicking outside
       document.addEventListener('click', function(event) {

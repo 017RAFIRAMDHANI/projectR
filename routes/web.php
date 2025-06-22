@@ -68,6 +68,11 @@ Route::get('/edit-user/{id}', [App\Http\Controllers\DaftarUser::class, 'edit'])-
 Route::get('/permision-user/{id}', [App\Http\Controllers\DaftarUser::class, 'permision'])->name('permision-user');
 Route::put('/roleupdate/{id}',[App\Http\Controllers\DaftarUser::class, 'update'])->name('regisuser.update');
 
+// client
+Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');
+Route::post('/vehicle-create',[App\Http\Controllers\VehicleController::class, 'store'])->name('vehicle-store');
+Route::post('/vehicle-edit',[App\Http\Controllers\VehicleController::class, 'update'])->name('vehicle-update');
+
 
 Route::get('/history', function () {
     return view('history');
@@ -75,9 +80,6 @@ Route::get('/history', function () {
 Route::get('/employee-safety-list', function () {
     return view('employee-safety-list');
 })->name('employee-safety-list');
-Route::get('/vehicle-list', function () {
-    return view('vehicle-list');
-})->name('vehicle-list');
 Route::get('/daily-report', function () {
     return view('daily-report');
 })->name('daily-report');
