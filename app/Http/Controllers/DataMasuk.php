@@ -195,6 +195,7 @@ class DataMasuk extends Controller
 
             $id_visitor = $visitor->id_visitor;
 
+$pic_name = $visitor->pic_name;
 $car_plate_no = $visitor->car_plate_no;
 $vehicle_type = $visitor->vehicle_type;
 $company_name = $visitor->company_name;
@@ -202,6 +203,7 @@ $request_date_from = $visitor->request_date_from;
 $request_date_to = $visitor->request_date_to;
 
   Vehicle::create([
+                'name' => $pic_name ?? null,
                 'car_plate_no' => $car_plate_no ?? null,
                 'type' => $vehicle_type ?? null,
                 'company' => $company_name ?? null,
@@ -337,6 +339,7 @@ $request_date_to = $visitor->request_date_to;
 
 
 $id_vendor = $vendor->id_vendor;
+$requestor_name = $vendor->requestor_name;
 $number_plate = $vendor->number_plate;
 $vehicle_types = $vendor->vehicle_types;
 $company_name = $vendor->company_name;
@@ -344,6 +347,7 @@ $validity_date_from = $vendor->validity_date_from;
 $validity_date_to = $vendor->validity_date_to;
 
   Vehicle::create([
+                'name' => $requestor_name ?? null,
                 'number_plate' => $number_plate ?? null,
                 'type' => $vehicle_types ?? null,
                 'company' => $company_name ?? null,

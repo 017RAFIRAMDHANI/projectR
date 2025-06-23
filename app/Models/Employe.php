@@ -17,10 +17,12 @@ class Employe extends Model
          'company_name',
          'position',
          'type',
+         'type2',
+         'number_plate',
          'file_card',
          'status',
       ];
-      
+
    public function vehicles()
     {
         return $this->hasMany(Vehicle::class, 'id_employe', 'id_employe');

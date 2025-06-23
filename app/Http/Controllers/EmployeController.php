@@ -26,10 +26,12 @@ class EmployeController extends Controller
          try {
         // Validasi input data
         $validatedData = $request->validate([
+            'number_plate' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'company_name' => 'required|string|max:255',
             'position' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
+            'type2' => 'required|string|max:255',
             'status' => 'required|in:Active,Inactive',
             'file_card' => 'required|file|max:5048',
         ]);
@@ -42,10 +44,13 @@ class EmployeController extends Controller
 
         // Membuat data Employee berdasarkan data yang sudah divalidasi
         $employee = Employe::create([
+            'number_plate' => $validatedData['number_plate'],
+            'type' => $validatedData['type'],
+            'type2' => $validatedData['type2'],
             'name' => $validatedData['name'],
             'company_name' => $validatedData['company_name'],
             'position' => $validatedData['position'],
-            'type' => $validatedData['type'],
+            'type2' => $validatedData['type2'],
             'file_card' => $filePath,  // Simpan path file
             'status' => $validatedData['status'],
         ]);
@@ -62,10 +67,12 @@ class EmployeController extends Controller
     try {
         // Validasi input data
         $validatedData = $request->validate([
+            'number_plate' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'company_name' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'type' => 'required|string|max:255',
+            'type2' => 'required|string|max:255',
             'status' => 'required|in:Active,Inactive',
             'file_card' => 'nullable|file|max:5048',  // Nullable for updating without a new file
         ]);
@@ -90,6 +97,8 @@ class EmployeController extends Controller
         $employee->name = $validatedData['name'];
         $employee->company_name = $validatedData['company_name'];
         $employee->position = $validatedData['position'];
+        $employee->type2 = $validatedData['type2'];
+        $employee->number_plate = $validatedData['number_plate'];
         $employee->type = $validatedData['type'];
         $employee->status = $validatedData['status'];
 

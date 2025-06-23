@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('company_name')->nullable();
             $table->string('position')->nullable();
             $table->string('type')->nullable();
+            $table->string('type2')->nullable();
+            $table->string('number_plate')->nullable();
             $table->string('file_card')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();

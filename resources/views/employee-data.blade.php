@@ -138,7 +138,7 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                      @if(Auth::user()->access_employe_edit== 1)
             <button class="text-primary hover:text-blue-700 mr-3" title="Edit"
-      onclick="editEmployee({{ $item->id_employe }}, '{{ $item->name }}', '{{ $item->company_name }}', '{{ $item->position }}', '{{ $item->type }}', '{{ $item->status }}', '{{ $item->file_card }}')">
+      onclick="editEmployee({{ $item->id_employe }}, '{{ $item->name }}', '{{ $item->company_name }}', '{{ $item->position }}', '{{ $item->type2 }}','{{ $item->number_plate }}','{{ $item->type }}', '{{ $item->status }}', '{{ $item->file_card }}')">
       <i class="fas fa-edit"></i>
     </button>
 
@@ -149,11 +149,12 @@
 </button>
                   @endif
                    @if(Auth::user()->access_employe_delete == 1)
-                  <form id="deleteEmployeeForm" action="{{ route('employee-delete') }}" method="POST" class="inline">
+                  <form action="{{ route('employee-delete') }}" method="POST" class="inline">
     @csrf
 
     <input type="hidden" name="id_employe" value="{{ $item->id_employe }}">
-    <button type="button" class="text-red-600 hover:text-red-700" title="Delete" onclick="confirmDelete()">
+    <button type="button" class="text-red-600 hover:text-red-700" title="Delete" onclick="confirmDelete(this)">
+
         <i class="fas fa-trash"></i>
     </button>
 </form>
@@ -229,8 +230,19 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Type</label>
-              <input type="text" value="Employee" name="type" class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100" readonly />
+              <input type="text" value="Employee" name="type2" class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100" readonly />
             </div>
+              <div>
+              <label class="block text-sm font-medium text-gray-700">Car Plate No.</label>
+              <input type="text" id="addPlate" name="number_plate" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
+            </div>
+              <div>
+              <label class="block text-sm font-medium text-gray-700">Type Car</label>
+           <select name="type" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                <option disabled value="">Pilih Type...</option>
+                <option selected value="Car">Car</option>
+                <option value="Motorcycle">Motorcycle</option>
+              </select>  </div>
             <div>
           <div>
   <label class="block text-sm font-medium text-gray-700">ID Card / Passport</label>
@@ -312,8 +324,19 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Type</label>
-          <input type="text" id="editType" name="type" class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100" readonly />
+          <input type="text" id="editType2" name="type2" class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100" readonly />
         </div>
+              <div>
+              <label class="block text-sm font-medium text-gray-700">Car Plate No.</label>
+              <input type="text" id="editPlate" name="number_plate" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required />
+            </div>
+              <div>
+              <label class="block text-sm font-medium text-gray-700">Type Car</label>
+           <select name="type" id="editType" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                <option disabled value="">Pilih Type...</option>
+                <option selected value="Car">Car</option>
+                <option value="Motorcycle">Motorcycle</option>
+              </select>  </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">ID Card / Passport</label>
           <div class="mt-1">
@@ -456,7 +479,7 @@
                     <label class="block text-sm font-medium text-gray-700">Type</label>
                     <p id="previewType" class="mt-1 text-sm text-gray-900"></p>
                 </div>
-              
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Status</label>
                     <p id="previewStatus" class="mt-1 text-sm text-gray-900"></p>
@@ -522,23 +545,23 @@
       </div>
     </div>
 <script>
-    function confirmDelete() {
-        // SweetAlert2 confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If the user confirms, submit the delete form
-                document.getElementById('deleteEmployeeForm').submit();
-            }
-        });
+   function confirmDelete(button) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Cari form terdekat dari tombol yang ditekan
+      button.closest('form').submit();
     }
+  });
+}
+
 </script>
 <script>
     function previewEmployee(id, name, company, position, type, status, fileCard) {
@@ -606,12 +629,14 @@
       }
     // Function to open the edit modal and fill the form with data
 // Function to open the edit modal and fill the form with data
-function editEmployee(id, name, company, position, type, status, fileCardPath) {
+function editEmployee(id, name, company, position, type2, number_plate,type, status, fileCardPath) {
   // Populate the modal fields with the employee data
   document.getElementById('editFullName').value = name;
   document.getElementById('editCompany').value = company;
   document.getElementById('editPosition').value = position;
   document.getElementById('editType').value = type;
+  document.getElementById('editType2').value = type2;
+  document.getElementById('editPlate').value = number_plate;
   document.getElementById('editStatus').value = status;
 
   // Set the existing file card image if available
