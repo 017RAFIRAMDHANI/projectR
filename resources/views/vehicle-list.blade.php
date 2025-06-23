@@ -115,6 +115,7 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">License Plate</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request Date</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expiry Date</th>
@@ -133,6 +134,7 @@
               <tr class="table-row-hover">
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->number_plate}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->type}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->name}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->company}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->date_from}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->date_to}}</td>
@@ -146,13 +148,13 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="flex space-x-2">
                        @if(Auth::user()->access_vehicle_edit == 1)
-              <button onclick="editVehicle({{$item->id_vehicle}}, '{{$item->number_plate}}', '{{$item->type}}', '{{$item->company}}', '{{$item->date_from}}', '{{$item->date_to}}', '{{$item->status}}')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
+              <button onclick="editVehicle({{$item->id_vehicle}}, '{{$item->number_plate}}', '{{$item->type}}', '{{$item->name}}', '{{$item->company}}', '{{$item->date_from}}', '{{$item->date_to}}', '{{$item->status}}')" class="text-yellow-600 hover:text-yellow-900" title="Edit">
     <i class="fas fa-edit"></i>
 </button>
 
                     @endif
      @if(Auth::user()->access_vehicle_view == 1)
-                  <button onclick="viewVehicleDetails('{{$item->id_vehicle}}', '{{$item->number_plate}}', '{{$item->type}}', '{{$item->company}}', '{{$item->date_from}}', '{{$item->date_to}}', '{{$item->status}}')" class="text-blue-600 hover:text-blue-900" title="View Details">
+                  <button onclick="viewVehicleDetails('{{$item->id_vehicle}}', '{{$item->number_plate}}', '{{$item->type}}', '{{$item->name}}', '{{$item->company}}', '{{$item->date_from}}', '{{$item->date_to}}', '{{$item->status}}')" class="text-blue-600 hover:text-blue-900" title="View Details">
           <i class="fas fa-eye"></i>
         </button>
         @endif
@@ -240,10 +242,15 @@
                 </select>
               </div>
             </div>
-
+ <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Name</label>
+              <input name="name" type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+            </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Company</label>
               <input name="company" type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+            </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -301,11 +308,17 @@
             <p class="mt-1 text-sm text-gray-900" id="detailType">Car</p>
           </div>
         </div>
-
+         <div class="grid grid-cols-2 gap-4">
+    <div>
+          <label class="block text-sm font-medium text-gray-700">Name</label>
+          <p class="mt-1 text-sm text-gray-900" id="detailName">Renaldi</p>
+        </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Company</label>
           <p class="mt-1 text-sm text-gray-900" id="detailCompany">PT. Example Visitor</p>
         </div>
+        </div>
+
 
         <div class="grid grid-cols-2 gap-4">
           <div>
@@ -357,10 +370,15 @@
                 </select>
               </div>
             </div>
-
+             <div class="grid grid-cols-2 gap-4">
+ <div>
+              <label class="block text-sm font-medium text-gray-700">Name</label>
+              <input name="name" type="text"  id="editName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+            </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Company</label>
               <input type="text" name="company" id="editCompany" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required />
+            </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -424,11 +442,12 @@
         document.getElementById('vehicleModal').classList.add('hidden');
       }
 
-    function viewVehicleDetails(id, number_plate, type, company, date_from, date_to, status) {
+    function viewVehicleDetails(id, number_plate, type,name,company, date_from, date_to, status) {
   // Mengisi data ke modal detail
   document.getElementById('detailPlate').textContent = number_plate;
   document.getElementById('detailType').textContent = type;
   document.getElementById('detailCompany').textContent = company;
+  document.getElementById('detailName').textContent = name;
   document.getElementById('detailRequestDate').textContent = date_from;
   document.getElementById('detailExpiryDate').textContent = date_to;
   document.getElementById('detailStatus').textContent = status;
@@ -442,13 +461,14 @@
         document.getElementById('detailModal').classList.add('hidden');
       }
 
-  function editVehicle(id_vehicle, number_plate, type, company, date_from, date_to, status) {
+  function editVehicle(id_vehicle, number_plate, type, name,company, date_from, date_to, status) {
     // Mengisi data ke form edit modal
     console.log('Edit button clicked');
 console.log(number_plate, type, company, date_from, date_to, status);
     document.getElementById('editPlate').value = number_plate;
     document.getElementById('editType').value = type;
     document.getElementById('editCompany').value = company;
+    document.getElementById('editName').value = name;
     document.getElementById('editRequestDate').value = date_from;
     document.getElementById('editExpiryDate').value = date_to;
     document.getElementById('editStatus').value = status;

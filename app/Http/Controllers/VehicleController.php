@@ -51,6 +51,7 @@ class VehicleController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
             'number_plate' => 'required|string|max:255',
             'type' => 'required|string',
             'company' => 'required|string|max:255',
@@ -62,6 +63,7 @@ class VehicleController extends Controller
         try {
             // Menyimpan data dengan cara eksplisit
             Vehicle::create([
+                'name' => $validatedData['name'],
                 'number_plate' => $validatedData['number_plate'],
                 'type' => $validatedData['type'],
                 'company' => $validatedData['company'],
@@ -83,6 +85,7 @@ class VehicleController extends Controller
     try {
         // Validasi data yang diterima
         $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
             'number_plate' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'company' => 'required|string|max:255',
@@ -100,6 +103,7 @@ class VehicleController extends Controller
         }
 
         // Update data kendaraan
+        $vehicle->name = $validatedData['name'];
         $vehicle->number_plate = $validatedData['number_plate'];
         $vehicle->type = $validatedData['type'];
         $vehicle->company = $validatedData['company'];

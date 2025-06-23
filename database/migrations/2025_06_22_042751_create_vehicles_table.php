@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->increments('id_vehicle');  // Primary key
+            $table->string('name')->nullable();
             $table->string('number_plate')->nullable();
             $table->string('type')->nullable();
             $table->string('company')->nullable();
