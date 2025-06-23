@@ -367,17 +367,20 @@
             placeholder="Search Visitor"
         >
     </form>
-<select
+<form id="statusForm" method="GET"  >
+
+    <select
         id="visitorStatusFilter"
-        name="status_filter"
+        name="status_filter_visitor"
         class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        onchange="submitSearchForm('visitor')"
+        onchange="submitForm()"
     >
-        <option value="all" {{ $statusFilter == 'all' ? 'selected' : '' }}>All Statuses</option>
-        <option value="Pending" {{ $statusFilter == 'Pending' ? 'selected' : '' }}>Pending</option>
-        <option value="Approved" {{ $statusFilter == 'Approved' ? 'selected' : '' }}>Approved</option>
-        <option value="Rejected" {{ $statusFilter == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+        <option value="all" {{ $statusFilterVisitor == 'all' ? 'selected' : '' }}>All Statuses</option>
+        <option value="Pending" {{ $statusFilterVisitor == 'Pending' ? 'selected' : '' }}>Pending</option>
+        <option value="Approved" {{ $statusFilterVisitor == 'Approved' ? 'selected' : '' }}>Approved</option>
+        <option value="Rejected" {{ $statusFilterVisitor == 'Rejected' ? 'selected' : '' }}>Rejected</option>
     </select>
+</form>
     <input
         type="date"
         id="visitorDateFilter"
@@ -402,7 +405,7 @@
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" id="visitorTableBody">
                                          @php
-                                           $i =1;
+                                           $i = $visitors->firstItem();
                                         @endphp
 @foreach ($visitors as  $visitor)
                    <tr id="permit-VD001" class="visitor-permit permit-item" >
@@ -468,12 +471,17 @@
             placeholder="Search Vendor"
         >
     </form>
-<select id="vendorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="all">All Statuses</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="rejected">Rejected</option>
-                                </select>
+<select
+        id="vendorStatusFilter"
+        name="status_filter"
+        class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onchange="submitSearchForm2('vendor')"
+    >
+        <option value="">All Statuses</option>
+        <option value="Pending" {{ $statusFilterVisitor == 'Pending' ? 'selected' : '' }}>Pending</option>
+        <option value="Approved" {{ $statusFilterVisitor == 'Approved' ? 'selected' : '' }}>Approved</option>
+        <option value="Rejected" {{ $statusFilterVisitor == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+    </select>
                                 <input type="date" id="vendorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
                             <div class="content-area">
@@ -679,23 +687,32 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 </script>
 <script>
+    function submitForm() {
+        const form = document.getElementById('statusForm');
+        const selectElement = document.getElementById('visitorStatusFilter');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
+<script>
     // Function to submit search form when a status is selected
-   function submitSearchForm(type) {
-    const searchQuery = document.getElementById('search_visitor').value;
-    const statusFilter = document.getElementById('visitorStatusFilter').value;
+//    function submitSearchForm(type) {
+//     const searchQuery = document.getElementById('search_visitor').value;
+//     const statusFilter = document.getElementById('visitorStatusFilter').value;
 
-    let queryString = '?';
+//     let queryString = '?';
 
-    if (searchQuery) {
-        queryString += 'search_visitor=' + searchQuery + '&';
-    }
+//     if (searchQuery) {
+//         queryString += 'search_visitor=' + searchQuery + '&';
+//     }
 
-    if (statusFilter && statusFilter !== 'all') {
-        queryString += 'status_filter=' + statusFilter;
-    }
+//     if (statusFilter && statusFilter !== 'all') {
+//         queryString += 'status_filter=' + statusFilter;
+//     }
 
-    window.location.href = window.location.pathname + queryString;
-}
+//     window.location.href = window.location.pathname + queryString;
+// }
 
 </script>
 <script>

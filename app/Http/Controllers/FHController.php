@@ -30,7 +30,8 @@ class FHController extends Controller
 {
     $searchVendor = $request->input('search_vendor');
     $searchVisitor = $request->input('search_visitor');
- $statusFilter = $request->input('status_filter');
+    $statusFilterVisitor = $request->input('status_filter_visitor');
+
     // Query vendor
     $vendors = Vendor::orderByRaw("CASE WHEN mode = 'URGENT' THEN 1 ELSE 2 END");
 
@@ -44,9 +45,9 @@ class FHController extends Controller
                 ->orWhere('status', 'like', '%' . $searchVendor . '%');
         });
     }
- if ($statusFilter && $statusFilter !== 'all') {
-        $vendors = $vendors->where('status', $statusFilter);
-    }
+//  if ($statusFilter && $statusFilter !== 'all') {
+//         $vendors = $vendors->where('status', $statusFilter);
+//     }
     $vendors = $vendors->paginate(2);
 
     // Query visitor
@@ -61,9 +62,14 @@ class FHController extends Controller
                 ->orWhere('status', 'like', '%' . $searchVisitor . '%');
         });
     }
-  if ($statusFilter && $statusFilter !== 'all') {
-        $visitors = $visitors->where('status', $statusFilter);
+    if ($statusFilterVisitor) {
+        $visitors = $visitors->where(function($query) use ($statusFilterVisitor) {
+            $query->where('status', 'like', '%' . $statusFilterVisitor . '%');
+        });
     }
+//   if ($statusFilter && $statusFilter !== 'all') {
+//         $visitors = $visitors->where('status', $statusFilter);
+//     }
     $visitors = $visitors->paginate(2);
 
     // Hitung total
@@ -131,7 +137,7 @@ class FHController extends Controller
         'jmlurgent',
         'searchVendor',
         'searchVisitor',
-         'statusFilter'
+         'statusFilterVisitor'
     ));
 }
 
