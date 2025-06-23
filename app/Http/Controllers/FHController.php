@@ -31,6 +31,9 @@ class FHController extends Controller
     $searchVendor = $request->input('search_vendor');
     $searchVisitor = $request->input('search_visitor');
     $statusFilterVisitor = $request->input('status_filter_visitor');
+    $statusFilterVendor = $request->input('status_filter_vendor');
+    $dateFilterVisitor = $request->input('date_filter_visitor');
+    $dateFilterVendor = $request->input('date_filter_vendor');
 
     // Query vendor
     $vendors = Vendor::orderByRaw("CASE WHEN mode = 'URGENT' THEN 1 ELSE 2 END");
@@ -48,6 +51,16 @@ class FHController extends Controller
 //  if ($statusFilter && $statusFilter !== 'all') {
 //         $vendors = $vendors->where('status', $statusFilter);
 //     }
+   if ($statusFilterVendor) {
+        $vendors = $vendors->where(function($query) use ($statusFilterVendor) {
+            $query->where('status', 'like', '%' . $statusFilterVendor . '%');
+        });
+    }
+   if ($dateFilterVendor) {
+        $vendors = $vendors->where(function($query) use ($dateFilterVendor) {
+            $query->where('validity_date_to', 'like', '%' . $dateFilterVendor . '%');
+        });
+    }
     $vendors = $vendors->paginate(2);
 
     // Query visitor
@@ -65,6 +78,11 @@ class FHController extends Controller
     if ($statusFilterVisitor) {
         $visitors = $visitors->where(function($query) use ($statusFilterVisitor) {
             $query->where('status', 'like', '%' . $statusFilterVisitor . '%');
+        });
+    }
+    if ($dateFilterVisitor) {
+        $visitors = $visitors->where(function($query) use ($dateFilterVisitor) {
+            $query->where('request_date_to', 'like', '%' . $dateFilterVisitor . '%');
         });
     }
 //   if ($statusFilter && $statusFilter !== 'all') {
@@ -137,7 +155,9 @@ class FHController extends Controller
         'jmlurgent',
         'searchVendor',
         'searchVisitor',
-         'statusFilterVisitor'
+         'statusFilterVisitor',
+         'dateFilterVendor',
+         'dateFilterVisitor'
     ));
 }
 

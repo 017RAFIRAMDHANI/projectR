@@ -356,7 +356,7 @@
                         <!-- Visitor Tab Content -->
                         <div id="visitor-tab" class="tab-content active">
                             <!-- Filter Visitor -->
-                   <div class="px-6 py-4 border-b border-gray-200 flex items-center gap-4 bg-white">
+                   <div class="px-5 py-4 border-b border-gray-200 flex items-center gap-4 bg-white">
     <form id="searchFormVisitor" method="GET" action="{{ route('index_approve') }}" class="w-full">
         <input
             type="text"
@@ -375,17 +375,25 @@
         class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         onchange="submitForm()"
     >
-        <option value="all" {{ $statusFilterVisitor == 'all' ? 'selected' : '' }}>All Statuses</option>
+        <option value="">All Statuses</option>
         <option value="Pending" {{ $statusFilterVisitor == 'Pending' ? 'selected' : '' }}>Pending</option>
         <option value="Approved" {{ $statusFilterVisitor == 'Approved' ? 'selected' : '' }}>Approved</option>
         <option value="Rejected" {{ $statusFilterVisitor == 'Rejected' ? 'selected' : '' }}>Rejected</option>
     </select>
 </form>
+<form id="dateForm" method="GET" >
     <input
         type="date"
         id="visitorDateFilter"
+          name="date_filter_visitor"
         class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+               onchange="submitDateVisitor()"
+                  value="{{ old('date_filter_visitor', $dateFilterVisitor ?? '') }}"
     />
+</form>
+  <button type="button" onclick="resetFilters()" class="ml-4 text-red-500">
+        <i class="fa fa-refresh"></i> Reset
+    </button>
 </div>
 
                             <div class="content-area">
@@ -471,19 +479,33 @@
             placeholder="Search Vendor"
         >
     </form>
+    <form id="statusForm2" method="GET"  >
 <select
         id="vendorStatusFilter"
-        name="status_filter"
+        name="status_filter_vendor"
         class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        onchange="submitSearchForm2('vendor')"
+       onchange="submitForm2()"
     >
+
         <option value="">All Statuses</option>
         <option value="Pending" {{ $statusFilterVisitor == 'Pending' ? 'selected' : '' }}>Pending</option>
         <option value="Approved" {{ $statusFilterVisitor == 'Approved' ? 'selected' : '' }}>Approved</option>
         <option value="Rejected" {{ $statusFilterVisitor == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-    </select>
-                                <input type="date" id="vendorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                            </div>
+    </select></form>
+                             <form id="dateForm2" method="GET" >
+    <input
+        type="date"
+        id="vendorDateFilter"
+          name="date_filter_vendor"
+        class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+               onchange="submitDateVendor()"
+                  value="{{ old('date_filter_vendor', $dateFilterVendor ?? '') }}"
+    />
+</form>
+  <button type="button" onclick="resetFilters()" class="ml-4 text-red-500">
+        <i class="fa fa-refresh"></i><br> Reset
+    </button>
+ </div>
                             <div class="content-area">
                                 <table class="min-w-full divide-y divide-gray-200">
                                     <thead class="table-header">
@@ -687,9 +709,51 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 </script>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterVisitor = '{{ request('status_filter_visitor') }}';
+        const filterVendor = '{{ request('status_filter_vendor') }}';
+
+        if (filterVisitor) {
+            switchTab('visitor');  // Automatically switch to visitor tab if search_visitor is present
+        } else if (filterVendor) {
+            switchTab('vendor');  // Automatically switch to vendor tab if search_vendor is present
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateVisitor = '{{ request('date_filter_visitor') }}';
+        const dateVendor = '{{ request('date_filter_vendor') }}';
+
+        if (dateVisitor) {
+            switchTab('visitor');  // Automatically switch to visitor tab if search_visitor is present
+        } else if (dateVendor) {
+            switchTab('vendor');  // Automatically switch to vendor tab if search_vendor is present
+        }
+    });
+</script>
+<script>
+       function resetFilters() {
+
+
+
+
+        window.location.href = "{{ route('index_approve') }}";
+    }
+</script>
+<script>
     function submitForm() {
         const form = document.getElementById('statusForm');
         const selectElement = document.getElementById('visitorStatusFilter');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
+<script>
+    function submitForm2() {
+        const form = document.getElementById('statusForm2');
+        const selectElement = document.getElementById('vendorStatusFilter');
 
         // Set value of the select element before submitting
         form.submit();
@@ -773,7 +837,24 @@ $(document).ready(function() {
 });
 </script>
 
+<script>
+     function submitDateVisitor() {
+        const form = document.getElementById('dateForm');
+        const dateInput = document.getElementById('visitorDateFilter');
 
+        // Set value of the input field before submitting
+        form.submit();
+    }
+</script>
+<script>
+     function submitDateVendor() {
+        const form = document.getElementById('dateForm2');
+        const dateInput = document.getElementById('vendorDateFilter');
+
+        // Set value of the input field before submitting
+        form.submit();
+    }
+</script>
 
   </body>
 </html>
