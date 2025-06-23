@@ -16,12 +16,42 @@ class EmployeController extends Controller
 
 
     }
-    public function index(){
-        $dataEmploye = Employe::paginate(20);
-        return view('employee-data',[
-            "dataEmploye" => $dataEmploye
-        ]);
+public function index(Request $request)
+{
+    // Mendapatkan input searchFilter dari request
+    $searchFilter = $request->input('searchFilter');
+    $statusFilter = $request->input('statusFilter');
+
+    // Membuat query untuk Employee
+    $employe = Employe::query();
+
+    // Jika ada input searchFilter, terapkan filter pencarian
+    if ($searchFilter) {
+        $employe = $employe->where(function($query) use ($searchFilter) {
+            $query->where('name', 'like', '%' . $searchFilter . '%')
+                ->orWhere('company_name', 'like', '%' . $searchFilter . '%')
+                ->orWhere('position', 'like', '%' . $searchFilter . '%')
+                ->orWhere('type', 'like', '%' . $searchFilter . '%')
+                ->orWhere('number_plate', 'like', '%' . $searchFilter . '%')
+                ->orWhere('status', 'like', '%' . $searchFilter . '%');
+        });
     }
+    if ($statusFilter) {
+        $employe = $employe->where(function($query) use ($statusFilter) {
+            $query->where('status', 'like', '%' . $statusFilter . '%');
+
+        });
+    }
+
+    // Lakukan paginasi setelah filter diterapkan
+    $employe = $employe->paginate(1);
+
+    // Mengirimkan data ke view
+    return view('employee-data', [
+        "dataEmploye" => $employe
+    ]);
+}
+
 
     public function store(Request $request){
      //   dd($request->all());

@@ -66,7 +66,7 @@
 
         <!-- Search and Filter -->
         <div class="mb-6 flex flex-wrap gap-4 bg-white p-4 rounded-lg shadow-sm">
-          <div class="flex-1 min-w-[200px]">
+          {{-- <div class="flex-1 min-w-[200px]">
             <label for="typeFilter" class="block text-sm font-semibold text-gray-700 mb-1">Permit Type</label>
             <select id="typeFilter" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
               <option value="all">All Types</option>
@@ -74,24 +74,31 @@
               <option value="vendor">Vendor</option>
               <option value="employee">Employee</option>
             </select>
-          </div>
+          </div> --}}
           <div class="flex-1 min-w-[200px]">
             <label for="statusFilter" class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
-            <select id="statusFilter" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
-              <option value="all">All Status</option>
+            <form id="formStatus"  method="GET">
+            <select name="statusFilter" onchange="selectStatus()" id="statusFilter" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
-            </select>
+            </select></form>
           </div>
           <div class="flex-1 min-w-[200px]">
+            <form id="formSearch" method="GET">
             <label for="searchFilter" class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
             <input
               type="text"
+              name="searchFilter"
               id="searchFilter"
               placeholder="Search employees..."
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-          </div>
+            /></form>
+
+        </div>
+        <button type="button" onclick="resetFilters()" class="ml-4 text-red-500">
+            <i class="fa fa-refresh"></i> Reset
+        </button>
         </div>
 
         <!-- Employee List Table -->
@@ -167,41 +174,9 @@
         </div>
 
         <!-- Pagination -->
-        <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-          <div class="flex flex-1 justify-between sm:hidden">
-            <button class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              Previous
-            </button>
-            <button class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              Next
-            </button>
-          </div>
-          <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-              <p class="text-sm text-gray-700">
-                Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">20</span> entries
-              </p>
-            </div>
-            <div>
-              <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                <button class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                  <span class="sr-only">Previous</span>
-                  <i class="fas fa-chevron-left text-sm"></i>
-                </button>
-                <button aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
-                  1
-                </button>
-                <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                  2
-                </button>
-                <button class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                  <span class="sr-only">Next</span>
-                  <i class="fas fa-chevron-right text-sm"></i>
-                </button>
-              </nav>
-            </div>
-          </div>
-        </div>
+       <div class="p-3">
+               {{ $dataEmploye->withQueryString()->links('pagination::tailwind') }}
+       </div>
       </div>
     </main>
 
@@ -544,6 +519,26 @@
         </div>
       </div>
     </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$("#searchFilter").on("keyup", function(e) {
+    if (e.keyCode == 13 || $(this).val().length > 2) {
+        e.preventDefault();  // Prevent default form submission
+        $("#formSearch").submit();  // Manually submit the form
+    }
+});
+
+</script>
+<script>
+    function selectStatus() {
+        const form = document.getElementById('formStatus');
+        const selectElement = document.getElementById('statusFilter');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
 <script>
    function confirmDelete(button) {
   Swal.fire({
@@ -593,11 +588,7 @@
 
 
       // Add event listeners for filters
-      document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('typeFilter').addEventListener('change', filterEmployees);
-        document.getElementById('statusFilter').addEventListener('change', filterEmployees);
-        document.getElementById('searchFilter').addEventListener('input', filterEmployees);
-      });
+
 
       // Close notifications panel when clicking outside
       document.addEventListener('click', function(event) {
@@ -823,6 +814,15 @@ function closePreviewEmployeeModal() {
 
 </script>
 <script>
+    function resetFilters() {
+
+
+
+
+        window.location.href = "{{ route('employee-data') }}";
+    }
+</script>
+<script>
 function previewIdCard(idCardPath) {
   // Get the preview modal and the image element
   const idCardPreviewImage = document.getElementById('idCardPreviewImage');
@@ -877,6 +877,8 @@ function closeIdCardPreview() {
 });
 
 </script>
+
+
   </body>
 </html>
 
