@@ -166,43 +166,7 @@
       .tab-content.active {
         display: block;
       }
-      /* Pagination styles */
-      .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-        margin-top: 1rem;
-        padding: 1rem;
-        background-color: white;
-        border-top: 1px solid #E5E7EB;
-      }
-      .pagination button {
-        padding: 0.5rem 1rem;
-        border: 1px solid #E5E7EB;
-        border-radius: 0.375rem;
-        background-color: white;
-        color: #374151;
-        font-size: 0.875rem;
-        transition: all 0.2s;
-      }
-      .pagination button:hover:not(:disabled) {
-        background-color: #F3F4F6;
-      }
-      .pagination button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-      .pagination button.active {
-        background-color: #2563EB;
-        color: white;
-        border-color: #2563EB;
-      }
-      .pagination-info {
-        font-size: 0.875rem;
-        color: #6B7280;
-      }
-      /* Main content scrollbar */
+
       .main-content {
         height: calc(100vh - 64px); /* Subtract navbar height */
         overflow-y: auto;
@@ -392,16 +356,35 @@
                         <!-- Visitor Tab Content -->
                         <div id="visitor-tab" class="tab-content active">
                             <!-- Filter Visitor -->
-                            <div class="px-6 py-4 border-b border-gray-200 flex gap-4 bg-white">
-                                <input type="text" id="visitorSearchFilter" placeholder="Search visitors..." class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                                <select id="visitorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="all">All Statuses</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="rejected">Rejected</option>
-                                </select>
-                                <input type="date" id="visitorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                            </div>
+                   <div class="px-6 py-4 border-b border-gray-200 flex items-center gap-4 bg-white">
+    <form id="searchFormVisitor" method="GET" action="{{ route('index_approve') }}" class="w-full">
+        <input
+            type="text"
+            id="search_visitor"
+            name="search_visitor"
+            value="{{ $searchVisitor ?? '' }}"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Search Visitor"
+        >
+    </form>
+<select
+        id="visitorStatusFilter"
+        name="status_filter"
+        class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onchange="submitSearchForm('visitor')"
+    >
+        <option value="all" {{ $statusFilter == 'all' ? 'selected' : '' }}>All Statuses</option>
+        <option value="Pending" {{ $statusFilter == 'Pending' ? 'selected' : '' }}>Pending</option>
+        <option value="Approved" {{ $statusFilter == 'Approved' ? 'selected' : '' }}>Approved</option>
+        <option value="Rejected" {{ $statusFilter == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+    </select>
+    <input
+        type="date"
+        id="visitorDateFilter"
+        class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+</div>
+
                             <div class="content-area">
                                 <table class="min-w-full divide-y divide-gray-200">
                                     <thead class="bg-gray-50">
@@ -418,9 +401,12 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" id="visitorTableBody">
-@foreach ($visitors as $index => $visitor)
+                                         @php
+                                           $i =1;
+                                        @endphp
+@foreach ($visitors as  $visitor)
                    <tr id="permit-VD001" class="visitor-permit permit-item" >
-                      <td class="px-4 py-2">{{ $index + 1 }}</td>
+                      <td class="px-4 py-2">{{ $i++ }}</td>
                     <td class="px-4 py-2">{{ $visitor->permit_number ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $visitor->pic_name ?? '' }}</td>
                     <td class="px-4 py-2">{{ $visitor->purpose_visit ?? '' }}</td>
@@ -462,26 +448,27 @@
                                 </table>
                             </div>
                             <!-- Pagination -->
-                            <div class="pagination">
-                                <button id="visitorPrevPage" onclick="changePage('visitor', 'prev')" disabled>
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <div id="visitorPageNumbers" class="flex gap-2">
-                                    <!-- Page numbers will be populated here -->
-                                </div>
-                                <button id="visitorNextPage" onclick="changePage('visitor', 'next')">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                                <span class="pagination-info" id="visitorPaginationInfo">Showing 1-20 of 20</span>
+                            <div class="pagination p-3">
+                                {{ $visitors->withQueryString()->links('pagination::tailwind') }}
                             </div>
                         </div>
 
                         <!-- Vendor Tab Content -->
                         <div id="vendor-tab" class="tab-content">
                             <!-- Filter Vendor -->
-                            <div class="px-6 py-4 border-b border-gray-200 flex gap-4 bg-white">
-                                <input type="text" id="vendorSearchFilter" placeholder="Search vendors..." class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                                <select id="vendorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                       <div class="px-6 py-4 border-b border-gray-200 flex items-center gap-4 bg-white">
+    <!-- Search Vendor Form -->
+    <form id="searchFormVendor" method="GET" class="flex-1 w-full">
+        <input
+            type="text"
+            id="search_vendor"
+            name="search_vendor"
+            value="{{ $searchVendor ?? '' }}"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Search Vendor"
+        >
+    </form>
+<select id="vendorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option value="all">All Statuses</option>
                                     <option value="pending">Pending</option>
                                     <option value="approved">Approved</option>
@@ -505,9 +492,12 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" id="vendorTableBody">
-  @foreach ($vendors as $index => $vendor)
+                                        @php
+                                           $i = $vendors->firstItem();
+                                        @endphp
+  @foreach ($vendors as  $vendor)
                    <tr id="permit-VD001" class="vendor-permit permit-item" @if($vendor->mode == "Urgent" ) style="background-color: rgb(254, 242, 242) !important; border-left: 4px solid rgb(239, 68, 68) !important;" @endif>
-                      <td class="px-4 py-2">{{ $index + 1 }}</td>
+                      <td class="px-4 py-2">{{ $i++ }}</td>
                     <td class="px-4 py-2">{{ $vendor->permit_number ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $vendor->requestor_name ?? '' }}</td>
                     <td class="px-4 py-2">{{ $vendor->work_description ?? '' }}</td>
@@ -551,17 +541,9 @@
                             </div>
 
                             <!-- Pagination -->
-                            <div class="pagination">
-                                <button id="vendorPrevPage" onclick="changePage('vendor', 'prev')" disabled>
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <div id="vendorPageNumbers" class="flex gap-2">
-                                    <!-- Page numbers will be populated here -->
-                                </div>
-                                <button id="vendorNextPage" onclick="changePage('vendor', 'next')">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                                <span class="pagination-info" id="vendorPaginationInfo">Showing 1-20 of 20</span>
+                            <div class="pagination p-3">
+
+                                 {{ $vendors->withQueryString()->links('pagination::tailwind') }}
                             </div>
                         </div>
                     </div>
@@ -684,267 +666,95 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchVisitor = '{{ request('search_visitor') }}';
+        const searchVendor = '{{ request('search_vendor') }}';
 
-
-
-
-    <script>
-      // Function to toggle notifications panel
-      function toggleNotifications() {
-        const panel = document.getElementById('notificationsPanel');
-        panel.classList.toggle('hidden');
-      }
-
-      // Function to toggle user menu
-      function toggleUserMenu() {
-        const menu = document.getElementById('userMenu');
-        menu.classList.toggle('hidden');
-      }
-
-      // Function to view permit details
-      function viewPermitDetails(permitId, type) {
-        window.location.href = `permit-details.html?id=${permitId}&type=${type}`;
-      }
-
-      // Function to switch tabs
-      function switchTab(type) {
-        // Hide all tab contents
-        document.querySelectorAll('.tab-content').forEach(tab => {
-          tab.classList.remove('active');
-        });
-
-        // Show selected tab content
-        document.getElementById(`${type}-tab`).classList.add('active');
-
-        // Update tab items
-        document.querySelectorAll('.left-tab-item').forEach(item => {
-          item.classList.remove('active');
-        });
-        document.querySelectorAll('.left-tab-item').forEach(item => {
-          if (item.textContent.toLowerCase().includes(type)) {
-            item.classList.add('active');
-          }
-        });
-
-        // Update counts
-        updateCounts();
-      }
-
-      // Update counts
-      function updateCounts() {
-        const visitorCount = visitorData.length;
-        const vendorCount = vendorData.length;
-        const pendingCount = [...visitorData, ...vendorData].filter(item => item.status.toLowerCase() === 'pending').length;
-
-        document.getElementById('visitorCount').textContent = visitorCount;
-        document.getElementById('vendorCount').textContent = vendorCount;
-        document.getElementById('totalPendingCount').textContent = pendingCount;
-      }
-
-      // Function to filter permits
-      function filterPermits() {
-        ['visitor', 'vendor'].forEach(type => {
-          const statusFilter = document.getElementById(`${type}StatusFilter`).value;
-          const dateFilter = document.getElementById(`${type}DateFilter`).value;
-          const searchFilter = document.getElementById(`${type}SearchFilter`).value.toLowerCase();
-
-          const permits = document.querySelectorAll(`.${type}-permit`);
-          permits.forEach(permit => {
-            const permitStatus = permit.querySelector('.permit-status').textContent.trim().toLowerCase();
-            const permitText = permit.textContent.toLowerCase();
-            const permitDate = permit.querySelector('td:nth-child(4)').textContent;
-
-            const statusMatch = statusFilter === 'all' || permitStatus === statusFilter;
-            const dateMatch = !dateFilter || permitDate.includes(dateFilter);
-            const searchMatch = searchFilter === '' || permitText.includes(searchFilter);
-
-            if (statusMatch && dateMatch && searchMatch) {
-              permit.classList.remove('hidden');
-            } else {
-              permit.classList.add('hidden');
-            }
-          });
-        });
-
-        updateCounts();
-      }
-
-      // Add event listeners for filters
-      ['visitor', 'vendor'].forEach(type => {
-        document.getElementById(`${type}StatusFilter`).addEventListener('change', filterPermits);
-        document.getElementById(`${type}DateFilter`).addEventListener('change', filterPermits);
-        document.getElementById(`${type}SearchFilter`).addEventListener('input', filterPermits);
-      });
-
-      // Initialize
-      document.addEventListener('DOMContentLoaded', () => {
-        initializeData();
-        updateCounts();
-      });
-
-      // Pagination variables
-
-
-      // Initialize data
-
-
-      // Change page
-      function changePage(type, action) {
-          const data = type === 'visitor' ? visitorData : vendorData;
-          const totalPages = Math.ceil(data.length / itemsPerPage);
-          let newPage;
-
-          if (typeof action === 'number') {
-              newPage = action;
-          } else if (action === 'prev') {
-              newPage = (type === 'visitor' ? currentVisitorPage : currentVendorPage) - 1;
-          } else if (action === 'next') {
-              newPage = (type === 'visitor' ? currentVisitorPage : currentVendorPage) + 1;
-          }
-
-          if (newPage >= 1 && newPage <= totalPages) {
-              if (type === 'visitor') {
-                  currentVisitorPage = newPage;
-              } else {
-                  currentVendorPage = newPage;
-              }
-              updatePagination(type);
-              renderTable(type);
-          }
-      }
-
-
-
-      function renderPermitRow(item, type, rowNumber) {
-        const tr = document.createElement('tr');
-        tr.id = `permit-${item.id}`;
-        tr.className = `${type}-permit permit-item`;
-
-        // Apply urgent styling ONLY if it's a vendor permit and has urgent priority
-        // Apply directly as inline style to ensure it's static on hover
-        if (type === 'vendor' && item.priority && item.priority.toLowerCase() === 'urgent') {
-          tr.style.cssText = 'background-color: #FEF2F2 !important; border-left: 4px solid #EF4444 !important;';
+        if (searchVisitor) {
+            switchTab('visitor');  // Automatically switch to visitor tab if search_visitor is present
+        } else if (searchVendor) {
+            switchTab('vendor');  // Automatically switch to vendor tab if search_vendor is present
         }
+    });
+</script>
+<script>
+    // Function to submit search form when a status is selected
+   function submitSearchForm(type) {
+    const searchQuery = document.getElementById('search_visitor').value;
+    const statusFilter = document.getElementById('visitorStatusFilter').value;
 
-        tr.innerHTML = `
-          <td class="px-4 py-4 text-sm font-medium text-gray-900">${rowNumber}</td>
-          <td class="px-4 py-4 text-sm font-medium text-gray-900">
-            ${type === 'visitor' ? 'Visitor Permit' : 'Vendor Permit'}
-          </td>
-          <td class="px-4 py-4 text-sm text-gray-500">${item.applicant}</td>
-          <td class="px-4 py-4 text-sm text-gray-500">${item.purpose}</td>
-          <td class="px-4 py-4 text-sm text-gray-500">${item.dateTime}</td>
-          <td class="px-4 py-4">
-            <span class="permit-status px-2 py-1 text-xs font-medium rounded-full ${getStatusClass(item.status)}">${item.status}</span>
-          </td>
-          <td class="px-4 py-4 text-sm font-medium">
-            <div class="action-container">
-              <button onclick="viewPermitDetails('${item.id}', '${type}')" class="action-btn view" title="View Details">
-                <i class="fas fa-eye text-xs"></i>
-              </button>
-              ${item.status.toLowerCase() === 'rejected' ? `
-              <button onclick="editPermitDetails('${item.id}', '${type}')" class="action-btn edit" title="Edit Permit">
-                <i class="fas fa-edit text-xs"></i>
-              </button>
-              ` : ''}
-            </div>
-          </td>
-        `;
-        return tr;
-      }
+    let queryString = '?';
 
-      // Get status class
-      function getStatusClass(status) {
-          switch (status.toLowerCase()) {
-              case 'pending':
-                  return 'bg-yellow-100 text-yellow-800';
-              case 'approved':
-                  return 'bg-green-100 text-green-800';
-              case 'rejected':
-                  return 'bg-red-100 text-red-800';
-              default:
-                  return 'bg-gray-100 text-gray-800';
-          }
-      }
+    if (searchQuery) {
+        queryString += 'search_visitor=' + searchQuery + '&';
+    }
 
-      // Add edit permit function
-      function editPermitDetails(id, type) {
-          const permitElement = document.getElementById(`permit-${id}`);
-          const statusElement = permitElement.querySelector('.permit-status');
+    if (statusFilter && statusFilter !== 'all') {
+        queryString += 'status_filter=' + statusFilter;
+    }
 
-          if (statusElement.textContent.trim() === 'Rejected') {
-              currentPermitId = id;
-              currentPermitType = type;
-              document.getElementById('editModal').style.display = 'block';
-          }
-      }
+    window.location.href = window.location.pathname + queryString;
+}
 
-      function closeEditModal() {
-          document.getElementById('editModal').style.display = 'none';
-          currentPermitId = '';
-          currentPermitType = '';
-      }
+</script>
+<script>
+ function switchTab(type) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
 
-      function approvePermit() {
-          if (!currentPermitId || !currentPermitType) return;
+    // Show selected tab content
+    document.getElementById(`${type}-tab`).classList.add('active');
 
-          const permitElement = document.getElementById(`permit-${currentPermitId}`);
-          const statusElement = permitElement.querySelector('.permit-status');
+    // Update tab items
+    document.querySelectorAll('.left-tab-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelectorAll('.left-tab-item').forEach(item => {
+        if (item.textContent.toLowerCase().includes(type)) {
+            item.classList.add('active');
+        }
+    });
 
-          // Update status
-          statusElement.textContent = 'Approved';
-          statusElement.classList.remove('bg-red-100', 'text-red-800');
-          statusElement.classList.add('bg-green-100', 'text-green-800');
+    // Update counts
+    updateCounts();
+}
 
-          // Update action buttons
-          const actionContainer = permitElement.querySelector('.action-container');
-          actionContainer.innerHTML = `
-              <button onclick="viewPermitDetails('${currentPermitId}', '${currentPermitType}')" class="action-btn view" title="View Details">
-                  <i class="fas fa-eye text-xs"></i>
-              </button>
-          `;
+// Function to update counts (optional)
+function updateCounts() {
+    const visitorCount = visitorData.length;
+    const vendorCount = vendorData.length;
+    const pendingCount = [...visitorData, ...vendorData].filter(item => item.status.toLowerCase() === 'pending').length;
 
-          // Update counts
-          updatePermitCounts();
+    document.getElementById('visitorCount').textContent = visitorCount;
+    document.getElementById('vendorCount').textContent = vendorCount;
+    document.getElementById('totalPendingCount').textContent = pendingCount;
+}
 
-          // Close modal
-          closeEditModal();
-      }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-      // Add event listener to close modal when clicking outside
-      window.onclick = function(event) {
-          const modal = document.getElementById('editModal');
-          if (event.target === modal) {
-              closeEditModal();
-          }
-      }
+<script>
+$(document).ready(function() {
+    // Vendor search with keyup event
+    $("#search_vendor").on("keyup", function(e) {
+        // When Enter is pressed or 3+ characters typed
+        if (e.keyCode == 13 || $(this).val().length > 2) {
+            $("#searchFormVendor").submit();  // Submit search form for vendors
+        }
+    });
 
-      function updateUrgentCount() {
-          const urgentCount = Array.from(document.querySelectorAll('.vendor-permit.permit-item')).filter(row => {
-            // Check if the inline style for border-left is present and matches the urgent color
-            return row.style.borderLeft.includes('4px solid rgb(239, 68, 68)') || // Check for RGB value
-                   row.style.borderLeft.includes('4px solid #EF4444'); // Check for hex value
-          }).length;
-          document.getElementById('urgentCount').textContent = urgentCount;
-      }
-
-      // Update the existing updatePermitCounts function to include urgent count
-      function updatePermitCounts() {
-          const visitorPendingCount = document.querySelectorAll('.visitor-permit .permit-status:not(.bg-green-100):not(.bg-red-100)').length;
-          const vendorPendingCount = document.querySelectorAll('.vendor-permit .permit-status:not(.bg-green-100):not(.bg-red-100)').length;
-
-          document.getElementById('visitorPendingCount').textContent = visitorPendingCount;
-          document.getElementById('vendorPendingCount').textContent = vendorPendingCount;
-          document.getElementById('totalPendingCount').textContent = visitorPendingCount + vendorPendingCount;
-          updateUrgentCount();
-      }
-
-      // Call updateUrgentCount on initial load
-      document.addEventListener('DOMContentLoaded', function() {
-          updateUrgentCount();
-      });
-    </script>
-
+    // Visitor search with keyup event
+    $("#search_visitor").on("keyup", function(e) {
+        // When Enter is pressed or 3+ characters typed
+        if (e.keyCode == 13 || $(this).val().length > 2) {
+            $("#searchFormVisitor").submit();  // Submit search form for visitors
+        }
+    });
+});
+</script>
 
 
 

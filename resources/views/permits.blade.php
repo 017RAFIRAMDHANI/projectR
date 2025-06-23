@@ -57,12 +57,14 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">Company</label>
                     <input type="text" placeholder="Search company" value="{{ $searchCompany ?? '' }}"  id="searchCompany" name="searchCompany"  class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
-                    <form   method="GET">
-                 <input type="text" name="searchData" id="searchData" value="{{ $search ?? null }}" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-</form>
-                </div>
+              <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+    <form method="GET" id="searchForm">
+        <input type="text" name="searchData" id="searchData" value="{{ $search ?? null }}"
+               class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+    </form>
+</div>
+
             </div>
         </div>
 
@@ -230,31 +232,14 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
-    $(document).ready(function(){
-        // For general search (searching across all columns)
-        $("#searchData").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#TablesData tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-
-            // Hide pagination when filtering
-            $("#pagination").hide();
-        });
-
-        // For company search (searching only in the company column)
-        $("#searchCompany").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#TablesData tr").filter(function() {
-                // Only toggle the row if the company column contains the search term
-                var companyName = $(this).find('td').eq(1).text().toLowerCase();  // Assuming company_name is in the second column (index 1)
-                $(this).toggle(companyName.indexOf(value) > -1);
-            });
-
-            // Hide pagination when filtering
-            $("#pagination").hide();
-        });
+$(document).ready(function(){
+    $("#searchData").on("keyup", function(e) {
+        if(e.keyCode == 13 || $(this).val().length > 2){ // ketika enter atau minimal ketik 3 karakter
+            $("#searchForm").submit();
+        }
     });
+});
+
 
 </script>
 <script>
