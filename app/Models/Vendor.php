@@ -103,4 +103,9 @@ class Vendor extends Model
     {
         return $this->hasMany(Vendor_Visitor::class, 'id_vendor');
     }
+     public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'id_vendor', 'id_vendor');
+    }
+
 }

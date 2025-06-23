@@ -9,7 +9,9 @@ class Employe extends Model
 {
     use HasFactory;
    protected $table = 'employes';
+
     protected $primaryKey = 'id_employe';
+
       protected $fillable = [
          'name',
          'company_name',
@@ -18,4 +20,9 @@ class Employe extends Model
          'file_card',
          'status',
       ];
+      
+   public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'id_employe', 'id_employe');
+    }
 }

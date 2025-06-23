@@ -18,5 +18,23 @@ class Vehicle extends Model
          'date_from',
          'date_to',
          'status',
+         'id_vendor',
+         'id_visitor',
+         'id_employe',
    ];
+
+    public function visitor()
+    {
+        return $this->belongsTo(Visitor::class, 'id_visitor', 'id_visitor');
+    }
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'id_vendor', 'id_vendor');
+    }
+    public function employe()
+    {
+        return $this->belongsTo(Employe::class, 'id_employe', 'id_employe');
+    }
+
+
 }

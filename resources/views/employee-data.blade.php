@@ -151,7 +151,7 @@
                    @if(Auth::user()->access_employe_delete == 1)
                   <form id="deleteEmployeeForm" action="{{ route('employee-delete') }}" method="POST" class="inline">
     @csrf
-    
+
     <input type="hidden" name="id_employe" value="{{ $item->id_employe }}">
     <button type="button" class="text-red-600 hover:text-red-700" title="Delete" onclick="confirmDelete()">
         <i class="fas fa-trash"></i>
@@ -320,7 +320,7 @@
             <div class="flex items-center justify-center w-full">
               <label class="flex flex-col w-full h-48 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300 rounded-lg relative">
                 <!-- Preview image -->
-                <img id="editIdCardPreview" src="{{ asset('storage/'.$item->file_card) }}" alt="" class="hidden w-full h-full object-contain p-4">
+                <img id="editIdCardPreview" src="" alt="" class="hidden w-full h-full object-contain p-4">
 
                 <!-- Upload icon and file input -->
                 <div id="editUploadIcon" class="flex flex-col items-center justify-center p-6">
@@ -456,14 +456,7 @@
                     <label class="block text-sm font-medium text-gray-700">Type</label>
                     <p id="previewType" class="mt-1 text-sm text-gray-900"></p>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">ID Card / Passport</label>
-                    <div class="mt-1">
-                      <button onclick="window.open('{{ asset('storage/'.$item->file_card) }}', '_blank')" class="text-primary hover:text-blue-700">
-    <i class="fas fa-id-card mr-1"></i> View ID Card
-</button>
-                    </div>
-                </div>
+              
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Status</label>
                     <p id="previewStatus" class="mt-1 text-sm text-gray-900"></p>
@@ -486,7 +479,7 @@
     </div>
     <div class="flex justify-center">
       <!-- Image preview area -->
-  <img id="idCardPreviewImage" src="{{ asset('storage/'.$item->file_card) }}" alt="ID Card Preview"  >
+  <img id="idCardPreviewImage" src="" alt="ID Card Preview"  >
   </div>
   </div>
 </div>

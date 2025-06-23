@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vehicle;
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
 use App\Models\Visitor;
@@ -194,13 +195,23 @@ class DataMasuk extends Controller
 
             $id_visitor = $visitor->id_visitor;
 
+$car_plate_no = $visitor->car_plate_no;
+$vehicle_type = $visitor->vehicle_type;
+$company_name = $visitor->company_name;
+$request_date_from = $visitor->request_date_from;
+$request_date_to = $visitor->request_date_to;
 
-            Vendor_Visitor::create([
-                  'id_visitor' => $id_visitor,
-                  'type' => 'Visitor',
-                  'mode' => 'Normal',
+  Vehicle::create([
+                'car_plate_no' => $car_plate_no ?? null,
+                'type' => $vehicle_type ?? null,
+                'company' => $company_name ?? null,
+                'date_from' => $request_date_from ?? null,
+                'date_to' => $request_date_to ?? null,
+                'id_visitor' => $id_visitor ?? null,
+                'status' => 'Active',
+            ]);
 
-                    ]);
+
  }
   }
 
@@ -326,14 +337,22 @@ class DataMasuk extends Controller
 
 
 $id_vendor = $vendor->id_vendor;
+$number_plate = $vendor->number_plate;
+$vehicle_types = $vendor->vehicle_types;
+$company_name = $vendor->company_name;
+$validity_date_from = $vendor->validity_date_from;
+$validity_date_to = $vendor->validity_date_to;
 
+  Vehicle::create([
+                'number_plate' => $number_plate ?? null,
+                'type' => $vehicle_types ?? null,
+                'company' => $company_name ?? null,
+                'date_from' => $validity_date_from ?? null,
+                'date_to' => $validity_date_to ?? null,
+                'id_vendor' => $id_vendor ?? null,
+                'status' => 'Active',
+            ]);
 
-Vendor_Visitor::create([
-    'id_vendor' => $id_vendor,
-    'type' => 'Vendor',
-    'mode' => 'Normal',
-
-]);
 }
             }
 

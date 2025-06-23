@@ -156,4 +156,9 @@ class Visitor extends Model
         'status',
 
     ];
+
+     public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'id_visitor', 'id_visitor');
+    }
 }

@@ -152,10 +152,10 @@
 
                     @endif
      @if(Auth::user()->access_vehicle_view == 1)
-                    <button onclick="viewVehicleDetails('B 1234 ABC')" class="text-blue-600 hover:text-blue-900" title="View Details">
-                      <i class="fas fa-eye"></i>
-                    </button>
-  @endif
+                  <button onclick="viewVehicleDetails('{{$item->id_vehicle}}', '{{$item->number_plate}}', '{{$item->type}}', '{{$item->company}}', '{{$item->date_from}}', '{{$item->date_to}}', '{{$item->status}}')" class="text-blue-600 hover:text-blue-900" title="View Details">
+          <i class="fas fa-eye"></i>
+        </button>
+        @endif
 @if(Auth::user()->access_vehicle_delete == 1)
     <form id="deleteForm{{$item->id_vehicle}}" action="{{route('vehicle-delete')}}" method="POST" style="display: none;">
         @csrf
@@ -280,51 +280,53 @@
     </div>
 
     <!-- Detail Vehicle Modal -->
-    <div id="detailModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-      <div class="relative top-20 mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-medium text-gray-900">Vehicle Details</h3>
-            <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-500">
-              <i class="fas fa-times"></i>
-            </button>
+  <!-- Detail Vehicle Modal -->
+<div id="detailModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+  <div class="relative top-20 mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white">
+    <div class="mt-3">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-medium text-gray-900">Vehicle Details</h3>
+        <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-500">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">License Plate</label>
+            <p class="mt-1 text-sm text-gray-900" id="detailPlate">B 1234 ABC</p>
           </div>
-          <div class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">License Plate</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailPlate">B 1234 ABC</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Vehicle Type</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailType">Car</p>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Company</label>
-              <p class="mt-1 text-sm text-gray-900" id="detailCompany">PT. Example Visitor</p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Request Date</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailRequestDate">2024-03-20</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
-                <p class="mt-1 text-sm text-gray-900" id="detailExpiryDate">2024-03-21</p>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Status</label>
-              <p class="mt-1 text-sm text-gray-900" id="detailStatus">Active</p>
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Vehicle Type</label>
+            <p class="mt-1 text-sm text-gray-900" id="detailType">Car</p>
           </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Company</label>
+          <p class="mt-1 text-sm text-gray-900" id="detailCompany">PT. Example Visitor</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Request Date</label>
+            <p class="mt-1 text-sm text-gray-900" id="detailRequestDate">2024-03-20</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
+            <p class="mt-1 text-sm text-gray-900" id="detailExpiryDate">2024-03-21</p>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Status</label>
+          <p class="mt-1 text-sm text-gray-900" id="detailStatus">Active</p>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
 
     <!-- Edit Vehicle Modal -->
     <div id="editModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
@@ -422,28 +424,19 @@
         document.getElementById('vehicleModal').classList.add('hidden');
       }
 
-      function viewVehicleDetails(plateNumber) {
-        // Di sini Anda bisa menambahkan logika untuk mengambil data kendaraan dari server
-        const vehicleData = {
-          plate: 'B 1234 ABC',
-          type: 'Car',
-          company: 'PT. Example Visitor',
-          requestDate: '2024-03-20',
-          expiryDate: '2024-03-21',
-          status: 'Active'
-        };
+    function viewVehicleDetails(id, number_plate, type, company, date_from, date_to, status) {
+  // Mengisi data ke modal detail
+  document.getElementById('detailPlate').textContent = number_plate;
+  document.getElementById('detailType').textContent = type;
+  document.getElementById('detailCompany').textContent = company;
+  document.getElementById('detailRequestDate').textContent = date_from;
+  document.getElementById('detailExpiryDate').textContent = date_to;
+  document.getElementById('detailStatus').textContent = status;
 
-        // Mengisi data ke modal detail
-        document.getElementById('detailPlate').textContent = vehicleData.plate;
-        document.getElementById('detailType').textContent = vehicleData.type;
-        document.getElementById('detailCompany').textContent = vehicleData.company;
-        document.getElementById('detailRequestDate').textContent = vehicleData.requestDate;
-        document.getElementById('detailExpiryDate').textContent = vehicleData.expiryDate;
-        document.getElementById('detailStatus').textContent = vehicleData.status;
+  // Menampilkan modal
+  document.getElementById('detailModal').classList.remove('hidden');
+}
 
-        // Menampilkan modal
-        document.getElementById('detailModal').classList.remove('hidden');
-      }
 
       function closeDetailModal() {
         document.getElementById('detailModal').classList.add('hidden');

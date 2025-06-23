@@ -19,6 +19,14 @@ return new class extends Migration
             $table->string('date_from')->nullable();
             $table->string('date_to')->nullable();
             $table->string('status')->nullable();
+            $table->unsignedInteger('id_visitor')->nullable();
+            $table->unsignedInteger('id_vendor')->nullable();
+            $table->unsignedInteger('id_employe')->nullable();
+
+            $table->foreign('id_visitor')->references('id_visitor')->on('visitors')->onDelete('cascade');
+            $table->foreign('id_vendor')->references('id_vendor')->on('vendors')->onDelete('cascade');
+             $table->foreign('id_employe')->references('id_employe')->on('employes')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
