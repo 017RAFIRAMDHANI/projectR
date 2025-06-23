@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vehicle;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
 
@@ -386,6 +387,16 @@ $visitor->save();
 
   Mail::to($visitor->email)->send(new \App\Mail\VisitorForm($visitor));
 
+  Vehicle::create([
+                'name' => $validatedData['pic_name'] ?? null,
+                'number_plate' => $validatedData['car_plate_no'] ?? null,
+                'type' => $validatedData['vehicle_type'] ?? null,
+                'company' => $validatedData['company_name'] ?? null,
+                'date_from' => $validatedData['request_date_from'] ?? null,
+                'date_to' => $validatedData['request_date_to'] ?? null,
+                'id_visitor' => $visitor->id_visitor ?? null,
+                'status' => 'Active',
+            ]);
 
 
         // Return a success response with data

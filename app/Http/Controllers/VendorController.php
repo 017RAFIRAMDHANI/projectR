@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vehicle;
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
 use Carbon\Carbon;
@@ -279,7 +280,7 @@ $vendor = Vendor::create([
     'specific_location' => $validatedData['specific_location'] ?? null,
     'vehicle_types' => $validatedData['vehicle_types'] ?? null,
     'number_plate' => $validatedData['number_plate'] ?? null,
-      'worker1_name' => $validatedData['worker1_name'] ?? null,
+    'worker1_name' => $validatedData['worker1_name'] ?? null,
     'worker1_id_card' => $validatedData['worker1_id_card'] ?? null,
     'worker2_name' => $validatedData['worker2_name'] ?? null,
     'worker2_id_card' => $validatedData['worker2_id_card'] ?? null,
@@ -357,12 +358,17 @@ $vendor = Vendor::create([
               $id_vendor = $vendor->id_vendor;
 
 
-            Vendor_Visitor::create([
-                  'id_vendor' => $id_vendor,
-                  'type' => 'Vendor',
-                  'mode' => $request->mode,
+            Vehicle::create([
+                'name' => $validatedData['requestor_name'] ?? null,
+                'number_plate' => $validatedData['number_plate'] ?? null,
+                'type' => $validatedData['vehicle_types'] ?? null,
+                'company' => $validatedData['company_name'] ?? null,
+                'date_from' =>$validatedData['validity_date_from'] ?? null,
+                'date_to' => $validatedData['validity_date_to'] ?? null,
+                'id_vendor' => $id_vendor ?? null,
+                'status' => 'Active',
+            ]);
 
-                    ]);
         // Return a success response with data
         return redirect()->route('index_approve')->with('success', 'Vendor permit request submitted successfully!');
 

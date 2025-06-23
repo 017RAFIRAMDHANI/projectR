@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employe;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
 class EmployeController extends Controller
@@ -54,6 +55,18 @@ class EmployeController extends Controller
             'file_card' => $filePath,  // Simpan path file
             'status' => $validatedData['status'],
         ]);
+
+
+       Vehicle::create([
+                'name' => $validatedData['name'] ?? null,
+                'number_plate' => $validatedData['number_plate'] ?? null,
+                'type' => $validatedData['type'] ?? null,
+                'company' => $validatedData['company_name'] ?? null,
+                'date_from' => "-",
+                'date_to' => "-",
+                'id_employe' => $employee->id_employe ?? null,
+                'status' => 'Active',
+            ]);
 
         return redirect()->back()->with('success', 'Employee created successfully!');
     } catch (\Exception $e) {

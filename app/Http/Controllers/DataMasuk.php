@@ -204,7 +204,7 @@ $request_date_to = $visitor->request_date_to;
 
   Vehicle::create([
                 'name' => $pic_name ?? null,
-                'car_plate_no' => $car_plate_no ?? null,
+                'number_plate' => $car_plate_no ?? null,
                 'type' => $vehicle_type ?? null,
                 'company' => $company_name ?? null,
                 'date_from' => $request_date_from ?? null,
