@@ -191,7 +191,7 @@ class DaftarUser extends Controller
         $validate = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'number_phone' => 'nullable|string|max:20',
+
             'file_card' => 'nullable|file'
         ]);
 
@@ -201,7 +201,7 @@ class DaftarUser extends Controller
         // Update field biasa
         $user->name = $validate['name'];
         $user->email = $validate['email'];
-        $user->number_phone = $validate['number_phone'];
+      
 
         // Cek apakah ada file yang diupload
        if ($request->hasFile('file_card')) {

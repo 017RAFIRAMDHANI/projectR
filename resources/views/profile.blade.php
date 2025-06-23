@@ -64,10 +64,11 @@
                                 <label class="block text-sm font-medium text-gray-700">Email</label>
                                 <input type="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="{{$dataUser->email}}" readonly>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Phone</label>
-                                <input type="tel" name="number_phone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="{{$dataUser->number_phone ?? '-'}}">
-                            </div>
+
+                            <!-- <div>
+                                <label class="block text-sm font-medium text-gray-700">Department</label>
+                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="IT Department">
+                            </div> -->
                             <!-- <div>
                                 <label class="block text-sm font-medium text-gray-700">Department</label>
                                 <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="IT Department">
