@@ -71,7 +71,8 @@ Route::get('/employee-data',[App\Http\Controllers\EmployeController::class, 'ind
 Route::post('/employee-tambah',[App\Http\Controllers\EmployeController::class, 'store'])->name('employee-store');
 Route::post('/employee-edit',[App\Http\Controllers\EmployeController::class, 'update'])->name('employee-update');
 Route::post('/employee-delete',[App\Http\Controllers\EmployeController::class, 'delete'])->name('employee-delete');
-
+Route::get('/profile/{id}', [App\Http\Controllers\DaftarUser::class, 'profile'])->name('profile');
+Route::put('/profile_edit/{id}', [App\Http\Controllers\DaftarUser::class, 'edit_profile'])->name('edit_profile');
 // client
 Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');
 Route::post('/vehicle-create',[App\Http\Controllers\VehicleController::class, 'store'])->name('vehicle-store');
@@ -124,9 +125,7 @@ Route::get('/reports', function () {
     return view('reports');
 })->name('reports');
 
-Route::get('/profile', function () {
-    return view('profile');
-});
+
 
 Route::get('/dhi-profile', function () {
     return view('dhi-profile');

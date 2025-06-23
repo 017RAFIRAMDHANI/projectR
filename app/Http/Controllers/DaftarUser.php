@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 class DaftarUser extends Controller
 {
@@ -174,6 +175,58 @@ class DaftarUser extends Controller
         return view('user-list',[
             "dataUser" => $dataUser
         ]);
+    }
+    public function profile($id)
+    {
+        $dataUser = User::where('id',$id)->first();
+        return view('profile',[
+            "dataUser" => $dataUser
+        ]);
+    }
+    public function edit_profile(Request $request,$id)
+    {
+
+        try {
+        // Validasi
+        $validate = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'number_phone' => 'nullable|string|max:20',
+            'file_card' => 'nullable|file'
+        ]);
+
+        // Ambil user yang akan diupdate
+        $user = User::findOrFail($id);
+
+        // Update field biasa
+        $user->name = $validate['name'];
+        $user->email = $validate['email'];
+        $user->number_phone = $validate['number_phone'];
+
+        // Cek apakah ada file yang diupload
+       if ($request->hasFile('file_card')) {
+
+    // Hapus file lama jika ada
+    if ($user->file_card && Storage::exists($user->file_card)) {
+        Storage::delete($user->file_card);
+    }
+
+    $file = $request->file('file_card');
+    $originalFileName = $file->getClientOriginalName();
+
+    $file->storeAs('users/', $originalFileName);
+
+    // Simpan path lengkap ke database
+    $user->file_card = 'users/'.$originalFileName;
+}
+
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Data berhasil diupdate!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Gagal update data: ' . $e->getMessage());
+    }
     }
     public function destroy($id)
 {

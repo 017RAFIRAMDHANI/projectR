@@ -18,17 +18,18 @@
 <body class="bg-gray-50">
     <!-- Navbar -->
 
+
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Page Header -->
         <div class="mb-8">
             <div class="flex items-center mb-4">
-                <a   href="{{route('fm-dashboard')}}" class="flex items-center text-primary hover:underline text-base font-medium">
+                <button onclick="window.location.href='{{route('/')}}'" class="flex items-center text-primary hover:underline text-base font-medium">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                     Back to Dashboard
-                </a>
+                </button>
             </div>
             <h1 class="text-2xl font-bold text-gray-900">Profile Settings</h1>
             <p class="mt-2 text-sm text-gray-600">Manage your account settings and preferences</p>
@@ -44,120 +45,99 @@
                             <i class="fas fa-camera text-gray-600"></i>
                         </button>
                     </div>
-                    <h2 class="mt-4 text-xl font-semibold text-gray-900">John Doe</h2>
+                    <h2 class="mt-4 text-xl font-semibold text-gray-900">{{$dataUser->name}}</h2>
                     <p class="text-gray-500">System Administrator</p>
                 </div>
 
                 <!-- Profile Details -->
                 <div class="md:w-2/3 p-6">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">Profile Information</h3>
-                    <form class="space-y-6">
+                    <form class="space-y-6" method="POST" action="{{route('edit_profile',$dataUser->id)}}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Name</label>
-                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="John Doe">
+                                <input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="{{$dataUser->name}}">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="john.doe@example.com">
+                                <input type="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="{{$dataUser->email}}" readonly>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Phone</label>
-                                <input type="tel" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="+1 234 567 8900">
+                                <input type="tel" name="number_phone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="{{$dataUser->number_phone ?? '-'}}">
                             </div>
-                            <div>
+                            <!-- <div>
                                 <label class="block text-sm font-medium text-gray-700">Department</label>
                                 <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="IT Department">
-                            </div>
+                            </div> -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Position</label>
-                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="System Administrator">
+                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly value="{{$dataUser->role}}">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Digital Signature</label>
-                                <div class="mt-1">
-                                    <button type="button" onclick="toggleSignatureModal()" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-blue-700">
-                                        <i class="fas fa-signature mr-2"></i>
-                                        Upload Signature
-                                    </button>
-                                </div>
+                                <label class="block text-sm font-medium text-gray-700">Role</label>
+                                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly value="{{$dataUser->role}}">
                             </div>
+                            <div>
+                              <label class="flex flex-col w-full h-48 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300 rounded-lg relative">
+    <div class="flex flex-col items-center justify-center h-full">
+        <img  id="idCardPreview"
+             src="{{ $dataUser->file_card ? asset('storage/'.$dataUser->file_card) : '' }}"
+             alt=""
+             class="w-full h-full object-contain p-4 {{ $dataUser->file_card ? '' : 'hidden' }}">
+    </div>
+<span id="fileUploadedIcon" class="absolute top-0 right-0 hidden text-green-500 text-3xl">
+    <i class="fas fa-check-circle"></i>
+</span>
+
+    <input type="file" name="file_card" id="idCardInput" class="opacity-0" accept=".png,.jpg,.jpeg,.pdf" />
+</label>
+
+                                    </div>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-500">Please upload a clear photo of your ID Card or Passport</p>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                Save Changes
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </main>
+<script>
+const idCardInput = document.getElementById('idCardInput');
+const idCardPreview = document.getElementById('idCardPreview');
+const fileUploadedIcon = document.getElementById('fileUploadedIcon');
 
-    <!-- Signature Modal -->
-    <div id="signatureModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-gray-900">Upload Digital Signature</h3>
-                    <button onclick="toggleSignatureModal()" class="text-gray-400 hover:text-gray-500">
-                        <i class="fas fa-times"></i>
-                    </button>
-                        </div>
-                    </div>
-            <div class="p-6">
-                <div class="mb-4 p-4 bg-blue-50 rounded-md">
-                    <p class="text-sm text-blue-800">
-                        <i class="fas fa-info-circle mr-2"></i>
-                        Please ensure your signature is on a white background for better quality and clarity.
-                    </p>
-                </div>
-                <form class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Upload Signature</label>
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                            <div class="space-y-1 text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <div class="flex text-sm text-gray-600">
-                                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-blue-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary">
-                                        <span>Upload a file</span>
-                                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                                    </label>
-                                    <p class="pl-1">or drag and drop</p>
-                                </div>
-                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end space-x-3">
-                        <button type="button" onclick="toggleSignatureModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-                            Cancel
-                        </button>
-                        <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-blue-700">
-                            Save Signature
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        function toggleNotifications() {
-            const panel = document.getElementById('notificationsPanel');
-            panel.classList.toggle('hidden');
+idCardInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                idCardPreview.src = e.target.result;
+                idCardPreview.classList.remove('hidden');
+                fileUploadedIcon.classList.remove('hidden'); // baru muncul ceklis saat user upload file baru
+            }
+            reader.readAsDataURL(file);
+        } else {
+            idCardPreview.classList.add('hidden');
+            fileUploadedIcon.classList.add('hidden');
+            alert('Please upload an image file (PNG, JPG, or JPEG)');
         }
+    }
+});
 
-        function toggleSignatureModal() {
-            const modal = document.getElementById('signatureModal');
-            modal.classList.toggle('hidden');
-        }
-
-        function toggleUserMenu() {
-            const userMenu = document.getElementById('userMenu');
-            userMenu.classList.toggle('hidden');
-        }
+</script>
 
 
-    </script>
 </body>
 </html>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employe;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeController extends Controller
 {
@@ -95,6 +96,10 @@ class EmployeController extends Controller
 
         // Jika file baru diupload
         if ($request->hasFile('file_card')) {
+                // Hapus file lama jika ada
+    if ($employee->file_card && Storage::exists($employee->file_card)) {
+        Storage::delete($employee->file_card);
+    }
             // Mendapatkan file yang diupload
             $file = $request->file('file_card');
             $originalFileName = $file->getClientOriginalName();  // Nama asli file
