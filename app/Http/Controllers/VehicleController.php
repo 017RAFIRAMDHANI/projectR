@@ -39,12 +39,55 @@ class VehicleController extends Controller
     }
 }
 
-       public function index(){
+       public function index(Request $request){
+          $searchVehicle =  $request->input('searchVehicle');
+          $selectType =  $request->input('selectType');
+          $fromDate =  $request->input('fromDate');
+          $toDate =  $request->input('toDate');
 
-        $dataVehicle = Vehicle::paginate(20);
+        $vehicle = Vehicle::query();
+
+          if($searchVehicle){
+
+        $vehicle = $vehicle->where(function($query) use ($searchVehicle) {
+            $query->where('name', 'like', '%' . $searchVehicle . '%')
+                ->orWhere('number_plate', 'like', '%' . $searchVehicle . '%')
+                ->orWhere('type', 'like', '%' . $searchVehicle . '%')
+                ->orWhere('company', 'like', '%' . $searchVehicle . '%')
+                ->orWhere('date_from', 'like', '%' . $searchVehicle . '%')
+                ->orWhere('date_to', 'like', '%' . $searchVehicle . '%')
+                ->orWhere('status', 'like', '%' . $searchVehicle . '%');
+        });
+
+          }
+          if($selectType){
+
+        $vehicle = $vehicle->where(function($query) use ($selectType) {
+            $query->where('type', 'like', '%' . $selectType . '%');
+
+        });
+
+          }
+          if($fromDate){
+
+        $vehicle = $vehicle->where(function($query) use ($fromDate) {
+            $query->where('date_from', 'like', '%' . $fromDate . '%');
+
+        });
+
+          }
+          if($toDate){
+
+        $vehicle = $vehicle->where(function($query) use ($toDate) {
+            $query->where('date_to', 'like', '%' . $toDate . '%');
+
+        });
+
+          }
+   $vehicle = $vehicle->paginate(2);
 
           return view('vehicle-list',[
-            "dataVehicle" => $dataVehicle
+            "dataVehicle" => $vehicle
           ]);
     }
          public function store(Request $request)

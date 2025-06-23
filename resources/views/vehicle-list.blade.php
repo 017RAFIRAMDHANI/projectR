@@ -44,15 +44,7 @@
       .action-btn:hover {
         transform: scale(1.1);
       }
-      .pagination-btn {
-        transition: all 0.2s ease;
-      }
-      .pagination-btn:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-      .pagination-btn:active {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
+
     </style>
   </head>
   <body class="bg-gray-50">
@@ -83,28 +75,45 @@
         <!-- Search and Filter -->
         <div class="mb-6 flex flex-wrap gap-4">
           <div class="flex-1 min-w-[200px]">
+            <form method="GET" id="searchForm">
             <input
               type="text"
+              id="searchVehicle"
+              name="searchVehicle"
               placeholder="Search vehicle..."
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+
+            /></form>
           </div>
-          <select class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+     <form  method="GET" id="formType">
+          <select   onchange="selectTypeOption()" id="selectType" name="selectType" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
             <option value="">All Types</option>
-            <option value="car">Car</option>
-            <option value="motorcycle">Motorcycle</option>
+            <option value="Car">Car</option>
+            <option value="Motorcycle">Motorcycle</option>
           </select>
+</form>
           <div class="flex gap-2">
+            <form id="formDateFrom" method="get">
             <input
               type="date"
+              id="fromDate"
+              name="fromDate"
               placeholder="From Date"
+              onchange="DateFrom()"
               class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+            /></form>
+            <form id="formDateTo" method="get">
             <input
               type="date"
+              id="toDate"
+              name="toDate"
+                onchange="DateTo()"
               placeholder="To Date"
               class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+            /></form>
+              <button type="button" onclick="resetFilters()" class="ml-4 text-red-500">
+        <i class="fa fa-refresh"></i> Reset
+    </button>
           </div>
         </div>
 
@@ -177,40 +186,9 @@
         </div>
 
         <!-- Pagination -->
-        <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-          <div class="flex flex-1 justify-between sm:hidden">
-            <button class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              Previous
-            </button>
-            <button class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              Next
-            </button>
-          </div>
-          <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-              <p class="text-sm text-gray-700">
-                Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">20</span> entries
-              </p>
-            </div>
-            <div>
-              <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                <button class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 pagination-btn">
-                  <span class="sr-only">Previous</span>
-                  <i class="fas fa-chevron-left text-sm"></i>
-                </button>
-                <button aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary pagination-btn">
-                  1
-                </button>
-                <button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 pagination-btn">
-                  2
-                </button>
-                <button class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 pagination-btn">
-                  <span class="sr-only">Next</span>
-                  <i class="fas fa-chevron-right text-sm"></i>
-                </button>
-              </nav>
-            </div>
-          </div>
+        <div class="p-3">
+
+            {{ $dataVehicle->withQueryString()->links('pagination::tailwind') }}
         </div>
       </div>
     </main>
@@ -412,6 +390,47 @@
         </div>
       </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Vendor search with keyup event
+    $("#searchVehicle").on("keyup", function(e) {
+        // When Enter is pressed or 3+ characters typed
+        if (e.keyCode == 13 || $(this).val().length > 2) {
+            $("#searchForm").submit();  // Submit search form for vendors
+        }
+    });
+
+
+});
+</script>
+<script>
+    function selectTypeOption() {
+        const form = document.getElementById('formType');
+        const selectElement = document.getElementById('selectType');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
+<script>
+    function DateFrom() {
+        const form = document.getElementById('formDateFrom');
+        const selectElement = document.getElementById('fromDate');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
+<script>
+    function DateTo() {
+        const form = document.getElementById('formDateTo');
+        const selectElement = document.getElementById('toDate');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
 <script>
     function confirmDelete(id) {
     // Menampilkan SweetAlert2 konfirmasi
@@ -538,6 +557,15 @@ console.log(number_plate, type, company, date_from, date_to, status);
         sessionStorage.clear();
         window.location.href = 'login.html';
       }
+    </script>
+    <script>
+               function resetFilters() {
+
+
+
+
+        window.location.href = "{{ route('vehicle-list') }}";
+    }
     </script>
   </body>
 </html>
