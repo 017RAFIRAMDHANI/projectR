@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHI Permit System Email</title>
+    <title>DHI Permit System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
             color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 0cm;
             background-color: #f9f9f9;
         }
 
         .email-content {
-         
+
             margin: 0 auto;
             background-color: white;
             padding: 30px;
@@ -82,13 +82,7 @@
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
 
-            .email-content {
-                padding: 20px;
-            }
 
             .no-reply-banner {
                 margin: -20px -20px 15px -20px;
@@ -108,47 +102,47 @@
 
         <div class="detail-item">
             <span class="detail-label">Submission Time:</span>
-            <div class="detail-value">{{ $submissionTime }}</div>
+            <div class="detail-value">{{ $submissionTime ?? '' }}</div>
         </div>
 
         <div class="detail-item">
             <span class="detail-label">Company Name:</span>
-            <div class="detail-value">{{ $companyName }}</div>
+            <div class="detail-value">{{ $companyName ?? ''}}</div>
         </div>
 
         <div class="detail-item">
             <span class="detail-label">Requestor:</span>
-            <div class="detail-value">{{ $requestorName }}</div>
+            <div class="detail-value">{{ $requestorName ?? ''}}</div>
         </div>
 
         <div class="detail-item">
             <span class="detail-label">Contact:</span>
-            <div class="detail-value">{{ $companyContact }}</div>
+            <div class="detail-value">{{ $companyContact ?? ''}}</div>
         </div>
 
         <div class="detail-item">
             <span class="detail-label">Permit Validity:</span>
-            <div class="detail-value">{{ $permitValidityFrom }} to {{ $permitValidityTo }}</div>
+            <div class="detail-value">{{ $permitValidityFrom ?? ''}} to {{ $permitValidityTo ?? ''}}</div>
         </div>
 
         <div class="detail-item">
             <span class="detail-label">Work Description:</span>
-            <div class="detail-value">{{ $workDescription }}</div>
+            <div class="detail-value">{{ $workDescription ?? ''}}</div>
         </div>
 
         <div class="detail-item">
             <span class="detail-label">Location:</span>
-            <div class="detail-value">{{ $location }}</div>
+            <div class="detail-value">{{ $location ?? ''}}</div>
         </div>
 
         <div class="detail-item">
             <span class="detail-label">Vehicle:</span>
-            <div class="detail-value">{{ $vehicle }}</div>
+            <div class="detail-value">{{ $vehicle ?? ''}}</div>
         </div>
 
         <div class="status-section">
             <span class="status-label">Status:</span>
-            <div class="status-value">{{ $status }}</div>
+            <div class="status-value">{{ $status ?? ''}}</div>
         </div>
 
         <div class="footer">

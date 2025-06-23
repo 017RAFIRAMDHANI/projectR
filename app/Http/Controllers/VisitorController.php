@@ -384,7 +384,7 @@ $visitor->save();
 
 ]);
 
-
+  Mail::to($visitor->email)->send(new \App\Mail\VisitorForm($visitor));
 
 
 
