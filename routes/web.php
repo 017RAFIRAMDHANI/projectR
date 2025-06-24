@@ -73,6 +73,8 @@ Route::post('/employee-edit',[App\Http\Controllers\EmployeController::class, 'up
 Route::post('/employee-delete',[App\Http\Controllers\EmployeController::class, 'delete'])->name('employee-delete');
 Route::get('/profile/{id}', [App\Http\Controllers\DaftarUser::class, 'profile'])->name('profile');
 Route::put('/profile_edit/{id}', [App\Http\Controllers\DaftarUser::class, 'edit_profile'])->name('edit_profile');
+Route::get('/permit-data', [App\Http\Controllers\ApprovedCloseController::class, 'index'])->name('permit-data');
+
 // client
 Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');
 Route::post('/vehicle-create',[App\Http\Controllers\VehicleController::class, 'store'])->name('vehicle-store');
@@ -89,9 +91,7 @@ Route::get('/employee-safety-list', function () {
 Route::get('/daily-report', function () {
     return view('daily-report');
 })->name('daily-report');
-Route::get('/permit-data', function () {
-    return view('permit-data');
-})->name('permit-data');
+
 Route::get('/employee-safety-list-fm', function () {
     return view('employee-safety-list-fm');
 })->name('employee-safety-list-fm');

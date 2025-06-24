@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Approved;
 use App\Models\Vehicle;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -87,7 +88,12 @@ $visitor->save();
         // Kirim email pemberitahuan ke visitor
        Mail::to($visitor->email)->send(new \App\Mail\VisitorStatusMail($visitor, 'Approved', $permitNumber,$filePath));
             // Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
-
+        Approved::create([
+                  'id_visitor' => $request->id_visitor ?? null,
+                  'type' => 'Visitor',
+                  'status' => 'Open',
+            ]);
+            
            return back()->with('success', 'Permit Approve Success');
         }
         return response()->json(['success' => false], 404);
@@ -397,6 +403,8 @@ $visitor->save();
                 'id_visitor' => $visitor->id_visitor ?? null,
                 'status' => 'Active',
             ]);
+
+
 
 
         // Return a success response with data
