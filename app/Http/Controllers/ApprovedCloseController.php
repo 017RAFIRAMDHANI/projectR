@@ -14,14 +14,62 @@ class ApprovedCloseController extends Controller
 
 
     }
- public function index()
+
+public function index(Request $request)
 {
+    // Get the search query input from the request
+    $searchVisitor = $request->input('search_visitor');
+    $searchVendor = $request->input('search_vendor');
+    $visitorStatusFilter = $request->input('visitorStatusFilter');
+    $vendorStatusFilter = $request->input('vendorStatusFilter');
+
+        $openCount = Approved::where('status', 'Open')->count();
+    $closedCount = Approved::where('status', 'Closed')->count();
+    $expiredCount = Approved::where('status', 'Expired')->count();
+    $totalCount = Approved::count(); // Count all permits
+
     // Get today's date
     $currentDate = Carbon::today();
 
-    // Fetch the data for Visitor and Vendor directly from Approved
-    $dataVendor = Approved::with('vendor')->get();
-    $dataVisitor = Approved::with('visitor')->get();
+    // Start the query for fetching the data from 'Approved' table
+    $dataVisitor = Approved::with('visitor'); // Start with visitor relationship
+    $dataVendor = Approved::with('vendor'); // Start with vendor relationship
+
+    // If there's a search term for Visitor, apply it to filter the results
+    if ($searchVisitor) {
+        $dataVisitor = $dataVisitor->whereHas('visitor', function($query) use ($searchVisitor) {
+            $query->where('permit_number', 'like', '%' . $searchVisitor . '%')
+                ->orWhere('pic_name', 'like', '%' . $searchVisitor . '%')
+                ->orWhere('purpose_visit', 'like', '%' . $searchVisitor . '%')
+                ->orWhere('request_date_to', 'like', '%' . $searchVisitor . '%')
+                ->orWhere('status', 'like', '%' . $searchVisitor . '%');
+        });
+    }
+   if ($visitorStatusFilter) {
+        $dataVisitor = $dataVisitor->where('status', 'like', '%' . $visitorStatusFilter . '%');
+    }
+
+
+    // Fetch the filtered visitor data
+    $dataVisitor = $dataVisitor->paginate(2);
+
+    // If there's a search term for Vendor, apply it to filter the results
+    if ($searchVendor) {
+        $dataVendor = $dataVendor->whereHas('vendor', function($query) use ($searchVendor) {
+            $query->where('permit_number', 'like', '%' . $searchVendor . '%')
+                ->orWhere('company_name', 'like', '%' . $searchVendor . '%')
+                ->orWhere('requestor_name', 'like', '%' . $searchVendor . '%')
+                ->orWhere('work_description', 'like', '%' . $searchVendor . '%')
+                ->orWhere('validity_date_to', 'like', '%' . $searchVendor . '%')
+                ->orWhere('status', 'like', '%' . $searchVendor . '%');
+        });
+    }
+   if ($vendorStatusFilter) {
+        $dataVendor = $dataVendor->where('status', 'like', '%' . $vendorStatusFilter . '%');
+    }
+    // Fetch the filtered vendor data
+    $dataVendor = $dataVendor->paginate(2);
+
     $Close = Approved::all();
 
     // Check for dates and update the status if necessary
@@ -52,6 +100,10 @@ class ApprovedCloseController extends Controller
     return view('permit-data', [
         "dataVendor" => $dataVendor,
         "dataVisitor" => $dataVisitor,
+    "openCount" => $openCount,
+        "closedCount" => $closedCount,
+        "expiredCount" => $expiredCount,
+        "totalCount" => $totalCount,
     ]);
 }
 

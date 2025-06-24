@@ -126,42 +126,7 @@
       .tab-content.active {
         display: block;
       }
-      /* Pagination styles */
-      .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-        margin-top: 1rem;
-        padding: 1rem;
-        background-color: white;
-        border-top: 1px solid #E5E7EB;
-      }
-      .pagination button {
-        padding: 0.5rem 1rem;
-        border: 1px solid #E5E7EB;
-        border-radius: 0.375rem;
-        background-color: white;
-        color: #374151;
-        font-size: 0.875rem;
-        transition: all 0.2s;
-      }
-      .pagination button:hover:not(:disabled) {
-        background-color: #F3F4F6;
-      }
-      .pagination button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-      .pagination button.active {
-        background-color: #2563EB;
-        color: white;
-        border-color: #2563EB;
-      }
-      .pagination-info {
-        font-size: 0.875rem;
-        color: #6B7280;
-      }
+
       /* Main content scrollbar */
       .main-content {
         height: calc(100vh - 64px);
@@ -283,7 +248,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-gray-600">Open Permits</p>
-                <p class="text-2xl font-semibold text-gray-900" id="openCount">0</p>
+                <p class="text-2xl font-semibold text-gray-900" id="openCount">{{ $openCount }}</p>
               </div>
               <div class="p-3 bg-green-100 rounded-full">
                 <i class="fas fa-check-circle text-green-600"></i>
@@ -294,7 +259,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-gray-600">Closed Permits</p>
-                <p class="text-2xl font-semibold text-gray-900" id="closedCount">0</p>
+                <p class="text-2xl font-semibold text-gray-900" id="closedCount">{{ $closedCount }}</p>
               </div>
               <div class="p-3 bg-gray-100 rounded-full">
                 <i class="fas fa-times-circle text-gray-600"></i>
@@ -305,7 +270,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-gray-600">Expired Permits</p>
-                <p class="text-2xl font-semibold text-gray-900" id="expiredCount">0</p>
+                <p class="text-2xl font-semibold text-gray-900" id="expiredCount">{{ $expiredCount }}</p>
               </div>
               <div class="p-3 bg-red-100 rounded-full">
                 <i class="fas fa-exclamation-circle text-red-600"></i>
@@ -316,7 +281,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-gray-600">Total Permits</p>
-                <p class="text-2xl font-semibold text-gray-900" id="totalCount">0</p>
+                <p class="text-2xl font-semibold text-gray-900" id="totalCount">{{ $totalCount }}</p>
               </div>
               <div class="p-3 bg-blue-100 rounded-full">
                 <i class="fas fa-file-alt text-blue-600"></i>
@@ -349,21 +314,29 @@
               <!-- Tab Content: Visitor Permits -->
               <div id="visitor" class="tab-content active">
                 <!-- Filter Section for Visitor -->
-                <div class="px-6 py-4 border-b border-gray-200 flex gap-4">
-                  <input type="text" id="visitorSearchFilter" placeholder="Search Visitor..." class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                  <select id="visitorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="all">All Dates</option>
-                    <option value="today">Today</option>
-                    <option value="this_week">This Week</option>
-                    <option value="this_month">This Month</option>
-                  </select>
-                  <select id="visitorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="all">All Statuses</option>
-                    <option value="open">Open</option>
-                    <option value="closed">Closed</option>
-                    <option value="expired">Expired</option>
-                  </select>
-                </div>
+           <div class="px-6 py-4 border-b border-gray-200 flex items-center gap-4 w-full">
+    <form id="formSearchVisitor" method="get" class="flex-1">
+        <input type="text" name="search_visitor" id="search_visitor" placeholder="Search Visitor..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </form>
+    <select id="visitorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="all">All Dates</option>
+        <option value="today">Today</option>
+        <option value="this_week">This Week</option>
+        <option value="this_month">This Month</option>
+    </select>
+    <form id="statusForm" method="GET">
+        <select onchange="submitForm()" name="visitorStatusFilter" id="visitorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">All Statuses</option>
+            <option value="Open">Open</option>
+            <option value="Closed">Closed</option>
+            <option value="Expired">Expired</option>
+        </select>
+    </form>
+    <button type="button" onclick="resetFilters()" class="ml-4 text-red-500">
+        <i class="fa fa-refresh"></i> Reset
+    </button>
+</div>
+
 
                 <!-- Visitor Table -->
                 <div class="content-area">
@@ -380,10 +353,14 @@
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" id="visitorTableBody">
+                        @php
+
+                       $iVisitor =1;
+                        @endphp
   @foreach ($dataVisitor as $visitor)
  @if($visitor->visitor)
 <tr id="permit-{{ $visitor->id_approved }}">
-  <td class="px-4 py-4 text-sm font-medium text-gray-900">#</td>
+  <td class="px-4 py-4 text-sm font-medium text-gray-900">{{$iVisitor++}}</td>
   <td class="px-4 py-4 text-sm font-medium text-gray-900">{{ $visitor->visitor->permit_number }}</td>
   <td class="px-4 py-4 text-sm text-gray-500">{{ $visitor->visitor->pic_name }}</td>
   <td class="px-4 py-4 text-sm text-gray-500">{{ $visitor->visitor->purpose_detail }}</td>
@@ -414,27 +391,46 @@
   @endforeach
                     </tbody>
                   </table>
+                  <div class="p-3">
+
+                      {{ $dataVisitor->withQueryString()->links('pagination::tailwind') }}
+                    </div>
                 </div>
               </div>
 
               <!-- Tab Content: Vendor Permits -->
               <div id="vendor" class="tab-content">
                 <!-- Filter Section for Vendor -->
-                <div class="px-6 py-4 border-b border-gray-200 flex gap-4">
-                  <input type="text" id="vendorSearchFilter" placeholder="Search Vendor..." class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                  <select id="vendorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="all">All Dates</option>
-                    <option value="today">Today</option>
-                    <option value="this_week">This Week</option>
-                    <option value="this_month">This Month</option>
-                  </select>
-                  <select id="vendorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="all">All Statuses</option>
-                    <option value="open">Open</option>
-                    <option value="closed">Closed</option>
-                    <option value="expired">Expired</option>
-                  </select>
-                </div>
+               <div class="px-6 py-4 border-b border-gray-200 flex gap-4 w-full">
+    <!-- Search Form -->
+    <form id="searchFormVendor" method="get" class="flex-1">
+        <input type="text" name="search_vendor" id="search_vendor" placeholder="Search Vendor..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </form>
+
+    <!-- Date Filter -->
+    <select id="vendorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="all">All Dates</option>
+        <option value="today">Today</option>
+        <option value="this_week">This Week</option>
+        <option value="this_month">This Month</option>
+    </select>
+
+    <!-- Status Filter -->
+    <form id="statusForm2" method="GET">
+        <select onchange="submitForm2()" name="vendorStatusFilter" id="vendorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">All Statuses</option>
+            <option value="Open">Open</option>
+            <option value="Closed">Closed</option>
+            <option value="Expired">Expired</option>
+        </select>
+    </form>
+
+    <!-- Reset Button -->
+    <button type="button" onclick="resetFilters()" class="ml-4 text-red-500">
+        <i class="fa fa-refresh"></i> Reset
+    </button>
+</div>
+
 
                 <!-- Vendor Table -->
                 <div class="content-area">
@@ -451,11 +447,15 @@
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" id="vendorTableBody">
+                          @php
+
+                        $iVendor = 1;
+                        @endphp
                         @foreach ($dataVendor as $vendor)
  @if ($vendor->vendor)
 
                 <tr id="permit-{{ $vendor->id_approved }}">
-  <td class="px-4 py-4 text-sm font-medium text-gray-900">#</td>
+  <td class="px-4 py-4 text-sm font-medium text-gray-900">{{$iVendor++}}</td>
   <td class="px-4 py-4 text-sm font-medium text-gray-900">{{ $vendor->vendor->permit_number }}</td>
   <td class="px-4 py-4 text-sm text-gray-500">{{ $vendor->vendor->requestor_name }}</td>
   <td class="px-4 py-4 text-sm text-gray-500">{{ $vendor->vendor->work_description }}</td>
@@ -489,6 +489,10 @@
                     </tbody>
                   </table>
                 </div>
+                  <div class="p-3">
+
+                      {{ $dataVendor->withQueryString()->links('pagination::tailwind') }}
+                    </div>
               </div>
             </div>
           </div>
@@ -497,7 +501,76 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchVisitor = '{{ request('search_visitor') }}';
+        const searchVendor = '{{ request('search_vendor') }}';
 
+        if (searchVisitor) {
+            switchTab('visitor');  // Automatically switch to visitor tab if search_visitor is present
+        } else if (searchVendor) {
+            switchTab('vendor');  // Automatically switch to vendor tab if search_vendor is present
+        }
+    });
+</script>
+<script>
+       function resetFilters() {
+
+
+
+
+        window.location.href = "{{ route('permit-data') }}";
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterVisitor = '{{ request('visitorStatusFilter') }}';
+        const filterVendor = '{{ request('vendorStatusFilter') }}';
+
+        if (filterVisitor) {
+            switchTab('visitor');  // Automatically switch to visitor tab if search_visitor is present
+        } else if (filterVendor) {
+            switchTab('vendor');  // Automatically switch to vendor tab if search_vendor is present
+        }
+    });
+</script>
+    <script>
+    function submitForm() {
+        const form = document.getElementById('statusForm');
+        const selectElement = document.getElementById('visitorStatusFilter');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
+<script>
+    function submitForm2() {
+        const form = document.getElementById('statusForm2');
+        const selectElement = document.getElementById('vendorStatusFilter');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
+<script>
+$(document).ready(function() {
+    // Vendor search with keyup event
+    $("#search_vendor").on("keyup", function(e) {
+        // When Enter is pressed or 3+ characters typed
+        if (e.keyCode == 13 || $(this).val().length > 2) {
+            $("#searchFormVendor").submit();  // Submit search form for vendors
+        }
+    });
+
+    // Visitor search with keyup event
+    $("#search_visitor").on("keyup", function(e) {
+        // When Enter is pressed or 3+ characters typed
+        if (e.keyCode == 13 || $(this).val().length > 2) {
+            $("#formSearchVisitor").submit();  // Submit search form for visitors
+        }
+    });
+});
+</script>
     <script>
 
 function closePermit(permitId) {
