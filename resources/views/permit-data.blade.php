@@ -381,26 +381,36 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" id="visitorTableBody">
   @foreach ($dataVisitor as $visitor)
-
-
-<tr>
+ @if($visitor->visitor)
+<tr id="permit-{{ $visitor->id_approved }}">
   <td class="px-4 py-4 text-sm font-medium text-gray-900">#</td>
-  <td class="px-4 py-4 text-sm font-medium text-gray-900">{{$visitor->visitor->permit_number}}</td>
-  <td class="px-4 py-4 text-sm text-gray-500">{{$visitor->visitor->pic_name}}</td>
-  <td class="px-4 py-4 text-sm text-gray-500">{{$visitor->visitor->purpose_detail}}</td>
-  <td class="px-4 py-4 text-sm text-gray-500">{{$visitor->visitor->request_date_from}} - {{$visitor->visitor->request_date_to}}</td>
-  <td class="px-4 py-4">
-    <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Open</span>
-  </td>
+  <td class="px-4 py-4 text-sm font-medium text-gray-900">{{ $visitor->visitor->permit_number }}</td>
+  <td class="px-4 py-4 text-sm text-gray-500">{{ $visitor->visitor->pic_name }}</td>
+  <td class="px-4 py-4 text-sm text-gray-500">{{ $visitor->visitor->purpose_detail }}</td>
+  <td class="px-4 py-4 text-sm text-gray-500">{{ $visitor->visitor->request_date_from }} - {{ $visitor->visitor->request_date_to }}</td>
+<td class="px-4 py-4">
+  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
+    @if($visitor->status == 'Open')
+      bg-green-100 text-green-800
+    @elseif($visitor->status == 'Closed')
+      bg-gray-100 text-gray-600
+    @elseif($visitor->status == 'Expired')
+      bg-red-100 text-red-800
+    @endif">
+    {{ $visitor->status }}
+  </span>
+</td>
+
   <td class="px-4 py-4 text-sm font-medium text-gray-900">
-  <button type="button" onclick="viewPermitDetails('V002', 'visitor')" class="action-btn view">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button type="button" onclick="showCloseConfirmation('V002')" class="action-btn bg-red-100 text-red-600 hover:bg-red-200">
-                  <i class="fas fa-times-circle mr-1"></i> Close
-                </button>
+    <button type="button" onclick="viewPermitDetails('{{ $visitor->id_approved }}', 'visitor')" class="action-btn view">
+      <i class="fas fa-eye"></i>
+    </button>
+    <button type="button" onclick="closePermit('{{ $visitor->id_approved }}')" class="action-btn bg-red-100 text-red-600 hover:bg-red-200">
+      <i class="fas fa-times-circle mr-1"></i> Close
+    </button>
   </td>
 </tr>
+@endif
   @endforeach
                     </tbody>
                   </table>
@@ -441,42 +451,40 @@
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" id="vendorTableBody">
-                <tr>
-  <td class="px-4 py-4 text-sm font-medium text-gray-900">1</td>
-  <td class="px-4 py-4 text-sm font-medium text-gray-900">Vendor Permit</td>
-  <td class="px-4 py-4 text-sm text-gray-500">Tech Solutions Inc.</td>
-  <td class="px-4 py-4 text-sm text-gray-500">Server Maintenance</td>
-  <td class="px-4 py-4 text-sm text-gray-500">Today, 3:00 PM - 5:00 PM</td>
-  <td class="px-4 py-4">
-    <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Expired</span>
-  </td>
+                        @foreach ($dataVendor as $vendor)
+ @if ($vendor->vendor)
+
+                <tr id="permit-{{ $vendor->id_approved }}">
+  <td class="px-4 py-4 text-sm font-medium text-gray-900">#</td>
+  <td class="px-4 py-4 text-sm font-medium text-gray-900">{{ $vendor->vendor->permit_number }}</td>
+  <td class="px-4 py-4 text-sm text-gray-500">{{ $vendor->vendor->requestor_name }}</td>
+  <td class="px-4 py-4 text-sm text-gray-500">{{ $vendor->vendor->work_description }}</td>
+  <td class="px-4 py-4 text-sm text-gray-500">{{ $vendor->vendor->validity_date_from }} - {{ $vendor->vendor->validity_date_to }}</td>
+<td class="px-4 py-4">
+  <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
+    @if($vendor->status == 'Open')
+      bg-green-100 text-green-800
+    @elseif($vendor->status == 'Closed')
+      bg-gray-100 text-gray-600
+    @elseif($vendor->status == 'Expired')
+      bg-red-100 text-red-800
+    @endif">
+    {{ $vendor->status }}
+  </span>
+</td>
   <td class="px-4 py-4 text-sm font-medium text-gray-900">
   <button type="button" onclick="viewPermitDetails('V002', 'visitor')" class="action-btn view">
                   <i class="fas fa-eye"></i>
                 </button>
-                <button type="button" onclick="showCloseConfirmation('V002')" class="action-btn bg-red-100 text-red-600 hover:bg-red-200">
-                  <i class="fas fa-times-circle mr-1"></i> Close
-                </button>
+              <button type="button" onclick="closePermit('{{ $vendor->id_approved }}')" class="action-btn bg-red-100 text-red-600 hover:bg-red-200">
+  <i class="fas fa-times-circle mr-1"></i> Close
+</button>
+
   </td>
 </tr>
-<tr>
-  <td class="px-4 py-4 text-sm font-medium text-gray-900">2</td>
-  <td class="px-4 py-4 text-sm font-medium text-gray-900">Vendor Permit</td>
-  <td class="px-4 py-4 text-sm text-gray-500">Clean Pro Services</td>
-  <td class="px-4 py-4 text-sm text-gray-500">Office Cleaning</td>
-  <td class="px-4 py-4 text-sm text-gray-500">Tomorrow, 8:00 AM - 10:00 AM</td>
-  <td class="px-4 py-4">
-    <span class="permit-status px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Open</span>
-  </td>
-  <td class="px-4 py-4 text-sm font-medium text-gray-900">
-  <button type="button" onclick="viewPermitDetails('V002', 'visitor')" class="action-btn view">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button type="button" onclick="showCloseConfirmation('V002')" class="action-btn bg-red-100 text-red-600 hover:bg-red-200">
-                  <i class="fas fa-times-circle mr-1"></i> Close
-                </button>
-  </td>
-</tr>
+@endif
+ @endforeach
+
 
                     </tbody>
                   </table>
@@ -487,4 +495,41 @@
         </div>
       </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+function closePermit(permitId) {
+  // Confirm before making the change
+  if (confirm("Are you sure you want to close this permit?")) {
+    // Send the AJAX request
+    $.ajax({
+      url: '{{ route("updatePermitStatus") }}',  // Define route for updating status
+      method: 'POST',
+      data: {
+        _token: '{{ csrf_token() }}',  // CSRF token for security
+        permit_id: permitId,           // Pass the permit ID
+        status: 'Closed'               // Set the new status to 'closed'
+      },
+      success: function(response) {
+        // If the status change is successful, update the status in the table
+        if (response.status === 'success') {
+          // Find the row with the matching permit ID and update the status column
+          const row = document.getElementById('permit-' + permitId);
+          row.querySelector('.permit-status').innerHTML = 'Closed';
+          row.querySelector('.permit-status').classList.remove('bg-green-100', 'text-green-800');
+          row.querySelector('.permit-status').classList.add('bg-gray-100', 'text-gray-600');
+        } else {
+          alert('Failed to close permit. Please try again.');
+        }
+      },
+      error: function(xhr, status, error) {
+        alert('An error occurred. Please try again.');
+      }
+    });
+  }
+}
+
+    </script>
 @endsection

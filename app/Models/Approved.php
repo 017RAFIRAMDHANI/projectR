@@ -24,5 +24,9 @@ public function visitor()
 {
     return $this->belongsTo(Visitor::class, 'id_visitor', 'id_visitor');
 }
+public function vendor()
+{
+    return $this->belongsTo(Vendor::class, 'id_vendor', 'id_vendor');
+}
 
 }

@@ -74,6 +74,7 @@ Route::post('/employee-delete',[App\Http\Controllers\EmployeController::class, '
 Route::get('/profile/{id}', [App\Http\Controllers\DaftarUser::class, 'profile'])->name('profile');
 Route::put('/profile_edit/{id}', [App\Http\Controllers\DaftarUser::class, 'edit_profile'])->name('edit_profile');
 Route::get('/permit-data', [App\Http\Controllers\ApprovedCloseController::class, 'index'])->name('permit-data');
+Route::post('/update-permit-status', [App\Http\Controllers\ApprovedCloseController::class, 'updateStatus'])->name('updatePermitStatus');
 
 // client
 Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');

@@ -16,6 +16,9 @@ return new class extends Migration
             $table->unsignedInteger('id_vendor')->nullable();
             $table->unsignedInteger('id_visitor')->nullable();
             $table->string('type')->nullable();
+            // $table->string('validity_date_from')->nullable();
+            // $table->string('validity_date_to')->nullable();
+
             $table->string('status')->nullable();
             $table->timestamps();
         });

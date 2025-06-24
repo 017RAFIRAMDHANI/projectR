@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Approved;
 use App\Models\Vehicle;
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
@@ -48,6 +49,11 @@ class VendorController extends Controller
         // Kirim email pemberitahuan ke vendor
        Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Approved', $permitNumber,$filePath));
             // Log::info('Email sent to: ' . $vendor->email . ' with permit number: ' . $permitNumber);
+    Approved::create([
+                  'id_vendor' => $request->id_vendor ?? null,
+                  'type' => 'Vendor',
+                  'status' => 'Open',
+            ]);
 
            return back()->with('success', 'Permit Approve Success');
         }
@@ -345,6 +351,7 @@ $vendor = Vendor::create([
                 'id_vendor' => $id_vendor ?? null,
                 'status' => 'Active',
             ]);
+
 
         // Return a success response with data
         return redirect()->route('index_approve')->with('success', 'Vendor permit request submitted successfully!');
