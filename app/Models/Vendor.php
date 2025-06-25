@@ -97,6 +97,8 @@ class Vendor extends Model
         'permit_number',
         'status',
         'mode',
+        'pdf_jabatan',
+        'pdf_nama',
     ];
 
       public function Vendor_Visitor()

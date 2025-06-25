@@ -168,11 +168,11 @@
             @if (!empty($dataVendor->$workerName) && !empty($dataVendor->$workerId))
                 <div class="grid grid-cols-2 gap-4 mb-2">
                     <div>
-                        <p class="text-xs font-medium text-gray-500 mb-1">Name</p>
+                        <p class="text-xs font-medium text-gray-500 mb-1">Name {{$i}}</p>
                         <p class="text-sm text-gray-900">{{ $dataVendor->$workerName }}</p>
                     </div>
                     <div>
-                        <p class="text-xs font-medium text-gray-500 mb-1">ID No/Permit No</p>
+                        <p class="text-xs font-medium text-gray-500 mb-1">ID No/Permit No {{$i}}</p>
                         <p class="text-sm text-gray-900">{{ $dataVendor->$workerId }}</p>
                     </div>
                 </div>

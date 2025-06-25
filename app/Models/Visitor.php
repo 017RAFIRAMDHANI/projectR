@@ -154,6 +154,8 @@ class Visitor extends Model
         'company_name',
         'permit_number',
         'status',
+        'pdf_jabatan',
+        'pdf_nama',
 
     ];
 

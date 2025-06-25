@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade as PDF;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
+use Illuminate\Support\Facades\Auth;
 
 class VendorController extends Controller
 {
@@ -36,6 +37,8 @@ class VendorController extends Controller
             // Generate Permit Number jika disetujui
             $permitNumber = $this->generatePermitNumber();
             $vendor->permit_number = $permitNumber;
+            $vendor->pdf_nama = Auth::user()->name;
+            $vendor->pdf_jabatan = Auth::user()->role;
           $vendor->save();
         $pdfContent = view('pdf_permit', compact('vendor', 'permitNumber'))->render();
 

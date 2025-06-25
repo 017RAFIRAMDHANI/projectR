@@ -288,7 +288,7 @@
 
             <tr><td class="section-header" colspan="4">Part 5: Approval - By Facility Manager</td></tr>
             <tr>
-                <td colspan="2"><strong>Name :</strong> {{$vendor->requestor_name}}</td>
+                <td colspan="2"><strong>Name :</strong> {{$vendor->pdf_nama}}</td>
                 <td colspan="2"><strong>Date/Time :</strong> {{ now()}}</td>
             </tr>
         </table>

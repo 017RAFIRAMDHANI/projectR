@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade as PDF;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class VisitorController extends Controller
@@ -75,6 +76,8 @@ $visitor->save();
             // Generate Permit Number jika disetujui
             $permitNumber = $this->generatePermitNumber();
             $visitor->permit_number = $permitNumber;
+            $visitor->pdf_nama =  Auth::user()->name;
+            $visitor->pdf_jabatan=  Auth::user()->role;
           $visitor->save();
         $pdfContent = view('pdf_permit_v', compact('visitor', 'permitNumber'))->render();
 

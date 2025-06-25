@@ -152,6 +152,8 @@ $table->string('primary_number', 255)->nullable();
             $table->string('status')->nullable();
             $table->text('note_visitor')->nullable();
             $table->string('company_name')->nullable();
+            $table->string('pdf_nama')->nullable();
+            $table->string('pdf_jabatan')->nullable();
             $table->timestamps();
         });
     }

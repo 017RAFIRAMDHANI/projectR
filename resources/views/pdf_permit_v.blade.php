@@ -253,12 +253,12 @@
             <tr>
                 <td class="signature-box"></td>
                 <td class="signature-box"></td>
-                <td class="signature-box">Edralin Ysula</td>
+                <td class="signature-box">{{$visitor->pdf_nama}}</td>
             </tr>
             <tr>
                 <td style="font-size: 8px;"><strong>Barry Lau Hon Chung</strong><br>(Critical Facility Director)</td>
                 <td style="font-size: 8px;"><strong>Stanley Go</strong><br>(Operation Manager)</td>
-                <td style="font-size: 8px;"><strong>Edralin Ysula</strong><br>(Facility Manager)</td>
+                <td style="font-size: 8px;"><strong>{{$visitor->pdf_nama}}</strong><br>(@if($visitor->pdf_jabatan == "FM") Facility Manager @else DHI @endif)</td>
             </tr>
             <tr>
                 <td colspan="3">
