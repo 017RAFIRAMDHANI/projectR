@@ -45,13 +45,32 @@
       <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
           <div>
-            <h2 class="text-xl font-semibold text-gray-900" id="permitNumber">DHI/PERMIT/2024/04/0004</h2>
-            <p class="text-sm text-gray-500 mt-1">Submitted on <span id="submittedDate">April 16, 2024, 11:20 AM</span></p>
+            <h2 class="text-xl font-semibold text-gray-900" id="permitNumber">{{$dataVendor->permit_number}}</h2>
+            <p class="text-sm text-gray-500 mt-1">Submitted on <span id="submittedDate">{{$dataVendor->created_at}}</span></p>
           </div>
           <div class="mt-4 md:mt-0 flex space-x-3">
-            <span id="permitStatus" class="px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-            <span id="priority" class="px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800">Normal</span>
-          </div>
+        <span id="permitStatus"
+    class="px-3 py-1 text-sm font-medium rounded-full
+    @if($dataVendor->status == 'Approved')
+        bg-green-100 text-green-800
+    @elseif($dataVendor->status == 'Rejected')
+        bg-red-100 text-red-800
+    @else
+        bg-yellow-100 text-yellow-800
+    @endif">
+    {{ $dataVendor->status }}
+</span>
+
+           <span id="priority"
+    class="px-3 py-1 text-sm font-medium rounded-full
+    @if($dataVendor->mode == 'Urgent')
+        bg-red-100 text-red-800
+    @elseif($dataVendor->mode == 'Normal')
+        bg-blue-100 text-blue-800
+    @endif">
+    {{ $dataVendor->mode }}
+</span>
+  </div>
         </div>
       </div>
 
@@ -64,90 +83,104 @@
               <i class="fas fa-building mr-2 text-primary"></i> Vendor & Work Information
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-              <div>
-                <p class="text-sm font-medium text-gray-500">Company Name</p>
-                <p class="text-base text-gray-900" id="companyName">Tech Solutions Inc.</p>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-500">Requestor Name</p>
-                <p class="text-base text-gray-900" id="requestorName">Michael Brown</p>
-              </div>
+            <div>
+    <p class="text-sm font-medium text-gray-500">Company Name</p>
+    <p class="text-base text-gray-900" id="companyName">{{ $dataVendor->company_name }}</p>
+</div>
+<div>
+    <p class="text-sm font-medium text-gray-500">Requestor Name</p>
+    <p class="text-base text-gray-900" id="requestorName">{{ $dataVendor->requestor_name }}</p>
+</div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-              <div>
-                <p class="text-sm font-medium text-gray-500">Email</p>
-                <p class="text-base text-gray-900" id="requestorEmail">michael.brown@dhi.com</p>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-500">Phone Number</p>
-                <p class="text-base text-gray-900" id="requestorPhone">+62 812-3456-7893</p>
-              </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-              <div>
-                <p class="text-sm font-medium text-gray-500">Location</p>
-                <p class="text-base text-gray-900" id="location">Server Room</p>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-500">Building / Level / Room</p>
-                <p class="text-base text-gray-900" id="buildingInfo">Level 2 / Room 201</p>
-              </div>
-            </div>
-            <div class="mb-2">
-              <p class="text-sm font-medium text-gray-500">Purpose of Work</p>
-              <p class="text-base text-gray-900" id="purpose">Server Maintenance</p>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mb-2">
-              <div>
-                <p class="text-sm font-medium text-gray-500">Start Date</p>
-                <p class="text-base text-gray-900" id="startDate">2024-04-20</p>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-500">End Date</p>
-                <p class="text-base text-gray-900" id="endDate">2024-04-21</p>
-              </div>
-            </div>
-            <div class="mb-2">
-              <p class="text-sm font-medium text-gray-500">Does work generate dust?</p>
-              <p class="text-base text-gray-900" id="generatesDust">No</p>
-            </div>
-            <div class="mb-2">
-              <p class="text-sm font-medium text-gray-500">Protection System Affected</p>
-              <p class="text-base text-gray-900" id="protectionSystem">Smoke detector</p>
-            </div>
-            <div class="mb-2">
-              <p class="text-sm font-medium text-gray-500">Method of Statement (MOS)</p>
-              <p class="text-base text-gray-900" id="mosFileName">mos-vendor.pdf</p>
-            </div>
-            <div class="mb-2">
-              <p class="text-sm font-medium text-gray-500">Urgency</p>
-              <p class="text-base text-gray-900 bg-red-100 text-red-800 inline-block rounded px-2" id="urgency">Urgent</p>
-            </div>
-            <div class="mb-2">
-              <h4 class="text-md font-semibold text-gray-800 mb-2">Worker Details</h4>
-              <div id="workerDetails">
+         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+    <div>
+        <p class="text-sm font-medium text-gray-500">Email</p>
+        <p class="text-base text-gray-900" id="requestorEmail">{{ $dataVendor->email }}</p>
+    </div>
+    <div>
+        <p class="text-sm font-medium text-gray-500">Phone Number</p>
+        <p class="text-base text-gray-900" id="requestorPhone">{{ $dataVendor->phone_number }}</p>
+    </div>
+</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+    <div>
+        <p class="text-sm font-medium text-gray-500">Location</p>
+        <p class="text-base text-gray-900" id="location">{{ $dataVendor->specific_location }}</p>
+    </div>
+    <div>
+        <p class="text-sm font-medium text-gray-500">Building / Level / Room</p>
+        <p class="text-base text-gray-900" id="buildingInfo">{{ $dataVendor->building }} / {{ $dataVendor->level }} / {{ $dataVendor->specific_location }}</p>
+    </div>
+</div>
+
+<div class="mb-2">
+    <p class="text-sm font-medium text-gray-500">Purpose of Work</p>
+    <p class="text-base text-gray-900" id="purpose">{{ $dataVendor->work_description }}</p>
+</div>
+
+<div class="grid grid-cols-2 gap-4 mb-2">
+    <div>
+        <p class="text-sm font-medium text-gray-500">Start Date</p>
+        <p class="text-base text-gray-900" id="startDate">{{ $dataVendor->validity_date_from }}</p>
+    </div>
+    <div>
+        <p class="text-sm font-medium text-gray-500">End Date</p>
+        <p class="text-base text-gray-900" id="endDate">{{ $dataVendor->validity_date_to }}</p>
+    </div>
+</div>
+
+      <div class="mb-2">
+    <p class="text-sm font-medium text-gray-500">Does work generate dust?</p>
+    <p class="text-base text-gray-900" id="generatesDust">{{ $dataVendor->generate_dust ? 'Yes' : 'No' }}</p>
+</div>
+
+<div class="mb-2">
+    <p class="text-sm font-medium text-gray-500">Protection System Affected</p>
+    <p class="text-base text-gray-900" id="protectionSystem">{{ $dataVendor->fire_system }}</p>
+</div>
+
+<div class="mb-2">
+    <p class="text-sm font-medium text-gray-500">Method of Statement (MOS)</p>
+    <p class="text-base text-gray-900" id="mosFileName">{{ $dataVendor->file_mos }}</p>
+</div>
+
+<div class="mb-2">
+    <p class="text-sm font-medium text-gray-500">Urgency</p>
+  <p class="text-base text-gray-900 inline-block rounded px-2
+    @if($dataVendor->mode == 'Urgent')
+        bg-red-100 text-red-800
+    @elseif($dataVendor->mode == 'Normal')
+        bg-blue-100 text-blue-800
+    @endif" id="urgency">
+    {{ $dataVendor->mode }}
+</p>
+
+</div>
+          <div class="mb-2">
+    <h4 class="text-md font-semibold text-gray-800 mb-2">Worker Details</h4>
+    <div id="workerDetails">
+        @for ($i = 1; $i <= 30; $i++)
+            @php
+                $workerName = 'worker' . $i . '_name';
+                $workerId = 'worker' . $i . '_id_card';
+            @endphp
+
+            @if (!empty($dataVendor->$workerName) && !empty($dataVendor->$workerId))
                 <div class="grid grid-cols-2 gap-4 mb-2">
-                  <div>
-                    <p class="text-xs font-medium text-gray-500 mb-1">Name</p>
-                    <p class="text-sm text-gray-900">John Doe</p>
-                  </div>
-                  <div>
-                    <p class="text-xs font-medium text-gray-500 mb-1">ID No/Permit No</p>
-                    <p class="text-sm text-gray-900">1234567890</p>
-                  </div>
+                    <div>
+                        <p class="text-xs font-medium text-gray-500 mb-1">Name</p>
+                        <p class="text-sm text-gray-900">{{ $dataVendor->$workerName }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-gray-500 mb-1">ID No/Permit No</p>
+                        <p class="text-sm text-gray-900">{{ $dataVendor->$workerId }}</p>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4 mb-2">
-                  <div>
-                    <p class="text-xs font-medium text-gray-500 mb-1">Name</p>
-                    <p class="text-sm text-gray-900">Jane Smith</p>
-                  </div>
-                  <div>
-                    <p class="text-xs font-medium text-gray-500 mb-1">ID No/Permit No</p>
-                    <p class="text-sm text-gray-900">0987654321</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            @endif
+        @endfor
+    </div>
+</div>
+
           </div>
         </div>
 

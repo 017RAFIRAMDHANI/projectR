@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,17 +12,15 @@
         body {
             font-family: Arial, sans-serif;
             font-size: 9px;
-            background-color: white;
-            margin: 0;
-            padding: 0;
+            background-color: #f0f0f0;
         }
         .container {
-            width: 185mm;
-            max-width: 95%;
-            min-height: auto;
-            margin: 0 auto;
+            width: 190mm;
+            min-height: 277mm;
+            margin: 20px auto;
+            border: 1px solid #000;
             background-color: white;
-            padding: 8mm;
+            padding: 10mm;
             box-sizing: border-box;
         }
         .header {
@@ -71,7 +68,7 @@
         }
         td, th {
             border: 1px solid #000;
-            padding: 5px 5px;
+            padding: 3px 5px;
             vertical-align: top;
         }
         .section-header {
@@ -88,34 +85,15 @@
         .text-center { text-align: center; }
         .font-bold { font-weight: bold; }
         .signature-box { height: 40px; }
-        .checkbox-label {
-            margin-right: 15px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        input[type="checkbox"] {
-            margin: 2px 4px 2px 2px;
-            vertical-align: middle;
-        }
+        .checkbox-label { margin-right: 15px; }
         .signature-font {
             font-family: 'Brush Script MT', 'Brush Script Std', cursive;
             font-size: 18px;
             vertical-align: middle;
         }
         @media print {
-            body {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                margin: 0;
-                background-color: white;
-            }
-            .container {
-                width: 185mm;
-                max-width: 95%;
-                min-height: auto;
-                margin: 0 auto;
-                padding: 8mm;
-            }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0; background-color: white; }
+            .container { width: 100%; min-height: auto; margin: 0; border: none; padding: 0; }
         }
     </style>
 </head>
@@ -157,36 +135,36 @@
             </tr>
             <tr>
                 <td><strong>Validity Date</strong></td>
-                <td>From: {{$vendor->validity_date_from}}</td>
-                <td>To: {{$vendor->validity_date_to}}</td>
-                <td><strong>Permit No.</strong><br>{{$vendor->permit_number}}</td>
+                <td>From: 28 April 2025</td>
+                <td>To: 28 April 2025</td>
+                <td><strong>Permit No.</strong><br>25-0838</td>
             </tr>
             <tr><td class="section-header" colspan="4">Part 1: Requested By</td></tr>
             <tr>
                 <td><strong>Company Name</strong></td>
-                <td>{{$vendor->company_name}}</td>
+                <td>ZTE/T&T</td>
                 <td><strong>Company Contact</strong></td>
-                <td>{{$vendor->company_contact}}</td>
+                <td></td>
             </tr>
             <tr>
                 <td><strong>Requestor Name</strong></td>
-                <td>{{$vendor->requestor_name}}</td>
+                <td>Asror</td>
                 <td><strong>Hand phone</strong></td>
-                <td>{{$vendor->phone_number}}</td>
+                <td>+62 813-8234-4560</td>
             </tr>
             <tr>
                 <td colspan="2"><strong>Building / Level / Room</strong></td>
-                <td colspan="2">{{$vendor->building}} / {{$vendor->level}}</td>
+                <td colspan="2">DC Building / Level 1st, 2nd, and 5th</td>
             </tr>
             <tr>
                 <td><strong>Car Plate No (if any)</strong></td>
-                <td>{{$vendor->number_plate}}</td>
+                <td>B 1638 BNQ</td>
                 <td colspan="2"></td>
             </tr>
-
+        
             <tr><td class="section-header" colspan="4">Part 2: Work Description (<span>Mandatory</span>)</td></tr>
-            <tr><td colspan="4" style="height: 40px;">{{$vendor->work_description}}</td></tr>
-
+            <tr><td colspan="4" style="height: 40px;">Visual check inspection T&T</td></tr>
+        
             <tr><td class="section-header" colspan="4">Part 3: Worker's Particulars (<span>Attach workers name list if required</span>)</td></tr>
             <tr>
                 <td colspan="2"><strong>Total No. of Workers at EZSVS site</strong></td>
@@ -198,101 +176,51 @@
                 <td class="font-bold text-center">Name</td>
                 <td class="font-bold text-center">ID No./Permit No.<br>Birthdate</td>
             </tr>
-                @for ($i = 1; $i <= 30; $i+=5)
-            @php
-                // Ambil data pekerja kiri dan kanan
-                $workerLeftName1 = $vendor->{'worker' . $i . '_name'} ?? null;
-                $workerLeftId1 = $vendor->{'worker' . $i . '_id_card'} ?? null;
-                $workerLeftName2 = $vendor->{'worker' . ($i+1) . '_name'} ?? null;
-                $workerLeftId2 = $vendor->{'worker' . ($i+1) . '_id_card'} ?? null;
-
-                $workerRightName1 = $vendor->{'worker' . ($i+2) . '_name'} ?? null;
-                $workerRightId1 = $vendor->{'worker' . ($i+2) . '_id_card'} ?? null;
-                $workerRightName2 = $vendor->{'worker' . ($i+3) . '_name'} ?? null;
-                $workerRightId2 = $vendor->{'worker' . ($i+3) . '_id_card'} ?? null;
-
-                $workerLeftName3 = $vendor->{'worker' . ($i+4) . '_name'} ?? null;
-                $workerLeftId3 = $vendor->{'worker' . ($i+4) . '_id_card'} ?? null;
-                $workerRightName3 = $vendor->{'worker' . ($i+5) . '_name'} ?? null;
-                $workerRightId3 = $vendor->{'worker' . ($i+5) . '_id_card'} ?? null;
-            @endphp
-
-            <!-- Cek apakah ada data pekerja di kiri dan kanan -->
-            @if($workerLeftName1 && $workerLeftId1 && $workerLeftName2 && $workerLeftId2)
-                <tr>
-                    <td>{{ $workerLeftName1 }}</td>
-                    <td>{{ $workerLeftId1 }}</td>
-                    <td>{{ $workerLeftName2 }}</td>
-                    <td>{{ $workerLeftId2 }}</td>
-                </tr>
-            @endif
-
-            @if($workerRightName1 && $workerRightId1 && $workerRightName2 && $workerRightId2)
-                <tr>
-                    <td>{{ $workerRightName1 }}</td>
-                    <td>{{ $workerRightId1 }}</td>
-                    <td>{{ $workerRightName2 }}</td>
-                    <td>{{ $workerRightId2 }}</td>
-                </tr>
-            @endif
-
-            @if($workerLeftName3 && $workerLeftId3)
-                <tr>
-                    <td>{{ $workerLeftName3 }}</td>
-                    <td>{{ $workerLeftId3 }}</td>
-                    <td>{{ $workerRightName3 ?? '' }}</td>
-                    <td>{{ $workerRightId3 ?? '' }}</td>
-                </tr>
-            @endif
-        @endfor
-
+            <tr>
+                <td>Rizki Ramadhan</td>
+                <td>1771040412000001</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr><td style="height: 18px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 18px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 18px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 18px;"></td><td></td><td></td><td></td></tr>
+        
             <tr><td class="section-header" colspan="4">Part 4: Dust Control / Fire Alarm Isolation</td></tr>
             <tr>
                 <td colspan="2"><strong>Does work generate dust ?</strong></td>
-                <td><input type="checkbox" @if($vendor->generate_dust == "Yes") checked @endif> Yes</td>
-                <td><input type="checkbox" @if($vendor->generate_dust == "No") checked @endif> No &nbsp;&nbsp;&nbsp; If YES, state cause</td>
+                <td><input type="checkbox"> Yes</td>
+                <td><input type="checkbox" checked> No &nbsp;&nbsp;&nbsp; If YES, state cause</td>
             </tr>
             <tr>
                 <td colspan="4" style="height: 30px;"><strong>Method to contain dust / SD:</strong></td>
             </tr>
              <tr>
-                <td colspan="4"><strong>Any Fire Protection System affected? e.g. Smoke detector, Sprinkler system.</strong> &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" @if($vendor->fire_system == "Yes") checked @endif> Yes <input type="checkbox" @if($vendor->fire_system == "No") checked @endif> No</td>
+                <td colspan="4"><strong>Any Fire Protection System affected? e.g. Smoke detector, Sprinkler system.</strong> &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox"> Yes <input type="checkbox" checked> No</td>
             </tr>
             <tr>
                 <td colspan="2">
-    <strong>Isolation of :</strong>
-    <label class="checkbox-label">
-        <input type="checkbox"
-            {{ strpos($vendor->isolation_of, 'Fire Panel') !== false ? 'checked' : '' }}> Fire Panel
-    </label>
-    <label class="checkbox-label">
-        <input type="checkbox"
-            {{ strpos($vendor->isolation_of, 'Smoke Detector') !== false ? 'checked' : '' }}> Smoke Detector
-    </label>
-    <label class="checkbox-label">
-        <input type="checkbox"
-            {{ strpos($vendor->isolation_of, 'Sprinkler') !== false ? 'checked' : '' }}> Sprinkler
-    </label>
-    <label class="checkbox-label">
-        <input type="checkbox"
-            {{ strpos($vendor->isolation_of, 'ASDS') !== false ? 'checked' : '' }}> ASDS
-    </label>
-</td>
-
+                    <strong>Isolation of :</strong>
+                    <label class="checkbox-label"><input type="checkbox"> Fire Panel</label>
+                    <label class="checkbox-label"><input type="checkbox"> Smoke Detector</label>
+                    <label class="checkbox-label"><input type="checkbox" checked> Sprinkler</label>
+                    <label class="checkbox-label"><input type="checkbox"> ASDS</label>
+                </td>
                 <td colspan="2"></td>
             </tr>
             <tr>
-                <td colspan="2"><strong>Isolated by Name : {{$vendor->isolation_name}}</strong></td>
-                <td colspan="2"><strong>Date/Time :{{$vendor->isolation_date}}</strong></td>
+                <td colspan="2"><strong>Isolated by Name :</strong></td>
+                <td colspan="2"><strong>Date/Time :</strong></td>
             </tr>
-
+        
             <tr><td class="section-header" colspan="4">Part 5: Approval - By Facility Manager</td></tr>
             <tr>
-                <td colspan="2"><strong>Name :</strong> {{$vendor->requestor_name}}</td>
-                <td colspan="2"><strong>Date/Time :</strong> {{ now()}}</td>
+                <td colspan="2"><strong>Name :</strong> EDI AHMAD J</td>
+                <td colspan="2"><strong>Date/Time :</strong> 25/04/2025</td>
             </tr>
         </table>
-
+        
         <div class="notes-section" style="font-size: 8px; margin-top: 5px;">
              <strong>Note:</strong>
              <ol style="list-style-type: decimal; margin-left: 15px;">
@@ -304,4 +232,4 @@
         </div>
     </div>
 </body>
-</html>
+</html> 
