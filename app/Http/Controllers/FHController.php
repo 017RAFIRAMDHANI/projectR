@@ -6,6 +6,7 @@ use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class FHController extends Controller
@@ -164,15 +165,22 @@ class FHController extends Controller
 
     public function view($id_vendor){
        $dataVendor =  Vendor::where('id_vendor',$id_vendor)->first();
+
         return view('permit-details-vendor',[
             "dataVendor" => $dataVendor
         ]);
     }
     public function view_visitor($id_visitor){
         $dataVisitor =  Visitor::where('id_visitor',$id_visitor)->first();
+ $dateFrom = Carbon::parse($dataVisitor->request_date_from);
+    $dateTo = Carbon::parse($dataVisitor->request_date_to);
+
+    // Menghitung durasi dalam hari
+    $duration = $dateFrom->diffInDays($dateTo);
 
         return view('permit-details-visitor',[
-            "dataVisitor" => $dataVisitor
+            "dataVisitor" => $dataVisitor,
+            "duration" => $duration,
         ]);
     }
 }
