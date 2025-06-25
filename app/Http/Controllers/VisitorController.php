@@ -76,7 +76,7 @@ $visitor->save();
             $permitNumber = $this->generatePermitNumber();
             $visitor->permit_number = $permitNumber;
           $visitor->save();
-        $pdfContent = view('pdf_permit', compact('visitor', 'permitNumber'))->render();
+        $pdfContent = view('pdf_permit_v', compact('visitor', 'permitNumber'))->render();
 
         // Create PDF from HTML content
         $pdf = FacadePdf::loadHTML($pdfContent);
@@ -93,7 +93,7 @@ $visitor->save();
                   'type' => 'Visitor',
                   'status' => 'Open',
             ]);
-            
+
            return back()->with('success', 'Permit Approve Success');
         }
         return response()->json(['success' => false], 404);
