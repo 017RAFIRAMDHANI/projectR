@@ -142,56 +142,64 @@
         <table class="main-info-table">
             <tr>
                 <td><strong>Company</strong></td>
-                <td>PT. EZSVS Technology Indonesia</td>
+                <td>{{$visitor->company_name}}</td>
                 <td><strong>Permit No.:</strong></td>
-                <td>25-0258</td>
+                <td>{{$visitor->permit_number}}</td>
             </tr>
             <tr>
                 <td><strong>Requested Duration</strong></td>
                 <td>1 Day</td>
                 <td><strong>Requested Date</strong></td>
-                <td>From: 14-04-2025 To: 14-04-2025</td>
+                <td>From: {{$visitor->request_date_from}} To: {{$visitor->request_date_to}}</td>
             </tr>
             <tr>
                 <td><strong>Purpose</strong></td>
                 <td>
-                    <input type="checkbox" checked> Visitor
-                    <input type="checkbox"> Delivery
+                    <input type="checkbox" @if($visitor->purpose_visit == "Visitor") checked @endif> Visitor
+                    <input type="checkbox" @if($visitor->purpose_visit == "Delivery") checked @endif> Delivery
                 </td>
                 <td><strong>Purpose Details:</strong></td>
-                <td>Visit and Meeting</td>
+                <td>{{$visitor->purpose_detail}}</td>
             </tr>
         </table>
 
         <table>
             <tr>
-                <td><strong>Destination / Area:</strong> AD Building</td>
+                <td><strong>Destination / Area:</strong>{{$visitor->specific_location}}</td>
             </tr>
         </table>
 
-        <table class="visitor-table" style="margin-top: 3px;">
-            <thead>
+       <table class="visitor-table" style="margin-top: 3px; border-collapse: collapse; width: 100%; font-size: 10px;">
+    <thead>
+        <tr>
+            <th class="section-header" style="border: 1px solid #000; padding: 4px;">If Visitor: Full Name & ID Card No</th>
+            <th class="section-header" style="border: 1px solid #000; padding: 4px;">Full Name</th>
+            <th class="section-header" style="border: 1px solid #000; padding: 4px;">ID Card</th>
+        </tr>
+    </thead>
+    <tbody>
+        @php $counter = 1; @endphp
+
+        @for ($i = 1; $i <= 30; $i++)
+            @php
+                $visitorName = 'name_' . $i;
+                $visitorId = 'id_card_' . $i;
+                $nameValue = $visitor->$visitorName ?? '';
+                $idValue = $visitor->$visitorId ?? '';
+            @endphp
+
+            @if(!empty($nameValue) || !empty($idValue))
                 <tr>
-                    <th class="section-header">If Visitor: Full Name & ID Card No</th>
-                    <th class="section-header">Full Name</th>
-                    <th class="section-header">ID Card</th>
+ <td style="border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: none; border-top: none; padding: 4px;"></td>
+                    <td style="border: 1px solid #000; padding: 4px;">{{ $counter}}.{{$nameValue }}</td>
+                    <td style="border: 1px solid #000; padding: 4px;">{{ $counter}}.{{$idValue }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="8" style="font-size: 8px; padding: 3px;"></td>
-                    <td>1. Wang Dao Yu</td>
-                    <td>EH9545117</td>
-                </tr>
-                <tr class="compact-row"><td>2.</td><td></td></tr>
-                <tr class="compact-row"><td>3.</td><td></td></tr>
-                <tr class="compact-row"><td>4.</td><td></td></tr>
-                <tr class="compact-row"><td>5.</td><td></td></tr>
-                <tr class="compact-row"><td>6.</td><td></td></tr>
-                <tr class="compact-row"><td>7.</td><td></td></tr>
-                <tr class="compact-row"><td>8.</td><td></td></tr>
-            </tbody>
-        </table>
+                @php $counter++; @endphp
+            @endif
+        @endfor
+    </tbody>
+</table>
+
 
         <table class="delivery-table" style="margin-top: 3px;">
             <thead>
@@ -202,24 +210,34 @@
                 </tr>
             </thead>
             <tbody>
+        @php $counter = 1; @endphp
+
+        @for ($i = 1; $i <= 30; $i++)
+            @php
+                $visitorName = 'material_' . $i;
+                $visitorId = 'quantity_' . $i;
+                $nameValue = $visitor->$visitorName ?? '';
+                $idValue = $visitor->$visitorId ?? '';
+            @endphp
+
+            @if(!empty($nameValue) || !empty($idValue))
                 <tr>
-                    <td rowspan="6" style="font-size: 8px; padding: 3px;"></td>
-                    <td>1.</td><td></td>
+ <td style="border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: none; border-top: none; padding: 4px;"></td>
+                    <td style="border: 1px solid #000; padding: 4px;">{{ $counter}}.{{$nameValue }}</td>
+                    <td style="border: 1px solid #000; padding: 4px;">{{ $counter}}.{{$idValue }}</td>
                 </tr>
-                <tr class="compact-row"><td>2.</td><td></td></tr>
-                <tr class="compact-row"><td>3.</td><td></td></tr>
-                <tr class="compact-row"><td>4.</td><td></td></tr>
-                <tr class="compact-row"><td>5.</td><td></td></tr>
-                <tr class="compact-row"><td>6.</td><td></td></tr>
-            </tbody>
+                @php $counter++; @endphp
+            @endif
+        @endfor
+    </tbody>
         </table>
 
         <table class="person-charge-table" style="margin-top: 3px;">
              <tr>
                 <td><strong>Person in Charge</strong></td>
-                <td>Name:</td>
-                <td>Contact No:</td>
-                <td>Car Plate: B 1638 BNQ</td>
+                <td>Name: {{$visitor->pic_name}}</td>
+                <td>Contact No: {{$visitor->pic_contact}}</td>
+                <td>Car Plate: {{$visitor->car_plate_no}} ({{$visitor->vehicle_type}})</td>
              </tr>
         </table>
 
