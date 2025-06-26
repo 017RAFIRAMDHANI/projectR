@@ -154,6 +154,7 @@ $table->string('primary_number', 255)->nullable();
             $table->string('company_name')->nullable();
             $table->string('pdf_nama')->nullable();
             $table->string('pdf_jabatan')->nullable();
+            $table->string('status_aktif')->nullable();
             $table->timestamps();
         });
     }

@@ -78,6 +78,7 @@ $visitor->save();
             $visitor->permit_number = $permitNumber;
             $visitor->pdf_nama =  Auth::user()->name;
             $visitor->pdf_jabatan=  Auth::user()->role;
+            $visitor->status_aktif=  "Active";
           $visitor->save();
         $pdfContent = view('pdf_permit_v', compact('visitor', 'permitNumber'))->render();
 

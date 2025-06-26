@@ -156,6 +156,7 @@ class Visitor extends Model
         'status',
         'pdf_jabatan',
         'pdf_nama',
+        'status_aktif',
 
     ];
 

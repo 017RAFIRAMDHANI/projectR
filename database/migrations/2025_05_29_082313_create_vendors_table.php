@@ -103,7 +103,7 @@ $table->string('primary_number', 255)->nullable();
             $table->text('note_vendor')->nullable();
             $table->string('pdf_nama')->nullable();
             $table->string('pdf_jabatan')->nullable();
-
+            $table->string('status_aktif')->nullable();
             $table->timestamps();
         });
     }

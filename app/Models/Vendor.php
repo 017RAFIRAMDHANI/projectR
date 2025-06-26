@@ -99,6 +99,7 @@ class Vendor extends Model
         'mode',
         'pdf_jabatan',
         'pdf_nama',
+        'status_aktif',
     ];
 
       public function Vendor_Visitor()

@@ -80,8 +80,14 @@ public function index(Request $request)
         //  dd($requestDateTo->isBefore(now()->toDateString()));
             // Check if the 'request_date_to' is tomorrow
             if ($requestDateTo->isBefore(now()->toDateString())) {
-                $approved->status = 'Expired';  // Update status on the Approved model
+                $approved->status = 'Expired';
                 $approved->save();  // Save the Approved model
+
+                   if ($approved->visitor) {
+                     $visitor = $approved->visitor;
+                     $visitor->status_aktif = 'Inactive'; // Sesuaikan nilai jika berbeda
+                     $visitor->save();
+        }
             }
         }
 
@@ -92,6 +98,12 @@ public function index(Request $request)
            if ($validityDateTo->isBefore(now()->toDateString())) {
                 $approved->status = 'Expired';  // Update status on the Approved model
                 $approved->save();  // Save the Approved model
+
+                   if ($approved->vendor) {
+                     $vendor = $approved->vendor;
+                     $vendor->status_aktif = 'Inactive'; // Sesuaikan nilai jika berbeda
+                     $vendor->save();
+        }
             }
         }
     }
@@ -113,12 +125,22 @@ public function updateStatus(Request $request)
     $status = $request->status;
 
     // Find the permit in the 'approved' table by its ID
-    $permit = Approved::find($permitId);
+   $permit = Approved::with(['vendor', 'visitor'])->find($permitId);
 
     if ($permit) {
         // Update the status of the permit
         $permit->status = $status;
         $permit->save();
+
+  if ($permit->type === 'Vendor' && $permit->vendor) {
+            $permit->vendor->status_aktif = "Inactive";
+            $permit->vendor->save();
+        }
+
+        if ($permit->type === 'Visitor' && $permit->visitor) {
+            $permit->visitor->status_aktif = "Inactive";
+            $permit->visitor->save();
+        }
 
         // Return success response with the updated status
         return response()->json(['status' => 'success', 'updatedStatus' => $permit->status]);

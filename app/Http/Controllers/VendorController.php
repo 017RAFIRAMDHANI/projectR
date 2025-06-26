@@ -39,6 +39,7 @@ class VendorController extends Controller
             $vendor->permit_number = $permitNumber;
             $vendor->pdf_nama = Auth::user()->name;
             $vendor->pdf_jabatan = Auth::user()->role;
+            $vendor->status_aktif = "Active";
           $vendor->save();
         $pdfContent = view('pdf_permit', compact('vendor', 'permitNumber'))->render();
 
