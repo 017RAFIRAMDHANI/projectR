@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employe;
+use App\Models\Safeti;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -97,6 +98,12 @@ public function index(Request $request)
                 'date_to' => "-",
                 'id_employe' => $employee->id_employe ?? null,
                 'status' => 'Active',
+            ]);
+
+        Safeti::create([
+                    'id_employe' => $employee->id_employe ?? null,
+                    'status_safeti' => 'Inactive',
+                    'type' => 'Employee',
             ]);
 
         return redirect()->back()->with('success', 'Employee created successfully!');

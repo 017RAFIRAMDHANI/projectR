@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approved;
+use App\Models\Safeti;
 use App\Models\Vehicle;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -97,6 +98,14 @@ $visitor->save();
                   'type' => 'Visitor',
                   'status' => 'Open',
             ]);
+
+
+                Safeti::create([
+                    'id_visitor' => $request->id_visitor ?? null,
+                    'status_safeti' => 'Inactive',
+                    'type' => 'Visitor',
+            ]);
+
 
            return back()->with('success', 'Permit Approve Success');
         }

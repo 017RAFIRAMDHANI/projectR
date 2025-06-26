@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approved;
+use App\Models\Safeti;
 use App\Models\Vehicle;
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
@@ -57,6 +58,12 @@ class VendorController extends Controller
                   'id_vendor' => $request->id_vendor ?? null,
                   'type' => 'Vendor',
                   'status' => 'Open',
+            ]);
+
+            Safeti::create([
+                    'id_vendor' => $request->id_vendor ?? null,
+                    'status_safeti' => 'Inactive',
+                    'type' => 'Vendor',
             ]);
 
            return back()->with('success', 'Permit Approve Success');
