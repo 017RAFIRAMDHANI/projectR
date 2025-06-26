@@ -81,14 +81,14 @@ Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'inde
 Route::post('/vehicle-create',[App\Http\Controllers\VehicleController::class, 'store'])->name('vehicle-store');
 Route::post('/vehicle-delete',[App\Http\Controllers\VehicleController::class, 'delete'])->name('vehicle-delete');
 Route::post('/vehicle-edit',[App\Http\Controllers\VehicleController::class, 'update'])->name('vehicle-update');
+Route::get('/employee-safety-list',[App\Http\Controllers\SafetiController::class, 'index'])->name('employee-safety-list');
+Route::post('/update-safety-status', [App\Http\Controllers\SafetiController::class, 'date'])->name('update.safety.status');
+Route::post('/update-lampu-status',[App\Http\Controllers\SafetiController::class, 'updateLampuStatus'])->name('update.lampu.status');
 
 
 Route::get('/history', function () {
     return view('history');
 })->name('history');
-Route::get('/employee-safety-list', function () {
-    return view('employee-safety-list');
-})->name('employee-safety-list');
 Route::get('/daily-report', function () {
     return view('daily-report');
 })->name('daily-report');

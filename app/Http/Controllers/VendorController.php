@@ -60,12 +60,22 @@ class VendorController extends Controller
                   'status' => 'Open',
             ]);
 
-            Safeti::create([
-                    'id_vendor' => $request->id_vendor ?? null,
+           for ($i = 1; $i <= 30; $i++) {
+            $fieldName = "worker{$i}_name";
+            $workerName = $vendor->$fieldName;
+
+            // Cek apakah ada nama yang diisi
+            if (!empty($workerName) && trim($workerName) !== '') {
+                Safeti::create([
+                    'id_vendor' => $vendor->id_vendor,
                     'status_safeti' => 'Inactive',
                     'type' => 'Vendor',
-            ]);
+                    'name' => $workerName,
+                    'company_name' => $vendor->company_name ?? '',
+                ]);
 
+            }
+        }
            return back()->with('success', 'Permit Approve Success');
         }
         return response()->json(['success' => false], 404);

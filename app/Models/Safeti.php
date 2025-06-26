@@ -22,13 +22,32 @@ class Safeti extends Model
            'expired_date',
            'status_safeti',
            'type',
-           'lampu_hijau',
-           'lampu_kuning',
-           'lampu_merah',
-           'catatan_lampu_hijau',
-           'catatan_lampu_kuning',
-           'catatan_lampu_merah',
+           'lampu_green',
+           'lampu_yellow',
+           'lampu_red',
+           'catatan_lampu_green',
+           'catatan_lampu_yellow',
+           'catatan_lampu_red',
+           'date_lampu_green',
+           'date_lampu_yellow',
+           'date_lampu_red',
            'file_gambar',
+           'name',
+           'company_name',
       ];
+public function vendor()
+{
+    return $this->belongsTo(Vendor::class, 'id_vendor');
+}
+
+public function visitor()
+{
+    return $this->belongsTo(Visitor::class, 'id_visitor');
+}
+
+public function employe()
+{
+    return $this->belongsTo(Employe::class, 'id_employe');
+}
 
 }

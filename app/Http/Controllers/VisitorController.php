@@ -100,12 +100,22 @@ $visitor->save();
             ]);
 
 
+              for ($i = 1; $i <= 30; $i++) {
+            $fieldName = "name_{$i}";
+            $workerName = $visitor->$fieldName;
+
+            // Cek apakah ada nama yang diisi
+            if (!empty($workerName) && trim($workerName) !== '') {
                 Safeti::create([
-                    'id_visitor' => $request->id_visitor ?? null,
+                    'id_visitor' => $visitor->id_visitor,
                     'status_safeti' => 'Inactive',
                     'type' => 'Visitor',
-            ]);
+                    'name' => $workerName,
+                    'company_name' => $visitor->company_name ?? '',
+                ]);
 
+            }
+        }
 
            return back()->with('success', 'Permit Approve Success');
         }

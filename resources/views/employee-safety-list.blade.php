@@ -231,14 +231,140 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Safety badge</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expired Date</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">History</th>
               </tr>
             </thead>
-            <tbody id="employeeTableBody" class="bg-white divide-y divide-gray-200">
-              <!-- Table rows will be rendered by JS -->
-            </tbody>
+           <tbody id="employeeTableBody" class="bg-white divide-y divide-gray-200">
+  <!-- Static HTML rows replacing JS-rendered employee data -->
+
+  @foreach ($safetis as $item)
+  <tr class="table-row-hover">
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         @if($item->vendor)
+                {{ $item->name }}
+            @elseif($item->visitor)
+                {{ $item->name }}
+            @elseif($item->employe)
+                {{ $item->employe->name }}
+            @endif
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="flex items-center space-x-2">
+        <img src="https://ui-avatars.com/api/?name=John+Doe&background=2563eb&color=fff" alt="John Doe" class="h-10 w-10 rounded-full object-cover cursor-pointer" onclick="openImagePreviewModal(this.src)" />
+        <div class="flex space-x-1">
+          <input type="file" accept="image/*" class="hidden" id="photoInput-JohnDoe" onchange="handlePhotoUpload(event, 'JohnDoe')">
+          <button onclick="document.getElementById('photoInput-JohnDoe').click()" class="text-primary hover:text-primary-dark" title="Upload File">
+            <i class="fas fa-upload"></i>
+          </button>
+          {{-- <button onclick="openCameraModal('JohnDoe')" class="text-primary hover:text-primary-dark" title="Take Photo">
+            <i class="fas fa-camera"></i>
+          </button> --}}
+        </div>
+      </div>
+    </td>
+<input type="hidden" class="id-safeti" value="{{ $item->id_safeti }}">
+
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+   @if($item->vendor)
+                {{ $item->vendor->company_name }}
+            @elseif($item->visitor)
+                {{ $item->visitor->company_name }}
+            @elseif($item->employe)
+                {{ $item->employe->company_name }}
+            @endif
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         @if($item->vendor)
+                Vendor
+            @elseif($item->visitor)
+             Visitor
+            @elseif($item->employe)
+                {{ $item->employe->position }}
+            @endif
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="flex items-center space-x-2 indicator-group">
+ <div class="safety-light indicator-btn {{ $item->lampu_green == "false" ? 'bg-gray-400' : 'green' }}"
+     data-row="{{ $loop->index }}"
+     data-color="green"
+     data-note="{{ $item->catatan_lampu_green }}"
+     data-date="{{ $item->date_lampu_green }}"
+     onclick="openIndicatorNoteModal(this)">
+</div>
+
+<div class="safety-light indicator-btn {{ $item->lampu_yellow == "false" ? 'bg-gray-400' : 'yellow' }}"
+     data-row="{{ $loop->index }}"
+     data-color="yellow"
+     data-note="{{ $item->catatan_lampu_yellow }}"
+     data-date="{{ $item->date_lampu_yellow }}"
+     onclick="openIndicatorNoteModal(this)">
+</div>
+
+<div class="safety-light indicator-btn {{ $item->lampu_red == "false" ? 'bg-gray-400' : 'red' }}"
+     data-row="{{ $loop->index }}"
+     data-color="red"
+     data-note="{{ $item->catatan_lampu_red }}"
+     data-date="{{ $item->date_lampu_red }}"
+     onclick="openIndicatorNoteModal(this)">
+</div>
+
+
+        {{-- <div class="safety-light green indicator-btn" title="Good" style="opacity:1;"></div>
+        <div class="safety-light yellow indicator-btn" title="Warning" style="opacity:1;"></div>
+        <div class="safety-light red indicator-btn" title="Critical" style="opacity:1;"></div> --}}
+      </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="flex flex-col space-y-2">
+        <div class="flex items-center space-x-2">
+          <label class="text-sm font-medium text-gray-700">Start Date:</label>
+          <input type="date" name="date_from" value="{{ $item->start_date ?? ''}}"   onchange="handleStartDateChange(this)">
+        </div>
+        <div class="flex items-center space-x-2">
+          <label class="text-sm font-medium text-gray-700">Expired Date:</label>
+       <input type="date" name="date_to" value="{{ $item->expired_date ?? ''}}"  readonly>
+        </div>
+      </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap safety-badge-cell">
+          @if($item->status_safeti == 'Active')
+        <span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold">
+            <i class="fas fa-medal mr-1"></i> Active
+        </span>
+    @elseif($item->status_safeti == 'Expired')
+        <span class="inline-flex items-center px-2 py-1 rounded-full bg-red-100 text-red-800 text-xs font-semibold">
+            <i class="fas fa-times-circle mr-1"></i> Expired
+        </span>
+    @elseif($item->status_safeti == 'Out')
+        <span class="inline-flex items-center px-2 py-1 rounded-full bg-gray-100 text-gray-800 text-xs font-semibold">
+            <i class="fas fa-sign-out-alt mr-1"></i> Out
+        </span>
+      @elseif($item->status_safeti == 'Inactive')
+        <span class="inline-flex items-center px-2 py-1 rounded-full bg-gray-200 text-gray-800 text-xs font-semibold">
+            <i class="fas fa-id-badge mr-1"></i> Inactive
+        </span>
+    @endif
+      {{-- <span class="inline-flex items-center px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-medium">
+        <i class="fas fa-id-badge mr-1"></i>SB-001 <span class="ml-2">Active</span>
+      </span> --}}
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Employee</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      <div class="flex space-x-2">
+        <a href="/history" class="text-red-600 hover:text-red-700 font-medium" title="View History">
+          <i class="fas fa-history mr-1"></i>History
+        </a>
+      </div>
+    </td>
+
+  </tr>
+
+
+  @endforeach
+</tbody>
+
           </table>
         </div>
 
@@ -505,6 +631,206 @@
       </div>
     </div>
 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+  // Object penyimpan catatan: { rowIndex: { color: { note: '...', date: '...' } } }
+  const indicatorNotes = {};
+  let currentIndicator = { row: null, color: null, btn: null };
+
+function openIndicatorNoteModal(button) {
+  const rowIndex = button.dataset.row;
+  const color = button.dataset.color;
+
+  currentIndicator = {
+    row: rowIndex,
+    color: color,
+    btn: button
+  };
+
+  // Ambil langsung dari data attribute tombol
+  const note = button.dataset.note || '';
+  const date = button.dataset.date || ''; // ← ini sudah YYYY-MM-DD
+
+  document.getElementById('indicatorNoteInput').value = note;
+  document.getElementById('indicatorNoteDate').value = date;
+
+  document.getElementById('indicatorNoteModal').classList.remove('hidden');
+}
+
+
+  function closeIndicatorNoteModal() {
+    document.getElementById('indicatorNoteModal').classList.add('hidden');
+    currentIndicator = { row: null, color: null, btn: null };
+  }
+
+ function saveIndicatorNote() {
+    const note = document.getElementById('indicatorNoteInput').value;
+    const date = document.getElementById('indicatorNoteDate').value;
+
+    const { row, color, btn } = currentIndicator;
+
+    if (!indicatorNotes[row]) indicatorNotes[row] = {};
+    indicatorNotes[row][color] = { note, date };
+
+    const group = btn.closest('.indicator-group');
+    const buttons = group.querySelectorAll('.indicator-btn');
+
+    const idSafetiInput = btn.closest('tr').querySelector('.id-safeti');
+    const idSafeti = idSafetiInput ? idSafetiInput.value : null;
+
+    const isGray = btn.classList.contains('bg-gray-400');
+
+    // ✅ Jika tombol yang diklik sedang abu, artinya mau diaktifkan kembali
+   if (isGray) {
+  btn.classList.remove('green', 'yellow', 'red', 'bg-gray-400');
+  btn.classList.add(color);
+
+  if (idSafeti) {
+    fetch('/update-lampu-status', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify({
+        id_safeti: idSafeti,
+        lampu: color,
+        value: "true",
+        status: 'Active' ,
+        note: note,
+        date: date
+
+        // 💡 tambahkan status Active di sini
+      })
+    });
+
+    // ✅ Update badge status di frontend
+    const badgeCell = btn.closest('tr').querySelector('.safety-badge-cell');
+    if (badgeCell) {
+      badgeCell.innerHTML = `
+        <span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold">
+          <i class="fas fa-medal mr-1"></i> Active
+        </span>
+      `;
+    }
+  }
+}
+else if (color === 'red') {
+      // ✅ Kalau tombol merah aktif diklik → matikan semua
+      buttons.forEach(b => {
+        const bColor = b.dataset.color;
+        b.classList.remove('green', 'yellow', 'red', 'bg-gray-400');
+        b.classList.add('bg-gray-400');
+
+        indicatorNotes[row][bColor] = null;
+
+        if (idSafeti) {
+          fetch('/update-lampu-status', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+              id_safeti: idSafeti,
+              lampu: bColor,
+              value: "false",
+              status: 'Out',
+              note: note,
+              date: date
+            })
+          });
+        }
+      });
+
+      // Update badge status jadi "Out"
+      const badgeCell = btn.closest('tr').querySelector('.safety-badge-cell');
+      if (badgeCell) {
+        badgeCell.innerHTML = `
+          <span class="inline-flex items-center px-2 py-1 rounded-full bg-gray-100 text-gray-800 text-xs font-semibold">
+            <i class="fas fa-sign-out-alt mr-1"></i> Out
+          </span>
+        `;
+      }
+    } else {
+      // ✅ Hijau/Kuning aktif diklik → matikan satu
+      btn.classList.remove('green', 'yellow', 'red');
+      btn.classList.add('bg-gray-400');
+      indicatorNotes[row][color] = null;
+
+      if (idSafeti) {
+        fetch('/update-lampu-status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify({
+            id_safeti: idSafeti,
+            lampu: color,
+            value: "false",
+            note: note,
+            date: date
+          })
+        });
+      }
+    }
+
+    closeIndicatorNoteModal();
+  }
+</script>
+
+<script>
+function handleStartDateChange(startInput) {
+  const row = startInput.closest('tr');
+  const expiredInput = row.querySelector('input[type="date"]:not([onchange])');
+  const idInput = row.querySelector('.id-safeti');
+
+  if (!expiredInput || !idInput) return;
+
+  const startDate = new Date(startInput.value);
+  const expiredDate = new Date(startDate);
+  expiredDate.setMonth(expiredDate.getMonth() + 6);
+  const formatted = expiredDate.toISOString().split('T')[0];
+  expiredInput.value = formatted;
+
+  const badgeCell = row.querySelector('.safety-badge-cell');
+  badgeCell.innerHTML = `
+    <span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold">
+      <i class="fas fa-medal mr-1"></i> Active
+    </span>
+  `;
+
+  // 🔁 Kirim AJAX ke backend
+  fetch("{{ route('update.safety.status') }}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: JSON.stringify({
+      id_safeti: idInput.value,
+      status: "Active",
+       start_date: startInput.value,
+      expired_date: formatted
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      console.log("Status updated via AJAX.");
+    } else {
+      alert("Gagal update status.");
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    alert("Terjadi kesalahan.");
+  });
+}
+</script>
+
     <script>
       function viewEmployeeDetails(employeeId) {
         // Di sini Anda bisa menambahkan logika untuk mengambil data karyawan dari server
@@ -524,19 +850,7 @@
           email: 'john.doe@example.com'
         };
 
-        // Mengisi data ke modal detail
-        document.getElementById('detailNIK').textContent = employeeData.nik;
-        document.getElementById('detailName').textContent = employeeData.name;
-        document.getElementById('detailCompany').textContent = employeeData.company;
-        document.getElementById('detailPosition').textContent = employeeData.position;
-        document.getElementById('detailJoinDate').textContent = employeeData.joinDate;
-        document.getElementById('detailSafety').textContent = employeeData.safety;
-        document.getElementById('detailExpired').textContent = employeeData.expired;
-        document.getElementById('detailBadge').textContent = employeeData.badge;
-        document.getElementById('detailNotes').textContent = employeeData.notes;
-        document.getElementById('detailAddress').textContent = employeeData.address;
-        document.getElementById('detailPhone').textContent = employeeData.phone;
-        document.getElementById('detailEmail').textContent = employeeData.email;
+
 
         // Menampilkan modal
         document.getElementById('detailModal').classList.remove('hidden');
@@ -650,19 +964,7 @@
         document.getElementById('notificationsPanel').classList.add('hidden');
       }
 
-      // Close dropdowns when clicking outside
-      document.addEventListener('click', function(event) {
-        const notificationsPanel = document.getElementById('notificationsPanel');
-        const userMenu = document.getElementById('userMenu');
 
-        if (!event.target.closest('#notificationsPanel') && !event.target.closest('button[onclick="toggleNotifications()"]')) {
-          notificationsPanel.classList.add('hidden');
-        }
-
-        if (!event.target.closest('#userMenu') && !event.target.closest('button[onclick="toggleUserMenu()"]')) {
-          userMenu.classList.add('hidden');
-        }
-      });
 
       function logout() {
         localStorage.clear();
@@ -691,56 +993,8 @@
         currentSafetyElement = null;
       }
 
-      function updateBadgeForRow(row) {
-        const safetyStatus = row.querySelector('.safety-status');
-        const badgeCell = row.querySelector('.safety-badge-cell');
-        if (safetyStatus && badgeCell) {
-          if (safetyStatus.textContent.trim() === 'Good') {
-            badgeCell.innerHTML = '<span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold"><i class="fas fa-medal mr-1"></i> Safety Passed</span>';
-          } else {
-            badgeCell.innerHTML = '<span class="inline-flex items-center px-2 py-1 rounded-full bg-gray-100 text-gray-500 text-xs font-semibold"><i class="fas fa-times-circle mr-1"></i> Not Passed</span>';
-          }
-        }
-      }
 
-      function changeSafetyStatus(element) {
-        const colors = ['green', 'yellow', 'red'];
-        const statusTexts = {
-          'green': 'Good',
-          'yellow': 'Warning',
-          'red': 'Critical'
-        };
 
-        const currentColor = element.classList[1];
-        const currentIndex = colors.indexOf(currentColor);
-        const nextIndex = (currentIndex + 1) % colors.length;
-        const nextColor = colors[nextIndex];
-
-        element.className = `safety-light ${nextColor}`;
-        const statusElement = element.nextElementSibling;
-        statusElement.className = `safety-status ${nextColor}`;
-        statusElement.textContent = statusTexts[nextColor];
-        updateBadgeForRow(element.closest('tr'));
-      }
-
-      function updateSafetyStatus(color) {
-        if (!currentSafetyElement) return;
-
-        const light = currentSafetyElement.querySelector('.safety-light');
-        const status = currentSafetyElement.querySelector('.safety-status');
-        const statusTexts = {
-          'green': 'Good',
-          'yellow': 'Warning',
-          'red': 'Critical'
-        };
-
-        light.className = `safety-light ${color}`;
-        status.className = `safety-status ${color}`;
-        status.textContent = statusTexts[color];
-        updateBadgeForRow(currentSafetyElement.closest('tr'));
-
-        closeSafetyModal();
-      }
 
       // Close modal when clicking outside
       document.addEventListener('click', function(event) {
@@ -785,524 +1039,12 @@
         currentIndicator = null;
       }
 
-      function updateSafetyBadge(row, expiredDate) {
-        const badgeCell = row.querySelector('.safety-badge-cell');
-        const indicators = row.querySelectorAll('.indicator-btn');
 
-        // Cek tanggal expired
-        const today = new Date();
-        const expired = new Date(expiredDate);
-        const isExpired = today > expired;
 
-        // Cek jika ada indikator merah
-        const hasRedIndicator = Array.from(indicators).some(btn =>
-          btn.classList.contains('bg-red-500') && !indicatorNotes[`${Array.from(row.parentElement.children).indexOf(row)}-${Array.from(indicators).indexOf(btn)}`]
-        );
 
-        if (isExpired) {
-          badgeCell.innerHTML = '<span class="inline-flex items-center px-2 py-1 rounded-full bg-red-100 text-red-800 text-xs font-semibold"><i class="fas fa-times-circle mr-1"></i> Expired</span>';
-        } else if (hasRedIndicator) {
-          badgeCell.innerHTML = '<span class="inline-flex items-center px-2 py-1 rounded-full bg-red-100 text-red-800 text-xs font-semibold"><i class="fas fa-times-circle mr-1"></i> Out</span>';
-        } else {
-          badgeCell.innerHTML = '<span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold"><i class="fas fa-medal mr-1"></i> Active</span>';
-        }
-      }
 
-      function saveIndicatorNote() {
-        const note = document.getElementById('indicatorNoteInput').value.trim();
-        const { rowIndex, indicatorIndex, btn, group } = currentIndicator;
-        const key = `${rowIndex}-${indicatorIndex}`;
-        indicatorNotes[key] = note;
 
-        // Update warna indikator
-        if (!note) {
-          btn.classList.remove('bg-gray-400');
-          if (indicatorIndex === 0) {
-            btn.classList.add('bg-green-500');
-          } else if (indicatorIndex === 1) {
-            btn.classList.add('bg-yellow-500');
-          } else if (indicatorIndex === 2) {
-            btn.classList.add('bg-red-500');
-          }
-        } else {
-          btn.classList.remove('bg-green-500', 'bg-yellow-500', 'bg-red-500');
-          btn.classList.add('bg-gray-400');
-        }
 
-        // Update Safety Badge
-        const row = group.closest('tr');
-        const expiredDate = row.querySelector('input[type="date"]').value;
-        updateSafetyBadge(row, expiredDate);
-
-        closeIndicatorNoteModal();
-      }
-
-      // Update badge saat load dan setiap perubahan lampu
-      window.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('tr').forEach(function(row) {
-          const expiredDate = row.querySelector('input[type="date"]').value;
-          updateSafetyBadge(row, expiredDate);
-        });
-      });
-
-      // Update badge setiap kali tanggal expired berubah
-      document.addEventListener('change', function(event) {
-        if (event.target.type === 'date') {
-          const row = event.target.closest('tr');
-          updateSafetyBadge(row, event.target.value);
-        }
-      });
-
-      // Dummy data
-      let employeesData = [
-        {
-          fullName: 'John Doe',
-          company: 'Digital Hyperspace Indonesia',
-          position: 'Safety Officer',
-          safetyInduction: 'good',
-          expiredDate: '2024-12-31',
-          safetyBadge: 'SB-001',
-          type: 'employee',
-          status: 'active'
-        },
-        {
-          fullName: 'Jane Smith',
-          company: 'PT Vendor Jaya',
-          position: 'Technician',
-          safetyInduction: 'warning',
-          expiredDate: '2023-10-15',
-          safetyBadge: 'SB-002',
-          type: 'vendor',
-          status: 'inactive'
-        },
-        {
-          fullName: 'Michael Brown',
-          company: 'PT Visitor Makmur',
-          position: 'Consultant',
-          safetyInduction: 'critical',
-          expiredDate: '2022-01-20',
-          safetyBadge: 'SB-003',
-          type: 'visitor',
-          status: 'active'
-        },
-        {
-          fullName: 'Alice Green',
-          company: 'PT Vendor Sejahtera',
-          position: 'Supervisor',
-          safetyInduction: 'good',
-          expiredDate: '2025-05-10',
-          safetyBadge: 'SB-004',
-          type: 'vendor',
-          status: 'active'
-        },
-        {
-          fullName: 'Bob White',
-          company: 'PT Visitor Sentosa',
-          position: 'Inspector',
-          safetyInduction: 'warning',
-          expiredDate: '2023-07-01',
-          safetyBadge: 'SB-005',
-          type: 'visitor',
-          status: 'inactive'
-        }
-      ];
-
-      // Pagination variables
-      let currentPage = 1;
-      const rowsPerPage = 10;
-
-      function getBadgeStatus(emp) {
-        const today = new Date();
-        // Check if start date and expired date are missing
-        if (!emp.startDate && !emp.expiredDate) return 'inactive';
-
-        const expired = new Date(emp.expiredDate);
-        // Remove time part for accurate comparison
-        today.setHours(0,0,0,0);
-        expired.setHours(0,0,0,0);
-
-        if (expired < today) return 'expired';
-        if (emp.status === 'active') return 'active';
-        return 'out';
-      }
-
-      function renderEmployeesTable() {
-        const tbody = document.getElementById('employeeTableBody');
-        tbody.innerHTML = '';
-        const filtered = getFilteredEmployees();
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = Math.min(start + rowsPerPage, filtered.length);
-        for (let i = start; i < end; i++) {
-          const emp = filtered[i];
-          const badgeStatus = getBadgeStatus(emp);
-          let badgeClass = 'bg-gray-200 text-gray-600';
-          let badgeText = 'Out';
-
-          if (badgeStatus === 'active') {
-            badgeClass = 'bg-green-100 text-green-800';
-            badgeText = 'Active';
-          }
-          if (badgeStatus === 'expired') {
-            badgeClass = 'bg-red-100 text-red-800';
-            badgeText = 'Expired';
-          }
-          if (badgeStatus === 'inactive') {
-            badgeClass = 'bg-gray-400 text-gray-800';
-            badgeText = 'Inactive';
-          }
-          const isEditingDate = emp._editingDate;
-          const tr = document.createElement('tr');
-          tr.className = 'table-row-hover';
-          tr.innerHTML = renderEmployeeRow(emp);
-          tbody.appendChild(tr);
-        }
-        updatePagination(filtered.length);
-      }
-
-      function renderEmployeeRow(emp) {
-        const badgeStatus = getBadgeStatus(emp);
-        let badgeClass = 'bg-gray-200 text-gray-600';
-        let badgeText = 'Out';
-
-        if (badgeStatus === 'active') {
-          badgeClass = 'bg-green-100 text-green-800';
-          badgeText = 'Active';
-        }
-        if (badgeStatus === 'expired') {
-          badgeClass = 'bg-red-100 text-red-800';
-          badgeText = 'Expired';
-        }
-        if (badgeStatus === 'inactive') {
-          badgeClass = 'bg-gray-400 text-gray-800';
-          badgeText = 'Inactive';
-        }
-        return `
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.fullName}</td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="flex items-center space-x-2">
-              <img src="${emp.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(emp.fullName) + '&background=2563eb&color=fff'}"
-                   alt="${emp.fullName}"
-                   class="h-10 w-10 rounded-full object-cover cursor-pointer"
-                   onclick="openImagePreviewModal(this.src)" />
-              <div class="flex space-x-1">
-                <input type="file"
-                       accept="image/*"
-                       class="hidden"
-                       id="photoInput-${emp.nik || emp.fullName}"
-                       onchange="handlePhotoUpload(event, '${emp.nik || emp.fullName}')">
-                <button onclick="document.getElementById('photoInput-${emp.nik || emp.fullName}').click()"
-                        class="text-primary hover:text-primary-dark" title="Upload File">
-                  <i class="fas fa-upload"></i>
-                </button>
-                <button onclick="openCameraModal('${emp.nik || emp.fullName}')"
-                        class="text-primary hover:text-primary-dark" title="Take Photo">
-
-                </button>
-              </div>
-            </div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.company}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${emp.position}</td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="flex items-center space-x-2 indicator-group">
-              <div class="safety-light green indicator-btn" title="Good" style="opacity:1;"></div>
-              <div class="safety-light yellow indicator-btn" title="Warning" style="opacity:1;"></div>
-              <div class="safety-light red indicator-btn" title="Critical" style="opacity:1;"></div>
-            </div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="flex flex-col space-y-2">
-              <div class="flex items-center space-x-2">
-                <label class="text-sm font-medium text-gray-700">Start Date:</label>
-                <input type="date"
-                       class="form-input rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-                       value="${emp.startDate || ''}"
-                       onchange="handleStartDateChange(event, '${emp.nik || emp.fullName}')">
-              </div>
-              <div class="flex items-center space-x-2">
-                <label class="text-sm font-medium text-gray-700">Expired Date:</label>
-                <input type="date"
-                       class="form-input rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-                       value="${emp.expiredDate || ''}"
-                       id="expiredDate-${emp.nik || emp.fullName}"
-                       readonly>
-              </div>
-            </div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap safety-badge-cell">
-            <span class="inline-flex items-center px-2 py-1 rounded ${badgeClass} text-xs font-medium"><i class="fas fa-id-badge mr-1"></i>${emp.safetyBadge} <span class="ml-2">${badgeText}</span></span>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${capitalize(emp.type)}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            <div class="flex space-x-2">
-              <a  href="/history" class="text-red-600 hover:text-red-700 font-medium" title="View History">
-                <i class="fas fa-history mr-1"></i>History
-              </a>
-            </div>
-          </td>
-        `;
-      }
-
-      function capitalize(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-      }
-
-      function getFilteredEmployees() {
-        const searchTerm = document.getElementById('searchFilter').value.toLowerCase();
-        const typeFilter = document.getElementById('typeFilter').value;
-        const badgeStatusFilter = document.getElementById('badgeStatusFilter').value;
-        const expired30Filter = document.getElementById('expired30Filter').value;
-        const now = new Date();
-        const in30Days = new Date();
-        in30Days.setDate(now.getDate() + 30);
-        return employeesData.filter(emp => {
-          const matchesSearch = emp.fullName.toLowerCase().includes(searchTerm) ||
-                              emp.company.toLowerCase().includes(searchTerm) ||
-                              emp.position.toLowerCase().includes(searchTerm);
-          const matchesType = typeFilter === 'all' || emp.type === typeFilter;
-          const badgeStatus = getBadgeStatus(emp);
-          const matchesStatus = badgeStatusFilter === 'all' || badgeStatus === badgeStatusFilter;
-          let matchesExpired = true;
-          if (expired30Filter === 'expired30') {
-            if (emp.expiredDate) {
-              const expDate = new Date(emp.expiredDate);
-              matchesExpired = expDate >= now && expDate <= in30Days;
-            } else {
-              matchesExpired = false;
-            }
-          }
-          return matchesSearch && matchesType && matchesStatus && matchesExpired;
-        });
-      }
-
-      function updatePagination(total) {
-        const from = (currentPage - 1) * rowsPerPage + 1;
-        const to = Math.min(currentPage * rowsPerPage, total);
-        document.getElementById('fromEntry').textContent = total === 0 ? 0 : from;
-        document.getElementById('toEntry').textContent = to;
-        document.getElementById('totalEntries').textContent = total;
-        // Render pagination buttons
-        const nav = document.getElementById('paginationNav');
-        nav.innerHTML = '';
-        const pageCount = Math.ceil(total / rowsPerPage);
-        for (let i = 1; i <= pageCount; i++) {
-          const btn = document.createElement('button');
-          btn.className = `relative inline-flex items-center px-4 py-2 text-sm font-semibold ${i===currentPage?'bg-primary text-white':'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'} focus:z-20 focus:outline-offset-0`;
-          btn.textContent = i;
-          if (i === currentPage) btn.setAttribute('aria-current', 'page');
-          btn.onclick = () => { currentPage = i; renderEmployeesTable(); };
-          nav.appendChild(btn);
-        }
-      }
-
-      // Filter and pagination event listeners
-      document.getElementById('typeFilter').addEventListener('change', () => { currentPage = 1; renderEmployeesTable(); });
-      document.getElementById('badgeStatusFilter').addEventListener('change', () => { currentPage = 1; renderEmployeesTable(); });
-      document.getElementById('searchFilter').addEventListener('input', () => { currentPage = 1; renderEmployeesTable(); });
-      document.getElementById('expired30Filter').addEventListener('change', () => { currentPage = 1; renderEmployeesTable(); });
-      document.getElementById('prevPageMobile').addEventListener('click', () => { if(currentPage>1){currentPage--;renderEmployeesTable();} });
-      document.getElementById('nextPageMobile').addEventListener('click', () => { const filtered = getFilteredEmployees(); if(currentPage<Math.ceil(filtered.length/rowsPerPage)){currentPage++;renderEmployeesTable();} });
-
-      // Tambahkan event listener untuk expired30Filter agar input tanggal muncul sesuai pilihan
-      document.getElementById('expired30Filter').addEventListener('change', function() {
-        const val = this.value;
-        const input1 = document.getElementById('expiredDateInput1');
-        const input2 = document.getElementById('expiredDateInput2');
-        const sep = document.getElementById('expiredDateSeparator');
-        input1.classList.add('hidden');
-        input2.classList.add('hidden');
-        sep.classList.add('hidden');
-        input1.value = '';
-        input2.value = '';
-        if (val === 'expiredBefore' || val === 'expiredAfter') {
-          input1.classList.remove('hidden');
-          input1.placeholder = (val === 'expiredBefore') ? 'Before...' : 'After...';
-        } else if (val === 'expiredBetween') {
-          input1.classList.remove('hidden');
-          input2.classList.remove('hidden');
-          sep.classList.remove('hidden');
-        }
-        // Trigger render table jika filter berubah
-        currentPage = 1;
-        renderEmployeesTable();
-      });
-      // Juga trigger render jika input tanggal berubah
-      document.getElementById('expiredDateInput1').addEventListener('change', function() { currentPage = 1; renderEmployeesTable(); });
-      document.getElementById('expiredDateInput2').addEventListener('change', function() { currentPage = 1; renderEmployeesTable(); });
-
-      // Initial render
-      renderEmployeesTable();
-
-      function viewEmployeeHistory(employeeId) {
-        window.location.href = `history.html?id=${employeeId}`;
-      }
-
-      // Add photo upload handler
-      function handlePhotoUpload(event, employeeId) {
-        const file = event.target.files[0];
-        if (file) {
-          if (file.size > 2 * 1024 * 1024) {
-            alert('File size should not exceed 2MB');
-            return;
-          }
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            // Update the image preview di tabel
-            const row = event.target.closest('tr');
-            const img = row.querySelector('img');
-            img.src = e.target.result;
-            // Tampilkan modal preview
-            document.getElementById('imagePreviewModalImg').src = e.target.result;
-            document.getElementById('imagePreviewModal').classList.remove('hidden');
-            // Show success message
-            const successMessage = document.createElement('div');
-            successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg';
-            successMessage.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Photo uploaded successfully';
-            document.body.appendChild(successMessage);
-            setTimeout(() => {
-              successMessage.remove();
-            }, 3000);
-          }
-          reader.readAsDataURL(file);
-        }
-      }
-
-      let currentStream = null;
-      let currentEmployeeId = null;
-
-      // Camera functions
-      async function openCameraModal(employeeId) {
-        currentEmployeeId = employeeId;
-        const modal = document.getElementById('cameraModal');
-        modal.classList.remove('hidden');
-
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-              width: { ideal: 1280 },
-              height: { ideal: 720 },
-              facingMode: 'user'
-            }
-          });
-          currentStream = stream;
-          const video = document.getElementById('cameraPreview');
-          video.srcObject = stream;
-        } catch (err) {
-          console.error('Error accessing camera:', err);
-          alert('Could not access camera. Please make sure you have granted camera permissions.');
-          closeCameraModal();
-        }
-      }
-
-      function closeCameraModal() {
-        const modal = document.getElementById('cameraModal');
-        modal.classList.add('hidden');
-
-        if (currentStream) {
-          currentStream.getTracks().forEach(track => track.stop());
-          currentStream = null;
-        }
-
-        // Reset UI
-        document.getElementById('retakeButton').classList.add('hidden');
-        document.getElementById('saveButton').classList.add('hidden');
-        document.getElementById('cameraPreview').classList.remove('hidden');
-        document.getElementById('photoCanvas').classList.add('hidden');
-      }
-
-      function takePhoto() {
-        const video = document.getElementById('cameraPreview');
-        const canvas = document.getElementById('photoCanvas');
-        const context = canvas.getContext('2d');
-
-        // Set canvas size to match video
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        // Draw video frame to canvas
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Show canvas and hide video
-        video.classList.add('hidden');
-        canvas.classList.remove('hidden');
-
-        // Show retake and save buttons
-        document.getElementById('retakeButton').classList.remove('hidden');
-        document.getElementById('saveButton').classList.remove('hidden');
-      }
-
-      function retakePhoto() {
-        // Show video and hide canvas
-        document.getElementById('cameraPreview').classList.remove('hidden');
-        document.getElementById('photoCanvas').classList.add('hidden');
-
-        // Hide retake and save buttons
-        document.getElementById('retakeButton').classList.add('hidden');
-        document.getElementById('saveButton').classList.add('hidden');
-      }
-
-      function savePhoto() {
-        const canvas = document.getElementById('photoCanvas');
-        const imageData = canvas.toDataURL('image/jpeg');
-
-        // Update the employee's photo in the table
-        const row = document.querySelector(`tr[data-id="${currentEmployeeId}"]`);
-        const img = row.querySelector('img');
-        img.src = imageData;
-
-        // Show success message
-        const successMessage = document.createElement('div');
-        successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg';
-        successMessage.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Photo saved successfully';
-        document.body.appendChild(successMessage);
-
-        setTimeout(() => {
-          successMessage.remove();
-        }, 3000);
-
-        // Close the modal
-        closeCameraModal();
-      }
-
-      // Close camera modal when clicking outside
-      window.onclick = function(event) {
-        const modal = document.getElementById('cameraModal');
-        if (event.target == modal) {
-          closeCameraModal();
-        }
-      }
-
-      function handleStartDateChange(event, employeeId) {
-        const startDate = new Date(event.target.value);
-        if (startDate) {
-          // Calculate expired date (6 months from start date)
-          const expiredDate = new Date(startDate);
-          expiredDate.setMonth(expiredDate.getMonth() + 6);
-
-          // Format date to YYYY-MM-DD
-          const formattedExpiredDate = expiredDate.toISOString().split('T')[0];
-
-          // Update expired date input
-          const expiredDateInput = document.getElementById(`expiredDate-${employeeId}`);
-          expiredDateInput.value = formattedExpiredDate;
-
-          // Update employee data
-          const employee = employeesData.find(emp => (emp.nik || emp.fullName) === employeeId);
-          if (employee) {
-            employee.startDate = event.target.value;
-            employee.expiredDate = formattedExpiredDate;
-          }
-        }
-      }
-
-      function closeImagePreviewModal() {
-        document.getElementById('imagePreviewModal').classList.add('hidden');
-      }
-
-      function openImagePreviewModal(src) {
-        document.getElementById('imagePreviewModalImg').src = src;
-        document.getElementById('imagePreviewModal').classList.remove('hidden');
-      }
     </script>
   </body>
 </html>

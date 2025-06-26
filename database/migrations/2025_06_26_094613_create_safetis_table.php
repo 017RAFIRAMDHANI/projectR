@@ -21,13 +21,18 @@ return new class extends Migration
             $table->string('expired_date')->nullable();
             $table->string('status_safeti')->nullable();
             $table->string('type')->nullable();
-            $table->string('lampu_hijau')->nullable();
-            $table->string('lampu_kuning')->nullable();
-            $table->string('lampu_merah')->nullable();
-            $table->string('catatan_lampu_hijau')->nullable();
-            $table->string('catatan_lampu_kuning')->nullable();
-            $table->string('catatan_lampu_merah')->nullable();
+            $table->string('lampu_green')->nullable();
+            $table->string('lampu_yellow')->nullable();
+            $table->string('lampu_red')->nullable();
+            $table->string('catatan_lampu_green')->nullable();
+            $table->string('date_lampu_green')->nullable();
+            $table->string('catatan_lampu_yellow')->nullable();
+            $table->string('date_lampu_yellow')->nullable();
+            $table->string('catatan_lampu_red')->nullable();
+            $table->string('date_lampu_red')->nullable();
             $table->string('file_gambar')->nullable();
+            $table->string('name')->nullable();
+            $table->string('company_name')->nullable();
             $table->timestamps();
         });
     }
