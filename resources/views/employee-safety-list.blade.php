@@ -353,9 +353,13 @@
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Employee</td>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
       <div class="flex space-x-2">
-        <a href="/history" class="text-red-600 hover:text-red-700 font-medium" title="View History">
+
+<form action="{{route('history')}}" method="get">
+    <input type="hidden" name="id_history_safeti" value="{{$item->id_history_safeti ?? ''}}">
+        <button   class="text-red-600 hover:text-red-700 font-medium" title="View History">
           <i class="fas fa-history mr-1"></i>History
-        </a>
+        </button>
+</form>
       </div>
     </td>
 
@@ -738,7 +742,9 @@ else if (color === 'red') {
               value: "false",
               status: 'Out',
               note: note,
-              date: date
+              date: date,
+              ismerah: "yes"
+
             })
           });
         }
@@ -771,7 +777,8 @@ else if (color === 'red') {
             lampu: color,
             value: "false",
             note: note,
-            date: date
+            date: date,
+            ishistori:"yes",
           })
         });
       }

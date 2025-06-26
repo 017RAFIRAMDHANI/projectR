@@ -84,11 +84,10 @@ Route::post('/vehicle-edit',[App\Http\Controllers\VehicleController::class, 'upd
 Route::get('/employee-safety-list',[App\Http\Controllers\SafetiController::class, 'index'])->name('employee-safety-list');
 Route::post('/update-safety-status', [App\Http\Controllers\SafetiController::class, 'date'])->name('update.safety.status');
 Route::post('/update-lampu-status',[App\Http\Controllers\SafetiController::class, 'updateLampuStatus'])->name('update.lampu.status');
+Route::get('/history',[App\Http\Controllers\SafetiController::class, 'histori'])->name('history');
 
 
-Route::get('/history', function () {
-    return view('history');
-})->name('history');
+
 Route::get('/daily-report', function () {
     return view('daily-report');
 })->name('daily-report');
