@@ -7,6 +7,7 @@ use App\Models\Safeti;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class SafetiController extends Controller
 {
@@ -17,6 +18,35 @@ class SafetiController extends Controller
 
     }
 
+
+public function uploadPhoto(Request $request)
+{
+    $request->validate([
+        'photo' => 'required|image|max:2048',
+        'id_safeti' => 'required|integer',
+    ]);
+
+    $safeti = Safeti::findOrFail($request->id_safeti);
+
+    // Hapus file lama jika ada
+    if ($safeti->file_gambar && Storage::disk('public')->exists($safeti->file_gambar)) {
+        Storage::disk('public')->delete($safeti->file_gambar);
+    }
+
+    // Upload file baru
+    $path = $request->file('photo')->store('photos', 'public');
+
+    // Simpan path baru
+    $safeti->file_gambar = $path;
+    $safeti->save();
+
+    return response()->json([
+        'success' => true,
+        'photo_url' => asset('storage/' . $path)
+    ]);
+}
+
+
     public function reset(Request $request){
         $dataReset = Safeti::where('id_safeti', $request->id_safeti)->first();
 
@@ -24,7 +54,7 @@ class SafetiController extends Controller
              "start_date" => null,
              "expired_date" => null,
              "status_safeti" => "Inactive",
-          
+
            'lampu_green'=> null,
            'lampu_yellow'=> null,
            'lampu_red'=> null,

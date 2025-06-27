@@ -250,20 +250,35 @@
                 {{ $item->employe->name }}
             @endif
     </td>
-    <td class="px-6 py-4 whitespace-nowrap">
-      <div class="flex items-center space-x-2">
-        <img src="https://ui-avatars.com/api/?name=John+Doe&background=2563eb&color=fff" alt="John Doe" class="h-10 w-10 rounded-full object-cover cursor-pointer" onclick="openImagePreviewModal(this.src)" />
-        <div class="flex space-x-1">
-          <input type="file" accept="image/*" class="hidden" id="photoInput-JohnDoe" onchange="handlePhotoUpload(event, 'JohnDoe')">
-          <button onclick="document.getElementById('photoInput-JohnDoe').click()" class="text-primary hover:text-primary-dark" title="Upload File">
-            <i class="fas fa-upload"></i>
-          </button>
-          {{-- <button onclick="openCameraModal('JohnDoe')" class="text-primary hover:text-primary-dark" title="Take Photo">
-            <i class="fas fa-camera"></i>
-          </button> --}}
-        </div>
-      </div>
-    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+  <div class="flex items-center space-x-2">
+<img
+  id="photo-preview-{{ $item->id_safeti }}"
+  src="{{ $item->file_gambar ? asset('storage/' . $item->file_gambar) : 'https://ui-avatars.com/api/?name=' . urlencode($item->name ?? 'User') . '&background=2563eb&color=fff' }}"
+  alt="{{ $item->name ?? 'User' }}"
+  class="h-10 w-10 rounded-full object-cover cursor-pointer"
+  onclick="openImagePreviewModal(this.src)"
+/>
+
+    <div class="flex space-x-1">
+      <input
+        type="file"
+        accept="image/*"
+        class="hidden"
+        id="photoInput-{{ $item->id_safeti }}"
+        onchange="uploadPhoto(event, {{ $item->id_safeti }})"
+      >
+      <button
+        onclick="document.getElementById('photoInput-{{ $item->id_safeti }}').click()"
+        class="text-primary hover:text-primary-dark"
+        title="Upload File"
+      >
+        <i class="fas fa-upload"></i>
+      </button>
+    </div>
+  </div>
+</td>
+
 <input type="hidden" class="id-safeti" value="{{ $item->id_safeti }}">
 
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -643,12 +658,14 @@
     </div>
 
     <!-- Modal Preview Gambar -->
-    <div id="imagePreviewModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-      <div class="bg-white rounded-lg shadow-lg p-4 relative max-w-xs w-full">
-        <button onclick="closeImagePreviewModal()" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl">&times;</button>
-        <img id="imagePreviewModalImg" src="" alt="Preview Gambar" class="w-full h-auto rounded object-contain" />
-      </div>
-    </div>
+<!-- Modal Preview Gambar -->
+<div id="imagePreviewModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-lg p-4 relative max-w-xs w-full">
+    <button onclick="closeImagePreviewModal()" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl">&times;</button>
+    <img id="imagePreviewModalImg" src="" alt="Preview Gambar" class="w-full h-auto rounded object-contain" />
+  </div>
+</div>
+
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -852,6 +869,60 @@ function handleStartDateChange(startInput) {
   });
 }
 </script>
+
+
+
+
+<script>
+function uploadPhoto(event, id_safeti) {
+  const input = event.target;
+  const file = input.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append('photo', file);
+  formData.append('id_safeti', id_safeti);
+  formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+
+  fetch('{{ route("upload.photo") }}', {
+    method: 'POST',
+    body: formData,
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      const img = document.getElementById('photo-preview-' + id_safeti);
+      img.src = data.photo_url + '?t=' + new Date().getTime(); // untuk bypass cache
+    } else {
+      alert('Upload gagal.');
+    }
+  })
+  .catch(err => {
+    console.error('Upload error:', err);
+    alert('Terjadi kesalahan saat upload.');
+  });
+}
+</script>
+
+
+<script>
+function openImagePreviewModal(imageSrc) {
+  const modal = document.getElementById('imagePreviewModal');
+  const modalImg = document.getElementById('imagePreviewModalImg');
+
+  modalImg.src = imageSrc;
+  modal.classList.remove('hidden');
+}
+
+function closeImagePreviewModal() {
+  const modal = document.getElementById('imagePreviewModal');
+  const modalImg = document.getElementById('imagePreviewModalImg');
+
+  modalImg.src = '';
+  modal.classList.add('hidden');
+}
+</script>
+
 
     <script>
       function viewEmployeeDetails(employeeId) {
