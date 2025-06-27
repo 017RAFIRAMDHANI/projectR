@@ -234,7 +234,7 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">History</th>
-              </tr>
+                   </tr>
             </thead>
            <tbody id="employeeTableBody" class="bg-white divide-y divide-gray-200">
   <!-- Static HTML rows replacing JS-rendered employee data -->
@@ -350,18 +350,33 @@
         <i class="fas fa-id-badge mr-1"></i>SB-001 <span class="ml-2">Active</span>
       </span> --}}
     </td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Employee</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->type ?? ''}}</td>
+    @if($item->id_history_safeti )
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
       <div class="flex space-x-2">
-
 <form action="{{route('history')}}" method="get">
     <input type="hidden" name="id_history_safeti" value="{{$item->id_history_safeti ?? ''}}">
         <button   class="text-red-600 hover:text-red-700 font-medium" title="View History">
           <i class="fas fa-history mr-1"></i>History
         </button>
 </form>
-      </div>
-    </td>
+</div>
+</td>
+@endif
+
+    @if($item->status_safeti == "Expired" || $item->status_safeti == "Out")
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      <div class="flex space-x-2">
+<form id="resetForm-{{ $item->id_safeti }}" action="{{ route('history.reset') }}" method="get">
+  <input type="hidden" name="id_safeti" value="{{ $item->id_safeti ?? '' }}">
+  <button type="button" onclick="confirmReset('{{ $item->id_safeti }}')" class="text-red-600 hover:text-red-700 font-medium" title="View History">
+    <i class="fas fa-history mr-1"></i>Reset
+  </button>
+</form>
+
+</div>
+</td>
+@endif
 
   </tr>
 
@@ -1053,6 +1068,29 @@ function handleStartDateChange(startInput) {
 
 
     </script>
+<script>
+  function confirmReset(id) {
+    Swal.fire({
+      title: 'Yakin reset?',
+      text: "Status akan direset permanen!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, reset!',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const form = document.getElementById('resetForm-' + id);
+        if (form) {
+          form.submit();
+        } else {
+          console.error('Form tidak ditemukan untuk ID:', id);
+        }
+      }
+    });
+  }
+</script>
   </body>
 </html>
 

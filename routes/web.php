@@ -85,6 +85,7 @@ Route::get('/employee-safety-list',[App\Http\Controllers\SafetiController::class
 Route::post('/update-safety-status', [App\Http\Controllers\SafetiController::class, 'date'])->name('update.safety.status');
 Route::post('/update-lampu-status',[App\Http\Controllers\SafetiController::class, 'updateLampuStatus'])->name('update.lampu.status');
 Route::get('/history',[App\Http\Controllers\SafetiController::class, 'histori'])->name('history');
+Route::get('/history/reset',[App\Http\Controllers\SafetiController::class, 'reset'])->name('history.reset');
 
 
 

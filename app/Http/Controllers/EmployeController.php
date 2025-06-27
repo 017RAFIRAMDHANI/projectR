@@ -104,6 +104,8 @@ public function index(Request $request)
                     'id_employe' => $employee->id_employe ?? null,
                     'status_safeti' => 'Inactive',
                     'type' => 'Employee',
+                    'company_name' => $validatedData['company_name'] ?? null,
+                    'name' => $validatedData['name'] ?? null,
             ]);
 
         return redirect()->back()->with('success', 'Employee created successfully!');

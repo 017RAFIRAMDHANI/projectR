@@ -17,6 +17,32 @@ class SafetiController extends Controller
 
     }
 
+    public function reset(Request $request){
+        $dataReset = Safeti::where('id_safeti', $request->id_safeti)->first();
+
+        $dataReset->update([
+             "start_date" => null,
+             "expired_date" => null,
+             "status_safeti" => "Inactive",
+          
+           'lampu_green'=> null,
+           'lampu_yellow'=> null,
+           'lampu_red'=> null,
+           'catatan_lampu_green'=> null,
+           'catatan_lampu_yellow'=> null,
+           'catatan_lampu_red'=> null,
+           'date_lampu_green'=> null,
+           'date_lampu_yellow'=> null,
+           'date_lampu_red'=> null,
+           'file_gambar'=> null,
+        ]);
+
+        if($dataReset){
+               return redirect()->back()->with('success', 'Reset successfully!');
+        }else{
+               return redirect()->back()->with('error', 'Reset failled!');
+        }
+    }
  public function histori(Request $request)
 {
     $idHistori = $request->id_history_safeti;
