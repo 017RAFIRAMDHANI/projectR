@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approved;
+use App\Models\Histori;
 use App\Models\Safeti;
 use App\Models\Vehicle;
 use App\Models\Visitor;
@@ -46,6 +47,14 @@ $visitor->save();
 
             // Kirim email pemberitahuan ke visitor
             Mail::to($visitor->email)->send(new \App\Mail\VisitorStatusMail($visitor, 'Rejected' ));
+
+            Histori::create([
+    'id_data' => $visitor->id_visitor ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Visitor",
+    'judul' => "Visitor Permit Rejected",
+    'text' => "Permit request has been rejected visitor " . $visitor->pic_name ?? null,
+]);
 
            return back()->with('success', 'Permit Rejected Success');
 
@@ -115,7 +124,18 @@ $visitor->save();
                 ]);
 
             }
+
+
         }
+
+        Histori::create([
+    'id_data' => $visitor->id_visitor ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Visitor",
+    'judul' => "Visitor Permit Approval",
+    'text' => "Permit request for visitor " . $visitor->pic_name ?? null . " has been approved and is now valid.",
+   ]);
+
 
            return back()->with('success', 'Permit Approve Success');
         }
@@ -427,6 +447,13 @@ $visitor->save();
                 'status' => 'Active',
             ]);
 
+      Histori::create([
+             'id_data' => $visitor->id_visitor ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Visitor",
+             'judul' => "New Permit Request",
+            'text' => "Visitor permit from " . $visitor->pic_name ?? null,
+            ]);
 
 
 

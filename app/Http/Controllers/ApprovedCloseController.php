@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approved;
+use App\Models\Histori;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApprovedCloseController extends Controller
 {
@@ -74,39 +76,76 @@ public function index(Request $request)
 
     // Check for dates and update the status if necessary
     foreach ($Close as $approved) {
-        // Check if 'request_date_to' is set for Visitor and if it is tomorrow
+        $statusUpdated = false; // Menandakan apakah status diperbarui
+
+        // Check untuk Visitor
         if (!empty($approved->visitor->request_date_to)) {
             $requestDateTo = Carbon::parse($approved->visitor->request_date_to);
-        //  dd($requestDateTo->isBefore(now()->toDateString()));
-            // Check if the 'request_date_to' is tomorrow
             if ($requestDateTo->isBefore(now()->toDateString())) {
-                $approved->status = 'Expired';
-                $approved->save();  // Save the Approved model
+                if ($approved->status !== 'Expired') {  // Hanya update jika status belum 'Expired'
+                    $approved->status = 'Expired';
+                    $approved->save();
 
-                   if ($approved->visitor) {
-                     $visitor = $approved->visitor;
-                     $visitor->status_aktif = 'Inactive'; // Sesuaikan nilai jika berbeda
-                     $visitor->save();
-        }
+                    $approved->visitor->status_aktif = 'Inactive';
+                    $approved->visitor->save();
+
+                    // Cek apakah histori sudah ada
+                    $exists = Histori::where('id_data', $approved->visitor->id_visitor)
+                                     ->where('type', 'Visitor')
+                                     ->where('judul', 'Visitor Permit Not Active (Expired)')
+                                     ->exists();
+
+                    if (!$exists) { // Cegah duplikasi
+                        Histori::create([
+                            'id_data' => $approved->visitor->id_visitor ?? null,
+                            'id_akun' => Auth::user()->id ?? null,
+                            'type' => "Visitor",
+                            'judul' => "Visitor Permit Not Active (Expired)",
+                            'text' => "Permit request visitor has expired: " . $approved->visitor->permit_number ?? null,
+                        ]);
+                    }
+                    $statusUpdated = true;
+                }
             }
         }
 
-        // Check if 'validity_date_to' is set for Vendor and if it is tomorrow
+        // Check untuk Vendor
         if (!empty($approved->vendor->validity_date_to)) {
             $validityDateTo = Carbon::parse($approved->vendor->validity_date_to);
-            // Check if the 'validity_date_to' is tomorrow
-           if ($validityDateTo->isBefore(now()->toDateString())) {
-                $approved->status = 'Expired';  // Update status on the Approved model
-                $approved->save();  // Save the Approved model
+            if ($validityDateTo->isBefore(now()->toDateString())) {
+                if ($approved->status !== 'Expired') {  // Hanya update jika status belum 'Expired'
+                    $approved->status = 'Expired';
+                    $approved->save();
 
-                   if ($approved->vendor) {
-                     $vendor = $approved->vendor;
-                     $vendor->status_aktif = 'Inactive'; // Sesuaikan nilai jika berbeda
-                     $vendor->save();
-        }
+                    $approved->vendor->status_aktif = 'Inactive';
+                    $approved->vendor->save();
+
+                    // Cek apakah histori sudah ada
+                    $exists = Histori::where('id_data', $approved->vendor->id_vendor)
+                                     ->where('type', 'Vendor')
+                                     ->where('judul', 'Vendor Permit Not Active (Expired)')
+                                     ->exists();
+
+                    if (!$exists) { // Cegah duplikasi
+                        Histori::create([
+                            'id_data' => $approved->vendor->id_vendor ?? null,
+                            'id_akun' => Auth::user()->id ?? null,
+                            'type' => "Vendor",
+                            'judul' => "Vendor Permit Not Active (Expired)",
+                            'text' => "Permit request vendor has expired: " . $approved->vendor->permit_number ?? null,
+                        ]);
+                    }
+                    $statusUpdated = true;
+                }
             }
         }
+
+        // Jika status tidak berubah, lanjutkan
+        if (!$statusUpdated) {
+            continue;
+        }
     }
+
 
     // Pass the updated data to the view
     return view('permit-data', [
@@ -135,11 +174,27 @@ public function updateStatus(Request $request)
   if ($permit->type === 'Vendor' && $permit->vendor) {
             $permit->vendor->status_aktif = "Inactive";
             $permit->vendor->save();
+
+                Histori::create([
+                     'id_data' =>  $permit->vendor->id_vendor ?? null,
+                     'id_akun' => Auth::user()->id ?? null,
+                     'type' => "Vendor",
+                     'judul' => "Vendor Permit Not Active (Closed)",
+                    'text' => "Permit request vendor has been Closed is  " . $permit->vendor->permit_number ?? null,
+]);
         }
 
         if ($permit->type === 'Visitor' && $permit->visitor) {
             $permit->visitor->status_aktif = "Inactive";
             $permit->visitor->save();
+
+             Histori::create([
+                     'id_data' =>  $permit->visitor->id_visitor ?? null,
+                     'id_akun' => Auth::user()->id ?? null,
+                     'type' => "Visitor",
+                     'judul' => "Visitor Permit Not Active (Closed)",
+                    'text' => "Permit request visitor has been Closed is  " . $permit->visitor->permit_number ?? null,
+]);
         }
 
         // Return success response with the updated status

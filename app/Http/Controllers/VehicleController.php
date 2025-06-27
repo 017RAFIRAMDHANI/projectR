@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Histori;
 use App\Models\Vehicle;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
@@ -30,6 +32,14 @@ class VehicleController extends Controller
 
         // Menghapus data kendaraan
         $vehicle->delete();
+
+                 Histori::create([
+    'id_data' => $vehicle->id_vehicle ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Vehicle",
+    'judul' => "Delete Vehicle",
+    'text' => ($vehicle->type ? $vehicle->type : 'Unknown Type') . " successfully delete with plate number " . ($vehicle->number_plate ? $vehicle->number_plate : 'Unknown Plate'),
+]);
 
         // Setelah berhasil dihapus, redirect dengan pesan sukses
         return redirect()->back()->with('success', 'Vehicle deleted successfully!');
@@ -105,7 +115,7 @@ class VehicleController extends Controller
 
         try {
             // Menyimpan data dengan cara eksplisit
-            Vehicle::create([
+           $vehi =  Vehicle::create([
                 'name' => $validatedData['name'],
                 'number_plate' => $validatedData['number_plate'],
                 'type' => $validatedData['type'],
@@ -114,6 +124,17 @@ class VehicleController extends Controller
                 'date_to' => $validatedData['date_to'],
                 'status' => $validatedData['status'],
             ]);
+
+
+       Histori::create([
+    'id_data' => $vehi->id_vehicle ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Vehicle",
+    'judul' => "New Vehicle added",
+    'text' => "New " . ($vehi->type ? $vehi->type : 'Unknown Type') . " successfully added with plate number " . ($vehi->number_plate ? $vehi->number_plate : 'Unknown Plate'),
+]);
+
+
 
             // Mengarahkan ke halaman daftar kendaraan atau halaman lain sesuai kebutuhan
             return redirect()->route('vehicle-list')->with('success', 'Vehicle added successfully!');
@@ -156,6 +177,14 @@ class VehicleController extends Controller
 
         // Simpan perubahan ke database
         $vehicle->save();
+
+              Histori::create([
+    'id_data' => $vehicle->id_vehicle ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Vehicle",
+    'judul' => "Edit Vehicle",
+    'text' => ($vehicle->type ? $vehicle->type : 'Unknown Type') . " successfully update with plate number " . ($vehicle->number_plate ? $vehicle->number_plate : 'Unknown Plate'),
+]);
 
         // Redirect atau tampilkan pesan sukses
         return redirect()->back()->with('success', 'Vehicle updated successfully!');

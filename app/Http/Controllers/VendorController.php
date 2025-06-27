@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approved;
+use App\Models\Histori;
 use App\Models\Safeti;
 use App\Models\Vehicle;
 use App\Models\Vendor;
@@ -76,6 +77,16 @@ class VendorController extends Controller
 
             }
         }
+
+           Histori::create([
+    'id_data' => $vendor->id_vendor ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Vendor",
+    'judul' => "Vendor Permit Approval",
+    'text' => "Permit request for vendor " . $vendor->requestor_name ?? null . " has been approved and is now valid.",
+   ]);
+
+
            return back()->with('success', 'Permit Approve Success');
         }
         return response()->json(['success' => false], 404);
@@ -95,6 +106,16 @@ $vendor->save();
 
             // Kirim email pemberitahuan ke vendor
             Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Rejected' ));
+
+
+            Histori::create([
+    'id_data' => $vendor->id_vendor ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Vendor",
+    'judul' => "Vendor Permit Rejected",
+    'text' => "Permit request has been rejected vendor " . $vendor->requestor_name ?? null,
+]);
+
 
            return back()->with('success', 'Permit Rejected Success');
 
@@ -373,6 +394,13 @@ $vendor = Vendor::create([
                 'status' => 'Active',
             ]);
 
+        Histori::create([
+             'id_data' => $vendor->id_vendor ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Vendor",
+             'judul' => "New Permit Request",
+            'text' => "Vendor permit from " . $vendor->requestor_name ?? null,
+            ]);
 
         // Return a success response with data
         return redirect()->route('index_approve')->with('success', 'Vendor permit request submitted successfully!');
