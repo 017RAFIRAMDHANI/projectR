@@ -44,15 +44,7 @@
       .action-btn:hover {
         transform: scale(1.1);
       }
-      .pagination-btn {
-        transition: all 0.2s ease;
-      }
-      .pagination-btn:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-      .pagination-btn:active {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
+
       /* Safety Light Indicator Styles */
       .safety-light {
         width: 32px;
@@ -152,73 +144,75 @@
         </div>
 
         <!-- Filter Section -->
-        <div class="mb-6">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-6 rounded-lg shadow-sm">
-            <div>
-              <label for="typeFilter" class="block text-sm font-semibold text-gray-700 mb-2">Type</label>
-              <div class="relative">
-                <select id="typeFilter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10">
-                  <option value="all">All Types</option>
-                  <option value="visitor">Visitor</option>
-                  <option value="vendor">Vendor</option>
-                  <option value="employee">Employee</option>
-                </select>
-                <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <i class="fas fa-chevron-down text-gray-400"></i>
-                </div>
-              </div>
-            </div>
-            <div>
-              <label for="badgeStatusFilter" class="block text-sm font-semibold text-gray-700 mb-2">Badge Status</label>
-              <div class="relative">
-                <select id="badgeStatusFilter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10">
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                  <option value="expired">Expired</option>
-                  <option value="out">Out</option>
-                </select>
-                <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <i class="fas fa-chevron-down text-gray-400"></i>
-                </div>
-              </div>
-            </div>
-            <div>
-              <label for="expired30Filter" class="block text-sm font-semibold text-gray-700 mb-2">Additional Filter</label>
-              <div class="flex space-x-2 items-center">
-                <div class="relative w-full">
-                  <select id="expired30Filter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10">
-                    <option value="all">Show All Data</option>
-                    <option value="expired30">Expiring in 30 Days</option>
-                    <option value="expiredBefore">Expired Before</option>
-                    <option value="expiredAfter">Expired After</option>
-                    <option value="expiredBetween">Expired Between</option>
-                  </select>
-                  <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <i class="fas fa-chevron-down text-gray-400"></i>
-                  </div>
-                </div>
-                <input type="date" id="expiredDateInput1" class="hidden px-2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" />
-                <span id="expiredDateSeparator" class="hidden">-</span>
-                <input type="date" id="expiredDateInput2" class="hidden px-2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" />
-              </div>
-            </div>
-            <div>
-              <label for="searchFilter" class="block text-sm font-semibold text-gray-700 mb-2">Search</label>
-              <div class="relative">
-                <input
-                  type="text"
-                  id="searchFilter"
-                  placeholder="Search by name, company or position..."
-                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary pr-10"
-                />
-                <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <i class="fas fa-search text-gray-400"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+   <div class="mb-6">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-white p-6 rounded-lg shadow-sm items-end">
+
+    <!-- Type Filter (2 kolom) -->
+    <div class="md:col-span-2">
+      <label for="typeFilter" class="block text-sm font-semibold text-gray-700 mb-2">Type</label>
+      <div class="relative">
+        <form id="formType" method="GET">
+          <select name="typeFilterPilihan" onchange="selectTypeOption()" id="typeFilterPilihan"
+            class="shadow-none w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none
+                   focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10">
+            <option value=" ">All Types</option>
+            <option value="Visitor">Visitor</option>
+            <option value="Vendor">Vendor</option>
+            <option value="Employe">Employee</option>
+          </select>
+        </form>
+        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+          <i class="fas fa-chevron-down text-gray-400"></i>
         </div>
+      </div>
+    </div>
+
+    <!-- Badge Status (2 kolom) -->
+    <div class="md:col-span-2">
+      <label for="badgeStatusFilter" class="block text-sm font-semibold text-gray-700 mb-2">Badge Status</label>
+      <div class="relative">
+        <form id="formStatus" method="GET">
+          <select onchange="selectStatusOption()" id="PilihStatus" name="PilihStatus"
+            class="shadow-none w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none
+                   focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10">
+            <option value="">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+            <option value="Expired">Expired</option>
+            <option value="Out">Out</option>
+          </select>
+        </form>
+        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+          <i class="fas fa-chevron-down text-gray-400"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search (7 kolom) -->
+    <div class="md:col-span-7">
+      <label for="searchFilterInput" class="block text-sm font-semibold text-gray-700 mb-2">Search</label>
+      <div class="relative">
+        <form method="get" id="formSearch">
+          <input type="text" id="searchFilterInput" name="searchFilterInput"
+            placeholder="Search by name, company or position..."
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none
+                   focus:ring-2 focus:ring-primary focus:border-primary pr-10" />
+          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+            <i class="fas fa-search text-gray-400"></i>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Reset Button (1 kolom) -->
+    <div class="md:col-span-1 flex items-center justify-end">
+      <button type="button" onclick="resetFilters()" class="text-red-500 whitespace-nowrap">
+        <i class="fa fa-refresh"></i> Reset
+      </button>
+    </div>
+
+  </div>
+</div>
 
         <!-- Employee List Table -->
         <div class="overflow-x-auto">
@@ -403,24 +397,9 @@
         </div>
 
         <!-- Pagination -->
-        <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-          <div class="flex flex-1 justify-between sm:hidden">
-            <button id="prevPageMobile" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</button>
-            <button id="nextPageMobile" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</button>
-          </div>
-          <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-              <p class="text-sm text-gray-700">
-                Showing <span id="fromEntry" class="font-medium">1</span> to <span id="toEntry" class="font-medium">10</span> of <span id="totalEntries" class="font-medium">1</span> entries
-              </p>
-            </div>
-            <div>
-              <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination" id="paginationNav">
-                <!-- Pagination buttons will be rendered by JS -->
-              </nav>
-            </div>
-          </div>
-        </div>
+<div class="p-3">
+          {{ $safetis->withQueryString()->links('pagination::tailwind') }}
+</div>
       </div>
     </main>
 
@@ -1139,6 +1118,47 @@ function closeImagePreviewModal() {
 
 
     </script>
+  <script>
+               function resetFilters() {
+
+
+
+
+        window.location.href = "{{ route('employee-safety-list') }}";
+    }
+    </script>
+
+<script>
+$(document).ready(function() {
+    // Vendor search with keyup event
+    $("#searchFilterInput").on("keyup", function(e) {
+        // When Enter is pressed or 3+ characters typed
+        if (e.keyCode == 13 || $(this).val().length > 2) {
+            $("#formSearch").submit();  // Submit search form for vendors
+        }
+    });
+
+
+});
+</script>
+<script>
+    function selectTypeOption() {
+        const form = document.getElementById('formType');
+        const selectElement = document.getElementById('typeFilterPilihan');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
+<script>
+    function selectStatusOption() {
+        const form = document.getElementById('formStatus');
+        const selectElement = document.getElementById('PilihStatus');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
 <script>
   function confirmReset(id) {
     Swal.fire({

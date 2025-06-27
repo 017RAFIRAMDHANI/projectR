@@ -90,19 +90,49 @@ public function uploadPhoto(Request $request)
     ]);
 }
 
-   public function index()
+  public function index(Request $request)
 {
-    $safetis = Safeti::with(['vendor', 'visitor', 'employe'])
-        ->where(function($query) {
-            $query->whereHas('vendor', function($q) {
-                $q->where('status_aktif', 'Active');
-            })->orWhereHas('visitor', function($q) {
-                $q->where('status_aktif', 'Active');
-            })->orWhereHas('employe', function($q) {
-                $q->where('status', 'Active');
-            });
-        })
-        ->get();
+    $searchFilter = $request->input('searchFilterInput');
+    $typeFilterPilihan = $request->input('typeFilterPilihan');
+    $PilihStatus = $request->input('PilihStatus');
+
+    $safetis = Safeti::with(['vendor', 'visitor', 'employe']);
+
+    // Filter hanya relasi yang aktif
+    $safetis = $safetis->where(function ($query) {
+        $query->whereHas('vendor', function ($q) {
+            $q->where('status_aktif', 'Active');
+        })->orWhereHas('visitor', function ($q) {
+            $q->where('status_aktif', 'Active');
+        })->orWhereHas('employe', function ($q) {
+            $q->where('status', 'Active');
+        });
+    });
+
+    // Filter berdasarkan input search
+    if ($searchFilter) {
+        $safetis = $safetis->where(function ($query) use ($searchFilter) {
+            $query->where('name', 'like', '%' . $searchFilter . '%')
+                ->orWhere('company_name', 'like', '%' . $searchFilter . '%')
+                ->orWhere('start_date', 'like', '%' . $searchFilter . '%')
+                ->orWhere('type', 'like', '%' . $searchFilter . '%')
+                ->orWhere('expired_date', 'like', '%' . $searchFilter . '%');
+        });
+    }
+       if ($typeFilterPilihan) {
+        $safetis = $safetis->where(function($query) use ($typeFilterPilihan) {
+            $query->where('type', 'like', '%' . $typeFilterPilihan . '%');
+
+        });
+    }
+      if ($PilihStatus) {
+    $safetis = $safetis->where('status_safeti', '=', $PilihStatus);
+}
+
+
+    // Pagination
+    $safetis = $safetis->paginate(20);
+
 
     $allSafetis = Safeti::all();
 
@@ -176,8 +206,8 @@ if ($request->has('note') && $request->has('date')) {
     $noteField = 'catatan_lampu_' . $request->lampu;
     $dateField = 'date_lampu_' . $request->lampu;
 
-    $safety->$noteField = $request->note;
-    $safety->$dateField = $request->date;
+    $safety->$noteField = $request->note ?? ' ';
+    $safety->$dateField = $request->date ?? ' ';
 }
 
 
