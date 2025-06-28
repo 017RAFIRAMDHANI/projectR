@@ -152,7 +152,7 @@
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="text-gray-500 text-sm font-medium">Total Employees</h3>
-                  <p class="mt-2 text-3xl font-bold text-primary">120</p>
+                  <p class="mt-2 text-3xl font-bold text-primary">{{$jmlEmploye ?? ''}}</p>
                 </div>
                 <div class="p-3 rounded-full bg-blue-50">
                   <i class="fas fa-users text-primary text-xl"></i>
@@ -164,7 +164,7 @@
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="text-gray-500 text-sm font-medium">Total Vehicles</h3>
-                  <p class="mt-2 text-3xl font-bold text-green-600">45</p>
+                  <p class="mt-2 text-3xl font-bold text-green-600">{{$jmlVehicle ?? ''}}</p>
                 </div>
                 <div class="p-3 rounded-full bg-green-50">
                   <i class="fas fa-car text-green-600 text-xl"></i>
@@ -363,33 +363,85 @@
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Activities</h2>
             <div class="space-y-4">
-              <div class="flex items-start space-x-3">
-                <div class="p-2 rounded-full bg-green-100">
-                  <i class="fas fa-check-circle text-green-600"></i>
+           <!-- Recent Activities -->
+
+    <div class="space-y-4" id="recentActivitiesContainer">
+        <!-- Data akan diisi oleh JavaScript -->
+    </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Menyisipkan data histori dari Blade ke JavaScript
+        const dataAktifitas = @json($dataAktifitas);
+
+        // Menampilkan data histori ke dalam container
+        const container = document.getElementById('recentActivitiesContainer');
+        container.innerHTML = '';  // Bersihkan isi sebelumnya
+
+        dataAktifitas.forEach(item => {
+            // Tentukan ikon dan warna berdasarkan item.type
+            let iconClass = '';
+            let bgColor = '';
+            let textColor = '';
+            switch(item.type) {
+               case 'Vendor':
+                    iconClass = 'fas fa-user';
+                    iconColor = 'bg-blue-100';
+                    textColor = 'text-blue-600';
+                    break;
+                case 'Visitor':
+                    iconClass = 'fas fa-user';
+                    iconColor = 'bg-green-100';
+                       textColor = 'text-green-600';
+                    break;
+                case 'Vehicle':
+                    iconClass = 'fas fa-car';
+                    iconColor = 'bg-purple-100';
+                       textColor = 'text-purple-600';
+                    break;
+                case 'Employee':
+                    iconClass = 'fas fa-users';
+                    iconColor = 'bg-yellow-50';
+                       textColor = 'text-yellow-600';
+                    break;
+                case 'Employee Safety':
+                    iconClass = 'fas fa-clipboard-check';
+                    iconColor = 'bg-red-50';
+                       textColor = 'text-red-600';
+                    break;
+                case 'Employee Safety Freedoms':
+                      iconClass = 'fas fa-clipboard-check';
+                    iconColor = 'bg-red-50';
+                       textColor = 'text-red-600';
+                    break;
+                default:
+                    iconClass = 'fas fa-exclamation-circle';
+                    bgColor = 'bg-red-100';
+                    textColor = 'text-red-600';
+            }
+
+            // Membuat elemen baru untuk menampilkan aktivitas
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('flex', 'items-start', 'space-x-3');
+
+            itemElement.innerHTML = `
+                <div class="p-2 rounded-full ${bgColor}">
+                    <i class="${iconClass} ${textColor}"></i>
                 </div>
                 <div>
-                  <p class="text-sm font-medium text-gray-900">Maintenance completed</p>
-                  <p class="text-xs text-gray-500">Generator Room - 2 hours ago</p>
+                    <p class="text-sm font-medium text-gray-900">${item.judul}</p>
+                    <p class="text-xs text-gray-500">${item.text}</p>
+                    <p class="text-xs text-gray-400 mt-1">${new Date(item.created_at).toLocaleString()}</p>  <!-- Waktu diformat dengan JavaScript -->
                 </div>
-              </div>
-              <div class="flex items-start space-x-3">
-                <div class="p-2 rounded-full bg-blue-100">
-                  <i class="fas fa-user-check text-blue-600"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">New visitor registered</p>
-                  <p class="text-xs text-gray-500">John Doe - 3 hours ago</p>
-                </div>
-              </div>
-              <div class="flex items-start space-x-3">
-                <div class="p-2 rounded-full bg-purple-100">
-                  <i class="fas fa-truck text-purple-600"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">Vendor delivery</p>
-                  <p class="text-xs text-gray-500">Office supplies - 4 hours ago</p>
-                </div>
-              </div>
+            `;
+
+            container.appendChild(itemElement);
+        });
+    });
+</script>
+
+
             </div>
           </div>
 

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employe;
 use App\Models\Histori;
+use App\Models\Vehicle;
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class FHController extends Controller
@@ -20,9 +23,19 @@ class FHController extends Controller
 
     }
     //
-    public function index(){
-        return view('fm-dashboard');
-    }
+   public function index(){
+    // Mengambil 5 data terbaru berdasarkan id_akun yang sesuai dengan user yang sedang login
+    $dataAktifitas = Histori::where('id_akun', Auth::user()->id)
+                            ->orderBy('created_at', 'desc')  // Mengurutkan berdasarkan waktu terbaru (descending)
+                            ->limit(5)  // Batasi hanya 5 data terbaru
+                            ->get();
+    $jmlEmploye = Employe::where('status','Active')->count();  // Menghitung jumlah total karyawan
+    $jmlVehicle = Vehicle::where('status','Active')->count();  // Menghitung jumlah total karyawan
+
+    return view('fm-dashboard', compact('dataAktifitas','jmlEmploye','jmlVehicle'));  // Mengirimkan data ke view
+}
+
+
     public function specialpopup(){
         return view('special-popup');
     }

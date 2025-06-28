@@ -93,32 +93,43 @@
 
             let iconClass = '';
             let iconColor = '';
-
+             let href = '';
             // Menentukan ikon dan warna berdasarkan tipe histori
             switch(item.type) {
                 case 'Vendor':
                     iconClass = 'fas fa-user';
                     iconColor = 'bg-blue-100';
+                 href = '/approvals';
                     break;
                 case 'Visitor':
                     iconClass = 'fas fa-user';
                     iconColor = 'bg-green-100';
+                    href = '/approvals';
                     break;
                 case 'Vehicle':
                     iconClass = 'fas fa-car';
                     iconColor = 'bg-purple-100';
+                        href = '/vehicle-list';
                     break;
                 case 'Employee':
                     iconClass = 'fas fa-users';
                     iconColor = 'bg-yellow-50';
+                    href = '/employee-data';
                     break;
                 case 'Employee Safety':
                     iconClass = 'fas fa-clipboard-check';
                     iconColor = 'bg-red-50';
+                    href = '/employee-safety-list';
                     break;
                 case 'Employee Safety Freedoms':
                       iconClass = 'fas fa-clipboard-check';
                     iconColor = 'bg-red-50';
+                    href = '/employee-safety-list';
+                    break;
+                case 'Employee Safety Violations':
+                     iconClass = 'fas fa-exclamation-circle';
+                    iconColor = 'bg-red-100';
+                    href = '/employee-safety-list';
                     break;
                 default:
                     iconClass = 'fas fa-exclamation-circle';
@@ -126,6 +137,7 @@
             }
 
             itemElement.innerHTML = `
+              <a href="${href}">
                 <div class="flex items-start space-x-3">
                     <div class="p-2 rounded-full ${iconColor}">
                         <i class="${iconClass} text-${iconColor.split('-')[1]}-600"></i>
@@ -135,7 +147,7 @@
                         <p class="text-sm text-gray-500">${item.text || ''}</p>
                         <p class="text-xs text-gray-400 mt-1">${timeAgoText}</p>
                     </div>
-                </div>
+                </div></a>
             `;
 
             historiContainer.appendChild(itemElement);
