@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employe;
+use App\Models\Histori;
 use App\Models\Safeti;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class EmployeController extends Controller
@@ -108,6 +110,16 @@ public function index(Request $request)
                     'name' => $validatedData['name'] ?? null,
             ]);
 
+
+            Histori::create([
+             'id_data' => $employee->id_employe ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Employee",
+              'judul' => "New Employee added",
+             'text' => "New employee successfully added named " . $employee->name ?? null,
+]);
+
+
         return redirect()->back()->with('success', 'Employee created successfully!');
     } catch (\Exception $e) {
         // Menangani error jika terjadi pengecualian
@@ -162,6 +174,15 @@ public function index(Request $request)
         // Simpan perubahan
         $employee->save();
 
+
+        Histori::create([
+             'id_data' => $employee->id_employe ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Employee",
+              'judul' => "Edit Employee",
+             'text' => "Successful employee edit on behalf of  " . $employee->name ?? null,
+]);
+
         return redirect()->back()->with('success', 'Employee updated successfully!');
     } catch (\Exception $e) {
         // Menangani error jika terjadi pengecualian
@@ -177,6 +198,14 @@ public function delete(Request $request)
         $employee = Employe::findOrFail($request->id_employe);
 
         $employee->delete();
+
+     Histori::create([
+             'id_data' => $employee->id_employe ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Employee",
+              'judul' => "Delete Employee",
+             'text' => "Successful employee delete on behalf of  " . $employee->name ?? null,
+]);
 
         return redirect()->back()->with('success', 'Employee deleted successfully!');
     } catch (\Exception $e) {

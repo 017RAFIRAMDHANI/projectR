@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Histori;
 use App\Models\Historisafeti;
 use App\Models\Safeti;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -66,6 +68,15 @@ public function uploadPhoto(Request $request)
            'date_lampu_red'=> null,
            'file_gambar'=> null,
         ]);
+
+
+         Histori::create([
+             'id_data' => $dataReset->id_safeti ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Employee Safety Reset",
+              'judul' => "Employee Safety Is Reset",
+             'text' => "Successful employee safety is reset behalf of  " . $dataReset->name ?? null,
+]);
 
         if($dataReset){
                return redirect()->back()->with('success', 'Reset successfully!');
@@ -169,6 +180,14 @@ public function uploadPhoto(Request $request)
     $safety->expired_date = $request->expired_date;
     $safety->save();
 
+         Histori::create([
+             'id_data' => $safety->id_safeti ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Employee Safety",
+              'judul' => "Employee Safety Is On",
+             'text' => "Successful employee safety is on behalf of  " . $safety->name ?? null,
+]);
+
     return response()->json(['success' => true, 'message' => 'Status & dates updated.']);
 }
 
@@ -225,6 +244,7 @@ if ($request->has('note') && $request->has('date')) {
         $histori->id_safeti = $request->id_safeti;
         $histori->save();
 
+
         $safety->id_history_safeti = $histori->id_histori_safeti;
 
     }
@@ -233,8 +253,45 @@ if ($request->has('note') && $request->has('date')) {
  $safety->save();
 
 
+        $statusLampu = $request->status;
+
+        if ($statusLampu == 'Active') {
+
+              Histori::create([
+                'id_data' => $safety->id_safeti ?? null,
+                'id_akun' => Auth::user()->id ?? null,
+                'type' => "Employee Safety Freedoms",
+                'judul' => "Employees Get Freedoms",
+                'text' => "Employee gets " . $request->lampu . " freedom in the name of " . ($safety->name ?? 'unknown')
+            ]);
+
+        } else {
+
+            if($request->ismerah == "yes"){
+
+          if($request->lampu === 'red' ){
 
 
+          Histori::create([
+                'id_data' => $safety->id_safeti ?? null,
+                'id_akun' => Auth::user()->id ?? null,
+                'type' => "Employee Safety Violations",
+                'judul' => "Employees Get Violations",
+                'text' => "Employee gets " . $request->lampu . " violation in the name of " . ($safety->name ?? 'unknown')
+            ]);
+         }
+        }else{
+
+          Histori::create([
+                'id_data' => $safety->id_safeti ?? null,
+                'id_akun' => Auth::user()->id ?? null,
+                'type' => "Employee Safety Violations",
+                'judul' => "Employees Get Violations",
+                'text' => "Employee gets " . $request->lampu . " violation in the name of " . ($safety->name ?? 'unknown')
+            ]);
+        }
+
+ }
     return response()->json(['success' => true]);
 }
 
