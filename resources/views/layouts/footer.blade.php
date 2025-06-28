@@ -108,9 +108,17 @@
                     iconClass = 'fas fa-car';
                     iconColor = 'bg-purple-100';
                     break;
-                case 'Task Completed':
+                case 'Employee':
+                    iconClass = 'fas fa-users';
+                    iconColor = 'bg-yellow-50';
+                    break;
+                case 'Employee Safety':
                     iconClass = 'fas fa-clipboard-check';
-                    iconColor = 'bg-purple-100';
+                    iconColor = 'bg-red-50';
+                    break;
+                case 'Employee Safety Freedoms':
+                      iconClass = 'fas fa-clipboard-check';
+                    iconColor = 'bg-red-50';
                     break;
                 default:
                     iconClass = 'fas fa-exclamation-circle';
