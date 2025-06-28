@@ -83,7 +83,7 @@ class VendorController extends Controller
     'id_akun' => Auth::user()->id ?? null,
     'type' => "Vendor",
     'judul' => "Vendor Permit Approval",
-    'text' => "Permit request for vendor " . $vendor->requestor_name ?? null . " has been approved and is now valid.",
+    'text' => "Vendor permit request on behalf of " . ( $vendor->requestor_name ?? ' ' ). " approved by " . ( Auth::user()->name ?? ' '),
    ]);
 
 

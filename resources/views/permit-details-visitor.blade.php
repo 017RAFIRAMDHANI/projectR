@@ -116,7 +116,7 @@
     </h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         @php
-            $counter = 1;  
+            $counter = 1;
         @endphp
 
         @for ($i = 1; $i <= 30; $i++)
@@ -206,7 +206,16 @@
               <i class="fas fa-history mr-2 text-primary"></i> Approval History
             </h3>
             <div id="approvalHistory" class="space-y-2">
-              <!-- ... (approval history content) ... -->
+              @foreach ($dataVisitorHistori as $item)
+
+                <div class="flex items-start space-x-4 py-2 border-b border-gray-200">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">{{$item->judul ?? ''}}</p>
+                        <p class="text-sm text-gray-500">{{$item->text ?? ''}}</p>
+                        <p class="text-xs text-gray-400">{{$item->created_at ?? ''}}</p>
+                    </div>
+                </div>
+                @endforeach
             </div>
           </div>
           <!-- Only Back button, no approve/reject -->

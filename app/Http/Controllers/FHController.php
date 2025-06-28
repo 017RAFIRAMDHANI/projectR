@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Histori;
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
 use App\Models\Visitor;
@@ -165,22 +166,27 @@ class FHController extends Controller
 
     public function view($id_vendor){
        $dataVendor =  Vendor::where('id_vendor',$id_vendor)->first();
+       $dataVendorHistori =  Histori::where('id_data',$id_vendor)->get();
+    //    dd($dataVendorHistori);
 
         return view('permit-details-vendor',[
-            "dataVendor" => $dataVendor
+            "dataVendor" => $dataVendor,
+            "dataVendorHistori" => $dataVendorHistori,
         ]);
     }
+
     public function view_visitor($id_visitor){
         $dataVisitor =  Visitor::where('id_visitor',$id_visitor)->first();
  $dateFrom = Carbon::parse($dataVisitor->request_date_from);
     $dateTo = Carbon::parse($dataVisitor->request_date_to);
-
+     $dataVisitorHistori =  Histori::where('id_data',$id_visitor)->get();
     // Menghitung durasi dalam hari
     $duration = $dateFrom->diffInDays($dateTo);
 
         return view('permit-details-visitor',[
             "dataVisitor" => $dataVisitor,
             "duration" => $duration,
+            "dataVisitorHistori" => $dataVisitorHistori
         ]);
     }
 }

@@ -53,7 +53,8 @@ $visitor->save();
     'id_akun' => Auth::user()->id ?? null,
     'type' => "Visitor",
     'judul' => "Visitor Permit Rejected",
-    'text' => "Permit request has been rejected visitor " . $visitor->pic_name ?? null,
+    'text' => "Visitor permit request on behalf of " . ( $visitor->pic_name ?? ' ' ). " approved by " . ( Auth::user()->name ?? ' '),
+
 ]);
 
            return back()->with('success', 'Permit Rejected Success');

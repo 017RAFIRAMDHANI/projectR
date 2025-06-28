@@ -192,14 +192,17 @@
               <i class="fas fa-history mr-2 text-primary"></i> Approval History
             </h3>
             <div id="approvalHistory" class="space-y-2">
-              <div class="flex items-start space-x-4 py-2 border-b border-gray-200">
-                <div class="flex-1">
-                  <p class="text-sm font-medium text-gray-900">Submitted</p>
-                  <p class="text-sm text-gray-500">By: John Smith</p>
-                  <p class="text-xs text-gray-400">April 15, 2024, 10:30 AM</p>
+                @foreach ($dataVendorHistori as $item)
+
+                <div class="flex items-start space-x-4 py-2 border-b border-gray-200">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">{{$item->judul ?? ''}}</p>
+                        <p class="text-sm text-gray-500">{{$item->text ?? ''}}</p>
+                        <p class="text-xs text-gray-400">{{$item->created_at ?? ''}}</p>
+                    </div>
                 </div>
-              </div>
-              <div class="flex items-start space-x-4 py-2 border-b border-gray-200">
+                @endforeach
+              {{-- <div class="flex items-start space-x-4 py-2 border-b border-gray-200">
                 <div class="flex-1">
                   <p class="text-sm font-medium text-gray-900">Under Review</p>
                   <p class="text-sm text-gray-500">By: Facility Handler</p>
@@ -212,7 +215,7 @@
                   <p class="text-sm text-gray-500">By: Sarah Johnson</p>
                   <p class="text-xs text-gray-400">April 15, 2024, 12:00 PM</p>
                 </div>
-              </div>
+              </div> --}}
             </div>
           </div>
 
