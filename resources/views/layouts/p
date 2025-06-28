@@ -1,0 +1,8 @@
+
+@php
+    use App\Models\Histori;
+
+    // Ambil data histori dan urutkan berdasarkan 'created_at' secara descending
+    $histori = Histori::orderBy('created_at', 'desc')->get();
+
+    @endphp
