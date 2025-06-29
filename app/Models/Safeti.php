@@ -33,6 +33,7 @@ class Safeti extends Model
            'date_lampu_red',
            'file_gambar',
            'name',
+           'id_card',
            'company_name',
       ];
 public function vendor()

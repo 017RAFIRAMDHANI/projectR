@@ -30,12 +30,13 @@
         <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
+                    <form action="{{route('reports.cetak')}}" method="POST">
+                        @csrf
                     <label class="block text-sm font-medium text-gray-700 mb-1">Report Type</label>
-                    <select class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                        <option>Permit Activity</option>
-                        <option>User Activity</option>
-                        <option>System Performance</option>
-                        <option>Security Audit</option>
+                    <select name="vendorVisitor" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                        <option value="Vendor">Vendor</option>
+                        <option value="Visitor">Visitor</option>
+
                     </select>
                 </div>
                 <div>
@@ -49,16 +50,16 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Format</label>
-                    <select class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                        <option>PDF</option>
-                        <option>Excel</option>
-                        <option>CSV</option>
+                    <select name="type" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                        <option value="PDF">PDF</option>
+                        <option value="Excel">Excel</option>
+
                     </select>
                 </div>
                 <div class="flex items-end">
                     <button class="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
                         Generate Report
-                    </button>
+                    </button></form>
                 </div>
             </div>
         </div>
@@ -78,7 +79,7 @@
             </div>
 
             <!-- Recent Reports -->
-            <div class="bg-white rounded-lg shadow-sm">
+            {{-- <div class="bg-white rounded-lg shadow-sm">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-medium text-gray-900">Recent Reports</h2>
                 </div>
@@ -111,10 +112,10 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Report Schedule -->
-            <div class="bg-white rounded-lg shadow-sm">
+            {{-- <div class="bg-white rounded-lg shadow-sm">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <div class="flex items-center justify-between">
                         <h2 class="text-lg font-medium text-gray-900">Scheduled Reports</h2>
@@ -157,12 +158,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </main>
 
     <!-- Schedule Form Modal -->
-    <div id="scheduleModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+    {{-- <div id="scheduleModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">Schedule New Report</h3>
@@ -204,10 +205,10 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Notifications Panel -->
-    <div id="notificationsPanel" class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200">
+    {{-- <div id="notificationsPanel" class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200">
         <div class="p-4 border-b border-gray-200">
             <h3 class="text-lg font-medium text-gray-900">Notifications</h3>
         </div>
@@ -223,7 +224,7 @@
                 <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
             </div>
         </div>
-    </div>
+    </div> --}}
 </body>
 </html>
 

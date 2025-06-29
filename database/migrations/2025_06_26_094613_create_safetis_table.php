@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('date_lampu_red')->nullable();
             $table->string('file_gambar')->nullable();
             $table->string('name')->nullable();
+            $table->string('id_card')->nullable();
             $table->string('company_name')->nullable();
             $table->timestamps();
         });

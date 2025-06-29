@@ -63,7 +63,9 @@ class VendorController extends Controller
 
            for ($i = 1; $i <= 30; $i++) {
             $fieldName = "worker{$i}_name";
+            $fieldName2 = "worker{$i}_id_card";
             $workerName = $vendor->$fieldName;
+            $workerIdCard = $vendor->$fieldName2;
 
             // Cek apakah ada nama yang diisi
             if (!empty($workerName) && trim($workerName) !== '') {
@@ -72,6 +74,7 @@ class VendorController extends Controller
                     'status_safeti' => 'Inactive',
                     'type' => 'Vendor',
                     'name' => $workerName,
+                    'id_card' => $workerIdCard,
                     'company_name' => $vendor->company_name ?? '',
                 ]);
 

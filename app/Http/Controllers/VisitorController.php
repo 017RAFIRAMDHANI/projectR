@@ -112,7 +112,9 @@ $visitor->save();
 
               for ($i = 1; $i <= 30; $i++) {
             $fieldName = "name_{$i}";
+            $fieldName2 = "id_card_{$i}";
             $workerName = $visitor->$fieldName;
+            $IdCard = $visitor->$fieldName2;
 
             // Cek apakah ada nama yang diisi
             if (!empty($workerName) && trim($workerName) !== '') {
@@ -121,6 +123,7 @@ $visitor->save();
                     'status_safeti' => 'Inactive',
                     'type' => 'Visitor',
                     'name' => $workerName,
+                    'id_card' => $IdCard,
                     'company_name' => $visitor->company_name ?? '',
                 ]);
 

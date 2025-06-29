@@ -75,7 +75,8 @@ Route::get('/profile/{id}', [App\Http\Controllers\DaftarUser::class, 'profile'])
 Route::put('/profile_edit/{id}', [App\Http\Controllers\DaftarUser::class, 'edit_profile'])->name('edit_profile');
 Route::get('/permit-data', [App\Http\Controllers\ApprovedCloseController::class, 'index'])->name('permit-data');
 Route::post('/update-permit-status', [App\Http\Controllers\ApprovedCloseController::class, 'updateStatus'])->name('updatePermitStatus');
-
+Route::get('/reports',  [App\Http\Controllers\ReportController::class, 'index'])->name('reports');
+Route::post('/reports/cetak',  [App\Http\Controllers\ReportController::class, 'cetak'])->name('reports.cetak');
 // client
 Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');
 Route::post('/vehicle-create',[App\Http\Controllers\VehicleController::class, 'store'])->name('vehicle-store');
@@ -123,9 +124,6 @@ Route::get('/database', function () {
     return view('database');
 });
 
-Route::get('/reports', function () {
-    return view('reports');
-})->name('reports');
 
 
 
