@@ -53,7 +53,7 @@ $visitor->save();
     'id_akun' => Auth::user()->id ?? null,
     'type' => "Visitor",
     'judul' => "Visitor Permit Rejected",
-    'text' => "Visitor permit request on behalf of " . ( $visitor->pic_name ?? ' ' ). " approved by " . ( Auth::user()->name ?? ' '),
+    'text' => "Visitor permit request on behalf of " . ( $visitor->pic_name ?? ' ' ). " rejected by " . ( Auth::user()->name ?? ' '),
 
 ]);
 
@@ -137,7 +137,7 @@ $visitor->save();
     'id_akun' => Auth::user()->id ?? null,
     'type' => "Visitor",
     'judul' => "Visitor Permit Approval",
-    'text' => "Permit request for visitor " . $visitor->pic_name ?? null . " has been approved and is now valid.",
+    'text' => "Permit request for visitor " .( $visitor->pic_name ?? ' ' ). " approved by " . ( Auth::user()->name ?? ' '),
    ]);
 
 

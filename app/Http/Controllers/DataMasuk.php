@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Histori;
 use App\Models\Vehicle;
 use App\Models\Vendor;
 use App\Models\Vendor_Visitor;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Google_Client;
 use Google_Service_Sheets;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class DataMasuk extends Controller
@@ -214,6 +216,15 @@ $request_date_to = $visitor->request_date_to;
             ]);
 
 
+      Histori::create([
+             'id_data' => $id_visitor ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Visitor",
+             'judul' => "New Permit Request",
+            'text' => "Visitor permit from " . $pic_name ?? null,
+            ]);
+
+
  }
   }
 
@@ -355,6 +366,14 @@ $validity_date_to = $vendor->validity_date_to;
                 'date_to' => $validity_date_to ?? null,
                 'id_vendor' => $id_vendor ?? null,
                 'status' => 'Active',
+            ]);
+
+               Histori::create([
+             'id_data' => $id_vendor ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Vendor",
+             'judul' => "New Permit Request",
+            'text' => "Vendor permit from " . $requestor_name ?? null,
             ]);
 
 }

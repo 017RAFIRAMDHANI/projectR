@@ -116,7 +116,7 @@ $vendor->save();
     'id_akun' => Auth::user()->id ?? null,
     'type' => "Vendor",
     'judul' => "Vendor Permit Rejected",
-    'text' => "Permit request has been rejected vendor " . $vendor->requestor_name ?? null,
+    'text' => "Permit request has been rejected vendor " . ($vendor->requestor_name ?? ' ' ). " rejected by " . ( Auth::user()->name ?? ' ')
 ]);
 
 
