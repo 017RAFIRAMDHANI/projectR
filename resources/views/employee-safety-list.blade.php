@@ -144,7 +144,9 @@
         </div>
 
         <!-- Filter Section -->
-   <div class="mb-6">
+  <!-- Filter Section -->
+<!-- Filter Section -->
+<div class="mb-6">
   <div class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-white p-6 rounded-lg shadow-sm items-end">
 
     <!-- Type Filter (2 kolom) -->
@@ -188,8 +190,35 @@
       </div>
     </div>
 
-    <!-- Search (7 kolom) -->
-    <div class="md:col-span-7">
+    <!-- Additional Filter (2 kolom) -->
+    <div class="md:col-span-2">
+      <label for="expired30Filter" class="block text-sm font-semibold text-gray-700 mb-2">Additional Filter</label>
+      <div class="flex space-x-2 items-center">
+        <div class="relative w-full">
+          <select id="expired30Filter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10"  onchange="toggleDateInputs()">
+            <option value="all">Show All Data</option>
+            <option value="expired30">Expiring in 30 Days</option>
+            <option value="expiredBefore">Expired Before</option>
+            <option value="expiredAfter">Expired After</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+            <i class="fas fa-chevron-down text-gray-400"></i>
+          </div>
+        </div>
+
+        </div>
+    </div>
+     <div class="md:col-span-2" id="expiredDateFilterDiv" style="display:none;">
+      <label for="expired30Filter" class="block text-sm font-semibold text-gray-700 mb-2">Filter</label>
+      <div class="flex space-x-2 items-center">
+        <div class="relative w-full">
+          <input type="date" id="expiredDateInput1" class="hidden" />
+          <input type="date" id="expiredDateInput2" class="hidden" />
+        </div>
+      </div>
+    </div>
+    <!-- Search (5 kolom) -->
+    <div class="md:col-span-3">
       <label for="searchFilterInput" class="block text-sm font-semibold text-gray-700 mb-2">Search</label>
       <div class="relative">
         <form method="get" id="formSearch">
@@ -213,6 +242,7 @@
 
   </div>
 </div>
+
 
         <!-- Employee List Table -->
         <div class="overflow-x-auto">
@@ -1181,6 +1211,34 @@ $(document).ready(function() {
       }
     });
   }
+</script>
+
+<script>
+function toggleDateInputs() {
+  const filterValue = document.getElementById('expired30Filter').value;
+  const input1 = document.getElementById('expiredDateInput1');
+  const input2 = document.getElementById('expiredDateInput2');
+  const filterDiv = document.getElementById('expiredDateFilterDiv');
+
+  if (filterValue === 'expiredBefore' || filterValue === 'expiredAfter') {
+    // Show the date inputs and the div containing them
+    input1.classList.remove('hidden');
+    input2.classList.remove('hidden');
+    filterDiv.style.display = 'block'; // Make the div visible
+  } else {
+    // Hide the date inputs and the div containing them
+    input1.classList.add('hidden');
+    input2.classList.add('hidden');
+    filterDiv.style.display = 'none'; // Hide the div completely
+  }
+}
+
+// Initialize the page by ensuring inputs are hidden by default
+window.onload = function() {
+  toggleDateInputs();
+}
+
+
 </script>
   </body>
 </html>

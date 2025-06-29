@@ -145,18 +145,32 @@ public function uploadPhoto(Request $request)
     $safetis = $safetis->paginate(20);
 
 
-    $allSafetis = Safeti::all();
+   $allSafetis = Safeti::all();
 
     foreach ($allSafetis as $safety) {
-        if (
-            !empty($safety->expired_date) &&
-            $safety->status_safeti === 'Active'
-        ) {
-            $expiredDate = Carbon::parse($safety->expired_date);
+        // Pastikan expired_date tidak kosong dan valid
+        if (!empty($safety->expired_date) && $safety->status_safeti === 'Active') {
+            try {
+                $expiredDate = Carbon::parse($safety->expired_date);
 
-            if ($expiredDate->isBefore(now()->toDateString())) {
-                $safety->status_safeti = 'Expired';
-                $safety->save();
+                // Pastikan format tanggal valid dan periksa apakah tanggal expired lebih kecil dari tanggal sekarang
+                if ($expiredDate->isBefore(now()->toDateString())) {
+                    $safety->status_safeti = 'Expired';
+                    $safety->save();
+
+                      Histori::create([
+             'id_data' => $safety->id_safeti ?? null,
+             'id_akun' => Auth::user()->id ?? null,
+             'type' => "Employee Safety Expired",
+              'judul' => "Employee Safety Is Expired",
+             'text' => "Employee safety is expired behalf of  " . $safety->name ?? null,
+]);
+
+                }
+            } catch (\Exception $e) {
+                // Jika format tanggal invalid, log error atau lakukan penanganan yang diperlukan
+                // Bisa menambahkan log untuk debugging
+                Log::error("Invalid expired date format for safeti ID: " . $safety->id . " Error: " . $e->getMessage());
             }
         }
     }
