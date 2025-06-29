@@ -41,11 +41,11 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
-                    <select class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                        <option>Last 7 days</option>
-                        <option>Last 30 days</option>
-                        <option>Last 3 months</option>
-                        <option>Custom range</option>
+                    <select name="waktu" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                        <option value="seminggu">Last 7 days</option>
+                        <option value="sebulan">Last 30 days</option>
+                        <option value="tigabulan">Last 3 months</option>
+                        <option value="all">All range</option>
                     </select>
                 </div>
                 <div>
