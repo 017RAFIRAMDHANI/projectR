@@ -32,7 +32,19 @@ class FHController extends Controller
     $jmlEmploye = Employe::where('status','Active')->count();  // Menghitung jumlah total karyawan
     $jmlVehicle = Vehicle::where('status','Active')->count();  // Menghitung jumlah total karyawan
 
-    return view('fm-dashboard', compact('dataAktifitas','jmlEmploye','jmlVehicle'));  // Mengirimkan data ke view
+$dataVendor = Vendor::whereNull('permit_number')  // Memilih data yang belum memiliki number_permit
+                    ->orderByRaw("FIELD(mode, 'Urgent') DESC")  // Urutkan berdasarkan mode (urgent di atas normal)
+                    ->orderBy('created_at', 'desc')  // Anda bisa menambahkan urutan tambahan jika perlu
+                    ->limit(5)  // Membatasi hasil hanya 5 data
+                    ->get();
+$dataVisitor = Visitor::whereNull('permit_number')  // Memilih data yang belum memiliki number_permit
+                    ->orderBy('created_at', 'desc')  // Anda bisa menambahkan urutan tambahan jika perlu
+                    ->limit(5)  // Membatasi hasil hanya 5 data
+                    ->get();
+
+   //dd($dataVendor);
+
+    return view('fm-dashboard', compact('dataAktifitas','jmlEmploye','jmlVehicle','dataVendor','dataVisitor'));  // Mengirimkan data ke view
 }
 
 
@@ -179,7 +191,7 @@ class FHController extends Controller
 
     public function view($id_vendor){
        $dataVendor =  Vendor::where('id_vendor',$id_vendor)->first();
-       $dataVendorHistori =  Histori::where('id_data',$id_vendor)->get();
+       $dataVendorHistori =  Histori::where('id_data',$id_vendor)->where('type', 'Vendor')->get();
     //    dd($dataVendorHistori);
 
         return view('permit-details-vendor',[
@@ -192,7 +204,7 @@ class FHController extends Controller
         $dataVisitor =  Visitor::where('id_visitor',$id_visitor)->first();
  $dateFrom = Carbon::parse($dataVisitor->request_date_from);
     $dateTo = Carbon::parse($dataVisitor->request_date_to);
-     $dataVisitorHistori =  Histori::where('id_data',$id_visitor)->get();
+     $dataVisitorHistori =  Histori::where('id_data',$id_visitor)->where('type', 'Visitor')->get();
     // Menghitung durasi dalam hari
     $duration = $dateFrom->diffInDays($dateTo);
 

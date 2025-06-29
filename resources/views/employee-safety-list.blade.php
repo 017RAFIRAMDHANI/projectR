@@ -190,33 +190,41 @@
       </div>
     </div>
 
-    <!-- Additional Filter (2 kolom) -->
-    <div class="md:col-span-2">
-      <label for="expired30Filter" class="block text-sm font-semibold text-gray-700 mb-2">Additional Filter</label>
-      <div class="flex space-x-2 items-center">
-        <div class="relative w-full">
-          <select id="expired30Filter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10"  onchange="toggleDateInputs()">
-            <option value="all">Show All Data</option>
-            <option value="expired30">Expiring in 30 Days</option>
-            <option value="expiredBefore">Expired Before</option>
-            <option value="expiredAfter">Expired After</option>
-          </select>
-          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-            <i class="fas fa-chevron-down text-gray-400"></i>
-          </div>
+  <!-- Additional Filter (2 kolom) -->
+<div class="md:col-span-2">
+  <label for="expired30Filter" class="block text-sm font-semibold text-gray-700 mb-2">Additional Filter</label>
+  <div class="flex space-x-2 items-center">
+    <div class="relative w-full">
+      <form method="GET" id="formExpired">
+        <select name="expired30Filter" id="expired30Filter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10" onchange="toggleDateInputs(); selectexpired30Filte()">
+          <option value="all">Show All Data</option>
+          <option value="expired30">Expiring in 30 Days</option>
+          <option value="expiredBefore">Expired Before</option>
+          <option value="expiredAfter">Expired After</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+          <i class="fas fa-chevron-down text-gray-400"></i>
         </div>
+    </div>
+  </div>
+</div>
 
-        </div>
+<div class="md:col-span-2" id="expiredDateFilterDiv" style="display:none;">
+  <label for="expiredDateInput1" class="block text-sm font-semibold text-gray-700 mb-2">Filter</label>
+  <div class="flex space-x-2 items-center">
+    <div class="relative w-full">
+      <input type="date" name="expiredDateInput1" id="expiredDateInput1" class="hidden" />
+      <input type="date" name="expiredDateInput2" id="expiredDateInput2" class="hidden" />
+
+      <!-- Ikon pencarian di samping input tanggal -->
+      <button id="searchBtn" type="button" onclick="submitDateFilter()" class=" absolute right-2 top-2 p-2">
+        <i class="fas fa-search"></i>
+      </button>
     </div>
-     <div class="md:col-span-2" id="expiredDateFilterDiv" style="display:none;">
-      <label for="expired30Filter" class="block text-sm font-semibold text-gray-700 mb-2">Filter</label>
-      <div class="flex space-x-2 items-center">
-        <div class="relative w-full">
-          <input type="date" id="expiredDateInput1" class="hidden" />
-          <input type="date" id="expiredDateInput2" class="hidden" />
-        </div>
-      </div>
-    </div>
+  </div>
+</div>
+
+
     <!-- Search (5 kolom) -->
     <div class="md:col-span-3">
       <label for="searchFilterInput" class="block text-sm font-semibold text-gray-700 mb-2">Search</label>
@@ -1189,6 +1197,7 @@ $(document).ready(function() {
         form.submit();
     }
 </script>
+
 <script>
   function confirmReset(id) {
     Swal.fire({
@@ -1214,30 +1223,73 @@ $(document).ready(function() {
 </script>
 
 <script>
+// Fungsi untuk menampilkan/menyembunyikan input tanggal
 function toggleDateInputs() {
   const filterValue = document.getElementById('expired30Filter').value;
   const input1 = document.getElementById('expiredDateInput1');
   const input2 = document.getElementById('expiredDateInput2');
   const filterDiv = document.getElementById('expiredDateFilterDiv');
 
+  // Tampilkan input tanggal hanya jika expiredBefore atau expiredAfter dipilih
   if (filterValue === 'expiredBefore' || filterValue === 'expiredAfter') {
-    // Show the date inputs and the div containing them
     input1.classList.remove('hidden');
     input2.classList.remove('hidden');
-    filterDiv.style.display = 'block'; // Make the div visible
+    filterDiv.style.display = 'block';  // Tampilkan div input tanggal
   } else {
-    // Hide the date inputs and the div containing them
     input1.classList.add('hidden');
     input2.classList.add('hidden');
-    filterDiv.style.display = 'none'; // Hide the div completely
+    filterDiv.style.display = 'none';  // Sembunyikan div input tanggal
   }
 }
 
-// Initialize the page by ensuring inputs are hidden by default
-window.onload = function() {
-  toggleDateInputs();
+function selectexpired30Filte() {
+  const form = document.getElementById('formExpired');
+  const selectElement = document.getElementById('expired30Filter');
+
+  // Kirim form jika expired30 dipilih tanpa memerlukan input tanggal
+  if (selectElement.value === 'expired30') {
+    form.submit(); // Kirim form jika expired30 dipilih
+  } else if ((selectElement.value === 'expiredBefore' || selectElement.value === 'expiredAfter') && validateDates()) {
+    form.submit(); // Kirim form jika validasi tanggal berhasil
+  } else {
+    return false; // Jangan kirim form jika validasi gagal
+  }
+}
+// Fungsi untuk memeriksa apakah kedua input tanggal sudah diisi
+function validateDates() {
+  const input1 = document.getElementById('expiredDateInput1');
+  const input2 = document.getElementById('expiredDateInput2');
+
+  // Cek apakah kedua input tanggal terisi
+  if (input1.value === '' || input2.value === '') {
+  //  alert('Please fill in both date fields before submitting.');
+    return false;  // Jangan submit form jika salah satu atau kedua tanggal belum diisi
+  }
+  return true; // Submit form jika kedua tanggal sudah diisi
 }
 
+// Fungsi untuk mengirim form jika kedua input tanggal sudah diisi
+function submitDateFilter() {
+  const form = document.getElementById('formExpired');
+
+  // Validasi tanggal dan kirim form hanya jika kedua tanggal diisi
+  if (validateDates()) {
+    form.submit(); // Kirim form jika validasi tanggal berhasil
+  } else {
+    alert('Please fill in both date fields before submitting.');
+    return false; // Jangan kirim form jika validasi gagal
+  }
+}
+
+// Fungsi untuk menangani tombol pencarian (klik ikon)
+document.getElementById('searchBtn').addEventListener('click', function() {
+  submitDateFilter(); // Panggil fungsi untuk submit form jika tanggal valid
+});
+
+// Inisialisasi halaman dan pastikan input tanggal tersembunyi saat pertama kali
+window.onload = function() {
+  toggleDateInputs();  // Pastikan input tanggal disembunyikan jika tidak sesuai
+}
 
 </script>
   </body>

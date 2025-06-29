@@ -106,6 +106,10 @@ public function uploadPhoto(Request $request)
     $searchFilter = $request->input('searchFilterInput');
     $typeFilterPilihan = $request->input('typeFilterPilihan');
     $PilihStatus = $request->input('PilihStatus');
+    $expired30Filter = $request->input('expired30Filter');
+    $expiredDateInput1 = $request->input('expiredDateInput1');
+    $expiredDateInput2 = $request->input('expiredDateInput2');
+
 
     $safetis = Safeti::with(['vendor', 'visitor', 'employe']);
 
@@ -136,6 +140,48 @@ public function uploadPhoto(Request $request)
 
         });
     }
+
+
+if ($expired30Filter == "expired30") {
+    $today = Carbon::now(); // Mendapatkan tanggal saat ini
+    $startDate = $today->copy();  // Menggunakan tanggal hari ini
+    $endDate = $today->copy()->addDays(30); // Menghitung tanggal 30 hari ke depan dari hari ini
+    $safetis = $safetis->where(function($query) use ($startDate, $endDate) {
+        // Filter berdasarkan rentang tanggal: hari ini hingga 30 hari ke depan
+        $query->whereDate('expired_date', '>=', $startDate) // Mulai dari hari ini
+        ->whereDate('expired_date', '<=', $endDate);   // Hingga 30 hari ke depan
+        // Menambahkan kondisi status_safeti == "Expired"
+        // ->where('status_safeti', 'Expired');
+        // dd($query);
+    });
+}
+  if ($expired30Filter == "expiredBefore") {
+    // Pastikan expiredDateInput1 dan expiredDateInput2 dalam format yang benar
+    $startDate = Carbon::parse($expiredDateInput1); // Mengubah expiredDateInput1 menjadi objek Carbon
+    $endDate = Carbon::parse($expiredDateInput2); // Mengubah expiredDateInput2 menjadi objek Carbon
+
+    // Filter berdasarkan rentang tanggal antara expiredDateInput1 dan expiredDateInput2
+    $safetis = $safetis->where(function($query) use ($startDate, $endDate) {
+        $query->whereDate('expired_date', '>=', $startDate)
+              ->whereDate('expired_date', '<=', $endDate)
+              // Menambahkan kondisi status_safeti == "Expired"
+                ->where('status_safeti', 'Active');
+    });
+}
+  if ($expired30Filter == "expiredAfter") {
+    // Pastikan expiredDateInput1 dan expiredDateInput2 dalam format yang benar
+    $startDate = Carbon::parse($expiredDateInput1); // Mengubah expiredDateInput1 menjadi objek Carbon
+    $endDate = Carbon::parse($expiredDateInput2); // Mengubah expiredDateInput2 menjadi objek Carbon
+
+    // Filter berdasarkan rentang tanggal antara expiredDateInput1 dan expiredDateInput2
+    $safetis = $safetis->where(function($query) use ($startDate, $endDate) {
+        $query->whereDate('expired_date', '>=', $startDate)
+              ->whereDate('expired_date', '<=', $endDate)
+              // Menambahkan kondisi status_safeti == "Expired"
+                ->where('status_safeti', 'Expired');
+    });
+}
+
       if ($PilihStatus) {
     $safetis = $safetis->where('status_safeti', '=', $PilihStatus);
 }
