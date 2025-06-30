@@ -106,9 +106,9 @@
                 <a href="{{route('profile',Auth::user()->id)}}" class="block px-4 py-2 text-sm text-gray-700 menu-item">
                   <i class="fas fa-user-circle mr-2"></i>Profile
                 </a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 menu-item">
+                {{-- <a href="#" class="block px-4 py-2 text-sm text-gray-700 menu-item">
                   <i class="fas fa-cog mr-2"></i>Settings
-                </a>
+                </a> --}}
                  <a  class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit(); ">  <i class="fas fa-sign-out-alt mr-2"></i>Logout</a>

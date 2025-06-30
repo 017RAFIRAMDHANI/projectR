@@ -147,7 +147,7 @@
           </div>
 
           <!-- Stats Grid -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
@@ -158,7 +158,7 @@
                   <i class="fas fa-users text-primary text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+3 from last month</p>
+              <p class="mt-2 text-xs text-gray-500">+{{$jmlEmployeT}} for today</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
@@ -170,39 +170,50 @@
                   <i class="fas fa-car text-green-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+1 this week</p>
+              <p class="mt-2 text-xs text-gray-500">+{{$jmlVehicleT}} for today</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Today's Visitors</h3>
-                  <p class="mt-2 text-3xl font-bold text-yellow-600">15</p>
+                  <h3 class="text-gray-500 text-sm font-medium">Active Permits Today</h3>
+                  <p class="mt-2 text-3xl font-bold text-yellow-600">{{$dataAktifPermit ?? ''}}</p>
                 </div>
                 <div class="p-3 rounded-full bg-yellow-50">
-                  <i class="fas fa-user-clock text-yellow-600 text-xl"></i>
+                  <i class="fas fa-clipboard-list text-yellow-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+5 from yesterday</p>
+              <p class="mt-2 text-xs text-gray-500">+{{$dataAktifPermitT}} for today</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Pending Approval</h3>
-                  <p class="mt-2 text-3xl font-bold text-red-600">5</p>
+                  <h3 class="text-gray-500 text-sm font-medium">Expiring Safety Induction (30 Days)</h3>
+                  <p class="mt-2 text-3xl font-bold text-red-600">{{$safetiCount ?? ''}}</p>
                 </div>
                 <div class="p-3 rounded-full bg-red-50">
-                  <i class="fas fa-tasks text-red-600 text-xl"></i>
+                  <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">2 require attention</p>
+              <div class="mt-1 flex justify-between items-center">
+                <p class="text-xs text-gray-500">expired in 30 days</p>
+                <a href="analytics.html" class="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium text-red-600 hover:text-red-700 transition-colors hidden">
+                  <i class="fas fa-chart-line mr-0.5 text-[10px]"></i>
+                  Check
+                </a>
+              </div>
             </div>
           </div>
+
+
 
           <!-- Quick Actions -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-         @if(Auth::user()->access_newspecial_create == 1)
+
+
+
+                @if(Auth::user()->access_newspecial_create == 1)
               <button
                 onclick="window.location.href='{{route('vendor_create')}}'"
                 class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
@@ -269,7 +280,7 @@
                 </span>
               </div>
             </div>
- 
+
 
             <!-- Vendor Permit Requests -->
             <div>

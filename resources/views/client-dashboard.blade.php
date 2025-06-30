@@ -64,56 +64,63 @@
           </div>
 
           <!-- Stats Grid -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Vehicles</h3>
-                  <p class="mt-2 text-3xl font-bold text-primary">150</p>
-                </div>
-                <div class="p-3 rounded-full bg-blue-50">
-                  <i class="fas fa-car text-primary text-xl"></i>
-                </div>
-              </div>
-              <p class="mt-2 text-xs text-gray-500">+5 from last month</p>
-            </div>
+             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="text-gray-500 text-sm font-medium">Total Employees</h3>
-                  <p class="mt-2 text-3xl font-bold text-green-600">75</p>
+                  <p class="mt-2 text-3xl font-bold text-primary">{{$jmlEmploye ?? ''}}</p>
+                </div>
+                <div class="p-3 rounded-full bg-blue-50">
+                  <i class="fas fa-users text-primary text-xl"></i>
+                </div>
+              </div>
+              <p class="mt-2 text-xs text-gray-500">+{{$jmlEmployeT}} for today</p>
+            </div>
+            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-gray-500 text-sm font-medium">Total Vehicles</h3>
+                  <p class="mt-2 text-3xl font-bold text-green-600">{{$jmlVehicle ?? ''}}</p>
                 </div>
                 <div class="p-3 rounded-full bg-green-50">
-                  <i class="fas fa-users text-green-600 text-xl"></i>
+                  <i class="fas fa-car text-green-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">+3 this week</p>
+              <p class="mt-2 text-xs text-gray-500">+{{$jmlVehicleT}} for today</p>
             </div>
             <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Visitor & Vendor</h3>
-                  <p class="mt-2 text-3xl font-bold text-orange-600">20</p>
-                </div>
-                <div class="p-3 rounded-full bg-orange-50">
-                  <i class="fas fa-users text-orange-600 text-xl"></i>
-                </div>
-              </div>
-              <p class="mt-2 text-xs text-gray-500">+2 today</p>
-            </div>
-            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Safety Induction</h3>
-                  <p class="mt-2 text-3xl font-bold text-yellow-600">12</p>
+                  <h3 class="text-gray-500 text-sm font-medium">Active Permits Today</h3>
+                  <p class="mt-2 text-3xl font-bold text-yellow-600">{{$dataAktifPermit ?? ''}}</p>
                 </div>
                 <div class="p-3 rounded-full bg-yellow-50">
-                  <i class="fas fa-clipboard-check text-yellow-600 text-xl"></i>
+                  <i class="fas fa-clipboard-list text-yellow-600 text-xl"></i>
                 </div>
               </div>
-              <p class="mt-2 text-xs text-gray-500">Updated</p>
+              <p class="mt-2 text-xs text-gray-500">+{{$dataAktifPermitT}} for today</p>
+            </div>
+            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-gray-500 text-sm font-medium">Expiring Safety Induction (30 Days)</h3>
+                  <p class="mt-2 text-3xl font-bold text-red-600">{{$safetiCount ?? ''}}</p>
+                </div>
+                <div class="p-3 rounded-full bg-red-50">
+                  <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                </div>
+              </div>
+              <div class="mt-1 flex justify-between items-center">
+                <p class="text-xs text-gray-500">expired in 30 days</p>
+                <a href="analytics.html" class="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium text-red-600 hover:text-red-700 transition-colors hidden">
+                  <i class="fas fa-chart-line mr-0.5 text-[10px]"></i>
+                  Check
+                </a>
+              </div>
             </div>
           </div>
+
 
           <!-- Quick Actions -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -197,39 +204,9 @@
         <div class="lg:col-span-1">
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Activities</h2>
-            <div class="space-y-4">
-              <div class="flex items-start space-x-4">
-                <div class="p-2 rounded-full bg-blue-100">
-                  <i class="fas fa-car text-blue-600"></i>
-                </div>
-                <div class="flex-1">
-                  <p class="text-sm font-medium text-gray-900">New vehicle entry</p>
-                  <p class="text-sm font-medium text-gray-900">Kendaraan baru masuk</p>
-                  <p class="text-sm text-gray-500">Toyota Avanza (B 1234 ABC)</p>
-                  <p class="text-xs text-gray-400 mt-1">5 menit yang lalu</p>
-                </div>
-              </div>
-              <div class="flex items-start space-x-4">
-                <div class="p-2 rounded-full bg-yellow-100">
-                  <i class="fas fa-exclamation-triangle text-yellow-600"></i>
-                </div>
-                <div class="flex-1">
-                  <p class="text-sm font-medium text-gray-900">STNK akan expired</p>
-                  <p class="text-sm text-gray-500">Honda Brio (B 5678 DEF)</p>
-                  <p class="text-xs text-gray-400 mt-1">1 jam yang lalu</p>
-                </div>
-              </div>
-              <div class="flex items-start space-x-4">
-                <div class="p-2 rounded-full bg-green-100">
-                  <i class="fas fa-user-check text-green-600"></i>
-                </div>
-                <div class="flex-1">
-                  <p class="text-sm font-medium text-gray-900">Karyawan baru terdaftar</p>
-                  <p class="text-sm text-gray-500">John Doe</p>
-                  <p class="text-xs text-gray-400 mt-1">2 jam yang lalu</p>
-                </div>
-              </div>
-            </div>
+          <div class="space-y-4" id="recentActivitiesContainer">
+        <!-- Data akan diisi oleh JavaScript -->
+    </div>
           </div>
         </div>
       </div>
@@ -277,6 +254,80 @@
         }
       });
     </script>
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Menyisipkan data histori dari Blade ke JavaScript
+        const dataAktifitas = @json($dataAktifitas);
+
+        // Menampilkan data histori ke dalam container
+        const container = document.getElementById('recentActivitiesContainer');
+        container.innerHTML = '';  // Bersihkan isi sebelumnya
+
+        dataAktifitas.forEach(item => {
+            // Tentukan ikon dan warna berdasarkan item.type
+            let iconClass = '';
+            let bgColor = '';
+            let textColor = '';
+            switch(item.type) {
+               case 'Vendor':
+                    iconClass = 'fas fa-user';
+                    iconColor = 'bg-blue-100';
+                    textColor = 'text-blue-600';
+                    break;
+                case 'Visitor':
+                    iconClass = 'fas fa-user';
+                    iconColor = 'bg-green-100';
+                       textColor = 'text-green-600';
+                    break;
+                case 'Vehicle':
+                    iconClass = 'fas fa-car';
+                    iconColor = 'bg-purple-100';
+                       textColor = 'text-purple-600';
+                    break;
+                case 'Employee':
+                    iconClass = 'fas fa-users';
+                    iconColor = 'bg-yellow-50';
+                       textColor = 'text-yellow-600';
+                    break;
+                case 'Employee Safety':
+                    iconClass = 'fas fa-clipboard-check';
+                    iconColor = 'bg-red-50';
+                       textColor = 'text-red-600';
+                    break;
+                case 'Employee Safety Freedoms':
+                      iconClass = 'fas fa-clipboard-check';
+                    iconColor = 'bg-red-50';
+                       textColor = 'text-red-600';
+                    break;
+                default:
+                    iconClass = 'fas fa-exclamation-circle';
+                    bgColor = 'bg-red-100';
+                    textColor = 'text-red-600';
+            }
+
+            // Membuat elemen baru untuk menampilkan aktivitas
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('flex', 'items-start', 'space-x-3');
+
+            itemElement.innerHTML = `
+                <div class="p-2 rounded-full ${bgColor}">
+                    <i class="${iconClass} ${textColor}"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-900">${item.judul}</p>
+                    <p class="text-xs text-gray-500">${item.text}</p>
+                    <p class="text-xs text-gray-400 mt-1">${new Date(item.created_at).toLocaleString()}</p>  <!-- Waktu diformat dengan JavaScript -->
+                </div>
+            `;
+
+            container.appendChild(itemElement);
+        });
+    });
+</script>
   </body>
 </html>
 
