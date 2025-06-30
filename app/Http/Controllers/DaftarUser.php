@@ -159,7 +159,7 @@ class DaftarUser extends Controller
     ]);
 
     // Arahkan ke halaman manajemen pengguna setelah berhasil menambah
-    return redirect()->route('regisuser')->with('success', 'Pengguna baru berhasil ditambahkan');
+    return redirect()->route('regisuser')->with('success', 'New user added successfully');
 }
 
 
@@ -201,7 +201,7 @@ class DaftarUser extends Controller
         // Update field biasa
         $user->name = $validate['name'];
         $user->email = $validate['email'];
-      
+
 
         // Cek apakah ada file yang diupload
        if ($request->hasFile('file_card')) {
@@ -223,16 +223,16 @@ class DaftarUser extends Controller
 
         $user->save();
 
-        return redirect()->back()->with('success', 'Data berhasil diupdate!');
+        return redirect()->back()->with('success', 'Data updated successfully!');
     } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Gagal update data: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Failed to update data: ' . $e->getMessage());
     }
     }
     public function destroy($id)
 {
     $dataUser = User::where('id',$id)->delete();
     if($dataUser){
-          return back()->with('success', 'Pengguna berhasil dihapus');
+          return back()->with('success', 'User successfully deleted');
     }
 }
     public function permision($id)
