@@ -227,9 +227,9 @@ class FHController extends Controller
         $dataVisitor =  Visitor::where('id_visitor',$id_visitor)->first();
  $dateFrom = Carbon::parse($dataVisitor->request_date_from);
     $dateTo = Carbon::parse($dataVisitor->request_date_to);
+    $duration = $dateFrom->diffInDays($dateTo);
      $dataVisitorHistori =  Histori::where('id_data',$id_visitor)->where('type', 'Visitor')->get();
     // Menghitung durasi dalam hari
-    $duration = $dateFrom->diffInDays($dateTo);
 
         return view('permit-details-visitor',[
             "dataVisitor" => $dataVisitor,

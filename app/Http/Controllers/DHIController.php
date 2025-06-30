@@ -60,7 +60,7 @@ $dataVisitor = Visitor::whereNull('permit_number')  // Memilih data yang belum m
                      $jmlEmployeT = Employe::whereDate('created_at',Carbon::today())->count();
                  $jmlVehicleT = Vehicle::whereDate('created_at', Carbon::today())->count();
 
-       return view('fm-dashboard', compact('safetiCount','dataAktifPermitT','dataAktifPermit','dataAktifitas','jmlEmploye','jmlVehicle','jmlEmployeT','jmlVehicleT','dataVendor','dataVisitor'));  // Mengirimkan data ke view
+       return view('dhi-dashboard', compact('safetiCount','dataAktifPermitT','dataAktifPermit','dataAktifitas','jmlEmploye','jmlVehicle','jmlEmployeT','jmlVehicleT','dataVendor','dataVisitor'));  // Mengirimkan data ke view
 
     }
 }

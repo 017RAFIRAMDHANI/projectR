@@ -79,7 +79,7 @@
             </div>
 
             <!-- Recent Reports -->
-            {{-- <div class="bg-white rounded-lg shadow-sm">
+            <div class="bg-white rounded-lg shadow-sm">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-medium text-gray-900">Recent Reports</h2>
                 </div>
@@ -112,10 +112,10 @@
                         </button>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
             <!-- Report Schedule -->
-            {{-- <div class="bg-white rounded-lg shadow-sm">
+            <div class="bg-white rounded-lg shadow-sm">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <div class="flex items-center justify-between">
                         <h2 class="text-lg font-medium text-gray-900">Scheduled Reports</h2>
@@ -158,12 +158,12 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
     </main>
 
     <!-- Schedule Form Modal -->
-    {{-- <div id="scheduleModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+    <div id="scheduleModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">Schedule New Report</h3>
@@ -205,7 +205,7 @@
                 </div>
             </form>
         </div>
-    </div> --}}
+    </div>
 
     <!-- Notifications Panel -->
     {{-- <div id="notificationsPanel" class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200">

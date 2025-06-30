@@ -338,7 +338,7 @@
     </td>
     <td class="px-6 py-4 whitespace-nowrap">
       <div class="flex items-center space-x-2 indicator-group">
- <div  class="@if($item->status_safeti == "Inactive") disabled @endif safety-light indicator-btn {{ $item->lampu_green == "false" ? 'bg-gray-400' : 'green' }}"
+ <div  class="@if($item->status_safeti == "Inactive" || $item->status_safeti == "Expired" || Auth::user()->access_safety_edit == null) disabled @endif safety-light indicator-btn {{ $item->lampu_green == "false" ? 'bg-gray-400' : 'green' }}"
      data-row="{{ $loop->index }}"
      data-color="green"
      data-note="{{ $item->catatan_lampu_green }}"
@@ -346,7 +346,7 @@
      onclick="openIndicatorNoteModal(this)">
 </div>
 
-<div class="@if($item->status_safeti == "Inactive") disabled @endif safety-light indicator-btn {{ $item->lampu_yellow == "false" ? 'bg-gray-400' : 'yellow' }}"
+<div class="@if($item->status_safeti == "Inactive" || $item->status_safeti == "Expired" || Auth::user()->access_safety_edit == null) disabled @endif safety-light indicator-btn {{ $item->lampu_yellow == "false" ? 'bg-gray-400' : 'yellow' }}"
      data-row="{{ $loop->index }}"
      data-color="yellow"
      data-note="{{ $item->catatan_lampu_yellow }}"
@@ -354,7 +354,7 @@
      onclick="openIndicatorNoteModal(this)">
 </div>
 
-<div class="@if($item->status_safeti == "Inactive") disabled @endif safety-light indicator-btn {{ $item->lampu_red == "false" ? 'bg-gray-400' : 'red' }}"
+<div class="@if($item->status_safeti == "Inactive" || $item->status_safeti == "Expired" || Auth::user()->access_safety_edit == null) disabled @endif safety-light indicator-btn {{ $item->lampu_red == "false" ? 'bg-gray-400' : 'red' }}"
      data-row="{{ $loop->index }}"
      data-color="red"
      data-note="{{ $item->catatan_lampu_red }}"

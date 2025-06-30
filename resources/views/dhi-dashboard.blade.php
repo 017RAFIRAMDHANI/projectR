@@ -59,7 +59,7 @@
         <div class="lg:col-span-2 space-y-8">
           <!-- Welcome Message -->
           <div class="bg-gradient-to-r from-primary to-blue-600 rounded-lg shadow-sm p-6 text-white">
-            <h1 class="text-2xl font-bold mb-2">Welcome, Admin!</h1>
+            <h1 class="text-2xl font-bold mb-2">Welcome, {{Auth::user()->name ?? ''}}</h1>
             <p class="text-blue-100">Here is today's activity summary</p>
           </div>
 

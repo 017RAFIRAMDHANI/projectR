@@ -146,9 +146,16 @@
                 <td><strong>Permit No.:</strong></td>
                 <td>{{$visitor->permit_number}}</td>
             </tr>
+            @php
+            use Illuminate\Support\Carbon;
+                 $dateFrom = Carbon::parse($visitor->request_date_from);
+                $dateTo = Carbon::parse($visitor->request_date_to);
+                $duration = $dateFrom->diffInDays($dateTo);
+            @endphp
             <tr>
                 <td><strong>Requested Duration</strong></td>
-                <td>1 Day</td>
+                <td> {{$duration}} Day</td>
+                {{-- belum dinamis --}}
                 <td><strong>Requested Date</strong></td>
                 <td>From: {{$visitor->request_date_from}} To: {{$visitor->request_date_to}}</td>
             </tr>
@@ -265,7 +272,7 @@
                     <strong>Visitor Badge Color Assigned:</strong>
                     <input type="checkbox"> Yellow
                     <input type="checkbox"> Red
-                    <input type="checkbox" checked> Green
+                    <input type="checkbox"> Green
                 </td>
             </tr>
         </table>

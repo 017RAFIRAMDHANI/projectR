@@ -72,14 +72,7 @@
                   <p class="text-sm font-medium text-gray-900">
 
 
-        @if (Auth::check() && Auth::user()->role == "FM")
-            Admin FM
-        @elseif(Auth::check() && Auth::user()->role == "Client")
-        Client
-        @elseif(Auth::check() && Auth::user()->role == "DHI")
-        Admin DHI
-        @else
-        @endif
+        {{Auth::user()->name ?? ''}}
 
 
 
