@@ -141,7 +141,23 @@
 
 <div class="mb-2">
     <p class="text-sm font-medium text-gray-500">Method of Statement (MOS)</p>
-    <p class="text-base text-gray-900" id="mosFileName">{{ $dataVendor->file_mos }}</p>
+    <p class="text-base text-gray-900" id="mosFileName">
+        <button  class="view-pdf-btn" type="button" data-file="{{ Str::startsWith($dataVendor->file_mos, 'http') ? $dataVendor->file_mos : asset('storage/' . $dataVendor->file_mos) }}"
+>
+    LIHAT FILE
+</button>
+
+    </p>
+</div>
+<div class="mb-2">
+    <p class="text-sm font-medium text-gray-500">ID Card Foto</p>
+    <p class="text-base text-gray-900" id="mosFileName">
+        <button class="view-pdf-btn" type="button" data-file="{{ Str::startsWith($dataVendor->up_id_card_foto, 'http') ? $dataVendor->up_id_card_foto : asset('storage/' . $dataVendor->up_id_card_foto) }}"
+>
+    LIHAT FILE
+</button>
+
+    </p>
 </div>
 
 <div class="mb-2">
@@ -447,6 +463,45 @@
         }
       }
     </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll('.view-pdf-btn');
+
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const filePath = btn.getAttribute('data-file');
+
+                // Deteksi apakah filePath adalah URL Google Drive / http
+                const isUrl = filePath.startsWith('http');
+
+                // Jika link langsung (contoh Google Drive), langsung buka
+                if (isUrl) {
+                    window.open(filePath, '_blank');
+                    return;
+                }
+
+                // Ambil ekstensi file dari path lokal
+                const fileExtension = filePath.split('.').pop().toLowerCase();
+
+                const baseUrlFile = "{{ route('preview-file', ['url' => '']) }}";
+
+                let route = '';
+
+                if (fileExtension === 'pdf') {
+                    route = baseUrlFile + encodeURIComponent(filePath);
+                }
+
+                // Jika route ditemukan, buka
+                if (route) {
+                    window.open(route, '_blank');
+                } else {
+                    alert("Tipe file tidak didukung");
+                }
+            });
+        });
+    });
+</script>
   </body>
 </html>
 
