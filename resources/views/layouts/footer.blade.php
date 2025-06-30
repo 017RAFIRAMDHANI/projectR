@@ -156,6 +156,7 @@
 </script>
 
 <!-- Panel Notifikasi -->
+
 <div id="notificationsPanel" class="hidden fixed right-4 top-16 w-80 bg-white rounded-lg shadow-lg border border-gray-200">
     <div class="p-4 border-b border-gray-200 flex justify-between items-center">
         <h3 class="text-lg font-medium text-gray-900">Notifications</h3>

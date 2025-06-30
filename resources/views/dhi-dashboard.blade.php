@@ -159,100 +159,89 @@
           </div>
 
           <!-- Permit Requests Section -->
-          <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
+           <div class="bg-white p-6 rounded-lg shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-lg font-medium text-gray-900">Permit Requests</h2>
               <div class="flex space-x-2">
                 <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-                  Visitor: <span id="visitorPermitCount">3</span>
+                  Vendor: <span id="visitorPermitCount">{{$dataVendor->count() ?? ''}}</span>
                 </span>
                 <span class="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">
-                  Vendor: <span id="vendorPermitCount">2</span>
+                  Visitor: <span id="vendorPermitCount">{{$dataVisitor->count() ?? ''}}</span>
                 </span>
               </div>
             </div>
-            <!-- Visitor Permit Requests -->
-            <div class="mb-6">
-              <h3 class="text-md font-medium text-gray-700 mb-3">Visitor Permits</h3>
-              <div class="space-y-4">
-                <!-- Visitor Permit 1 -->
-                <div id="permit-V001" class="visitor-permit flex items-center justify-between p-4 bg-red-50 rounded-lg border-l-4 border-red-500 relative overflow-hidden">
-                  <div class="absolute top-0 right-0 w-24 h-24 bg-red-100 opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
-                  <div>
-                    <div class="flex items-center space-x-2">
-                      <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</p>
-                      <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full flex items-center">
-                        <i class="fas fa-exclamation-circle mr-1 animate-pulse"></i>
-                        Urgent
-                      </span>
-                    </div>
-                    <p class="text-xs text-gray-500">Visitor: John Smith</p>
-                    <p class="text-xs text-gray-500">Purpose: Client Meeting</p>
-                    <p class="text-xs text-gray-500">Date: Today, 2:00 PM - 4:00 PM</p>
-                  </div>
-                  <div class="flex space-x-2">
-                    <button onclick="viewPermitDetails('V001')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-                <!-- Visitor Permit 2 -->
-                <div id="permit-V002" class="visitor-permit flex items-center justify-between p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
-                  <div>
-                    <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0002</p>
-                    <p class="text-xs text-gray-500">Visitor: Sarah Johnson</p>
-                    <p class="text-xs text-gray-500">Purpose: Job Interview</p>
-                    <p class="text-xs text-gray-500">Date: Tomorrow, 10:00 AM - 11:00 AM</p>
-                  </div>
-                  <div class="flex space-x-2">
-                    <button onclick="viewPermitDetails('V002')" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-medium hover:bg-blue-200">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+
             <!-- Vendor Permit Requests -->
             <div>
               <h3 class="text-md font-medium text-gray-700 mb-3">Vendor Permits</h3>
               <div class="space-y-4">
                 <!-- Vendor Permit 1 -->
-                <div id="permit-VD001" class="vendor-permit flex items-center justify-between p-4 bg-red-50 rounded-lg border-l-4 border-red-500 relative overflow-hidden">
-                  <div class="absolute top-0 right-0 w-24 h-24 bg-red-100 opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
+                @foreach ($dataVendor as $item)
+
+
+                <div id="permit-VD001" class="vendor-permit flex items-center justify-between p-4 @if($item->mode == "Urgent") bg-red-50 @else bg-gray-50 @endif rounded-lg border-l-4 @if($item->mode == "Urgent") border-red-500 @else border-blue-500 @endif relative overflow-hidden">
+                  <div class="absolute top-0 right-0 w-24 h-24 @if($item->mode == "Urgent") bg-red-100 @else bg-gray-100 @endif opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
                   <div>
-                    <div class="flex items-center space-x-2">
-                      <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0003</p>
-                      <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full flex items-center">
-                        <i class="fas fa-exclamation-circle mr-1 animate-pulse"></i>
-                        Urgent
-                      </span>
-                    </div>
-                    <p class="text-xs text-gray-500">Vendor: PT. ABC Services</p>
-                    <p class="text-xs text-gray-500">Purpose: Equipment Maintenance</p>
-                    <p class="text-xs text-gray-500">Date: Today, 1:00 PM - 5:00 PM</p>
-                  </div>
-                  <div class="flex space-x-2">
-                    <button onclick="viewPermitDetails('VD001')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
+
+                    <p class="text-xs text-gray-500">Vendor: {{$item->company_name}}</p>
+                    <p class="text-xs text-gray-500">Purpose: {{$item->work_description}}</p>
+                    <p class="text-xs text-gray-500">Date: {{$item->validity_date_from}} - {{$item->validity_date_to}}</p>
+                </div>
+                <div class="flex space-x-2">
+                      <div class="flex items-center space-x-2">
+                        @if($item->mode == "Urgent")
+                            <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full flex items-center">
+                              <i class="fas fa-exclamation-circle mr-1 animate-pulse"></i>
+                              Urgent
+                            </span>@endif
+                          </div>
+                    <a href="{{route('vendor_view',$item->id_vendor)}}" class="px-3 py-1 @if($item->mode == "Urgent") bg-red-100 text-red-800 @else  bg-blue-100 text-blue-800 @endif rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
                       View Details
-                    </button>
+                    </a>
                   </div>
                 </div>
+   @endforeach
                 <!-- Vendor Permit 2 -->
-                <div id="permit-VD002" class="vendor-permit flex items-center justify-between p-4 bg-gray-50 rounded-lg border-l-4 border-purple-500">
-                  <div>
-                    <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0004</p>
-                    <p class="text-xs text-gray-500">Vendor: XYZ Supplies</p>
-                    <p class="text-xs text-gray-500">Purpose: Office Supplies Delivery</p>
-                    <p class="text-xs text-gray-500">Date: Tomorrow, 9:00 AM - 10:00 AM</p>
-                  </div>
-                  <div class="flex space-x-2">
-                    <button onclick="viewPermitDetails('VD002')" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-medium hover:bg-blue-200">
-                      View Details
-                    </button>
-                  </div>
-                </div>
+
               </div>
             </div>
+<br>
+  <div>
+              <h3 class="text-md font-medium text-gray-700 mb-3">Visitor Permits</h3>
+              <div class="space-y-4">
+                <!-- visitor Permit 1 -->
+                @foreach ($dataVisitor as $item)
+
+
+                <div id="permit-VD001" class="visitor-permit flex items-center justify-between p-4  bg-gray-50  rounded-lg border-l-4  border-purple-500  relative overflow-hidden">
+                  <div class="absolute top-0 right-0 w-24 h-24  bg-gray-100  opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
+                  <div>
+
+                    <p class="text-xs text-gray-500">Visitor: {{$item->company_name}}</p>
+                    <p class="text-xs text-gray-500">Purpose: {{$item->purpose_detail}}</p>
+                    <p class="text-xs text-gray-500">Date: {{$item->request_date_from}} - {{$item->request_date_to}}</p>
+                </div>
+                <div class="flex space-x-2">
+                      <div class="flex items-center space-x-2">
+                        @if($item->mode == "Urgent")
+                            <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full flex items-center">
+                              <i class="fas fa-exclamation-circle mr-1 animate-pulse"></i>
+                              Urgent
+                            </span>@endif
+                          </div>
+                    <a href="{{route('visitor_view',$item->id_visitor)}}" class="px-3 py-1   bg-purple-100 text-purple-800  rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
+                      View Details
+                    </a>
+                  </div>
+                </div>
+   @endforeach
+                <!-- Vendor Permit 2 -->
+
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -262,35 +251,9 @@
         <div class="space-y-8">
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Activities</h2>
-            <div class="space-y-4">
-              <div class="flex items-start space-x-3">
-                <div class="p-2 rounded-full bg-green-100">
-                  <i class="fas fa-check-circle text-green-600"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">Maintenance completed</p>
-                  <p class="text-xs text-gray-500">Generator Room - 2 hours ago</p>
-                </div>
-              </div>
-              <div class="flex items-start space-x-3">
-                <div class="p-2 rounded-full bg-blue-100">
-                  <i class="fas fa-user-check text-blue-600"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">New visitor registered</p>
-                  <p class="text-xs text-gray-500">John Doe - 3 hours ago</p>
-                </div>
-              </div>
-              <div class="flex items-start space-x-3">
-                <div class="p-2 rounded-full bg-purple-100">
-                  <i class="fas fa-truck text-purple-600"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">Vendor delivery</p>
-                  <p class="text-xs text-gray-500">Office supplies - 4 hours ago</p>
-                </div>
-              </div>
-            </div>
+               <div class="space-y-4" id="recentActivitiesContainer">
+        <!-- Data akan diisi oleh JavaScript -->
+    </div>
           </div>
           <!-- User Management -->
           <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -371,4 +334,75 @@
 </html>
 
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Menyisipkan data histori dari Blade ke JavaScript
+        const dataAktifitas = @json($dataAktifitas);
+
+        // Menampilkan data histori ke dalam container
+        const container = document.getElementById('recentActivitiesContainer');
+        container.innerHTML = '';  // Bersihkan isi sebelumnya
+
+        dataAktifitas.forEach(item => {
+            // Tentukan ikon dan warna berdasarkan item.type
+            let iconClass = '';
+            let bgColor = '';
+            let textColor = '';
+            switch(item.type) {
+               case 'Vendor':
+                    iconClass = 'fas fa-user';
+                    iconColor = 'bg-blue-100';
+                    textColor = 'text-blue-600';
+                    break;
+                case 'Visitor':
+                    iconClass = 'fas fa-user';
+                    iconColor = 'bg-green-100';
+                       textColor = 'text-green-600';
+                    break;
+                case 'Vehicle':
+                    iconClass = 'fas fa-car';
+                    iconColor = 'bg-purple-100';
+                       textColor = 'text-purple-600';
+                    break;
+                case 'Employee':
+                    iconClass = 'fas fa-users';
+                    iconColor = 'bg-yellow-50';
+                       textColor = 'text-yellow-600';
+                    break;
+                case 'Employee Safety':
+                    iconClass = 'fas fa-clipboard-check';
+                    iconColor = 'bg-red-50';
+                       textColor = 'text-red-600';
+                    break;
+                case 'Employee Safety Freedoms':
+                      iconClass = 'fas fa-clipboard-check';
+                    iconColor = 'bg-red-50';
+                       textColor = 'text-red-600';
+                    break;
+                default:
+                    iconClass = 'fas fa-exclamation-circle';
+                    bgColor = 'bg-red-100';
+                    textColor = 'text-red-600';
+            }
+
+            // Membuat elemen baru untuk menampilkan aktivitas
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('flex', 'items-start', 'space-x-3');
+
+            itemElement.innerHTML = `
+                <div class="p-2 rounded-full ${bgColor}">
+                    <i class="${iconClass} ${textColor}"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-900">${item.judul}</p>
+                    <p class="text-xs text-gray-500">${item.text}</p>
+                    <p class="text-xs text-gray-400 mt-1">${new Date(item.created_at).toLocaleString()}</p>  <!-- Waktu diformat dengan JavaScript -->
+                </div>
+            `;
+
+            container.appendChild(itemElement);
+        });
+    });
+</script>
 @endsection

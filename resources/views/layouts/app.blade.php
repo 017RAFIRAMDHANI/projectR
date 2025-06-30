@@ -25,72 +25,13 @@
 <body>
 
 
-        {{-- <nav class="bg-white shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex items-center">
-            <a href="/management-system/index.html" class="flex items-center">
-              <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
-            </a>
-          </div>
-          <div class="flex items-center space-x-4">
-            <button
-              class="relative p-1 rounded-full text-gray-400 hover:text-gray-500"
-
-            >
-              <span
-                class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center"
-                >3</span
-              >
-              <i class="fas fa-bell text-xl"></i>
-            </button>
-            <div class="relative">
-              <button
-              class="flex items-center space-x-2"
-              onclick="toggleUserMenu()"
-            >
-              <img
-                class="h-8 w-8 rounded-full"
-                src="https://ui-avatars.com/api/?name=FH&background=2563eb&color=fff"
-                alt="Profile"
-              />
-            </button>
-              <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                 @guest
-                            @if (Route::has('login'))
-
-
-                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="{{ route('login') }}">Login</a>
-
-                            @endif
-
-
-                            @else
-
-  <a href="{{route('profile', Auth::user()->id )}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                            <a href="/management-system/settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                            <a  class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit(); ">Logout</a>
-
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                    @endguest
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav> --}}
 
 
       <nav class="bg-white shadow-sm sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
-            <a href="/management-system/index.html" class="flex items-center space-x-3">
+            <a href="{{url('/')}}" class="flex items-center space-x-3">
             <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
               <span class="text-lg font-semibold text-gray-800">
 
@@ -102,16 +43,18 @@
             </a>
           </div>
           <div class="flex items-center space-x-4">
+        @if (Auth::check())
             <button
               class="relative p-2 rounded-full text-gray-400 btn-hover"
               onclick="toggleNotifications()"
             >
               <span
                 class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center"
-                >3</span
-              >
+                ></span>
+                {{-- angka 3 --}}
               <i class="fas fa-bell text-xl"></i>
             </button>
+ @endif
             <div class="relative">
               <button
                 class="flex items-center space-x-2 p-2 rounded-full btn-hover"

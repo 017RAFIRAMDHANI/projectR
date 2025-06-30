@@ -269,48 +269,7 @@
                 </span>
               </div>
             </div>
-
-            {{-- <div class="mb-6">
-              <h3 class="text-md font-medium text-gray-700 mb-3">Visitor Permits</h3>
-              <div class="space-y-4">
-                <!-- Visitor Permit 1 -->
-                <div id="permit-V001" class="visitor-permit flex items-center justify-between p-4 bg-red-50 rounded-lg border-l-4 border-red-500 relative overflow-hidden">
-                  <div class="absolute top-0 right-0 w-24 h-24 bg-red-100 opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
-                  <div>
-                    <div class="flex items-center space-x-2">
-                      <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0001</p>
-                      <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full flex items-center">
-                        <i class="fas fa-exclamation-circle mr-1 animate-pulse"></i>
-                        Urgent
-                      </span>
-                    </div>
-                    <p class="text-xs text-gray-500">Visitor: John Smith</p>
-                    <p class="text-xs text-gray-500">Purpose: Client Meeting</p>
-                    <p class="text-xs text-gray-500">Date: Today, 2:00 PM - 4:00 PM</p>
-                  </div>
-                  <div class="flex space-x-2">
-                    <button onclick="viewPermitDetails('V001')" class="px-3 py-1 bg-red-100 text-red-800 rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Visitor Permit 2 -->
-                <div id="permit-V002" class="visitor-permit flex items-center justify-between p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
-                  <div>
-                    <p class="text-sm font-medium text-gray-900">DHI/PERMIT/2024/04/0002</p>
-                    <p class="text-xs text-gray-500">Visitor: Sarah Johnson</p>
-                    <p class="text-xs text-gray-500">Purpose: Job Interview</p>
-                    <p class="text-xs text-gray-500">Date: Tomorrow, 10:00 AM - 11:00 AM</p>
-                  </div>
-                  <div class="flex space-x-2">
-                    <button onclick="viewPermitDetails('V002')" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-medium hover:bg-blue-200">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div> --}}
+ 
 
             <!-- Vendor Permit Requests -->
             <div>
@@ -320,7 +279,7 @@
                 @foreach ($dataVendor as $item)
 
 
-                <div id="permit-VD001" class="vendor-permit flex items-center justify-between p-4 @if($item->mode == "Urgent") bg-red-50 @else bg-gray-50 @endif rounded-lg border-l-4 @if($item->mode == "Urgent") border-red-500 @else border-gray-500 @endif relative overflow-hidden">
+                <div id="permit-VD001" class="vendor-permit flex items-center justify-between p-4 @if($item->mode == "Urgent") bg-red-50 @else bg-gray-50 @endif rounded-lg border-l-4 @if($item->mode == "Urgent") border-red-500 @else border-blue-500 @endif relative overflow-hidden">
                   <div class="absolute top-0 right-0 w-24 h-24 @if($item->mode == "Urgent") bg-red-100 @else bg-gray-100 @endif opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
                   <div>
 
@@ -354,7 +313,7 @@
                 @foreach ($dataVisitor as $item)
 
 
-                <div id="permit-VD001" class="visitor-permit flex items-center justify-between p-4  bg-gray-50  rounded-lg border-l-4  border-gray-500  relative overflow-hidden">
+                <div id="permit-VD001" class="visitor-permit flex items-center justify-between p-4  bg-gray-50  rounded-lg border-l-4  border-purple-500  relative overflow-hidden">
                   <div class="absolute top-0 right-0 w-24 h-24  bg-gray-100  opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
                   <div>
 
@@ -370,7 +329,7 @@
                               Urgent
                             </span>@endif
                           </div>
-                    <a href="{{route('visitor_view',$item->id_visitor)}}" class="px-3 py-1   bg-blue-100 text-blue-800  rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
+                    <a href="{{route('visitor_view',$item->id_visitor)}}" class="px-3 py-1   bg-purple-100 text-purple-800  rounded-md text-xs font-medium hover:bg-red-200 transition-colors">
                       View Details
                     </a>
                   </div>
