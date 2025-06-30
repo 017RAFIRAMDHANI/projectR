@@ -77,9 +77,10 @@
                 <h2 class="text-lg font-medium text-gray-900 mb-4">Permit Requests Trend</h2>
                 <canvas id="permitTrendChart"></canvas>
             </div>
-
+ </div>
+ <br>
             <!-- Recent Reports -->
-            <div class="bg-white rounded-lg shadow-sm">
+            {{-- <div class="bg-white rounded-lg shadow-sm">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-medium text-gray-900">Recent Reports</h2>
                 </div>
@@ -112,7 +113,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Report Schedule -->
             <div class="bg-white rounded-lg shadow-sm">
@@ -125,41 +126,39 @@
                     </div>
                 </div>
                 <div class="divide-y divide-gray-200">
+                    @foreach ($dataRepot as $item)
+
+
                     <div class="px-6 py-4">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-sm font-medium text-gray-900">Daily Activity Summary</h3>
-                                <p class="text-sm text-gray-500">Every day at 23:00</p>
+                                <h3 class="text-sm font-medium text-gray-900">{{$item->name}} ({{$item->type}})</h3>
+                                <p class="text-sm text-gray-500">{{$item->schedule}} reports are made on {{$item->created_at}}</p>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <button class="text-gray-400 hover:text-gray-500">
+                                {{-- <button class="text-gray-400 hover:text-gray-500">
                                     <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-800">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                </button> --}}
+
+
+                                  <a href="{{route('reports.download',$item->id_repot)}}"  class="text-primary hover:text-blue-700">
+                            <i class="fas fa-download"></i></a>
+
+                          <form action="{{ route('report.delete', $item->id_repot) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this report?');">
+    @csrf
+    @method('DELETE')
+    <button class="text-red-600 hover:text-red-800" type="submit">
+        <i class="fas fa-trash"></i>
+    </button>
+</form>
+
                             </div>
                         </div>
                     </div>
-                    <div class="px-6 py-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-sm font-medium text-gray-900">Weekly Performance Report</h3>
-                                <p class="text-sm text-gray-500">Every Monday at 09:00</p>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <button class="text-gray-400 hover:text-gray-500">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-800">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+ @endforeach
                 </div>
             </div>
-        </div>
+
     </main>
 
     <!-- Schedule Form Modal -->
@@ -168,32 +167,33 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">Schedule New Report</h3>
             </div>
-            <form class="p-6">
+            <form class="p-6" action="{{route('reports.shedule')}}" method="POST">
+                @csrf
+
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Report Name</label>
-                        <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                        <input required type="text" name="reportName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Report Type</label>
-                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                            <option>Daily Activity Summary</option>
-                            <option>Weekly Performance Report</option>
-                            <option>Monthly Analytics</option>
+                        <label class="block text-sm font-medium text-gray-700">Type</label>
+                        <select required name="type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                            <option value="Vendor">Vendor</option>
+                            <option value="Visitor">Visitor</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Schedule</label>
-                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                            <option>Daily</option>
-                            <option>Weekly</option>
-                            <option>Monthly</option>
+                        <select required name="schedule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
                         </select>
                     </div>
-                    <div>
+                    {{-- <div>
                         <label class="block text-sm font-medium text-gray-700">Time</label>
                         <input type="time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="mt-6 flex justify-end space-x-3">
                     <button type="button" onclick="toggleScheduleForm()" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
