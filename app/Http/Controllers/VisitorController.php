@@ -82,6 +82,12 @@ $visitor->save();
         $visitor = Visitor::where('id_visitor', $request->id_visitor)->first();
         if ($visitor) {
             // Mengubah status menjadi Approved
+
+             if ($visitor->permit_number) {
+            return back()->with('success', 'Permit Approve Success');
+        }
+
+
             $visitor->status = 'Approved';
 
             // Generate Permit Number jika disetujui

@@ -33,6 +33,12 @@ class VendorController extends Controller
     {
         $vendor = Vendor::where('id_vendor', $request->id_vendor)->first();
         if ($vendor) {
+
+             if ($vendor->permit_number) {
+            return back()->with('success', 'Permit Approve Success');
+        }
+
+
             // Mengubah status menjadi Approved
             $vendor->status = 'Approved';
 
