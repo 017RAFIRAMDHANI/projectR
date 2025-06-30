@@ -56,6 +56,8 @@ Route::post('/visitor_store', [App\Http\Controllers\VisitorController::class, 's
 Route::get('/fm-dashboard',[App\Http\Controllers\FHController::class, 'index'])->name('fm-dashboard');
 Route::get('/approvals',[App\Http\Controllers\FHController::class, 'index_approve'])->name('index_approve');
 Route::get('/view/{id_vendor}',[App\Http\Controllers\FHController::class, 'view'])->name('vendor_view');
+Route::get('/view_visitor/pdf/{id_visitor}',[App\Http\Controllers\FHController::class, 'pdf_visitor'])->name('pdf_visitor');
+Route::get('/view_vendor/pdf/{id_vendor}',[App\Http\Controllers\FHController::class, 'pdf_vendor'])->name('pdf_vendor');
 Route::get('/view_visitor/{id_visitor}',[App\Http\Controllers\FHController::class, 'view_visitor'])->name('visitor_view');
 
 // DHI const

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class FHController extends Controller
 {
@@ -75,6 +76,30 @@ class FHController extends Controller
         return view('special-popup');
     }
 
+  public function pdf_visitor(Request $request, $id_visitor)
+{
+    // Ambil data visitor berdasarkan id_visitor
+    $visitor = Visitor::where('id_visitor', $id_visitor)->first();
+
+    // Membuat tampilan PDF
+    $pdfContent = view('pdf_permit_v', compact('visitor'))->render();
+    $pdf = FacadePdf::loadHTML($pdfContent);
+
+    // Mengunduh PDF dengan nama file sesuai ID visitor
+    return $pdf->download('visitor_permit_' . $id_visitor . '.pdf');
+}
+  public function pdf_vendor(Request $request, $id_vendor)
+{
+    // Ambil data vendor berdasarkan id_vendor
+    $vendor = Vendor::where('id_vendor', $id_vendor)->first();
+
+    // Membuat tampilan PDF
+    $pdfContent = view('pdf_permit', compact('vendor'))->render();
+    $pdf = FacadePdf::loadHTML($pdfContent);
+
+    // Mengunduh PDF dengan nama file sesuai ID vendor
+    return $pdf->download('vendor_permit_' . $id_vendor . '.pdf');
+}
 
    public function index_approve(Request $request)
 {
