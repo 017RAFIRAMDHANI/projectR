@@ -97,13 +97,13 @@
         .main-info-table td:nth-child(3) { width: 18%; }
         .main-info-table td:nth-child(4) { width: 26%; }
 
-        .visitor-table th:nth-child(1) { width: 60%; }
+        .visitor-table th:nth-child(1) { width: 50%; }
         .visitor-table th:nth-child(2) { width: 25%; }
-        .visitor-table th:nth-child(3) { width: 15%; }
+        .visitor-table th:nth-child(3) { width: 25%; }
 
-        .delivery-table th:nth-child(1) { width: 60%; }
+        .delivery-table th:nth-child(1) { width: 50%; }
         .delivery-table th:nth-child(2) { width: 25%; }
-        .delivery-table th:nth-child(3) { width: 15%; }
+        .delivery-table th:nth-child(3) { width: 25%; }
 
         .person-charge-table td:nth-child(1) { width: 22%; }
         .person-charge-table td:nth-child(2) { width: 26%; }
