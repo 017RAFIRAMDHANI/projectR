@@ -88,14 +88,19 @@
                         <input id="email" class="@error('email') is-invalid @enderror mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary" name="email" value="{{ old('email') }}" required >
                      @error('email')
                                     <span class="invalid-feedback" role="alert">
-                                        <i style="color: red">email / password yang anda masukan salah</i>
+                                        <i style="color: red">The email/password you entered is incorrect</i>
                                     </span>
                                 @enderror
                     </div>
-                    <div>
+                <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input id="password" name="password" type="password" class="@error('password') is-invalid @enderror mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary" required >
-                    </div>
+                        <div style="position:relative;">
+                          <input id="password" name="password" type="password" class="@error('password') is-invalid @enderror mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary" required>
+                          <button type="button" tabindex="-1" aria-label="Show password" onclick="this.previousElementSibling.type=this.previousElementSibling.type==='password'?'text':'password';this.firstElementChild.style.opacity=this.previousElementSibling.type==='password'?1:0.5" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;padding:0;cursor:pointer;">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="5"/><circle cx="12" cy="12" r="2.5"/></svg>
+                          </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-between">
