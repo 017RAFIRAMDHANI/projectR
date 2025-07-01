@@ -72,14 +72,13 @@
           <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <div class="flex justify-between items-center">
               <div>
-                <h3 class="text-md font-medium text-gray-900">John Doe</h3>
-                <p class="text-sm text-gray-500">john@example.com</p>
+                <h3 class="text-md font-medium text-gray-900">{{Auth::user()->name ?? ' '}}</h3>
+                <p class="text-sm text-gray-500">{{Auth::user()->email ?? ' '}}</p>
               </div>
-              <select class="form-select text-sm border-gray-300 rounded-md" onchange="updateUserRole(this.value)">
-                <option value="dhi">DHI</option>
-                <option value="fm">FM</option>
-                <option value="client">Client</option>
-              </select>
+              <p class="form-select text-sm border-gray-300 rounded-md">
+               {{Auth::user()->role ?? ' '}}
+
+              </p>
             </div>
           </div>
         </div>

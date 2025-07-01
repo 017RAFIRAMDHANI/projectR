@@ -75,7 +75,7 @@ class DaftarUser extends Controller
         $permissions['access_vehicle_edit'] = 1;
         $permissions['access_vehicle_delete'] = 1;
         $permissions['access_safety_view'] = 1;
-        $permissions['access_safety_edit'] = 1;
+
         $permissions['access_report_view'] = 1;
         $permissions['access_report_create'] = 1;
 
@@ -96,7 +96,7 @@ class DaftarUser extends Controller
         $permissions['access_vehicle_edit'] = 1;
         $permissions['access_vehicle_delete'] = 1;
         $permissions['access_safety_view'] = 1;
-        $permissions['access_safety_edit'] = 1;
+   
         $permissions['access_report_view'] = 1;
         $permissions['access_report_create'] = 1;
         $permissions['access_report_edit'] = 1;
