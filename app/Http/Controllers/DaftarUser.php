@@ -47,6 +47,7 @@ class DaftarUser extends Controller
         'access_vehicle_edit' => 0,
         'access_vehicle_delete' => 0,
         'access_safety_view' => 0,
+        'access_safety_edit' => 0,
         'access_report_view' => 0,
         'access_report_create' => 0,
         'access_report_edit' => 0,
@@ -74,6 +75,7 @@ class DaftarUser extends Controller
         $permissions['access_vehicle_edit'] = 1;
         $permissions['access_vehicle_delete'] = 1;
         $permissions['access_safety_view'] = 1;
+        $permissions['access_safety_edit'] = 1;
         $permissions['access_report_view'] = 1;
         $permissions['access_report_create'] = 1;
 
@@ -94,6 +96,7 @@ class DaftarUser extends Controller
         $permissions['access_vehicle_edit'] = 1;
         $permissions['access_vehicle_delete'] = 1;
         $permissions['access_safety_view'] = 1;
+        $permissions['access_safety_edit'] = 1;
         $permissions['access_report_view'] = 1;
         $permissions['access_report_create'] = 1;
         $permissions['access_report_edit'] = 1;
@@ -113,6 +116,7 @@ class DaftarUser extends Controller
         $permissions['access_vehicle_edit'] = 1;
         $permissions['access_vehicle_delete'] = 1;
         $permissions['access_safety_view'] = 1;
+        $permissions['access_safety_edit'] = 1;
         $permissions['access_report_view'] = 1;
         $permissions['access_report_create'] = 1;
 
@@ -147,6 +151,7 @@ class DaftarUser extends Controller
         'access_vehicle_edit' => $permissions['access_vehicle_edit'],
         'access_vehicle_delete' => $permissions['access_vehicle_delete'],
         'access_safety_view' => $permissions['access_safety_view'],
+        'access_safety_edit' => $permissions['access_safety_edit'],
         'access_report_view' => $permissions['access_report_view'],
         'access_report_create' => $permissions['access_report_create'],
         'access_report_edit' => $permissions['access_report_edit'],
