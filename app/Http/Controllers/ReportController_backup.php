@@ -21,53 +21,8 @@ class ReportController extends Controller
     public function index(){
         $dataRepot = Repot::orderby('created_at','desc')->get();
 
-        // Ambil semua status unik dari vendors dan visitors
-        $allStatuses = Vendor::selectRaw('LOWER(TRIM(status)) as status')->distinct()->pluck('status')
-            ->merge(Visitor::selectRaw('LOWER(TRIM(status)) as status')->distinct()->pluck('status'))
-            ->unique()
-            ->values();
-
-        $colorList = ['#10B981', '#F59E0B', '#EF4444', '#6366F1', '#A21CAF', '#F43F5E', '#0EA5E9'];
-        $statusMap = [];
-        foreach ($allStatuses as $i => $status) {
-            $statusMap[$status] = $colorList[$i % count($colorList)];
-        }
-
-        $statusCounts = [];
-        $statusColors = [];
-        foreach ($statusMap as $status => $color) {
-            $countVendor = Vendor::whereRaw('LOWER(TRIM(status)) = ?', [$status])->count();
-            $countVisitor = Visitor::whereRaw('LOWER(TRIM(status)) = ?', [$status])->count();
-            $statusCounts[] = $countVendor + $countVisitor;
-            $statusColors[] = $color;
-        }
-        $statusLabels = $allStatuses->toArray();
-
-        // Permit Requests Trend (per bulan tahun berjalan, gabungan Vendor+Visitor)
-        $trendVendor = \App\Models\Vendor::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-            ->whereYear('created_at', date('Y'))
-            ->groupBy('month')
-            ->pluck('total', 'month');
-        $trendVisitor = \App\Models\Visitor::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-            ->whereYear('created_at', date('Y'))
-            ->groupBy('month')
-            ->pluck('total', 'month');
-        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        $trendLabels = [];
-        $trendData = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $trendLabels[] = $months[$i-1];
-            $total = ($trendVendor[$i] ?? 0) + ($trendVisitor[$i] ?? 0);
-            $trendData[] = $total;
-        }
-
-        return view('reports', [
-            'dataRepot' => $dataRepot,
-            'statusLabels' => $statusLabels,
-            'statusData' => $statusCounts,
-            'statusColors' => $statusColors,
-            'trendLabels' => $trendLabels,
-            'trendData' => $trendData,
+        return view('reports',[
+            "dataRepot" => $dataRepot
         ]);
     }
 

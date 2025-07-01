@@ -318,12 +318,12 @@
     <form id="formSearchVisitor" method="get" class="flex-1">
         <input type="text" name="search_visitor" id="search_visitor" placeholder="Search Visitor..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
     </form>
-    <select id="visitorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+    {{-- <select id="visitorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         <option value="all">All Dates</option>
         <option value="today">Today</option>
         <option value="this_week">This Week</option>
         <option value="this_month">This Month</option>
-    </select>
+    </select> --}}
     <form id="statusForm" method="GET">
         <select onchange="submitForm()" name="visitorStatusFilter" id="visitorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="">All Statuses</option>
@@ -408,12 +408,12 @@
     </form>
 
     <!-- Date Filter -->
-    <select id="vendorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+    {{-- <select id="vendorDateFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         <option value="all">All Dates</option>
         <option value="today">Today</option>
         <option value="this_week">This Week</option>
         <option value="this_month">This Month</option>
-    </select>
+    </select> --}}
 
     <!-- Status Filter -->
     <form id="statusForm2" method="GET">

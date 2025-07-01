@@ -153,3 +153,4 @@
 
 
 @include('layouts.footer')
+@stack('scripts') 

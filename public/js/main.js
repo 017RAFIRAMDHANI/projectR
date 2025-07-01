@@ -149,46 +149,46 @@ document.addEventListener('DOMContentLoaded', () => {
 // Chart initialization for reports and database pages
 window.initializeCharts = () => {
     // Reports page charts
-    const permitStatusChart = document.getElementById('permitStatusChart');
-    if (permitStatusChart) {
-        new Chart(permitStatusChart.getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: ['Approved', 'Pending', 'Rejected'],
-                datasets: [{
-                    data: [65, 25, 10],
-                    backgroundColor: ['#10B981', '#F59E0B', '#EF4444']
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'bottom' }
-                }
-            }
-        });
-    }
+    // const permitStatusChart = document.getElementById('permitStatusChart');
+    // if (permitStatusChart && window.permitStatusLabels && window.permitStatusData && window.permitStatusColors) {
+    //     new Chart(permitStatusChart.getContext('2d'), {
+    //         type: 'pie',
+    //         data: {
+    //             labels: window.permitStatusLabels,
+    //             datasets: [{
+    //                 data: window.permitStatusData,
+    //                 backgroundColor: window.permitStatusColors
+    //             }]
+    //         },
+    //         options: {
+    //             responsive: true,
+    //             plugins: {
+    //                 legend: { position: 'bottom' }
+    //             }
+    //         }
+    //     });
+    // }
 
-    const permitTrendChart = document.getElementById('permitTrendChart');
-    if (permitTrendChart) {
-        new Chart(permitTrendChart.getContext('2d'), {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Permit Requests',
-                    data: [30, 45, 35, 50, 40, 60],
-                    borderColor: '#2563eb',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true } }
-            }
-        });
-    }
+    // const permitTrendChart = document.getElementById('permitTrendChart');
+    // if (permitTrendChart && window.permitTrendLabels && window.permitTrendData) {
+    //     new Chart(permitTrendChart.getContext('2d'), {
+    //         type: 'line',
+    //         data: {
+    //             labels: window.permitTrendLabels,
+    //             datasets: [{
+    //                 label: 'Permit Requests',
+    //                 data: window.permitTrendData,
+    //                 borderColor: '#2563eb',
+    //                 tension: 0.4
+    //             }]
+    //         },
+    //         options: {
+    //             responsive: true,
+    //             plugins: { legend: { display: false } },
+    //             scales: { y: { beginAtZero: true } }
+    //         }
+    //     });
+    // }
 
     // Database page charts
     const storageChart = document.getElementById('storageChart');
