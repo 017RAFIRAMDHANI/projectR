@@ -108,7 +108,7 @@
         </div>
 
             <!-- Destination -->
-            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Destination</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -122,20 +122,14 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Level</label>
-                <select id="vendorLevelSelect" name="level" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
-                  <option value="">Select Level</option>
-                  <option value="Level 1">Level 1</option>
-                  <option value="Level 2">Level 2</option>
-                  <option value="Level 3">Level 3</option>
-                  <option value="Level 4 (Admin Building Only)">Level 4 (Admin Building Only)</option>
-                  <option value="Level 5 (DC Building Only)">Level 5 (DC Building Only)</option>
-                  <option value="N/A (For External Areas)">N/A (For External Areas)</option>
-                </select>
+                        <select id="levelSelect" name="level" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                            <option value="">Select Level</option>
+                        </select>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Specific Location / Room</label>
-                        <input type="text" name="specific_location" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor">
-                    </div>
+                        <input type="text" name="specificLocation" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor">
+                    </div>
           </div>
           </div>
 
@@ -336,8 +330,7 @@
           </div>
 
 
-          <!-- Work Location -->
-          <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+           <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Work Location</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <!-- <div>
@@ -346,31 +339,25 @@
           </div> -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Building</label>
-                <select name="building" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
-                  <option value="" disabled>Select Building</option>
+                <select id="vendorBuildingSelect" name="building" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" onchange="updateVendorLevelOptions()">
+                  <option value="">Select Building</option>
                   <option value="Admin Building">Admin Building</option>
                   <option value="DC Building">DC Building</option>
-                  <option value="External">External</option>
+                  <option value="External Areas">External Areas</option>
                 </select>
           </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Level</label>
-                <select name="level" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
-                  <option value="" disabled>Select Level</option>
-                  <option value="Level 1">Level 1</option>
-                  <option value="Level 2">Level 2</option>
-                  <option value="Level 3">Level 3</option>
-                  <option value="Level 4 (Admin Building Only)">Level 4 (Admin Building Only)</option>
-                  <option value="Level 5 (DC Building Only)">Level 5 (DC Building Only)</option>
-                  <option value="N/A (For External Areas)">N/A (For External Areas)</option>
-                </select>
-          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Level</label>
+            <select id="vendorLevelSelect" name="level" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <option value="">Select Level</option>
+            </select>
+        </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Specific Location / Room</label>
-                <input name="specific_location" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor" required>
+                <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor" required>
           </div>
           </div>
-          </div>
+          </div>
 
           <!-- Worker Details -->
           <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -757,10 +744,11 @@
       }
     });
   </script>
-  <script>
-    function updateVendorLevelOptions() {
-      const buildingSelect = document.getElementById('vendorBuildingSelect');
-      const levelSelect = document.getElementById('vendorLevelSelect');
+
+<script>
+    function updateLevelOptions() {
+      const buildingSelect = document.getElementById('buildingSelect');
+      const levelSelect = document.getElementById('levelSelect');
       const selectedBuilding = buildingSelect.value;
 
       // Clear existing options except the first one
@@ -804,16 +792,56 @@
     // Initialize level options when page loads
     document.addEventListener('DOMContentLoaded', function() {
       const buildingSelect = document.getElementById('buildingSelect');
-      const vendorBuildingSelect = document.getElementById('vendorBuildingSelect');
-
       if (buildingSelect.value) {
         updateLevelOptions();
       }
-      if (vendorBuildingSelect.value) {
-        updateVendorLevelOptions();
-      }
-    });
-  </script>
+    });
+  </script>
+
+<script>
+    function updateVendorLevelOptions() {
+      const buildingSelect = document.getElementById('vendorBuildingSelect');
+      const levelSelect = document.getElementById('vendorLevelSelect');
+      const selectedBuilding = buildingSelect.value;
+
+      // Clear existing options except the first one
+      levelSelect.innerHTML = '<option value="">Select Level</option>';
+
+      if (selectedBuilding === 'Admin Building') {
+        const adminLevels = [
+          'Level 1',
+          'Level 2',
+          'Level 3',
+          'Level 4 (Admin Building Only)'
+        ];
+        adminLevels.forEach(level => {
+          const option = document.createElement('option');
+          option.value = level;
+          option.textContent = level;
+          levelSelect.appendChild(option);
+        });
+      } else if (selectedBuilding === 'DC Building') {
+        const dcLevels = [
+          'Level 1',
+          'Level 2',
+          'Level 3',
+          'Level 4',
+          'Level 5 (DC Building Only)'
+        ];
+        dcLevels.forEach(level => {
+          const option = document.createElement('option');
+          option.value = level;
+          option.textContent = level;
+          levelSelect.appendChild(option);
+        });
+      } else if (selectedBuilding === 'External Areas') {
+        const option = document.createElement('option');
+        option.value = 'N/A (For External Areas)';
+        option.textContent = 'N/A (For External Areas)';
+        levelSelect.appendChild(option);
+      }
+    }
+</script>
 </body>
 </html>
 
