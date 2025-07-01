@@ -136,7 +136,7 @@ class FHController extends Controller
             $query->where('validity_date_to', 'like', '%' . $dateFilterVendor . '%');
         });
     }
-    $vendors = $vendors->paginate(2);
+    $vendors = $vendors->paginate(20);
 
     // Query visitor
     $visitors = Visitor::query();
@@ -163,7 +163,7 @@ class FHController extends Controller
 //   if ($statusFilter && $statusFilter !== 'all') {
 //         $visitors = $visitors->where('status', $statusFilter);
 //     }
-    $visitors = $visitors->paginate(2);
+    $visitors = $visitors->paginate(20);
 
     // Hitung total
     $jmlvisitors = Visitor::count();

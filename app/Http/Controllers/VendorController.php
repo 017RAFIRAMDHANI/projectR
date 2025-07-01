@@ -161,17 +161,17 @@ public function index(Request $request)
       // Apply the search filters
       $vendors = $vendors->where('company_name', 'LIKE', "%{$search}%")
          ->orWhere('requestor_name', 'LIKE', "%{$search}%")
-        ->paginate(100);
+        ->paginate(20);
 
 
 
 
         }else if($searchCompany){
-            $vendors = $vendors->where('company_name', 'LIKE', "%{$searchCompany}%")->paginate(1);
+            $vendors = $vendors->where('company_name', 'LIKE', "%{$searchCompany}%")->paginate(20);
 
 }else{
 
-    $vendors = $vendors->orderBy('created_at', 'desc')->paginate(1);
+    $vendors = $vendors->orderBy('created_at', 'desc')->paginate(20);
 }
 
    // Apply ordering and pagination

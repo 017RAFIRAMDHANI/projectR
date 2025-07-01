@@ -94,7 +94,7 @@ class VehicleController extends Controller
         });
 
           }
-   $vehicle = $vehicle->paginate(2);
+   $vehicle = $vehicle->paginate(20);
 
           return view('vehicle-list',[
             "dataVehicle" => $vehicle

@@ -47,7 +47,7 @@ public function index(Request $request)
     }
 
     // Lakukan paginasi setelah filter diterapkan
-    $employe = $employe->paginate(1);
+    $employe = $employe->paginate(20);
 
     // Mengirimkan data ke view
     return view('employee-data', [

@@ -53,7 +53,7 @@ public function index(Request $request)
 
 
     // Fetch the filtered visitor data
-    $dataVisitor = $dataVisitor->paginate(2);
+    $dataVisitor = $dataVisitor->paginate(20);
 
     // If there's a search term for Vendor, apply it to filter the results
     if ($searchVendor) {
@@ -70,7 +70,7 @@ public function index(Request $request)
         $dataVendor = $dataVendor->where('status', 'like', '%' . $vendorStatusFilter . '%');
     }
     // Fetch the filtered vendor data
-    $dataVendor = $dataVendor->paginate(2);
+    $dataVendor = $dataVendor->paginate(20);
 
     $Close = Approved::all();
 
