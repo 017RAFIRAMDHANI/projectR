@@ -21,6 +21,12 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Page Header -->
+          <div class="mb-4">
+                <a href="{{route('/')}}" class="inline-flex items-center text-gray-600 hover:text-primary transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
         <div class="mb-8">
             <h1 class="text-2xl font-bold text-gray-900">Reports & Analytics</h1>
             <p class="mt-2 text-sm text-gray-600">View and generate system reports</p>

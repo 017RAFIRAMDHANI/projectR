@@ -53,6 +53,13 @@
 
     <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+      <div class="mb-4">
+                <a href="{{route('/')}}" class="inline-flex items-center text-gray-600 hover:text-primary transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
     <!-- Left Column - Role List -->
     <div class="lg:col-span-4 space-y-6">
