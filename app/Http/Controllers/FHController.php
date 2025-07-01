@@ -111,7 +111,10 @@ class FHController extends Controller
     $dateFilterVendor = $request->input('date_filter_vendor');
 
     // Query vendor
-    $vendors = Vendor::orderByRaw("CASE WHEN mode = 'URGENT' THEN 1 ELSE 2 END");
+$vendors = Vendor::orderByRaw("
+    CASE WHEN mode = 'URGENT' THEN 0 ELSE 1 END,
+    created_at DESC
+");
 
     if ($searchVendor) {
         $vendors = $vendors->where(function($query) use ($searchVendor) {
@@ -139,7 +142,8 @@ class FHController extends Controller
     $vendors = $vendors->paginate(20);
 
     // Query visitor
-    $visitors = Visitor::query();
+   $visitors = Visitor::orderBy('created_at', 'desc');
+
 
     if ($searchVisitor) {
         $visitors = $visitors->where(function($query) use ($searchVisitor) {
