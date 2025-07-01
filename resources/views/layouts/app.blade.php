@@ -31,10 +31,12 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
+
             <a href="{{url('/')}}" class="flex items-center space-x-3">
+                   @if(Auth::check())
             <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
               <span class="text-lg font-semibold text-gray-800">
-
+   @endif
   @if (Auth::check())
                 Dashboard   {{Auth::user()->role ?? ''}}
              </span>
@@ -60,11 +62,35 @@
                 class="flex items-center space-x-2 p-2 rounded-full btn-hover"
                 onclick="toggleUserMenu()"
               >
-                <img
-                  class="h-8 w-8 rounded-full ring-2 ring-primary ring-offset-2"
-                  src="https://ui-avatars.com/api/?name=FH&background=2563eb&color=fff"
-                  alt="Profile"
-                />
+
+               <!-- Opsi 1: Avatar untuk "FM" -->
+                   @if(Auth::check())
+               @if (Auth::user()->role == "FM")
+
+
+<img
+  class="h-8 w-8 rounded-full ring-2 ring-primary ring-offset-2"
+  src="https://ui-avatars.com/api/?name=FM&background=2563eb&color=fff"
+  alt="Profil FM"
+/>
+
+@elseif(Auth::user()->role == "DHI")
+<img
+  class="h-8 w-8 rounded-full ring-2 ring-primary ring-offset-2"
+  src="https://ui-avatars.com/api/?name=dhi&background=2563eb&color=fff"
+  alt="Profil dhi"
+/>
+@elseif(Auth::user()->role == "Client")
+<!-- Opsi 3: Avatar untuk "client" -->
+<!-- Untuk "client", ui-avatars akan mengambil huruf "CL" -->
+<img
+  class="h-8 w-8 rounded-full ring-2 ring-primary ring-offset-2"
+  src="https://ui-avatars.com/api/?name=client&background=2563eb&color=fff"
+  alt="Profil Client"
+/>
+@else
+   @endif
+   @endif
               </button>
               <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10 border border-gray-100">
                 <div class="px-4 py-2 border-b border-gray-100">
