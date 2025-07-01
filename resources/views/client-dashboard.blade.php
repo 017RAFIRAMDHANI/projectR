@@ -126,26 +126,51 @@
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <a href="{{route('permit-data')}}" class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
+           @if (Auth::user()->access_visvin_view == 1)
+                      <button
+                onclick="window.location.href='{{route('permit-data')}}'"
+                class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition"
+              >
                 <i class="fas fa-users text-orange-600 text-xl mb-2"></i>
                 <span class="text-sm font-medium text-gray-700">Visitor & Vendor</span>
-              </a>
-              <a href="{{route('vehicle-list')}}" class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
-                <i class="fas fa-car text-primary text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Vehicle List</span>
-              </a>
-              <a href="{{route('employee-data')}}" class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
-                <i class="fas fa-users text-green-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Employee List</span>
-              </a>
-              <a href="{{route('employee-safety-list')}}" class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
-                <i class="fas fa-clipboard-check text-yellow-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Safety Induction List</span>
-              </a>
-              <a href="{{route('reports')}}" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-                <i class="fas fa-chart-bar text-gray-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Report</span>
-              </a>
+              </button>
+@endif
+   @if (Auth::user()->access_vehicle_view == 1)
+              <button
+                onclick="window.location.href='{{route('vehicle-list')}}'"
+                class="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition"
+              >
+                <i class="fas fa-car text-purple-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Vehicle Data</span>
+              </button>
+              @endif
+                 @if (Auth::user()->access_report_view == 1)
+              <button
+                onclick="window.location.href='{{route('employee-data')}}'"
+                class="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition"
+              >
+                <i class="fas fa-users text-yellow-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Employee Data</span>
+              </button>
+              @endif
+                 @if (Auth::user()->access_safety_view == 1)
+              <button
+                onclick="window.location.href='{{route('employee-safety-list')}}'"
+                class="flex flex-col items-center justify-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition"
+              >
+                <i class="fas fa-clipboard-check text-red-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Safety Induction</span>
+              </button>
+              @endif
+                 @if (Auth::user()->access_report_view == 1)
+              <button
+                onclick="window.location.href='{{route('reports')}}'"
+                class="flex flex-col items-center justify-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
+              >
+                <i class="fas fa-chart-bar text-indigo-600 text-xl mb-2"></i>
+                <span class="text-sm font-medium text-gray-700">Reports</span>
+              </button>
+              @endif
             </div>
           </div>
 

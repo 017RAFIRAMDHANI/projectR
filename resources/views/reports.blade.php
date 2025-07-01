@@ -56,11 +56,15 @@
                         <option value="Excel">Excel</option>
                     </select>
                 </div>
+              @if (Auth::user()->access_report_edit == 1)
+
+
                 <div class="flex items-end">
                     <button class="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
                         Generate Report
                     </button></form>
                 </div>
+  @endif
             </div>
         </div>
 
@@ -86,9 +90,11 @@
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-medium text-gray-900">Scheduled Reports</h2>
+                     @if (Auth::user()->access_report_create == 1)
                     <button type="button" class="text-sm text-primary hover:text-blue-700" onclick="toggleScheduleForm()">
                         <i class="fas fa-plus mr-2"></i>Add Schedule
                     </button>
+                    @endif
                 </div>
             </div>
             <div class="divide-y divide-gray-200">
@@ -100,6 +106,7 @@
                             <p class="text-sm text-gray-500">{{$item->schedule}} reports are made on {{$item->created_at}}</p>
                         </div>
                         <div class="flex items-center space-x-2">
+   @if (Auth::user()->access_report_delete == 1)
                             <a href="{{route('reports.download',$item->id_repot)}}"  class="text-primary hover:text-blue-700">
                                 <i class="fas fa-download"></i></a>
                             <form action="{{ route('report.delete', $item->id_repot) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this report?');">
@@ -109,6 +116,7 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
+@endif
                         </div>
                     </div>
                 </div>
