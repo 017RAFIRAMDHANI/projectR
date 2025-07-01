@@ -34,7 +34,7 @@
 
             <a href="{{url('/')}}" class="flex items-center space-x-3">
                    @if(Auth::check())
-            <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-8">
+            <img src="/gambar/digital-hyperspace-logo.png" alt="Logo" class="h-12">
               <span class="text-lg font-semibold text-gray-800">
    @endif
   @if (Auth::check())
@@ -153,4 +153,4 @@
 
 
 @include('layouts.footer')
-@stack('scripts') 
+@stack('scripts')
