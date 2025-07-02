@@ -94,6 +94,7 @@
           <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Requested Date To</label>
                         <input type="date" name="request_date_to" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <p class="text-xs text-gray-500 mt-1">* Maximum request period is 7 days from the requested date from.</p>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Purpose Details</label>
@@ -314,8 +315,9 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Validity Date To</label>
                 <input type="date" name="validity_date_to" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
+                <p class="text-xs text-gray-500 mt-1">* Maximum validity period is 7 days from the validity date from.</p>
             </div>
-          </div>
+        </div>
           </div>
 
           <!-- Work Description -->
@@ -841,6 +843,126 @@
         levelSelect.appendChild(option);
       }
     }
+</script>
+<script>
+// Validasi tanggal untuk Request dan Validity di Special Permit
+window.addEventListener('DOMContentLoaded', function() {
+  // Set min hari ini untuk semua input 'from'
+  const today = new Date().toISOString().split('T')[0];
+  const reqFrom = document.querySelector('input[name="request_date_from"]');
+  const valFrom = document.querySelector('input[name="validity_date_from"]');
+  if (reqFrom) reqFrom.setAttribute('min', today);
+  if (valFrom) valFrom.setAttribute('min', today);
+
+  // Event listener untuk validasi Request To
+  const reqTo = document.querySelector('input[name="request_date_to"]');
+  if (reqFrom && reqTo) {
+    reqFrom.addEventListener('change', validateRequestTo);
+    reqTo.addEventListener('change', validateRequestTo);
+  }
+  // Event listener untuk validasi Validity To
+  const valTo = document.querySelector('input[name="validity_date_to"]');
+  if (valFrom && valTo) {
+    valFrom.addEventListener('change', validateValidityTo);
+    valTo.addEventListener('change', validateValidityTo);
+  }
+});
+
+function validateRequestTo() {
+  const from = document.querySelector('input[name="request_date_from"]');
+  const to = document.querySelector('input[name="request_date_to"]');
+  if (from && to) {
+    if (from.value) {
+      to.setAttribute('min', from.value);
+    } else {
+      to.removeAttribute('min');
+    }
+    if (from.value && to.value) {
+      const fromDate = new Date(from.value);
+      const toDate = new Date(to.value);
+      const diff = (toDate - fromDate) / (1000 * 60 * 60 * 24);
+      if (diff < 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: '<span class="text-primary font-semibold text-lg">Invalid Date Range</span>',
+          html: '<span class="text-gray-700">Requested Date To cannot be before Requested Date From!</span>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#2563eb',
+          customClass: {
+            popup: 'rounded-xl shadow-lg',
+            confirmButton: 'bg-primary text-white px-6 py-2 rounded-lg text-base font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-400',
+            title: 'text-gray-800',
+            htmlContainer: 'text-gray-600'
+          }
+        });
+        to.value = '';
+      } else if (diff > 7) {
+        Swal.fire({
+          icon: 'warning',
+          title: '<span class="text-primary font-semibold text-lg">Invalid Date Range</span>',
+          html: '<span class="text-gray-700">Requested Date To must be within 7 days after Requested Date From!</span>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#2563eb',
+          customClass: {
+            popup: 'rounded-xl shadow-lg',
+            confirmButton: 'bg-primary text-white px-6 py-2 rounded-lg text-base font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-400',
+            title: 'text-gray-800',
+            htmlContainer: 'text-gray-600'
+          }
+        });
+        to.value = '';
+      }
+    }
+  }
+}
+
+function validateValidityTo() {
+  const from = document.querySelector('input[name="validity_date_from"]');
+  const to = document.querySelector('input[name="validity_date_to"]');
+  if (from && to) {
+    if (from.value) {
+      to.setAttribute('min', from.value);
+    } else {
+      to.removeAttribute('min');
+    }
+    if (from.value && to.value) {
+      const fromDate = new Date(from.value);
+      const toDate = new Date(to.value);
+      const diff = (toDate - fromDate) / (1000 * 60 * 60 * 24);
+      if (diff < 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: '<span class="text-primary font-semibold text-lg">Invalid Date Range</span>',
+          html: '<span class="text-gray-700">Validity Date To cannot be before Validity Date From!</span>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#2563eb',
+          customClass: {
+            popup: 'rounded-xl shadow-lg',
+            confirmButton: 'bg-primary text-white px-6 py-2 rounded-lg text-base font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-400',
+            title: 'text-gray-800',
+            htmlContainer: 'text-gray-600'
+          }
+        });
+        to.value = '';
+      } else if (diff > 7) {
+        Swal.fire({
+          icon: 'warning',
+          title: '<span class="text-primary font-semibold text-lg">Invalid Date Range</span>',
+          html: '<span class="text-gray-700">Validity Date To must be within 7 days after Validity Date From!</span>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#2563eb',
+          customClass: {
+            popup: 'rounded-xl shadow-lg',
+            confirmButton: 'bg-primary text-white px-6 py-2 rounded-lg text-base font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-400',
+            title: 'text-gray-800',
+            htmlContainer: 'text-gray-600'
+          }
+        });
+        to.value = '';
+      }
+    }
+  }
+}
 </script>
 </body>
 </html>

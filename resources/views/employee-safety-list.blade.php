@@ -1238,14 +1238,14 @@ $(document).ready(function() {
 <script>
   function confirmReset(id) {
     Swal.fire({
-      title: 'Yakin reset?',
-      text: "Status akan direset permanen!",
+      title: 'Sure reset?',
+      text: "Status will be reset permanently!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Ya, reset!',
-      cancelButtonText: 'Batal'
+      confirmButtonText: 'Yes, reset!',
+      cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
         const form = document.getElementById('resetForm-' + id);
