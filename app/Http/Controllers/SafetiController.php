@@ -308,6 +308,21 @@ if ($request->has('note') && $request->has('date')) {
         $safety->id_history_safeti = $histori->id_histori_safeti;
 
     }
+    if($ishistori == "yes" || ($request->lampu === 'yellow' && $request->iskuning == "yes")){
+       $histori = new Historisafeti();
+        $histori->type = $safety->status_safeti ?? 'Active';
+        $histori->jenis_lampu = $request->lampu;
+        $histori->note = $request->note ?? '-';
+        $histori->date_terbit = now();
+        $histori->name = $safety->name ?? '-';
+        $histori->position = $safety->position ?? '-';
+        $histori->company = $safety->company ?? '-';
+        $histori->id_safeti = $request->id_safeti;
+        $histori->save();
+
+
+        $safety->id_history_safeti = $histori->id_histori_safeti;
+    }
 
 
  $safety->save();
@@ -329,7 +344,7 @@ if ($request->has('note') && $request->has('date')) {
 
             if($request->ismerah == "yes"){
 
-          if($request->lampu === 'red' ){
+          if($request->lampu === 'red'){
 
 
           Histori::create([
@@ -340,7 +355,25 @@ if ($request->has('note') && $request->has('date')) {
                 'text' => "Employee gets " . $request->lampu . " violation in the name of " . ($safety->name ?? 'unknown')
             ]);
          }
-        }else{
+        }else if($request->iskuning == "yes"){
+
+    if($request->lampu === 'yellow'){
+
+
+          Histori::create([
+                'id_data' => $safety->id_safeti ?? null,
+                'id_akun' => Auth::user()->id ?? null,
+                'type' => "Employee Safety Violations",
+                'judul' => "Employees Get Violations",
+                'text' => "Employee gets " . $request->lampu . " violation in the name of " . ($safety->name ?? 'unknown')
+            ]);
+         }
+
+        }
+
+
+
+        else{
 
           Histori::create([
                 'id_data' => $safety->id_safeti ?? null,

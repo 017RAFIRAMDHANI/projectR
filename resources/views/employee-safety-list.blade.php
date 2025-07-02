@@ -772,8 +772,35 @@ function openIndicatorNoteModal(button) {
         </span>
       `;
     }
-  }
+  }}else if (color === 'yellow') {
+       buttons.forEach(b => {
+                const bColor = b.dataset.color;
+                if (bColor === 'green' || bColor === 'yellow') {  // Jika tombol kuning atau hijau
+                    b.classList.remove('green', 'yellow', 'red');
+                    b.classList.add('bg-gray-400');  // Jadikan abu-abu
+
+                    // Kirim status ke backend untuk matikan lampu hijau atau kuning
+                    if (idSafeti) {
+                        fetch('/update-lampu-status', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({
+                                id_safeti: idSafeti,
+                                lampu: bColor,
+                                value: "false",
+                                iskuning: "yes",
+                                note: note,
+                                date: date
+                            })
+                        });
+                    }
+                }
+            });
 }
+
 else if (color === 'red') {
       // ✅ Kalau tombol merah aktif diklik → matikan semua
       buttons.forEach(b => {
