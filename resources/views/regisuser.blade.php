@@ -16,21 +16,21 @@
 function handleUserTypeChange() {
   const userType = document.getElementById('userType').value;
   console.log(userType); // Debugging
-  const ClientInfo = document.getElementById('ClientInfo');
+  const SecurityInfo = document.getElementById('SecurityInfo');
   const FMInfo = document.getElementById('FMInfo');
   const DHIInfo = document.getElementById('DHIInfo');
   const additionalInfo = document.getElementById('additionalInfo');
 
   // Reset semua form tambahan
-  ClientInfo.classList.add('hidden');
+  SecurityInfo.classList.add('hidden');
   FMInfo.classList.add('hidden');
   DHIInfo.classList.add('hidden');
 
   // Periksa tipe user dan tampilkan input relevan
-  if (userType === 'Client') {
-    console.log('Client selected');
+  if (userType === 'Security') {
+    console.log('Security selected');
     additionalInfo.classList.remove('hidden');
-    ClientInfo.classList.remove('hidden');
+    SecurityInfo.classList.remove('hidden');
   } else if (userType === 'FM') {
     console.log('FM selected');
     additionalInfo.classList.remove('hidden');
@@ -61,7 +61,7 @@ function handleUserTypeChange() {
           onchange="handleUserTypeChange()"
         >
           <option value="">Pilih Tipe User</option>
-          <option value="Client">Client</option>
+          <option value="Security">Security</option>
           <option value="FM">Facility Handler (FM)</option>
           <option value="DHI">DHI Staff</option>
         </select>
@@ -115,7 +115,7 @@ function handleUserTypeChange() {
 
       <!-- Informasi Tambahan (Dinamis) -->
       <div id="additionalInfo" class="hidden">
-        <div id="ClientInfo" class="hidden space-y-6">
+        <div id="SecurityInfo" class="hidden space-y-6">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Nama Perusahaan</label>
             <input

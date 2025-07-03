@@ -7,7 +7,7 @@ use App\Models\Histori;
 use App\Models\Safeti;
 use App\Models\Vehicle;
 use App\Models\Vendor;
-use App\Models\Vendor_Visitor;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -38,7 +38,9 @@ class VendorController extends Controller
             return back()->with('success', 'Permit Approve Success');
         }
 
+          $noted = $request->approved ?? ' '; // Jika tidak ada nilai, beri default 'No notes provided'
 
+            $vendor->note_vendor = $noted;
             // Mengubah status menjadi Approved
             $vendor->status = 'Approved';
 
@@ -189,7 +191,36 @@ public function index(Request $request)
 {
         return view('new-permit');
 }
+ public function info(Request $request)
+    {
+        $vendor = Vendor::where('id_vendor', $request->id_vendor)->first();
 
+       // dd($request->all());
+        if ($vendor) {
+            // Mengubah status menjadi Reject
+      $noted = $request->infoted ?? ' '; // Jika tidak ada nilai, beri default 'No notes provided'
+
+$vendor->note_vendor = $noted;
+//   $vendor->status = 'Pending';
+$vendor->save();
+
+            // Kirim email pemberitahuan ke vendor
+            Mail::to($vendor->email)->send(new \App\Mail\VendorStatusMail($vendor, 'Request for more information' ));
+
+            Histori::create([
+    'id_data' => $vendor->id_vendor ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Vendor",
+    'judul' => "Vendor Permit Infoted",
+    'text' => "Vendor permit request on behalf of " . ( $vendor->pic_name ?? ' ' ). " infoted by " . ( Auth::user()->name ?? ' '),
+
+]);
+
+           return back()->with('success', 'Permit information successful');
+
+        }
+        return response()->json(['success' => false], 404);
+    }
 public function store(Request $request)
 {
      //dd($request->all());

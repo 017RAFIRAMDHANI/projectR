@@ -232,7 +232,24 @@
           <div class="space-y-4" id="recentActivitiesContainer">
         <!-- Data akan diisi oleh JavaScript -->
     </div>
-          </div>
+</div><br>
+<div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg shadow-sm">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Tips</h2>
+    <div class="space-y-3">
+      <div class="flex items-start space-x-3">
+        <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
+        <p class="text-sm text-gray-600">Use Quick Actions for fast access to frequently used features</p>
+      </div>
+      <div class="flex items-start space-x-3">
+        <i class="fas fa-bell text-primary mt-1"></i>
+        <p class="text-sm text-gray-600">Check notifications for the latest updates</p>
+      </div>
+      <div class="flex items-start space-x-3">
+        <i class="fas fa-chart-line text-green-500 mt-1"></i>
+        <p class="text-sm text-gray-600">View statistics to monitor activities</p>
+      </div>
+    </div>
+  </div>
         </div>
       </div>
     </main>

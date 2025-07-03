@@ -80,14 +80,20 @@
   src="https://ui-avatars.com/api/?name=dhi&background=2563eb&color=fff"
   alt="Profil dhi"
 />
-@elseif(Auth::user()->role == "Client")
+@elseif(Auth::user()->role == "Security")
 <!-- Opsi 3: Avatar untuk "client" -->
 <!-- Untuk "client", ui-avatars akan mengambil huruf "CL" -->
-<img
+{{-- <img
   class="h-8 w-8 rounded-full ring-2 ring-primary ring-offset-2"
   src="https://ui-avatars.com/api/?name=client&background=2563eb&color=fff"
-  alt="Profil Client"
+  alt="Profil Security"
+/> --}}
+<img
+  class="h-8 w-8 rounded-full ring-2 ring-primary ring-offset-2"
+  src="https://ui-avatars.com/api/?name=SC&background=2563eb&color=fff"
+  alt="Profil SC"
 />
+
 @else
    @endif
    @endif

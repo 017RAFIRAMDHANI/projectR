@@ -8,9 +8,9 @@
 
     <p>Your Visitor request has been <strong>{{ $status }}</strong>.</p>
     <br>
-     @if ($status == 'Rejected')
+
     <p>{{$note_visitor ?? ''}}</p>
-    @endif
+  
     @if ($status == 'Approved')
         <p>Your permit number is: <strong>{{ $permitNumber }}</strong></p>
     @endif

@@ -32,7 +32,7 @@
           <button onclick="printPermitDetails()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
             <i class="fas fa-print mr-2"></i> Print
           </button>
- 
+
 
           <a href="{{route('pdf_visitor',$dataVisitor->id_visitor)}}"  name="submit" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
             <i class="fas fa-file-pdf mr-2"></i> Download PDF
@@ -239,7 +239,9 @@
             <div id="actionButtons" class="space-y-3">
          @if(Auth::user()->access_approvals_edit == 1)
                 @if($dataVisitor->check_one_approve == null && $dataVisitor->status == 'Rejected' || $dataVisitor->status == 'Pending')
-              <button
+
+          <textarea name="approved" id="approveNoteInput" style="display:none;"></textarea>
+                <button
                 type="submit"
                   id="submitButton"
                 class="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition mb-2"
@@ -248,6 +250,20 @@
               </button>
               @endif
             </form>
+<form action="{{ route('visitor.info') }}" method="POST" id="infoForm">
+    @csrf
+    <input type="hidden" name="id_visitor" value="{{ $dataVisitor->id_visitor }}">
+    <input type="hidden" name="visitor" value="{{ $dataVisitor->visitor }}">
+    <textarea name="infoted" id="infoNoteInput" style="display:none;"></textarea>
+    <button
+        type="button"
+        id="infoButton"
+        class="mt-2 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition mb-2"
+    >
+        <i class="fas fa-info-circle mr-2"></i> Request for more information
+    </button>
+</form>
+
 @if($dataVisitor->status == 'Pending')
           <form action="{{route('visitor.reject')}}" method="POST" id="rejectForm">
         @csrf
@@ -282,6 +298,31 @@
 
     <!-- Notifications Panel -->
 <script>
+      document.getElementById('submitButton').addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent form submission
+
+        // Show SweetAlert confirmation popup for rejection
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to approve this permit.',
+            icon: 'warning',
+            input: 'textarea',
+            inputPlaceholder: 'Enter approval note...',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, approve it!',
+            cancelButtonText: 'No, cancel!',
+            preConfirm: (note) => {
+                // If the user provides a note, save it in the hidden textarea field
+                if (note) {
+                    document.getElementById('approveNoteInput').value = note;
+                }
+                // Submit the rejection form after confirmation
+                document.getElementById('permitForm').submit();
+            }
+        });
+    });
+</script>
+<script>
       document.getElementById('rejectButton').addEventListener('click', function (e) {
         e.preventDefault(); // Prevent form submission
 
@@ -307,6 +348,32 @@
     });
 </script>
 <script>
+     document.getElementById('infoButton').addEventListener('click', function (e) {
+     e.preventDefault(); // Prevent form submission
+
+     // Show SweetAlert confirmation popup for infoion
+     Swal.fire({
+         title: 'Would you like to provide information on this permit??',
+         text: 'Please provide a note for infoion (optional).',
+         icon: 'info',
+         input: 'textarea',
+         inputPlaceholder: 'Enter information note...',
+         showCancelButton: true,
+         confirmButtonText: 'Yes, info it!',
+         cancelButtonText: 'No, cancel!',
+         preConfirm: (note) => {
+             // If the user provides a note, save it in the hidden textarea field
+             if (note) {
+                 document.getElementById('infoNoteInput').value = note;
+             }
+             // Submit the infoion form after confirmation
+             document.getElementById('infoForm').submit();
+         }
+     });
+ });
+
+</script>
+{{-- <script>
    // Listen for click event on the submit button
    document.getElementById('submitButton').addEventListener('click', function (e) {
       e.preventDefault(); // Prevent form submission
@@ -326,7 +393,7 @@
          }
       });
    });
-</script>
+</script> --}}
     <script>
       // Function to toggle notifications panel
       function toggleNotifications() {

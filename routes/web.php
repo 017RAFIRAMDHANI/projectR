@@ -26,8 +26,8 @@ Route::get('/', function () {
             return redirect('fm-dashboard'); // Redirect to FM's specific dashboard
         } elseif (Auth::user()->role == 'DHI') {
             return redirect('dhi-dashboard'); // Redirect to DHI's specific dashboard
-        }elseif (Auth::user()->role == 'Client') {
-            return redirect('client-dashboard'); // Redirect to DHI's specific dashboard
+        }elseif (Auth::user()->role == 'Security') {
+            return redirect('security-dashboard'); // Redirect to DHI's specific dashboard
         }
     }
     return view('auth.login'); // Default login page if not authenticated or roles don't match
@@ -43,6 +43,8 @@ Route::get('/search-vendors', [App\Http\Controllers\VendorController::class, 'se
 Route::post('/vendors/approve', [App\Http\Controllers\VendorController::class, 'approve'])->name('vendors.approve');
 Route::post('/visitor/approve', [App\Http\Controllers\VisitorController::class, 'approve'])->name('visitor.approve');
 Route::post('/visitor/reject', [App\Http\Controllers\VisitorController::class, 'reject'])->name('visitor.reject');
+Route::post('/visitor/info', [App\Http\Controllers\VisitorController::class, 'info'])->name('visitor.info');
+Route::post('/vendors/info', [App\Http\Controllers\VendorController::class, 'info'])->name('vendors.info');
 Route::post('/vendors/reject', [App\Http\Controllers\VendorController::class, 'reject'])->name('vendors.reject');
 
 // profile const
@@ -108,7 +110,7 @@ Route::get('/employee-safety-list-fm', function () {
 
 // Client const
 Route::get('/datamasuk',[App\Http\Controllers\DataMasuk::class, 'index'])->name('datamasuk');
-Route::get('/client-dashboard',[App\Http\Controllers\ClientController::class, 'index'])->name('client-dashboard');
+Route::get('/security-dashboard',[App\Http\Controllers\ClientController::class, 'index'])->name('security-dashboard');
 Route::get('/employee-safety-list-client', function () {
     return view('employee-safety-list-client');
 })->name('employee-safety-list-client');

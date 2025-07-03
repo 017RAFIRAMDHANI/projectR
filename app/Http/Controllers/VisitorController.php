@@ -62,6 +62,37 @@ $visitor->save();
         }
         return response()->json(['success' => false], 404);
     }
+ public function info(Request $request)
+    {
+        $visitor = Visitor::where('id_visitor', $request->id_visitor)->first();
+
+       // dd($request->all());
+        if ($visitor) {
+            // Mengubah status menjadi Reject
+      $noted = $request->infoted ?? ' '; // Jika tidak ada nilai, beri default 'No notes provided'
+
+$visitor->note_visitor = $noted;
+//   $visitor->status = 'Pending';
+$visitor->save();
+
+            // Kirim email pemberitahuan ke visitor
+            Mail::to($visitor->email)->send(new \App\Mail\VisitorStatusMail($visitor, 'Request for more
+information' ));
+
+            Histori::create([
+    'id_data' => $visitor->id_visitor ?? null,
+    'id_akun' => Auth::user()->id ?? null,
+    'type' => "Visitor",
+    'judul' => "Visitor Permit Infoted",
+    'text' => "Visitor permit request on behalf of " . ( $visitor->pic_name ?? ' ' ). " infoted by " . ( Auth::user()->name ?? ' '),
+
+]);
+
+           return back()->with('success', 'Permit information successful');
+
+        }
+        return response()->json(['success' => false], 404);
+    }
 
    public function generatePermitNumber()
     {
@@ -87,7 +118,9 @@ $visitor->save();
             return back()->with('success', 'Permit Approve Success');
         }
 
+            $noted = $request->approved ?? ' '; // Jika tidak ada nilai, beri default 'No notes provided'
 
+            $visitor->note_visitor = $noted;
             $visitor->status = 'Approved';
 
             // Generate Permit Number jika disetujui
