@@ -55,6 +55,8 @@ class FHController extends Controller
                      $jmlEmployeT = Employe::whereDate('created_at',Carbon::today())->count();
                  $jmlVehicleT = Vehicle::whereDate('created_at', Carbon::today())->count();
 
+
+
   $safetis = Safeti::with(['vendor', 'visitor', 'employe']);
 
   $today = Carbon::now();
@@ -67,7 +69,41 @@ class FHController extends Controller
 
 
     })->count();
-    return view('fm-dashboard', compact('safetiCount','dataAktifPermitT','dataAktifPermit','dataAktifitas','jmlEmploye','jmlVehicle','jmlEmployeT','jmlVehicleT','dataVendor','dataVisitor'));  // Mengirimkan data ke view
+
+
+
+$nextMonday = clone $today;
+$nextMonday->modify('next Monday');
+
+// Menentukan tanggal Minggu depan
+$nextSunday = clone $nextMonday;
+$nextSunday->modify('next Sunday');
+
+// Format tanggal menjadi 'Y-m-d' untuk query
+$nextMondayFormatted = $nextMonday->format('Y-m-d');
+$nextSundayFormatted = $nextSunday->format('Y-m-d');
+// dd($nextMondayFormatted,$nextSundayFormatted);
+$dataExpectedPermitsNextWeekVendor = Vendor::whereBetween('validity_date_from', [$nextMondayFormatted, $nextSundayFormatted])
+                                      ->where('status','Approved')->count();
+$dataExpectedPermitsNextWeekVisitor = Visitor::whereBetween('request_date_from', [$nextMondayFormatted, $nextSundayFormatted])
+                                      ->where('status','Approved')->count();
+
+$dataTodayPermits = Approved::where('status','Open')->count();
+$dataTodayPermitv = Approved::where('status','Open')->where('type','Visitor')->count();
+
+ $dataPendingVendors = Vendor::where('status', 'Pending')->count();
+
+    // Menghitung jumlah Visitor yang statusnya Pending
+    $dataPendingVisitors = Visitor::where('status', 'Pending')->count();
+
+    // Menjumlahkan hasilnya
+    $totalPending = $dataPendingVendors + $dataPendingVisitors;
+    $totalExceptedPermits = $dataExpectedPermitsNextWeekVendor + $dataExpectedPermitsNextWeekVisitor;
+
+
+
+    return view('fm-dashboard', compact('totalExceptedPermits','dataExpectedPermitsNextWeekVisitor','dataTodayPermits','dataTodayPermitv','totalPending',
+'safetiCount','dataAktifPermitT','dataAktifPermit','dataAktifitas','jmlEmploye','jmlVehicle','jmlEmployeT','jmlVehicleT','dataVendor','dataVisitor'));  // Mengirimkan data ke view
 
 }
 
