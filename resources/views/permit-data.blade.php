@@ -326,7 +326,7 @@
     </select> --}}
     <form id="statusForm" method="GET">
         <select onchange="submitForm()" name="visitorStatusFilter" id="visitorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="">All Statuses</option>
+            <option value="">All Status</option>
             <option value="Open">Open</option>
             <option value="Closed">Closed</option>
             <option value="Expired">Expired</option>
@@ -418,7 +418,7 @@
     <!-- Status Filter -->
     <form id="statusForm2" method="GET">
         <select onchange="submitForm2()" name="vendorStatusFilter" id="vendorStatusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="">All Statuses</option>
+            <option value="">All Status</option>
             <option value="Open">Open</option>
             <option value="Closed">Closed</option>
             <option value="Expired">Expired</option>

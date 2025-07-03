@@ -375,7 +375,7 @@
         class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         onchange="submitForm()"
     >
-        <option value="">All Statuses</option>
+        <option value="">All Status</option>
         <option value="Pending" {{ $statusFilterVisitor == 'Pending' ? 'selected' : '' }}>Pending</option>
         <option value="Approved" {{ $statusFilterVisitor == 'Approved' ? 'selected' : '' }}>Approved</option>
         <option value="Rejected" {{ $statusFilterVisitor == 'Rejected' ? 'selected' : '' }}>Rejected</option>
@@ -402,7 +402,7 @@
                                         <tr>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Info</th>
-                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Requester</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -487,7 +487,7 @@
        onchange="submitForm2()"
     >
 
-        <option value="">All Statuses</option>
+        <option value="">All Status</option>
         <option value="Pending" {{ $statusFilterVisitor == 'Pending' ? 'selected' : '' }}>Pending</option>
         <option value="Approved" {{ $statusFilterVisitor == 'Approved' ? 'selected' : '' }}>Approved</option>
         <option value="Rejected" {{ $statusFilterVisitor == 'Rejected' ? 'selected' : '' }}>Rejected</option>
@@ -512,7 +512,7 @@
                                         <tr>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Info</th>
-                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
+                                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Requester</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
                                             <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>

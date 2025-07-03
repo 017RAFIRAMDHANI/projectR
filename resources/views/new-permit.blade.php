@@ -62,7 +62,7 @@
             ><i id="iconVisitor" class="fa-solid fa-check hidden"></i>Visitor</button>
             <button type="button" id="btnVendor" onclick="selectPermitType('vendor')"
               class="px-6 py-3 rounded-lg font-semibold text-base transition-all duration-200 shadow border flex items-center gap-2 bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200"
-            ><i id="iconVendor" class="fa-solid fa-check hidden"></i>Vendor</button>
+            ><i id="iconVendor" class="fa-solid fa-check hidden"></i>Work</button>
           </div>
           <input type="hidden" id="permitType" name="permitType" value="visitor">
         </div>
@@ -192,7 +192,7 @@
                         <input type="tel" name="pic_contact" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
               <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Car Plate No. <b>(A 1234 ABC)</b></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Plate No. <b>(A 1234 ABC)</b></label>
                         <input type="text" name="car_plate_no" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
               </div>
               <div>
@@ -205,8 +205,8 @@
               </div>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File (Optional)</label>
-              <input type="file" name="upload_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File</label>
+              <input required type="file" name="upload_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
               <p class="mt-1 text-sm text-gray-500">You can upload a single file containing scans of all workers' ID cards (KTP).</p>
         </div>
           </div>
@@ -355,7 +355,7 @@
             </select>
         </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Specific Location / Room</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Specific Location / Room for Workers</label>
                 <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor" required>
           </div>
           </div>
@@ -484,7 +484,7 @@
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Vehicle Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Car Plate No. <b>(A 1234 ABC)</b></label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Plate No. <b>(A 1234 ABC)</b></label>
                 <input type="text" name="number_plate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
               <div>
@@ -508,8 +508,8 @@
                 <p class="mt-1 text-sm text-gray-500">Method of Statement, Work Permit, or other supporting documents.</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File (Optional)</label>
-                <input type="file" name="up_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File</label>
+                <input required type="file" name="up_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                 <p class="mt-1 text-sm text-gray-500">You can upload a single file containing scans of all workers' ID cards (KTP).</p>
 
 
