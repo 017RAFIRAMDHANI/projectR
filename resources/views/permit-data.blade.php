@@ -379,12 +379,15 @@
 </td>
 
   <td class="px-4 py-4 text-sm font-medium text-gray-900">
-    <button type="button" onclick="viewPermitDetails('{{ $visitor->id_approved }}', 'visitor')" class="action-btn view">
+
+    <a href="{{route('visitor_view',$visitor->visitor->id_visitor)}}" class="action-btn view">
       <i class="fas fa-eye"></i>
-    </button>
-    <button type="button" onclick="closePermit('{{ $visitor->id_approved }}')" class="action-btn bg-red-100 text-red-600 hover:bg-red-200">
-      <i class="fas fa-times-circle mr-1"></i> Close
-    </button>
+    </a>
+
+<button @if($visitor->status == "Closed") disabled @else  @endif type="button" onclick="closePermit('{{ $visitor->id_approved }}')" class="action-btn close-btn @if($visitor->status == 'Closed') bg-gray-100 text-gray-600 @else bg-red-100 text-red-600 @endif hover:bg-red-200">
+  <i class="fas fa-times-circle mr-1"></i> Close
+</button>
+
   </td>
 </tr>
 @endif
@@ -473,10 +476,10 @@
   </span>
 </td>
   <td class="px-4 py-4 text-sm font-medium text-gray-900">
-  <button type="button" onclick="viewPermitDetails('V002', 'visitor')" class="action-btn view">
+  <a href="{{route('vendor_view',$vendor->vendor->id_vendor)}}" class="action-btn view">
                   <i class="fas fa-eye"></i>
-                </button>
-              <button type="button" onclick="closePermit('{{ $vendor->id_approved }}')" class="action-btn bg-red-100 text-red-600 hover:bg-red-200">
+                </a>
+              <button @if($vendor->status == "Closed") disabled @else  @endif type="button" onclick="closePermit('{{ $vendor->id_approved }}')" class="action-btn close-btn @if($visitor->status == "Closed") bg-gray-100 text-gray-600 @else bg-red-100 text-red-600 @endif hover:bg-red-200">
   <i class="fas fa-times-circle mr-1"></i> Close
 </button>
 
@@ -574,8 +577,20 @@ $(document).ready(function() {
     <script>
 
 function closePermit(permitId) {
+    const button = document.querySelector(`#permit-${permitId} .close-btn`);
+
+    // Jika tombol sudah di-disable, tidak melakukan apa-apa lagi
+    if (button.disabled) {
+        return;
+    }
   // Confirm before making the change
   if (confirm("Are you sure you want to close this permit?")) {
+
+
+      button.disabled = true;
+        button.classList.remove('bg-red-100', 'text-red-600');
+        button.classList.add('bg-gray-100', 'text-gray-600', 'cursor-not-allowed'); // Disable cursor
+
     // Send the AJAX request
     $.ajax({
       url: '{{ route("updatePermitStatus") }}',  // Define route for updating status
