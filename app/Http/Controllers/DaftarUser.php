@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 class DaftarUser extends Controller
@@ -16,6 +17,25 @@ class DaftarUser extends Controller
 
 
     }
+
+     public function roleupdatedata(Request $request){
+        $role = $request->input('role');
+        $id = $request->input('id');
+     Log::info('Request received:', [
+        'role' => $role,
+        'id' => $id
+    ]);
+
+    // Lakukan proses update role sesuai kebutuhan
+    // Misalnya, update user role di database
+         User::where('id',$id)->update([
+             'role' => $role
+         ]);
+
+    // Kembalikan respons JSON sebagai tanda berhasil
+    return response()->json(['success' => true]);
+    }
+
  public function store(Request $request)
 {
 
@@ -196,6 +216,7 @@ class DaftarUser extends Controller
         $validate = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'company' => 'required|max:255',
 
             'file_card' => 'nullable|file'
         ]);
@@ -206,6 +227,7 @@ class DaftarUser extends Controller
         // Update field biasa
         $user->name = $validate['name'];
         $user->email = $validate['email'];
+        $user->company = $validate['company'];
 
 
         // Cek apakah ada file yang diupload

@@ -72,13 +72,17 @@
           <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <div class="flex justify-between items-center">
               <div>
-                <h3 class="text-md font-medium text-gray-900">{{Auth::user()->name ?? ' '}}</h3>
-                <p class="text-sm text-gray-500">{{Auth::user()->email ?? ' '}}</p>
+                <h3 class="text-md font-medium text-gray-900">{{$dataUser->name ?? ' '}}</h3>
+                <p class="text-sm text-gray-500">{{$dataUser->email ?? ' '}}</p>
               </div>
-              <p class="form-select text-sm border-gray-300 rounded-md">
-               {{Auth::user()->role ?? ' '}}
+         <input type="hidden" id="id" name="id" value="{{$dataUser->id}}">
+         <select name="role" class="form-select text-sm border-gray-300 rounded-md" onchange="updateUserRole(this)">
+<option value="DHI" {{ $dataUser->role == 'DHI' ? 'selected' : '' }}>DHI</option>
+  <option value="FM" {{ $dataUser->role == 'FM' ? 'selected' : '' }}>FM</option>
+  <option value="Security" {{ $dataUser->role == 'Security' ? 'selected' : '' }}>Security</option>
 
-              </p>
+</select>
+
             </div>
           </div>
         </div>
@@ -344,6 +348,8 @@
 </main>
 
 </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       // Function to save permissions
       function savePermissions() {
@@ -391,5 +397,43 @@
       }
     });
   });
+</script>
+
+<script>
+  function updateUserRole(selectElement) {
+    // Ambil nilai role dari dropdown
+    const role = selectElement.value;  // Pastikan value terambil dengan benar
+    console.log("Selected Role:", role); // Debugging: Log nilai role yang dipilih
+
+    // Ambil ID pengguna dari input tersembunyi
+    const userId = document.getElementById('id').value;
+
+    // Log ID dan role sebelum dikirim
+    console.log("User ID:", userId);
+    console.log("Role to be updated:", role);
+
+    // Ambil CSRF token yang disertakan di dalam form
+    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // Kirim data ke backend menggunakan AJAX
+    fetch("{{ route('regisuser.roleupdatedata') }}", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token, // Sertakan CSRF token dalam header
+        },
+        body: JSON.stringify({ id: userId, role: role }) // Kirim data id dan role
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Tangani respons dari server jika diperlukan
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+
 </script>
 @endsection

@@ -64,62 +64,76 @@
           </div>
 
           <!-- Stats Grid -->
-             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Employees</h3>
-                  <p class="mt-2 text-3xl font-bold text-primary">{{$jmlEmploye ?? ''}}</p>
-                </div>
-                <div class="p-3 rounded-full bg-blue-50">
-                  <i class="fas fa-users text-primary text-xl"></i>
-                </div>
-              </div>
-              <p class="mt-2 text-xs text-gray-500">+{{$jmlEmployeT}} for today</p>
-            </div>
-            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Total Vehicles</h3>
-                  <p class="mt-2 text-3xl font-bold text-green-600">{{$jmlVehicle ?? ''}}</p>
-                </div>
-                <div class="p-3 rounded-full bg-green-50">
-                  <i class="fas fa-car text-green-600 text-xl"></i>
-                </div>
-              </div>
-              <p class="mt-2 text-xs text-gray-500">+{{$jmlVehicleT}} for today</p>
-            </div>
-            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Active Permits Today</h3>
-                  <p class="mt-2 text-3xl font-bold text-yellow-600">{{$dataAktifPermit ?? ''}}</p>
-                </div>
-                <div class="p-3 rounded-full bg-yellow-50">
-                  <i class="fas fa-clipboard-list text-yellow-600 text-xl"></i>
-                </div>
-              </div>
-              <p class="mt-2 text-xs text-gray-500">+{{$dataAktifPermitT}} for today</p>
-            </div>
-            <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
-              <div class="flex items-center justify-between">
-                <div>
-                  <h3 class="text-gray-500 text-sm font-medium">Expiring Safety Induction (30 Days)</h3>
-                  <p class="mt-2 text-3xl font-bold text-red-600">{{$safetiCount ?? ''}}</p>
-                </div>
-                <div class="p-3 rounded-full bg-red-50">
-                  <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
-                </div>
-              </div>
-              <div class="mt-1 flex justify-between items-center">
-                <p class="text-xs text-gray-500">expired in 30 days</p>
-                <a href="analytics.html" class="inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium text-red-600 hover:text-red-700 transition-colors hidden">
-                  <i class="fas fa-chart-line mr-0.5 text-[10px]"></i>
-                  Check
-                </a>
-              </div>
-            </div>
-          </div>
+
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+  <!-- Card 1 -->
+  <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
+    <div class="flex flex-col items-start"> <!-- Changed from 'items-center' to 'items-start' -->
+      <h3 class="text-gray-500 text-sm font-medium">Active Permits
+Today</h3>
+      <div class="flex items-center space-x-2 mt-2">
+        <p class="text-3xl font-bold text-primary">{{$dataTodayPermits ?? ''}}</p>
+       <i class="fas fa-clipboard-list text-blue-600 text-xl"></i>
+      </div>
+      {{-- <p class="mt-2 text-xs text-gray-500">+{{$jmlEmployeT}} for today</p> --}}
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
+    <div class="flex flex-col items-start"> <!-- Changed from 'items-center' to 'items-start' -->
+      <h3 class="text-gray-500 text-sm font-medium">Active Visitor
+Today</h3>
+      <div class="flex items-center space-x-2 mt-2">
+        <p class="text-3xl font-bold text-purple-600 ">{{$dataTodayPermitv ?? ''}}</p>
+        <i class="fas fa-users  text-purple-600 text-xl"></i>
+      </div>
+      {{-- <p class="mt-2 text-xs text-gray-500">+{{$jmlEmployeT}} for today</p> --}}
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
+    <div class="flex flex-col items-start"> <!-- Changed from 'items-center' to 'items-start' -->
+      <h3 class="text-gray-500 text-sm font-medium">Expected Permits
+Next Week</h3>
+      <div class="flex items-center space-x-2 mt-2">
+        <p class="text-3xl font-bold text-green-600">{{$totalExceptedPermits ?? ''}}</p>
+        <i class="fas fa-calendar text-green-600 text-xl"></i>
+      </div>
+      {{-- <p class="mt-2 text-xs text-gray-500">+{{$jmlVehicleT}} for today</p> --}}
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
+    <div class="flex flex-col items-start"> <!-- Changed from 'items-center' to 'items-start' -->
+      <h3 class="text-gray-500 text-sm font-medium">Expected Visitor
+Next Week</h3>
+      <div class="flex items-center space-x-2 mt-2">
+        <p class="text-3xl font-bold text-yellow-600">{{$dataExpectedPermitsNextWeekVisitor ?? ''}}</p>
+        <i class="fas fa-user text-yellow-600 text-xl"></i>
+      </div>
+      {{-- <p class="mt-2 text-xs text-gray-500">+{{$dataAktifPermitT}} for today</p> --}}
+    </div>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="stat-card bg-white p-6 rounded-lg shadow-sm">
+    <div class="flex flex-col items-start"> <!-- Changed from 'items-center' to 'items-start' -->
+      <h3 class="text-gray-500 text-sm font-medium">Pending Permit
+Approval</h3>
+      <div class="flex items-center space-x-2 mt-2">
+        <p class="text-3xl font-bold text-red-600">{{$totalPending ?? ''}}</p>
+        <i class="fas fa-clock text-red-600 text-xl"></i>
+      </div>
+      <div class="mt-1 flex justify-between items-center">
+        {{-- <p class="text-xs text-gray-500">expired in 30 days</p> --}}
+      </div>
+    </div>
+  </div>
+</div>
 
 
           <!-- Quick Actions -->

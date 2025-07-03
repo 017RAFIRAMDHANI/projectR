@@ -65,6 +65,7 @@
                                 <input type="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="{{$dataUser->email}}" readonly>
                             </div>
 
+
                             <!-- <div>
                                 <label class="block text-sm font-medium text-gray-700">Department</label>
                                 <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="IT Department">
@@ -76,6 +77,10 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Position</label>
                                 <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly value="{{$dataUser->role}}">
+                            </div>
+                               <div>
+                                <label class="block text-sm font-medium text-gray-700">Company</label>
+                                <input type="company" name="company" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" value="{{$dataUser->company}}" required>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Role</label>
@@ -96,9 +101,9 @@
     <input type="file" name="file_card" id="idCardInput" class="opacity-0" accept=".png,.jpg,.jpeg,.pdf" />
 </label>
 
+<p class="mt-2 text-sm text-gray-500">Please upload a clear photo of your ID Card or Passport</p>
                                     </div>
                                 </div>
-                                <p class="mt-2 text-sm text-gray-500">Please upload a clear photo of your ID Card or Passport</p>
                             </div>
                         </div>
 

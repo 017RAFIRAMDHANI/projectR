@@ -84,6 +84,7 @@ Route::post('/reports/cetak',  [App\Http\Controllers\ReportController::class, 'c
 Route::post('/reports/shedule',  [App\Http\Controllers\ReportController::class, 'shedule'])->name('reports.shedule');
 Route::get('/reports/download/{id_repot}',  [App\Http\Controllers\ReportController::class, 'download'])->name('reports.download');
 Route::delete('delete-report/{id_repot}', [App\Http\Controllers\ReportController::class, 'delete'])->name('report.delete');
+Route::post('/roleupdatedata',[App\Http\Controllers\DaftarUser::class, 'roleupdatedata'])->name('regisuser.roleupdatedata');
 
 // client
 Route::get('/vehicle-list',[App\Http\Controllers\VehicleController::class, 'index'])->name('vehicle-list');
