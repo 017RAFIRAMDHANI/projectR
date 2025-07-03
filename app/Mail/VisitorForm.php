@@ -23,7 +23,7 @@ class VisitorForm extends Mailable
 
     public function build()
     {
-        return $this->subject('Visitor Form Submission')
+        return $this->subject('Visitor Permit Request'.$this->visitor->company_name)
                     ->view('emails.vendor_form')
                     ->with([
                         'email' => $this->visitor->email,

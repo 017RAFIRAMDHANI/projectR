@@ -47,7 +47,7 @@ function handleUserTypeChange() {
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-sm p-6">
-    <h1 class="text-2xl font-semibold text-gray-900 mb-6">Registrasi User Baru</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 mb-6">Register User</h1>
     <form action="{{ route('regisuser.store') }}" id="registerForm" class="space-y-6" method="POST">
       @csrf
       <!-- Tipe User -->

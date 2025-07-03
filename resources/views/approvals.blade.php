@@ -672,8 +672,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Menampilkan SweetAlert untuk konfirmasi
       Swal.fire({
-        title: 'Approve Vendor Permit?',
-        text: "Apakah Anda yakin ingin menyetujui permit vendor ini?",
+        title: 'Approve Work Permit?',
+        text: "Are you sure you want to approve this work permit?",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

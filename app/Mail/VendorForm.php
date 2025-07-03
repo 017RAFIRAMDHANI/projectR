@@ -24,7 +24,7 @@ class VendorForm extends Mailable
 
     public function build()
     {
-        return $this->subject('Vendor Form Submission')
+        return $this->subject('Work permit request'.$this->vendor->company_name)
                     ->view('emails.vendor_form') // Pastikan sudah membuat view ini
                     ->with([
                         'email' => $this->vendor->email,

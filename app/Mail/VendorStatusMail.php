@@ -38,7 +38,7 @@ class VendorStatusMail extends Mailable
      */
  public function build()
     {
-        $subject = 'Vendor Status Update: ' . $this->status;
+        $subject = 'Work Permit Status Update: ' . $this->status;
 
         // Mengirim email dengan subject dan data vendor
         $email = $this->subject($subject)

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Vendor Status Update</title>
+    <title>Work Permit Status Update</title>
 </head>
 <body>
     <h2>Dear {{ $vendorName }}</h2>
 
-    <p>Your vendor permit request has been <strong>{{ $status }}</strong>.</p>
+    <p>Your work permit request has been <strong>{{ $status }}</strong>.</p>
     <br>
 
     <p>{{$note_vendor ?? ''}}</p>

@@ -64,14 +64,14 @@
 
         .status-label {
             font-weight: bold;
-            color: #333;
+            color: #f0b719;
             display: block;
             margin-bottom: 2px;
         }
 
         .status-value {
             font-weight: bold;
-            color: #17a2b8;
+            color: #f0b719;
             font-size: 16px;
         }
 
@@ -93,12 +93,12 @@
 <body>
     <div class="email-content">
         <div class="no-reply-banner">
-            <strong>Do not reply:</strong> This is an automated message from the DHI Permit System.
+            <strong>Do not reply:</strong> This is an automated message from the DHI VMS system.
         </div>
 
-        <div class="greeting">Dear Team,</div>
+        <div class="greeting">Dear {{ $requestorName ?? ''}},</div>
 
-        <div class="intro">A new Permit to Work (PTW) request has been submitted:</div>
+        <div class="intro">Your work request has been received:</div>
 
         <div class="detail-item">
             <span class="detail-label">Submission Time:</span>
@@ -111,14 +111,14 @@
         </div>
 
         <div class="detail-item">
-            <span class="detail-label">Requestor:</span>
-            <div class="detail-value">{{ $requestorName ?? ''}}</div>
-        </div>
-
-        <div class="detail-item">
             <span class="detail-label">Contact:</span>
             <div class="detail-value">{{ $companyContact ?? ''}}</div>
         </div>
+        <div class="detail-item">
+            <span class="detail-label">Requester:</span>
+            <div class="detail-value">{{ $requestorName ?? ''}}</div>
+        </div>
+
 
         <div class="detail-item">
             <span class="detail-label">Permit Validity:</span>
