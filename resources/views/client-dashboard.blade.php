@@ -247,7 +247,7 @@ Approval</h3>
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-lg font-medium text-gray-900">Active Tasks</h2>
-              <a href="tasks.html" class="text-sm text-primary hover:text-blue-700">View All</a>
+              {{-- <a href="tasks.html" class="text-sm text-primary hover:text-blue-700">View All</a> --}}
             </div>
             <div class="space-y-4">
               <div class="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
