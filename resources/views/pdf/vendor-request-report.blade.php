@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vendor Request Report</title>
+  <title>Work Request Report</title>
   <style>
     @page {
       size: A4 landscape; /* Change to landscape */
@@ -36,15 +36,15 @@
   </style>
 </head>
 <body>
-  <h2>Vendor Request Report</h2>
+  <h2>Work Request Report</h2>
   <table>
     <thead>
       <tr>
         <th>No</th>
         <th>Permit No.</th>
         <th>Company</th>
-        <th>Vendor Name</th>
-        <th>Vendor ID Card</th>
+        <th>Work Name</th>
+        <th>Work ID Card</th>
 
         <th>Requested Date (From)</th>
         <th>Requested Date (To)</th>
@@ -73,7 +73,7 @@
         <td>{{$item->vendor->validity_date_to ?? ''}}</td>
 
 
-        <td>Vendor</td>
+        <td>Work</td>
         <td>{{$item->vendor->work_description ?? ''}}</td>
         <td>{{$item->vendor->specific_location ?? ''}}</td>
         <td>{{$item->vendor->isolation_name ?? ''}}</td>

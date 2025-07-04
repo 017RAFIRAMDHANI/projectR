@@ -115,7 +115,7 @@
           <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <div class="flex justify-between items-center">
               <div>
-                <h3 class="text-md font-medium text-gray-900">Client</h3>
+                <h3 class="text-md font-medium text-gray-900">Security</h3>
                 <p class="text-sm text-gray-500">Basic access to personal data and requests</p>
               </div>
             </div>

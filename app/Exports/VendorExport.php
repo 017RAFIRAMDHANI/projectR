@@ -25,7 +25,7 @@ class VendorExport implements FromCollection, WithHeadings
                 $item->id_card ?? '',
                 $item->vendor->validity_date_from ?? '',
                 $item->vendor->validity_date_to ?? '',
-                'Vendor',
+                'Work',
                 $item->vendor->work_description ?? '',
                 $item->vendor->specific_location ?? '',
                 $item->vendor->isolation_name ?? '',
