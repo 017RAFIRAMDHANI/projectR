@@ -29,7 +29,7 @@
           <a href='{{route('index_approve')}}' class="mr-4 text-gray-500 hover:text-gray-700">
             <i class="fas fa-arrow-left text-xl"></i>
           </a>
-          <h1 class="text-2xl font-bold text-gray-900">Vendor Permit Details</h1>
+          <h1 class="text-2xl font-bold text-gray-900">Work Permit Details</h1>
         </div>
         <div class="flex space-x-3">
           <button onclick="printPermitDetails()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
@@ -81,7 +81,7 @@
         <div class="lg:col-span-2 space-y-6">
           <div class="bg-white p-6 rounded-lg shadow-sm">
             <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-              <i class="fas fa-building mr-2 text-primary"></i> Vendor & Work Information
+              <i class="fas fa-building mr-2 text-primary"></i> Work Information
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
             <div>

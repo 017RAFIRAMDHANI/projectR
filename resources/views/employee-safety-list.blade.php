@@ -164,7 +164,7 @@
                    focus:ring-2 focus:ring-primary focus:border-primary bg-white appearance-none pr-10">
             <option value=" ">All Types</option>
             <option value="Visitor">Visitor</option>
-            <option value="Vendor">Vendor</option>
+            <option value="Vendor">Work</option>
             <option value="Employe">Employee</option>
           </select>
         </form>

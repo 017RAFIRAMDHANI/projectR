@@ -213,7 +213,7 @@ Approval</h3>
               <h2 class="text-lg font-medium text-gray-900">Permit Requests</h2>
               <div class="flex space-x-2">
                 <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-                  Vendor: <span id="visitorPermitCount">{{$dataVendor->count() ?? ''}}</span>
+                  Work: <span id="visitorPermitCount">{{$dataVendor->count() ?? ''}}</span>
                 </span>
                 <span class="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">
                   Visitor: <span id="vendorPermitCount">{{$dataVisitor->count() ?? ''}}</span>
@@ -224,7 +224,7 @@ Approval</h3>
 
             <!-- Vendor Permit Requests -->
             <div>
-              <h3 class="text-md font-medium text-gray-700 mb-3">Vendor Permits</h3>
+              <h3 class="text-md font-medium text-gray-700 mb-3">Work Permits</h3>
               <div class="space-y-4">
                 <!-- Vendor Permit 1 -->
                 @foreach ($dataVendor as $item)
@@ -234,7 +234,7 @@ Approval</h3>
                   <div class="absolute top-0 right-0 w-24 h-24 @if($item->mode == "Urgent") bg-red-100 @else bg-gray-100 @endif opacity-20 transform rotate-45 translate-x-12 -translate-y-12"></div>
                   <div>
 
-                    <p class="text-xs text-gray-500">Vendor: {{$item->company_name}}</p>
+                    <p class="text-xs text-gray-500">Work: {{$item->company_name}}</p>
                     <p class="text-xs text-gray-500">Purpose: {{$item->work_description}}</p>
                     <p class="text-xs text-gray-500">Date: {{$item->validity_date_from}} - {{$item->validity_date_to}}</p>
                 </div>

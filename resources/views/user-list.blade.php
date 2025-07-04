@@ -216,7 +216,7 @@
               <option value="all">All Roles</option>
               <option value="dhi">DHI</option>
               <option value="fm">FM</option>
-              <option value="client">CLIENT</option>
+              <option value="client">Security</option>
             </select>
           </div>
           <div class="flex-1 min-w-[200px]">

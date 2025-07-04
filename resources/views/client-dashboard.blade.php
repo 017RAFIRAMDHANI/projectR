@@ -255,7 +255,7 @@ Approval</h3>
                   <i class="fas fa-users text-orange-600 text-xl mr-3"></i>
                   <div>
                     <p class="text-sm font-medium text-gray-900">Permit Verification</p>
-                    <p class="text-xs text-gray-500">Check and verify visitor & vendor permits</p>
+                    <p class="text-xs text-gray-500">Check and verify visitor & work permits</p>
                   </div>
                 </div>
                 <span class="px-2 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-800">Today</span>
