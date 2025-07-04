@@ -36,7 +36,7 @@
                         @csrf
                     <label class="block text-sm font-medium text-gray-700 mb-1">Report Type</label>
                     <select name="vendorVisitor" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                        <option value="Vendor">Vendor</option>
+                        <option value="Vendor">Work</option>
                         <option value="Visitor">Visitor</option>
                     </select>
                 </div>
@@ -144,7 +144,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Type</label>
                         <select required name="type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                            <option value="Vendor">Vendor</option>
+                            <option value="Work">Work</option>
                             <option value="Visitor">Visitor</option>
                         </select>
                     </div>

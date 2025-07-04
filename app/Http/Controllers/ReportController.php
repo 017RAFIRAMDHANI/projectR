@@ -116,7 +116,7 @@ class ReportController extends Controller
     $today = Carbon::today();
 
     // Handling Vendor Reports
-    if ($type == "Vendor") {
+    if ($type == "Work") {
 
         // Daily Report
         if ($schedule == "Daily") {
