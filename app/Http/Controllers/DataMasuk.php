@@ -373,7 +373,7 @@ $validity_date_to = $vendor->validity_date_to;
              'id_akun' => Auth::user()->id ?? null,
              'type' => "Vendor",
              'judul' => "New Permit Request",
-            'text' => "Vendor permit from " . $requestor_name ?? null,
+            'text' => "Work permit from " . $requestor_name ?? null,
             ]);
 
 }

@@ -26,7 +26,12 @@
    @csrf
 
    <input type="hidden" name="id_visitor" value="{{$dataVisitor->id_visitor}}">
+   <div class="flex items-center">
+    <a href='{{route('index_approve')}}' class="mr-4 text-gray-500 hover:text-gray-700">
+            <i class="fas fa-arrow-left text-xl"></i>
+          </a>
           <h1 class="text-2xl font-bold text-gray-900">Permit Visitor Detail</h1>
+        </div>
         </div>
         <div class="flex space-x-3">
           <button onclick="printPermitDetails()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">

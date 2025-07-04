@@ -93,8 +93,8 @@ class VendorController extends Controller
     'id_data' => $vendor->id_vendor ?? null,
     'id_akun' => Auth::user()->id ?? null,
     'type' => "Vendor",
-    'judul' => "Vendor Permit Approval",
-    'text' => "Vendor permit request on behalf of " . ( $vendor->requestor_name ?? ' ' ). " approved by " . ( Auth::user()->name ?? ' '),
+    'judul' => "Work Permit Approval",
+    'text' => "Work permit request on behalf of " . ( $vendor->requestor_name ?? ' ' ). " approved by " . ( Auth::user()->name ?? ' '),
    ]);
 
 
@@ -123,8 +123,8 @@ $vendor->save();
     'id_data' => $vendor->id_vendor ?? null,
     'id_akun' => Auth::user()->id ?? null,
     'type' => "Vendor",
-    'judul' => "Vendor Permit Rejected",
-    'text' => "Permit request has been rejected vendor " . ($vendor->requestor_name ?? ' ' ). " rejected by " . ( Auth::user()->name ?? ' ')
+    'judul' => "Work Permit Rejected",
+    'text' => "Work request has been rejected vendor " . ($vendor->requestor_name ?? ' ' ). " rejected by " . ( Auth::user()->name ?? ' ')
 ]);
 
 
@@ -211,8 +211,8 @@ $vendor->save();
     'id_data' => $vendor->id_vendor ?? null,
     'id_akun' => Auth::user()->id ?? null,
     'type' => "Vendor",
-    'judul' => "Vendor Permit Infoted",
-    'text' => "Vendor permit request on behalf of " . ( $vendor->pic_name ?? ' ' ). " infoted by " . ( Auth::user()->name ?? ' '),
+    'judul' => "Work Permit Infoted",
+    'text' => "Work permit request on behalf of " . ( $vendor->pic_name ?? ' ' ). " infoted by " . ( Auth::user()->name ?? ' '),
 
 ]);
 
@@ -439,7 +439,7 @@ $vendor = Vendor::create([
              'id_akun' => Auth::user()->id ?? null,
              'type' => "Vendor",
              'judul' => "New Permit Request",
-            'text' => "Vendor permit from " . $vendor->requestor_name ?? null,
+            'text' => "Work permit from " . $vendor->requestor_name ?? null,
             ]);
 
         // Return a success response with data
