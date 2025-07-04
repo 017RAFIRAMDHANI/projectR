@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Visitor Status Update</title>
+    <title>Visitor Permit Status Update</title>
 </head>
 <body>
-    <h2>Dear {{ $visitorName }}</h2>
+    <h2>Dear {{ $visitorName ?? '' }}</h2>
 
-    <p>Your visitor permit request has been <strong>{{ $status }}</strong>.</p>
+    <p>Your visitor permit request has been <strong style="color:@if($status == "Approved") green @elseif($status == "Rejected") red @elseif($status == "Request for more information") blue @endif">{{ $status ?? ''}}</strong>.</p>
     <br>
 
     <p>{{$note_visitor ?? ''}}</p>
 
     @if ($status == 'Approved')
-        <p>Your permit number is: <strong>{{ $permitNumber }}</strong></p>
+        <p>Your permit number is: <strong>{{ $permitNumber ?? '' }}</strong></p>
     @endif
     <p>Please be
 reminded to bring the

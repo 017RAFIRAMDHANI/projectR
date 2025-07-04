@@ -125,6 +125,9 @@ Route::get('/preview-file', function () {
 Route::get('/permit-details', function () {
     return view('permit-details');
 });
+Route::get('/vendor_status', function () {
+    return view('emails.vendor_status');
+});
 
 
 

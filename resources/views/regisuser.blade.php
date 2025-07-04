@@ -60,7 +60,7 @@ function handleUserTypeChange() {
           required
           onchange="handleUserTypeChange()"
         >
-          <option value="">Pilih Tipe User</option>
+          <option value="">Select User Type</option>
           <option value="Security">Security</option>
           <option value="FM">Facility Handler (FM)</option>
           <option value="DHI">DHI Staff</option>

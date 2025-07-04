@@ -43,7 +43,7 @@ class VisitorStatusMail extends Mailable
      */
  public function build()
     {
-        $subject = 'Visitor Status Update: ' . $this->status;
+        $subject = 'Visitor Permit Status Update: ' . $this->status;
 
         // Mengirim email dengan subject dan data visitor
         $email = $this->subject($subject)
