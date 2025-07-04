@@ -285,8 +285,8 @@ if ($request->has('note') && $request->has('date')) {
     $noteField = 'catatan_lampu_' . $request->lampu;
     $dateField = 'date_lampu_' . $request->lampu;
 
-    $safety->$noteField = $request->note ?? ' ';
-    $safety->$dateField = $request->date ?? ' ';
+    $safety->$noteField = $request->note ?? null;
+    $safety->$dateField = $request->date ?? null;
 }
 
 

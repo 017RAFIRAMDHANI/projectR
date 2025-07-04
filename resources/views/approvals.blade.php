@@ -300,7 +300,7 @@
                 <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-gray-600">Total Vendor Permits</p>
+                            <p class="text-sm text-gray-600">Total Work Permits</p>
                             <p class="text-2xl font-semibold text-gray-900" id="vendorCount">{{$jmlvendors}}</p>
                         </div>
                         <div class="p-3 bg-purple-100 rounded-full">
@@ -623,13 +623,13 @@ document.addEventListener("DOMContentLoaded", function () {
       // Menampilkan SweetAlert untuk konfirmasi
       Swal.fire({
         title: 'Approve Permit?',
-        text: "Apakah Anda yakin ingin menyetujui permit ini?",
+        text: "Are you sure you want to agree to this permission??",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, Setujui!',
-        cancelButtonText: 'Batal'
+        confirmButtonText: 'Yes!',
+        cancelButtonText: 'No'
       }).then((result) => {
         if (result.isConfirmed) {
           // Log untuk menunjukkan jika tombol konfirmasi di klik
@@ -678,8 +678,8 @@ document.addEventListener("DOMContentLoaded", function () {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, Setujui!',
-        cancelButtonText: 'Batal'
+        confirmButtonText: 'Yes!',
+        cancelButtonText: 'No'
       }).then((result) => {
         if (result.isConfirmed) {
           // Log untuk menunjukkan jika tombol konfirmasi di klik

@@ -691,7 +691,14 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function isNoteAndDateClear(note, date) {
+  return note.trim() === "" && date.trim() === "";
+}
+
+</script>
     <script>
+
   // Object penyimpan catatan: { rowIndex: { color: { note: '...', date: '...' } } }
   const indicatorNotes = {};
   let currentIndicator = { row: null, color: null, btn: null };
@@ -741,10 +748,14 @@ function openIndicatorNoteModal(button) {
 
     // ✅ Jika tombol yang diklik sedang abu, artinya mau diaktifkan kembali
    if (isGray) {
+     if (isNoteAndDateClear(note, date)) {
   btn.classList.remove('green', 'yellow', 'red', 'bg-gray-400');
   btn.classList.add(color);
 
   if (idSafeti) {
+
+
+
     fetch('/update-lampu-status', {
       method: 'POST',
       headers: {
@@ -772,7 +783,10 @@ function openIndicatorNoteModal(button) {
         </span>
       `;
     }
-  }}else if (color === 'yellow') {
+  }
+}
+}
+  else if (color === 'yellow') {
        buttons.forEach(b => {
                 const bColor = b.dataset.color;
                 if (bColor === 'green' || bColor === 'yellow') {  // Jika tombol kuning atau hijau

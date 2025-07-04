@@ -479,7 +479,7 @@
   <a href="{{route('vendor_view',$vendor->vendor->id_vendor)}}" class="action-btn view">
                   <i class="fas fa-eye"></i>
                 </a>
-              <button @if($vendor->status == "Closed") disabled @else  @endif type="button" onclick="closePermit('{{ $vendor->id_approved }}')" class="action-btn close-btn @if($visitor->status == "Closed") bg-gray-100 text-gray-600 @else bg-red-100 text-red-600 @endif hover:bg-red-200">
+              <button @if($vendor->status == "Closed") disabled @else  @endif type="button" onclick="closePermit('{{ $vendor->id_approved }}')" class="action-btn close-btn @if($vendor->status == "Closed") bg-gray-100 text-gray-600 @else bg-red-100 text-red-600 @endif hover:bg-red-200">
   <i class="fas fa-times-circle mr-1"></i> Close
 </button>
 
