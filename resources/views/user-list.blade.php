@@ -167,31 +167,7 @@
         display: block;
       }
       /* Pagination styles */
-      .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-        margin-top: 1rem;
-        padding: 1rem;
-        background-color: white;
-        border-top: 1px solid #E5E7EB;
-      }
-      .pagination button {
-        padding: 0.5rem 1rem;
-        border: 1px solid #E5E7EB;
-        border-radius: 0.375rem;
-        background-color: white;
-        color: #374151;
-        font-size: 0.875rem;
-        transition: all 0.2s;
-      }
-      .pagination button:hover:not(:disabled) {
-        background-color: #F3F4F6;
-      }
-      .pagination button:disabled {
-        opacity: 0.5;
-      }
+
       .table-row-hover { transition: background-color 0.2s ease; }
       .table-row-hover:hover { background-color: rgba(0, 0, 0, 0.02); }
     </style>
@@ -209,21 +185,33 @@
         <div class="flex justify-between items-center mb-3">
           <h1 class="text-2xl font-semibold text-gray-900">User List</h1>
         </div>
-        <div class="mb-3 flex flex-wrap gap-4 bg-white p-2 rounded-lg shadow-sm">
-          <div class="flex-1 min-w-[200px]">
-            <label for="roleFilter" class="block text-sm font-semibold text-gray-700 mb-1">Role</label>
-            <select id="roleFilter" class="w-full px-4 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
-              <option value="all">All Roles</option>
-              <option value="dhi">DHI</option>
-              <option value="fm">FM</option>
-              <option value="client">Security</option>
-            </select>
-          </div>
-          <div class="flex-1 min-w-[200px]">
-            <label for="searchFilter" class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
-            <input type="text" id="searchFilter" placeholder="Search users..." class="w-full px-4 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" />
-          </div>
-        </div>
+     <div class="flex items-center justify-between w-full space-x-4">
+  <!-- Dropdown Role -->
+  <div class="flex-1">
+    <label for="roleFilter" class="text-sm font-semibold text-gray-700">Role</label>
+    <form method="get" id="formRole">
+    <select onchange="Role()" name="selectRole" id="selectRole" class="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm w-full">
+      <option value="">All Roles</option>
+      <option value="DHI">DHI</option>
+      <option value="FM">FM</option>
+      <option value="Security">Security</option>
+    </select></form>
+  </div>
+
+  <!-- Input Search -->
+  <div class="flex-1">
+    <form method="GET" id="formSearch">
+    <label for="searchInput" class="text-sm font-semibold text-gray-700">Search</label>
+    <input type="text" id="inputSearch" name="inputSearch" placeholder="Search users..." class="px-3 py-1.5 border border-gray-300 rounded-md text-sm w-full">
+  </form></div>
+
+  <!-- Button Reset -->
+
+  <button type="button" onclick="resetFilters()" class="ml-4 text-red-500">
+        <i class="fa fa-refresh"></i> <br>Reset
+    </button>
+</div>
+<br>
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -241,13 +229,17 @@
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->email }}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->role }}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            <div class="flex items-center space-x-3"> <!-- Using flex and space-x-3 for spacing between buttons -->
+            <div class="flex items-center space-x-3">
                 <a class="text-primary hover:text-blue-700 inline-flex items-center gap-1" title="Edit user permission" href="{{route('permision-user',$item->id)}}">
                     <i class="fas fa-edit"></i>
                     Edit user permission
                 </a>
 
-                <button class="text-yellow-600 hover:text-yellow-700 inline-flex items-center gap-1" title="Preview" onclick="previewUser(0)">
+                <button class="text-yellow-600 hover:text-yellow-700 inline-flex items-center gap-1" title="Preview"
+                    onclick="previewUser(this)"
+                    data-name="{{ $item->name }}"
+                    data-email="{{ $item->email }}"
+                    data-role="{{ $item->role }}">
                     <i class="fas fa-eye"></i>
                     Preview
                 </button>
@@ -269,38 +261,11 @@
             </tbody>
           </table>
         </div>
-        <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-          <div class="flex-1 flex justify-between sm:hidden">
-            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Previous</a>
-            <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Next</a>
-          </div>
-          <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p class="text-sm text-gray-700">
-                Showing
-                <span class="font-medium">1</span>
-                to
-                <span class="font-medium">2</span>
-                of
-                <span class="font-medium">2</span>
-                users
-              </p>
-            </div>
-            <div>
-              <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" aria-label="Previous">
-                  <span><i class="fas fa-chevron-left"></i></span>
-                </a>
-                <a href="#" aria-current="page" class="z-10 bg-primary border-primary text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
-                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
-                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
-                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" aria-label="Next">
-                  <span><i class="fas fa-chevron-right"></i></span>
-                </a>
-              </nav>
-            </div>
-          </div>
+      <div class="p-3">
+
+          {{ $dataUser->withQueryString()->links('pagination::tailwind') }}
         </div>
+
       </div>
     </main>
     <!-- Tambahkan modal preview user di akhir body -->
@@ -313,25 +278,17 @@
         </div>
       </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    const users = [
-      { name: 'John Doe', email: 'john.doe@example.com', role: 'DHI' },
-      { name: 'Jane Smith', email: 'jane.smith@example.com', role: 'FM' },
-      { name: 'Michael Lee', email: 'michael.lee@client.com', role: 'CLIENT' },
-      { name: 'Sarah Connor', email: 'sarah.connor@dhi.com', role: 'DHI' },
-      { name: 'David Kim', email: 'david.kim@fm.com', role: 'FM' },
-      { name: 'Emily Clark', email: 'emily.clark@client.com', role: 'CLIENT' },
-      { name: 'Olivia Brown', email: 'olivia.brown@dhi.com', role: 'DHI' },
-      { name: 'William Turner', email: 'william.turner@fm.com', role: 'FM' },
-      { name: 'Sophia Wilson', email: 'sophia.wilson@client.com', role: 'CLIENT' },
-      { name: 'Liam Martinez', email: 'liam.martinez@dhi.com', role: 'DHI' },
-    ];
-    function previewUser(idx) {
-      const user = users[idx];
+    function previewUser(btn) {
+      const name = btn.getAttribute('data-name');
+      const email = btn.getAttribute('data-email');
+      const role = btn.getAttribute('data-role');
       document.getElementById('userPreviewContent').innerHTML = `
-        <div class='mb-2'><strong>Name:</strong> ${user.name}</div>
-        <div class='mb-2'><strong>Email:</strong> ${user.email}</div>
-        <div class='mb-2'><strong>Role:</strong> ${user.role}</div>
+        <div class='mb-2'><strong>Name:</strong> ${name}</div>
+        <div class='mb-2'><strong>Email:</strong> ${email}</div>
+        <div class='mb-2'><strong>Role:</strong> ${role}</div>
       `;
       document.getElementById('userPreviewModal').classList.remove('hidden');
     }
@@ -360,4 +317,35 @@
         });
     }
 </script>
+<script>
+$(document).ready(function() {
+    // Vendor search with keyup event
+    $("#inputSearch").on("keyup", function(e) {
+        // When Enter is pressed or 3+ characters typed
+        if (e.keyCode == 13 || $(this).val().length > 2) {
+            $("#formSearch").submit();  // Submit search form for vendors
+        }
+    });
+
+
+});
+</script>
+<script>
+    function Role() {
+        const form = document.getElementById('formRole');
+        const selectElement = document.getElementById('selectRole');
+
+        // Set value of the select element before submitting
+        form.submit();
+    }
+</script>
+  <script>
+               function resetFilters() {
+
+
+
+
+        window.location.href = "{{ route('user-list') }}";
+    }
+    </script>
 @endsection

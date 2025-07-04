@@ -194,9 +194,35 @@ class DaftarUser extends Controller
     {
         return view('regisuser');
     }
-    public function index()
+    public function index(Request $request)
     {
-        $dataUser = User::paginate(20);
+        $inputSearch = $request->input('inputSearch');
+        $selectRole = $request->input('selectRole');
+
+        $dataUser = User::query();
+
+
+          if($inputSearch){
+
+        $dataUser = $dataUser->where(function($query) use ($inputSearch) {
+            $query->where('name', 'like', '%' . $inputSearch . '%')
+                ->orWhere('email', 'like', '%' . $inputSearch . '%')
+                ->orWhere('role', 'like', '%' . $inputSearch . '%');
+
+        });
+
+    }
+
+        if($selectRole){
+
+        $dataUser = $dataUser->where(function($query) use ($selectRole) {
+            $query->where('role', 'like', '%' . $selectRole . '%');
+
+        });
+
+    }
+     $dataUser = $dataUser->paginate(20);
+
         return view('user-list',[
             "dataUser" => $dataUser
         ]);
