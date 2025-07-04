@@ -34,9 +34,9 @@
         </div>
         </div>
         <div class="flex space-x-3">
-          <button onclick="printPermitDetails()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
+          <a href="{{route('pdf_manual_visitor',$dataVisitor->id_visitor)}}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
             <i class="fas fa-print mr-2"></i> Print
-          </button>
+          </a>
 
 
           <a href="{{route('pdf_visitor',$dataVisitor->id_visitor)}}"  name="submit" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">

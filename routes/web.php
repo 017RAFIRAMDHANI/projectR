@@ -61,6 +61,7 @@ Route::get('/view/{id_vendor}',[App\Http\Controllers\FHController::class, 'view'
 Route::get('/view_visitor/pdf/{id_visitor}',[App\Http\Controllers\FHController::class, 'pdf_visitor'])->name('pdf_visitor');
 Route::get('/view_vendor/pdf/{id_vendor}',[App\Http\Controllers\FHController::class, 'pdf_vendor'])->name('pdf_vendor');
 Route::get('/view_visitor/{id_visitor}',[App\Http\Controllers\FHController::class, 'view_visitor'])->name('visitor_view');
+Route::get('/view_visitor/pdf_manual_visitor/{id_visitor}',[App\Http\Controllers\FHController::class, 'pdf_manual_visitor'])->name('pdf_manual_visitor');
 
 // DHI const
 Route::get('/dhi-dashboard',[App\Http\Controllers\DHIController::class, 'index'])->name('dhi-dashboard');

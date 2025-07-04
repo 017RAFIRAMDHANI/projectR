@@ -26,6 +26,22 @@ class FHController extends Controller
 
     }
     //
+public function pdf_manual_visitor(Request $request, $id)
+{
+    // Menemukan visitor berdasarkan ID
+    $visitor = Visitor::where('id_visitor', $id)->first();
+
+    // Membuat tampilan PDF
+    $pdfContent = view('pdf_permit_v', compact('visitor'))->render();
+    $pdf = FacadePdf::loadHTML($pdfContent);
+
+    // Paksa header Content-Disposition inline
+    return $pdf->stream('visitor_permit_' . $id . '.pdf', [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="visitor_permit_' . $id . '.pdf"'
+    ]);
+}
+
    public function index(){
     // Mengambil 5 data terbaru berdasarkan id_akun yang sesuai dengan user yang sedang login
     $dataAktifitas = Histori::where('id_akun', Auth::user()->id)
