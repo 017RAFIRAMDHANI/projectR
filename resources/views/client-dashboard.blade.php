@@ -201,7 +201,7 @@ Approval</h3>
                 class="flex flex-col items-center justify-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition"
               >
                 <i class="fas fa-users text-orange-600 text-xl mb-2"></i>
-                <span class="text-sm font-medium text-gray-700">Visitor & Vendor</span>
+                <span class="text-sm font-medium text-gray-700">Visitor & Work</span>
               </button>
 @endif
    @if (Auth::user()->access_vehicle_view == 1)

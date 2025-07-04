@@ -304,7 +304,7 @@
               <div class="left-tab-item" data-tab="vendor" onclick="switchTab('vendor')">
                 <div class="flex items-center space-x-3">
                   <i class="fas fa-truck text-purple-600"></i>
-                  <span>Vendor Permits</span>
+                  <span>Work Permits</span>
                 </div>
               </div>
             </div>
