@@ -269,7 +269,7 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Safety badge</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expired Date</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                {{-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th> --}}
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">History</th>
                    </tr>
             </thead>
@@ -402,7 +402,7 @@
         <i class="fas fa-id-badge mr-1"></i>SB-001 <span class="ml-2">Active</span>
       </span> --}}
     </td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->type ?? ''}}</td>
+    {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->type ?? ''}}</td> --}}
     @if($item->id_history_safeti )
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
       <div class="flex space-x-2">

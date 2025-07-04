@@ -46,7 +46,7 @@
                         </button>
                     </div>
                     <h2 class="mt-4 text-xl font-semibold text-gray-900">{{$dataUser->name}}</h2>
-                    <p class="text-gray-500">System Administrator</p>
+                    <p class="text-gray-500">{{$dataUser->role}}</p>
                 </div>
 
                 <!-- Profile Details -->
