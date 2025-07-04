@@ -29,26 +29,33 @@
             padding: 3mm;
             min-height: 270mm; /* Added to make form taller */
         }
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-bottom: 4px;
-            border-bottom: 1px solid #000;
-            margin-bottom: 4px;
-            position: relative;
-        }
-        .header .title {
-            text-align: center;
-        }
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 4px;
+    border-bottom: none;  /* Menghapus garis border bawah */
+    margin-bottom: 10px;  /* Menambahkan jarak bawah pada header */
+    position: relative;
+}
+
+       .header .title {
+    text-align: center;
+    margin-left: 80px; /* Memberikan ruang agar teks tidak tumpang tindih dengan logo */
+}
         .header .title h1 {
             font-size: 16px;
             font-weight: bold;
             margin: 0;
         }
-        .logo {
-             height: 40px;
-        }
+     .logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px; /* Sesuaikan ukuran logo */
+    margin-bottom: 30px; /* Menambah jarak bawah pada logo */
+}
+
         .section-header {
             background-color: #002060;
             color: white;
@@ -130,13 +137,21 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="{{ public_path('gambar/digital-hyperspace-logo.png') }}" alt="Digital Hyperspace Logo" class="logo">
+       <div class="header">
+@php
+    // Mengambil gambar dan mengonversinya ke base64
+    $logoPath = public_path('gambar/digital-hyperspace-logo.png');
+    $logoBase64 = base64_encode(file_get_contents($logoPath));
+    $logoSrc = 'data:image/png;base64,' . $logoBase64;
+@endphp
 
-            <div class="title">
-                <h1>VISITOR REQUEST FORM</h1>
-            </div>
-        </div>
+<img src="{{ $logoSrc }}" alt="Digital Hyperspace Logo" class="logo">
+
+    <div class="title">
+        <h1>VISITOR REQUEST FORM</h1>
+    </div>
+</div>
+<br>
 
         <div class="section-header">To be filled by requester</div>
         <table class="main-info-table">
