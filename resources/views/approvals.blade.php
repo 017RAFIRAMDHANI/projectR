@@ -336,7 +336,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <div class="flex">
                     <!-- Left Tab -->
-                    <div class="left-tab">
+                 <div class="left-tab">
                         <div class="left-tab-item active" onclick="switchTab('visitor')">
                             <div class="flex items-center space-x-3">
                                 <i class="fas fa-user text-blue-600"></i>
@@ -346,7 +346,7 @@
                         <div class="left-tab-item" onclick="switchTab('vendor')">
                             <div class="flex items-center space-x-3">
                                 <i class="fas fa-truck text-purple-600"></i>
-                                <span>Work Permits</span>
+                                <span>Vendor Permits</span>
                             </div>
                         </div>
                     </div>
@@ -779,44 +779,40 @@ document.addEventListener("DOMContentLoaded", function () {
 // }
 
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
- function switchTab(type) {
-    // Hide all tab contents
+//     document.querySelectorAll('.left-tab-item').forEach(item => {
+//     item.addEventListener('click', function () {
+//         const type = item.textContent.trim().toLowerCase().includes('visitor') ? 'visitor' : 'vendor';
+//         switchTab(type);  // Panggil switchTab berdasarkan tab yang diklik
+//     });
+// });
+
+function switchTab(type) {
+    console.log("SwitchTab called with type:", type);  // Log untuk memastikan dipanggil
+    // Menyembunyikan semua konten tab
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
 
-    // Show selected tab content
+    // Menampilkan konten tab yang dipilih
     document.getElementById(`${type}-tab`).classList.add('active');
 
-    // Update tab items
+    // Memperbarui tab-item dengan menambahkan kelas active
     document.querySelectorAll('.left-tab-item').forEach(item => {
         item.classList.remove('active');
     });
+
+    // Menambahkan kelas 'active' pada tab yang sesuai
     document.querySelectorAll('.left-tab-item').forEach(item => {
         if (item.textContent.toLowerCase().includes(type)) {
             item.classList.add('active');
         }
     });
-
-    // Update counts
-    updateCounts();
-}
-
-// Function to update counts (optional)
-function updateCounts() {
-    const visitorCount = visitorData.length;
-    const vendorCount = vendorData.length;
-    const pendingCount = [...visitorData, ...vendorData].filter(item => item.status.toLowerCase() === 'pending').length;
-
-    document.getElementById('visitorCount').textContent = visitorCount;
-    document.getElementById('vendorCount').textContent = vendorCount;
-    document.getElementById('totalPendingCount').textContent = pendingCount;
 }
 
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
 $(document).ready(function() {
     // Vendor search with keyup event
