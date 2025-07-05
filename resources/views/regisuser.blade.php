@@ -13,36 +13,36 @@
     },
   };
 
-function handleUserTypeChange() {
-  const userType = document.getElementById('userType').value;
-  console.log(userType); // Debugging
-  const SecurityInfo = document.getElementById('SecurityInfo');
-  const FMInfo = document.getElementById('FMInfo');
-  const DHIInfo = document.getElementById('DHIInfo');
-  const additionalInfo = document.getElementById('additionalInfo');
+// function handleUserTypeChange() {
+//   const userType = document.getElementById('userType').value;
+//   console.log(userType); // Debugging
+//   const SecurityInfo = document.getElementById('SecurityInfo');
+//   const FMInfo = document.getElementById('FMInfo');
+//   const DHIInfo = document.getElementById('DHIInfo');
+//   const additionalInfo = document.getElementById('additionalInfo');
 
-  // Reset semua form tambahan
-  SecurityInfo.classList.add('hidden');
-  FMInfo.classList.add('hidden');
-  DHIInfo.classList.add('hidden');
+//   // Reset semua form tambahan
+//   SecurityInfo.classList.add('hidden');
+//   FMInfo.classList.add('hidden');
+//   DHIInfo.classList.add('hidden');
 
-  // Periksa tipe user dan tampilkan input relevan
-  if (userType === 'Security') {
-    console.log('Security selected');
-    additionalInfo.classList.remove('hidden');
-    SecurityInfo.classList.remove('hidden');
-  } else if (userType === 'FM') {
-    console.log('FM selected');
-    additionalInfo.classList.remove('hidden');
-    FMInfo.classList.remove('hidden');
-  } else if (userType === 'DHI') {
-    console.log('DHI selected');
-    additionalInfo.classList.remove('hidden');
-    DHIInfo.classList.remove('hidden');
-  } else {
-    additionalInfo.classList.add('hidden');
-  }
-}
+//   // Periksa tipe user dan tampilkan input relevan
+//   if (userType === 'Security') {
+//     console.log('Security selected');
+//     additionalInfo.classList.remove('hidden');
+//     SecurityInfo.classList.remove('hidden');
+//   } else if (userType === 'FM') {
+//     console.log('FM selected');
+//     additionalInfo.classList.remove('hidden');
+//     FMInfo.classList.remove('hidden');
+//   } else if (userType === 'DHI') {
+//     console.log('DHI selected');
+//     additionalInfo.classList.remove('hidden');
+//     DHIInfo.classList.remove('hidden');
+//   } else {
+//     additionalInfo.classList.add('hidden');
+//   }
+// }
 </script>
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
