@@ -20,14 +20,14 @@ class ReportController extends Controller
       public function __construct()
     {
         $this->middleware('auth');
-       
+
 
     }
     //
     public function index(){
  if (Auth::user()->access_report_view !== 1) {
 
-        return redirect('/');
+        return back()->with('error','contact DHI for further access');
     }
 
 

@@ -53,7 +53,7 @@ class VehicleController extends Controller
 
          if (Auth::user()->access_vehicle_view !== 1) {
 
-        return redirect('/');
+        return back()->with('error','contact DHI for further access');
     }
 
           $searchVehicle =  $request->input('searchVehicle');

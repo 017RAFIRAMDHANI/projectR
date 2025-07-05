@@ -105,7 +105,7 @@ public function uploadPhoto(Request $request)
 {
     if (Auth::user()->access_safety_view !== 1) {
 
-        return redirect('/');
+        return back()->with('error','contact DHI for further access');
     }
 
     $searchFilter = $request->input('searchFilterInput');

@@ -23,7 +23,7 @@ public function index(Request $request)
 {
         if (Auth::user()->access_employe_view !== 1) {
 
-        return redirect('/');
+       return back()->with('error','contact DHI for further access');
     }
 
     // Mendapatkan input searchFilter dari request
