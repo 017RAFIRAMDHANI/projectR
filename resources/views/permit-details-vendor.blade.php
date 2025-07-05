@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+ <style>
+    @media print {
+    /* Sembunyikan alamat routing atau elemen lain yang tidak diinginkan */
+    header, footer, .hidden-print {
+        display: none !important;
+    }
+}
+
+ </style>
     <script>
       tailwind.config = {
         theme: {
@@ -32,10 +41,11 @@
           <h1 class="text-2xl font-bold text-gray-900">Work Permit Details</h1>
         </div>
         <div class="flex space-x-3">
-          <button onclick="printPermitDetails()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
-            <i class="fas fa-print mr-2"></i> Print
-          </button>
-
+            <iframe id="pdfIframe" style="display:none;" width="100%" height="600px"></iframe>
+<div id="printContent" style="display:none;"></div>
+          <a href="#" id="printButton" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
+    <i class="fas fa-print mr-2"></i> Print
+</a>
           <a href="{{route('pdf_vendor',$dataVendor->id_vendor)}}"  name="submit" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
             <i class="fas fa-file-pdf mr-2"></i> Download PDF
           </a>
@@ -304,6 +314,8 @@
         </div>
       </div>
     </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
       document.getElementById('rejectButton').addEventListener('click', function (e) {
         e.preventDefault(); // Prevent form submission
@@ -400,9 +412,6 @@
         document.getElementById('permitStatus').classList.add('bg-yellow-100', 'text-yellow-800');
       }
 
-      function printPermitDetails() {
-        window.print();
-      }
 
       function downloadPermitPDF() {
         alert('Downloading permit as PDF...');
@@ -546,6 +555,41 @@
             });
         });
     });
+</script>
+
+
+
+
+<script>
+document.getElementById('printButton').addEventListener('click', function(e) {
+    e.preventDefault(); // Mencegah aksi default link
+
+    var vendorId = {{ $dataVendor->id_vendor }};
+
+
+    // Mengambil HTML konten dari controller menggunakan AJAX
+    fetch(`/view/pdf_manual_vendor/${vendorId}`)
+        .then(response => response.json()) // Parse response JSON
+        .then(data => {
+            // Menyisipkan konten HTML ke dalam iframe
+            document.getElementById('pdfIframe').style.display = "block";
+            document.getElementById('pdfIframe').contentWindow.document.open();
+            document.getElementById('pdfIframe').contentWindow.document.write(data.html);
+            document.getElementById('pdfIframe').contentWindow.document.close();
+
+            // Setelah konten di-load di dalam iframe, langsung memicu print
+            document.getElementById('pdfIframe').contentWindow.print();
+
+            // Menyembunyikan iframe setelah pencetakan
+            document.getElementById('pdfIframe').style.display = "none";
+
+            // Menghapus konten printContent untuk menghindari gangguan tampilan
+            document.getElementById('printContent').innerHTML = '';
+        })
+        .catch(error => console.error('Error:', error)); // Menangani error jika ada
+});
+
+
 </script>
   </body>
 </html>

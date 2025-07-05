@@ -38,6 +38,18 @@ public function pdf_manual_visitor(Request $request, $id_visitor)
     return response()->json(['html' => $htmlContent]);
 }
 
+public function pdf_manual_vendor(Request $request, $id_vendor)
+{
+    // Menemukan visitor berdasarkan ID
+    $vendor = Vendor::where('id_vendor', $id_vendor)->first();
+
+    // Render tampilan PDF sebagai HTML (konten HTML)
+    $htmlContent = view('pdf_permit', compact('vendor'))->render();
+
+    // Mengembalikan respons JSON dengan HTML yang telah dirender
+    return response()->json(['html' => $htmlContent]);
+}
+
 
 
    public function index(){

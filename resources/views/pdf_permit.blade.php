@@ -122,7 +122,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="{{ public_path('gambar/digital-hyperspace-logo.png') }}" alt="Digital Hyperspace Logo" class="logo">
+            {{-- <img src="{{ public_path('gambar/digital-hyperspace-logo.png') }}" alt="Digital Hyperspace Logo" class="logo"> --}}
+            @php
+   //  Mengambil gambar dan mengonversinya ke base64
+    $logoPath = public_path('gambar/digital-hyperspace-logo.png');
+    $logoBase64 = base64_encode(file_get_contents($logoPath));
+    $logoSrc = 'data:image/png;base64,' . $logoBase64;
+@endphp
+
+<img src="{{ $logoSrc }}" alt="Digital Hyperspace Logo" class="logo"> 
         </div>
 
         <table>
