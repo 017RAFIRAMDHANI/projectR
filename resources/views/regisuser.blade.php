@@ -63,14 +63,14 @@
           <option value="">Select User Type</option>
           <option value="Security">Security</option>
           <option value="FM">Facility Handler (FM)</option>
-          <option value="DHI">DHI Staff</option>
+          <option value="DHI">DHI</option>
         </select>
       </div>
 
       <!-- Informasi Dasar -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Full name</label>
           <input
             type="text"
             name="name"
@@ -100,10 +100,10 @@
             required
             minlength="8"
           />
-          <p class="mt-1 text-sm text-gray-500">Minimal 8 karakter</p>
+          <p class="mt-1 text-sm text-gray-500">Minimum 8 characters</p>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
           <input
             type="password"
             name="password_confirmation"
@@ -184,7 +184,7 @@
           href="{{route('dhi-dashboard')}}"
           class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
         >
-          Kembali
+          Back
         </a>
         <button
           type="submit"

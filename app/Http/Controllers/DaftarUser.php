@@ -192,10 +192,18 @@ class DaftarUser extends Controller
     // Halaman form untuk menambah user baru
     public function create()
     {
+              if (Auth::user()->role !== 'DHI') {
+
+        return redirect('/');
+    }
         return view('regisuser');
     }
     public function index(Request $request)
     {
+              if (Auth::user()->role !== 'DHI') {
+
+        return redirect('/');
+    }
         $inputSearch = $request->input('inputSearch');
         $selectRole = $request->input('selectRole');
 
@@ -290,6 +298,10 @@ class DaftarUser extends Controller
 }
     public function permision($id)
 {
+          if (Auth::user()->role !== 'DHI') {
+
+        return redirect('/');
+    }
      $dataUser = User::where('id',$id)->first();
         return view('role-management',[
             "dataUser" => $dataUser
