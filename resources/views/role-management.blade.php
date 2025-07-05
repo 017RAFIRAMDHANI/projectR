@@ -219,7 +219,7 @@
           <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <div class="flex items-center mb-3">
               <i class="fas fa-user-plus text-primary mr-2"></i>
-              <h3 class="text-md font-medium text-gray-700">Visitor & Vendor</h3>
+              <h3 class="text-md font-medium text-gray-700">Visitor & Work</h3>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <label class="flex items-center space-x-2">
@@ -316,7 +316,7 @@
             </div>
           </div>
 
-          <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          {{-- <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <div class="flex items-center mb-3">
               <i class="fas fa-user-shield text-primary mr-2"></i>
               <h3 class="text-md font-medium text-gray-700">Role Management</h3>
@@ -339,7 +339,7 @@
                 <span class="text-sm text-gray-600">Delete</span>
               </label>
             </div>
-          </div>
+          </div> --}}
 
         </div>
       </div>

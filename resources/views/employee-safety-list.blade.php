@@ -372,7 +372,7 @@
       <div class="flex flex-col space-y-2">
         <div class="flex items-center space-x-2">
           <label class="text-sm font-medium text-gray-700">Start Date:</label>
-          <input type="date" name="date_from" value="{{ $item->start_date ?? ''}}"   onchange="handleStartDateChange(this)">
+          <input     @if(Auth::user()->access_safety_edit == 1) @else disabled @endif type="date" name="date_from" value="{{ $item->start_date ?? ''}}"   onchange="handleStartDateChange(this)">
         </div>
         <div class="flex items-center space-x-2">
           <label class="text-sm font-medium text-gray-700">Expired Date:</label>
@@ -421,9 +421,11 @@
       <div class="flex space-x-2">
 <form id="resetForm-{{ $item->id_safeti }}" action="{{ route('history.reset') }}" method="get">
   <input type="hidden" name="id_safeti" value="{{ $item->id_safeti ?? '' }}">
-  <button type="button" onclick="confirmReset('{{ $item->id_safeti }}')" class="text-red-600 hover:text-red-700 font-medium" title="View History">
+
+  <button  @if(Auth::user()->access_safety_edit == 1) @else disabled @endif type="button" onclick="confirmReset('{{ $item->id_safeti }}')" class="text-red-600 hover:text-red-700 font-medium" title="View History">
     <i class="fas fa-history mr-1"></i>Reset
   </button>
+
 </form>
 
 </div>
