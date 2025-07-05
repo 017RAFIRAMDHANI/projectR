@@ -56,8 +56,26 @@ class VendorController extends Controller
         // Create PDF from HTML content
         $pdf = FacadePdf::loadHTML($pdfContent);
 
-        // Save the generated PDF in storage
-        $filePath = storage_path('app/public/permit_to_work_' . $permitNumber . '.pdf');
+
+   $timestamp = now()->format('Y_m_d_H_i_s'); // Get the timestamp in the format YYYY_MM_DD_HHMMSS
+        $userName = Auth::user()->name; // Get the name of the authenticated user
+
+        // Create directory path with underscores for the date
+        $storagePath = storage_path('app/public/permit_to_work_/');
+
+        // Debug the directory path
+        Log::debug("Storage Path: " . $storagePath);
+
+        // Check if the directory exists; if not, create it
+        if (!file_exists($storagePath)) {
+            mkdir($storagePath, 0777, true); // Create directory if it doesn't exist
+        }
+
+        // Save the generated PDF with the filename in the format: name_YYYY_MM_DD_HHMMSS.pdf
+        $filePath = $storagePath . $userName . '_' . $timestamp . '.pdf';
+        Log::debug("Saving PDF to: " . $filePath);
+
+        // Save the PDF
         $pdf->save($filePath);
 
         // Kirim email pemberitahuan ke vendor
@@ -133,22 +151,32 @@ $vendor->save();
         }
         return response()->json(['success' => false], 404);
     }
+public function generatePermitNumber()
+{
+    // Ambil nomor permit terakhir yang digunakan untuk hari yang sama
+    $lastPermit = Vendor::where('permit_number', 'LIKE', 'VD/' . date('Y/m/d') . '/%')
+                        ->orderBy('permit_number', 'desc')
+                        ->first();
 
-    // Fungsi untuk generate permit number yang unik
-    public function generatePermitNumber()
-    {
-        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $permitNumber = '';
-        $length = 8;
-
-        // Generate nomor acak
-        for ($i = 0; $i < $length; $i++) {
-            $randomIndex = rand(0, strlen($characters) - 1);
-            $permitNumber .= $characters[$randomIndex];
-        }
-
-        return 'VD-' . date('Ym') . '-' . $permitNumber; // Format: VD-YYYYMM-8digitunik
+    // Jika tidak ada nomor permit sebelumnya, mulai dari 000000456
+    if ($lastPermit) {
+        // Ambil angka terakhir dari nomor permit yang ada, misalnya '000000456' dari 'VD/2025/07/05/000000456'
+        $lastPermitNumber = substr($lastPermit->permit_number, -9); // Ambil bagian terakhir (misalnya 456)
+        $nextNumber = (int) $lastPermitNumber + 1; // Tambah 1 untuk nomor berikutnya
+    } else {
+        // Jika belum ada permit sebelumnya, mulai dari 456 (untuk memulai dari 000000456)
+        $nextNumber = 456;
     }
+
+    // Format angka dengan 9 digit (misalnya 000000457)
+    $permitNumber = str_pad($nextNumber, 9, '0', STR_PAD_LEFT);
+
+    // Generate nomor permit dengan format: VD/YYYY/MM/DD/000000457
+    return 'VD/' . date('Y/m/d') . '/' . $permitNumber;
+}
+
+
+
 public function index(Request $request)
 {
    $search = $request->input('searchData');
