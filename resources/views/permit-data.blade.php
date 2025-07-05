@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        #notificationsPanel {
+        z-index: 9999 !important;
+      }
+      .table-container, .main-content, .content-area {
+        overflow: visible !important;
+      }
+    </style>
    <style>
       html, body {
         height: 100%;

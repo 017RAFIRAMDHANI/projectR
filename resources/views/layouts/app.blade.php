@@ -21,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
      {{-- @vite('resources/js/app.js') --}}
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <link rel="icon" type="image/png" href="{{asset('gambar/digital-hyperspace-logo.png')}}">
 </head>
 <body>
 

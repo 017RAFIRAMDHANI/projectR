@@ -13,6 +13,15 @@
         },
       };
     </script>
+
+    <style>
+        #notificationsPanel {
+        z-index: 9999 !important;
+      }
+      .table-container, .main-content, .content-area {
+        overflow: visible !important;
+      }
+    </style>
     <style>
 
       .btn-hover {
@@ -781,6 +790,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 //     document.querySelectorAll('.left-tab-item').forEach(item => {
 //     item.addEventListener('click', function () {
