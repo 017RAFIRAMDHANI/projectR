@@ -115,7 +115,7 @@ information' ));
             // Mengubah status menjadi Approved
 
              if ($visitor->permit_number) {
-            return back()->with('success', 'Permit Approve Success');
+            return back();
         }
 
             $noted = $request->approved ?? ' '; // Jika tidak ada nilai, beri default 'No notes provided'

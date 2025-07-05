@@ -35,7 +35,7 @@ class VendorController extends Controller
         if ($vendor) {
 
              if ($vendor->permit_number) {
-            return back()->with('success', 'Permit Approve Success');
+            return back();
         }
 
           $noted = $request->approved ?? ' '; // Jika tidak ada nilai, beri default 'No notes provided'
