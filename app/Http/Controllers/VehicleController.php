@@ -50,6 +50,12 @@ class VehicleController extends Controller
 }
 
        public function index(Request $request){
+
+         if (Auth::user()->access_vehicle_view !== 1) {
+
+        return redirect('/');
+    }
+
           $searchVehicle =  $request->input('searchVehicle');
           $selectType =  $request->input('selectType');
           $fromDate =  $request->input('fromDate');

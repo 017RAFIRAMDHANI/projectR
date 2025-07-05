@@ -19,6 +19,11 @@ class ApprovedCloseController extends Controller
 
 public function index(Request $request)
 {
+    if (Auth::user()->access_visvin_view !== 1) {
+
+        return redirect('/');
+    }
+
     // Get the search query input from the request
     $searchVisitor = $request->input('search_visitor');
     $searchVendor = $request->input('search_vendor');

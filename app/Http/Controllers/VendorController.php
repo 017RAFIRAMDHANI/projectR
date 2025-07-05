@@ -189,6 +189,11 @@ public function index(Request $request)
 
       public function create()
 {
+     if (Auth::user()->access_newspecial_create !== 1) {
+
+        return redirect('/');
+    }
+
         return view('new-permit');
 }
  public function info(Request $request)

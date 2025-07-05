@@ -18,6 +18,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class ReportController extends Controller
 {
     //
+
+    
     public function index(){
         $dataRepot = Repot::orderby('created_at','desc')->get();
 

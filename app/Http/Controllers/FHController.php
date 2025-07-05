@@ -53,6 +53,10 @@ public function pdf_manual_vendor(Request $request, $id_vendor)
 
 
    public function index(){
+       if (Auth::user()->role !== 'FM') {
+     
+        return redirect('/');
+    }
     // Mengambil 5 data terbaru berdasarkan id_akun yang sesuai dengan user yang sedang login
     $dataAktifitas = Histori::where('id_akun', Auth::user()->id)
                             ->orderBy('created_at', 'desc')

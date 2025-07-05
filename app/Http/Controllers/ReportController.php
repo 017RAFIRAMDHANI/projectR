@@ -17,8 +17,20 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
+      public function __construct()
+    {
+        $this->middleware('auth');
+       
+
+    }
     //
     public function index(){
+ if (Auth::user()->access_report_view !== 1) {
+
+        return redirect('/');
+    }
+
+
         $dataRepot = Repot::orderby('created_at','desc')->get();
 
         // Ambil semua status unik dari vendors dan visitors

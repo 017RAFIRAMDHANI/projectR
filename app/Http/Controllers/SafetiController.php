@@ -103,6 +103,11 @@ public function uploadPhoto(Request $request)
 
   public function index(Request $request)
 {
+    if (Auth::user()->access_safety_view !== 1) {
+
+        return redirect('/');
+    }
+
     $searchFilter = $request->input('searchFilterInput');
     $typeFilterPilihan = $request->input('typeFilterPilihan');
     $PilihStatus = $request->input('PilihStatus');

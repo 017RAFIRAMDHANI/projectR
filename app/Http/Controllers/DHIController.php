@@ -22,6 +22,10 @@ class DHIController extends Controller
 
     }
     public function index(){
+         if (Auth::user()->role !== 'DHI') {
+
+        return redirect('/');
+    }
  $dataAktifitas = Histori::where('id_akun', Auth::user()->id)
                             ->orderBy('created_at', 'desc')  // Mengurutkan berdasarkan waktu terbaru (descending)
                             ->limit(5)  // Batasi hanya 5 data terbaru
