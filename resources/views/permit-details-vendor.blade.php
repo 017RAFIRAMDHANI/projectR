@@ -559,38 +559,42 @@
 
 
 
-
 <script>
 document.getElementById('printButton').addEventListener('click', function(e) {
     e.preventDefault(); // Mencegah aksi default link
 
     var vendorId = {{ $dataVendor->id_vendor }};
+    var iframe = document.getElementById('pdfIframe');
 
+    // Sembunyikan iframe terlebih dahulu
+    iframe.style.display = "none";
 
     // Mengambil HTML konten dari controller menggunakan AJAX
     fetch(`/view/pdf_manual_vendor/${vendorId}`)
         .then(response => response.json()) // Parse response JSON
         .then(data => {
             // Menyisipkan konten HTML ke dalam iframe
-            document.getElementById('pdfIframe').style.display = "block";
-            document.getElementById('pdfIframe').contentWindow.document.open();
-            document.getElementById('pdfIframe').contentWindow.document.write(data.html);
-            document.getElementById('pdfIframe').contentWindow.document.close();
+            iframe.style.display = "block"; // Menampilkan iframe setelah konten dimuat
+            iframe.contentWindow.document.open();
+            iframe.contentWindow.document.write(data.html);
+            iframe.contentWindow.document.close();
 
-            // Setelah konten di-load di dalam iframe, langsung memicu print
-            document.getElementById('pdfIframe').contentWindow.print();
+            // Memberikan waktu untuk memastikan PDF sepenuhnya dimuat sebelum memicu print
+            setTimeout(function() {
+                iframe.contentWindow.print(); // Proses pencetakan setelah beberapa detik
+                iframe.style.display = "none"; // Menyembunyikan iframe setelah pencetakan
 
-            // Menyembunyikan iframe setelah pencetakan
-            document.getElementById('pdfIframe').style.display = "none";
-
-            // Menghapus konten printContent untuk menghindari gangguan tampilan
-            document.getElementById('printContent').innerHTML = '';
+                // Menghapus konten printContent untuk menghindari gangguan tampilan
+                document.getElementById('printContent').innerHTML = '';
+            }, 2000); // Waktu delay 2 detik sebelum mencetak (sesuaikan waktu sesuai kebutuhan)
         })
-        .catch(error => console.error('Error:', error)); // Menangani error jika ada
+        .catch(error => {
+            console.error('Error:', error); // Menangani error jika ada
+            alert('Gagal mengambil data untuk dicetak');
+        });
 });
-
-
 </script>
+
   </body>
 </html>
 
