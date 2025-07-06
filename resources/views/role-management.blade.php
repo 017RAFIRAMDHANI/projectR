@@ -398,20 +398,50 @@
     });
   });
 </script>
-
 <script>
+  // Function to handle role update with confirmation using SweetAlert
   function updateUserRole(selectElement) {
-    // Ambil nilai role dari dropdown
-    const role = selectElement.value;  // Pastikan value terambil dengan benar
-    console.log("Selected Role:", role); // Debugging: Log nilai role yang dipilih
+    // Ambil nilai role yang baru dari dropdown
+    const newRole = selectElement.value;  // Pastikan value terambil dengan benar
+    const userId = document.getElementById('id').value;  // Ambil ID pengguna dari input tersembunyi
+    const currentRole = '{{ $dataUser->role }}';  // Ambil role saat ini dari dataUser (misalnya DHI, FM, Security)
 
-    // Ambil ID pengguna dari input tersembunyi
-    const userId = document.getElementById('id').value;
+    // Cek jika role saat ini adalah DHI dan yang dipilih ingin mengubah ke FM atau Security
+    if (currentRole === 'DHI' && (newRole === 'FM' || newRole === 'Security')) {
+      // Menampilkan SweetAlert dengan peringatan khusus jika role saat ini adalah DHI
+      Swal.fire({
+        title: 'Warning!',
+        text: "If it is changed it will not return to normal, especially if the DHI account that is being used is very risky, only a programmer can fix it (if there is only 1 DHI account left)",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, change it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Jika konfirmasi di-click, lanjutkan dengan pengiriman data ke backend
+          updateRoleInBackend(userId, newRole);
+        }
+      });
+    } else {
+      // Jika role bukan DHI atau perubahan role tidak melibatkan DHI
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You are about to change the user role!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, change it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Jika konfirmasi di-click, lanjutkan dengan pengiriman data ke backend
+          updateRoleInBackend(userId, newRole);
+        }
+      });
+    }
+  }
 
-    // Log ID dan role sebelum dikirim
-    console.log("User ID:", userId);
-    console.log("Role to be updated:", role);
-
+  // Function to update role in the backend
+  function updateRoleInBackend(userId, role) {
     // Ambil CSRF token yang disertakan di dalam form
     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -427,13 +457,15 @@
     .then(response => response.json())
     .then(data => {
         // Tangani respons dari server jika diperlukan
-        console.log('Success:', data);
+        console.log('Role updated successfully:', data);
+        // Opsional: Menampilkan pesan sukses atau perbarui tampilan
+        Swal.fire('Updated!', 'The user role has been updated.', 'success');
     })
     .catch((error) => {
         console.error('Error:', error);
+        Swal.fire('Error!', 'There was an error updating the role.', 'error');
     });
-}
-
-
+  }
 </script>
+
 @endsection
