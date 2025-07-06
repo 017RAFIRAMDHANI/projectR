@@ -177,7 +177,7 @@ class ReportController extends Controller
        $uniqueNumber = rand(100000, 999999); // Generates a random 6-digit number, you can modify this logic
 
     // Generate the PDF content using data
-    $pdf = FacadePdf::loadView('pdf.vendor-request-report', ['dataPermit' => $dataPermit]);
+    $pdf = FacadePdf::loadView('pdf.work-request-report', ['dataPermit' => $dataPermit]);
 
     // Define the directory path where the PDF will be stored
     $directoryPath = storage_path('app/public/report');
@@ -200,7 +200,7 @@ class ReportController extends Controller
         "type" => $request->type ?? '',
         "name" => $request->reportName ?? '',
         "schedule" => $request->schedule ?? '',
-        "name_file_pdf" => 'report/vendor-permit-' . $uniqueNumber . '.pdf',  // Store the relative path in the DB
+        "name_file_pdf" => 'report/work-permit-' . $uniqueNumber . '.pdf',  // Store the relative path in the DB
     ]);
 
     return back()->with('success','Create shedule report permit success');

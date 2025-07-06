@@ -100,8 +100,9 @@ class VehicleController extends Controller
         });
 
           }
-   $vehicle = $vehicle->paginate(20);
 
+     $vehicle = $vehicle->orderBy('created_at', 'DESC')->paginate(20);
+     
           return view('vehicle-list',[
             "dataVehicle" => $vehicle
           ]);

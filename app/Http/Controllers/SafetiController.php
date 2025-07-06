@@ -193,7 +193,7 @@ if ($expired30Filter == "expired30") {
 
 
     // Pagination
-    $safetis = $safetis->paginate(20);
+    $safetis = $safetis->orderBy('created_at', 'DESC')->paginate(20);
 
 
    $allSafetis = Safeti::all();

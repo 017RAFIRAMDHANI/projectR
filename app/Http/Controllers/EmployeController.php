@@ -52,7 +52,7 @@ public function index(Request $request)
     }
 
     // Lakukan paginasi setelah filter diterapkan
-    $employe = $employe->paginate(20);
+    $employe = $employe->orderBy('created_at', 'DESC')->paginate(20);
 
     // Mengirimkan data ke view
     return view('employee-data', [
