@@ -62,7 +62,7 @@
         >
           <option value="">Select User Type</option>
           <option value="Security">Security</option>
-          <option value="FM">Facility Handler (FM)</option>
+          <option value="FM">FM</option>
           <option value="DHI">DHI</option>
         </select>
       </div>
