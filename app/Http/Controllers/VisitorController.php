@@ -76,8 +76,7 @@ $visitor->note_visitor = $noted;
 $visitor->save();
 
             // Kirim email pemberitahuan ke visitor
-            Mail::to($visitor->email)->send(new \App\Mail\VisitorStatusMail($visitor, 'Request for more
-information' ));
+            Mail::to($visitor->email)->send(new \App\Mail\VisitorStatusMail($visitor, 'Request for more information' ));
 
             Histori::create([
     'id_data' => $visitor->id_visitor ?? null,
