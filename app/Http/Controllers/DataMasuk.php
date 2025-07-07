@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Approved;
 use App\Models\Histori;
 use App\Models\Vehicle;
 use App\Models\Vendor;
@@ -13,6 +14,7 @@ use Google_Client;
 use Google_Service_Sheets;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class DataMasuk extends Controller
 {
@@ -21,11 +23,89 @@ class DataMasuk extends Controller
 
       $this->fetchVendorData();
        $this->fetchVisitorData();
+       $this->autorejectvendor();
+       $this->autorejectvisitor();
 
     }
     public function index(Request $request){
 
     }
+  
+    public function autorejectvisitor()
+{
+    // Ambil semua data Approved dengan visitor dan vendor
+    $Close = Approved::all();
+
+    foreach ($Close as $approved) {
+        $statusUpdated = false;
+
+        // Ambil data visitor untuk validasi
+        if (!empty($approved->visitor->request_date_from) && !empty($approved->visitor->request_date_to)) {
+            // Parse tanggal request visitor
+            $visitorRequestFrom = Carbon::parse($approved->visitor->request_date_from);
+            $visitorRequestTo = Carbon::parse($approved->visitor->request_date_to);
+
+            // Hitung durasi permit
+            $permitDuration = $visitorRequestFrom->diffInDays($visitorRequestTo) + 1;
+
+            // Cek apakah durasi permit tidak sesuai dan status visitor adalah 'Pending'
+            if (($permitDuration < 3 || $permitDuration > 7) && $approved->visitor->status == 'Pending') {
+                // Ubah status menjadi 'Rejected'
+                $approved->visitor->status = 'Rejected';
+                $approved->visitor->save();
+
+                // Kirim email pemberitahuan
+                Mail::to($approved->visitor->email)->send(new \App\Mail\VisitorReject($approved->visitor, 'Rejected'));
+
+                $statusUpdated = true;
+            }
+        }
+
+        // Jika status visitor telah diubah, lanjutkan
+        if ($statusUpdated) {
+            continue;
+        }
+    }
+}
+
+
+  public function autorejectvendor()
+{
+    // Ambil semua data Approved dengan visitor dan vendor
+    $Close = Approved::all();
+
+    foreach ($Close as $approved) {
+        $statusUpdated = false;
+
+        // Ambil data vendor dan visitor untuk validasi
+        if (!empty($approved->vendor->validity_date_from) && !empty($approved->vendor->validity_date_to)) {
+            // Parse tanggal validity
+            $vendorValidityFrom = Carbon::parse($approved->vendor->validity_date_from);
+            $vendorValidityTo = Carbon::parse($approved->vendor->validity_date_to);
+
+            // Hitung durasi permit
+            $permitDuration = $vendorValidityFrom->diffInDays($vendorValidityTo) + 1;
+
+            // Cek apakah durasi permit tidak sesuai dan status vendor adalah 'Pending'
+            if (($permitDuration < 3 || $permitDuration > 7) && $approved->vendor->status == 'Pending') {
+                // Ubah status menjadi 'Rejected'
+                $approved->vendor->status = 'Rejected';
+                $approved->vendor->save();
+
+                // Kirim email pemberitahuan
+                Mail::to($approved->vendor->email)->send(new \App\Mail\VendorReject($approved->vendor, 'Rejected'));
+
+                $statusUpdated = true;
+            }
+        }
+
+        // Jika status vendor telah diubah, lanjutkan
+        if ($statusUpdated) {
+            continue;
+        }
+    }
+}
+
 
       public function fetchVisitorData(){
    $client = new Google_Client();
@@ -50,8 +130,8 @@ class DataMasuk extends Controller
 
             // Validasi apakah primary_number2 sudah ada di database
             $visitor = Visitor::where('primary_number', $primary_number2)->first();
-          $request_date_from = isset($row2[2]) ? Carbon::createFromFormat('d/m/Y', $row2[2])->format('Y-m-d') : null;  // Column validity_date_from
-           $request_date_to = isset($row2[3]) ? Carbon::createFromFormat('d/m/Y', $row2[3])->format('Y-m-d') : null;  // Column validity_date_from
+          $request_date_from = isset($row2[2]) ? Carbon::createFromFormat('m/d/Y', $row2[2])->format('Y-m-d') : null;  // Column validity_date_from
+           $request_date_to = isset($row2[3]) ? Carbon::createFromFormat('m/d/Y', $row2[3])->format('Y-m-d') : null;  // Column validity_date_from
 
               if (!$visitor) {
 
@@ -255,8 +335,8 @@ $request_date_to = $visitor->request_date_to;
             // Validasi apakah primary_number sudah ada di database
             $vendor = Vendor::where('primary_number', $primary_number)->first();
 
-           $validity_date_from = isset($row[6]) ? Carbon::createFromFormat('d/m/Y', $row[6])->format('Y-m-d') : null;  // Column validity_date_from
-           $validity_date_to = isset($row[7]) ? Carbon::createFromFormat('d/m/Y', $row[7])->format('Y-m-d') : null;  // Column validity_date_from
+           $validity_date_from = isset($row[6]) ? Carbon::createFromFormat('m/d/Y', $row[6])->format('Y-m-d') : null;  // Column validity_date_from
+           $validity_date_to = isset($row[7]) ? Carbon::createFromFormat('m/d/Y', $row[7])->format('Y-m-d') : null;  // Column validity_date_from
 
             if (!$vendor) {
           $vendor = Vendor::create([

@@ -151,20 +151,21 @@ $vendor->save();
         }
         return response()->json(['success' => false], 404);
     }
+
 public function generatePermitNumber()
 {
-    // Ambil nomor permit terakhir yang digunakan untuk hari yang sama
-    $lastPermit = Vendor::where('permit_number', 'LIKE', 'VD/' . date('Y/m/d') . '/%')
-                        ->orderBy('permit_number', 'desc')
+    // Ambil nomor permit terakhir yang digunakan, tidak peduli tahun, bulan, atau tanggal
+    $lastPermit = Vendor::where('permit_number', 'LIKE', 'VD/%/%/%')
+                        ->orderByRaw('CAST(SUBSTRING_INDEX(permit_number, "/", -1) AS UNSIGNED) DESC')
                         ->first();
 
-    // Jika tidak ada nomor permit sebelumnya, mulai dari 000000456
+    // Jika ada nomor permit sebelumnya
     if ($lastPermit) {
-        // Ambil angka terakhir dari nomor permit yang ada, misalnya '000000456' dari 'VD/2025/07/05/000000456'
+        // Ambil angka terakhir dari nomor permit yang ada, misalnya '000000456' dari 'VD/2025/06/06/000000456'
         $lastPermitNumber = substr($lastPermit->permit_number, -9); // Ambil bagian terakhir (misalnya 456)
         $nextNumber = (int) $lastPermitNumber + 1; // Tambah 1 untuk nomor berikutnya
     } else {
-        // Jika belum ada permit sebelumnya, mulai dari 456 (untuk memulai dari 000000456)
+        // Jika belum ada permit sebelumnya, mulai dari 456
         $nextNumber = 456;
     }
 
@@ -476,7 +477,7 @@ $vendor = Vendor::create([
             ]);
 
         // Return a success response with data
-        return redirect()->route('index_approve')->with('success', 'Vendor permit request submitted successfully!');
+        return redirect()->route('index_approve')->with('success', 'Work permit request submitted successfully!');
 
     } catch (\Illuminate\Validation\ValidationException $e) {
         // Handle validation errors

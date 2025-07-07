@@ -98,30 +98,26 @@
 
         <div class="greeting">Dear {{ $requestorName ?? ''}},</div>
 
-        <div class="intro">Your work request has been received:</div>
+        <div class="intro">Your visitor request has been received:</div>
 
         <div class="detail-item">
             <span class="detail-label">Submission Time:</span>
             <div class="detail-value">{{ $submissionTime ?? '' }}</div>
         </div>
-
+ <div class="detail-item">
+            <span class="detail-label">Requester name:</span>
+            <div class="detail-value">{{ $requestorName ?? ''}}</div>
+        </div>
         <div class="detail-item">
             <span class="detail-label">Company Name:</span>
             <div class="detail-value">{{ $companyName ?? ''}}</div>
         </div>
 
         <div class="detail-item">
-            <span class="detail-label">Company Contact:</span>
+            <span class="detail-label">Requester Contact Number:</span>
             <div class="detail-value">{{ $companyContact ?? ''}}</div>
         </div>
-        <div class="detail-item">
-            <span class="detail-label">Requester Name:</span>
-            <div class="detail-value">{{ $requestorName ?? ''}}</div>
-        </div>
-        <div class="detail-item">
-            <span class="detail-label">Requester Contact Number:</span>
-            <div class="detail-value">{{ $nameContact ?? ''}}</div>
-        </div>
+
 
 
         <div class="detail-item">
@@ -130,7 +126,12 @@
         </div>
 
         <div class="detail-item">
-            <span class="detail-label">Work Description:</span>
+            <span class="detail-label">Purpose:</span>
+            <div class="detail-value">{{ $purpose ?? ''}}</div>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">Purpose Detail:</span>
             <div class="detail-value">{{ $workDescription ?? ''}}</div>
         </div>
 

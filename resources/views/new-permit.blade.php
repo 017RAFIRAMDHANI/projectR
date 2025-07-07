@@ -188,7 +188,7 @@
                         <input type="text" name="pic_name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Contact Number</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Visitor Contact Number</label>
                         <input type="tel" name="pic_contact" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
               <div>
@@ -705,10 +705,10 @@
 
       if (selectedBuilding === 'Admin Building') {
         const adminLevels = [
-          'Level 1',
-          'Level 2',
-          'Level 3',
-          'Level 4 (Admin Building Only)'
+          'Floor 1',
+          'Floor 2',
+          'Floor 3',
+          'Floor 4'
         ];
         adminLevels.forEach(level => {
           const option = document.createElement('option');
@@ -718,11 +718,11 @@
         });
       } else if (selectedBuilding === 'DC Building') {
         const dcLevels = [
-          'Level 1',
-          'Level 2',
-          'Level 3',
-          'Level 4',
-          'Level 5 (DC Building Only)'
+          'Floor 1',
+          'Floor 2',
+          'Floor 3',
+          'Floor 4',
+          'Floor 5'
         ];
         dcLevels.forEach(level => {
           const option = document.createElement('option');
@@ -758,10 +758,10 @@
 
       if (selectedBuilding === 'Admin Building') {
         const adminLevels = [
-          'Level 1',
-          'Level 2',
-          'Level 3',
-          'Level 4 (Admin Building Only)'
+          'Floor 1',
+          'Floor 2',
+          'Floor 3',
+          'Floor 4'
         ];
         adminLevels.forEach(level => {
           const option = document.createElement('option');
@@ -771,11 +771,11 @@
         });
       } else if (selectedBuilding === 'DC Building') {
         const dcLevels = [
-          'Level 1',
-          'Level 2',
-          'Level 3',
-          'Level 4',
-          'Level 5 (DC Building Only)'
+          'Floor 1',
+          'Floor 2',
+          'Floor 3',
+          'Floor 4',
+          'Floor 5'
         ];
         dcLevels.forEach(level => {
           const option = document.createElement('option');
@@ -811,10 +811,10 @@
 
       if (selectedBuilding === 'Admin Building') {
         const adminLevels = [
-          'Level 1',
-          'Level 2',
-          'Level 3',
-          'Level 4 (Admin Building Only)'
+          'Floor 1',
+          'Floor 2',
+          'Floor 3',
+          'Floor 4'
         ];
         adminLevels.forEach(level => {
           const option = document.createElement('option');
@@ -824,11 +824,11 @@
         });
       } else if (selectedBuilding === 'DC Building') {
         const dcLevels = [
-          'Level 1',
-          'Level 2',
-          'Level 3',
-          'Level 4',
-          'Level 5 (DC Building Only)'
+          'Floor 1',
+          'Floor 2',
+          'Floor 3',
+          'Floor 4',
+          'Floor 5'
         ];
         dcLevels.forEach(level => {
           const option = document.createElement('option');
@@ -911,6 +911,21 @@ function validateRequestTo() {
           }
         });
         to.value = '';
+      } else if (diff < 3) {
+        Swal.fire({
+          icon: 'warning',
+          title: '<span class="text-primary font-semibold text-lg">Invalid Date Range</span>',
+          html: '<span class="text-gray-700">Requested Date To must be at least 3 days after Requested Date From!</span>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#2563eb',
+          customClass: {
+            popup: 'rounded-xl shadow-lg',
+            confirmButton: 'bg-primary text-white px-6 py-2 rounded-lg text-base font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-400',
+            title: 'text-gray-800',
+            htmlContainer: 'text-gray-600'
+          }
+        });
+        to.value = '';
       }
     }
   }
@@ -959,10 +974,93 @@ function validateValidityTo() {
           }
         });
         to.value = '';
+      } else if (diff < 3) {
+        Swal.fire({
+          icon: 'warning',
+          title: '<span class="text-primary font-semibold text-lg">Invalid Date Range</span>',
+          html: '<span class="text-gray-700">Validity Date To must be at least 3 days after Validity Date From!</span>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#2563eb',
+          customClass: {
+            popup: 'rounded-xl shadow-lg',
+            confirmButton: 'bg-primary text-white px-6 py-2 rounded-lg text-base font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-400',
+            title: 'text-gray-800',
+            htmlContainer: 'text-gray-600'
+          }
+        });
+        to.value = '';
       }
     }
-  }
+  }
 }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fromInput = document.querySelector('input[name="request_date_from"]');
+    const toInput = document.querySelector('input[name="request_date_to"]');
+    const form = fromInput && fromInput.closest('form');
+
+    function validateDates(e) {
+        const from = new Date(fromInput.value);
+        const to = new Date(toInput.value);
+
+        if (fromInput.value && toInput.value) {
+            const diff = (to - from) / (1000 * 60 * 60 * 24);
+
+            if (diff > 7) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: '<span class="text-primary font-semibold text-lg">Invalid Date Range</span>',
+                  html: '<span class="text-gray-700">Requested Date To must be within 7 days after Requested Date From!</span>',
+                  confirmButtonText: 'OK',
+                  confirmButtonColor: '#2563eb',
+                  customClass: {
+                    popup: 'rounded-xl shadow-lg',
+                    confirmButton: 'bg-primary text-white px-6 py-2 rounded-lg text-base font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-400',
+                    title: 'text-gray-800',
+                    htmlContainer: 'text-gray-600'
+                  }
+                });
+                toInput.value = '';
+                toInput.focus();
+                e && e.preventDefault();
+                return false;
+            }
+            if (diff < 3) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: '<span class="text-primary font-semibold text-lg">Invalid Date Range</span>',
+                  html: '<span class="text-gray-700">Requested Date To must be at least 3 days after Requested Date From!</span>',
+                  confirmButtonText: 'OK',
+                  confirmButtonColor: '#2563eb',
+                  customClass: {
+                    popup: 'rounded-xl shadow-lg',
+                    confirmButton: 'bg-primary text-white px-6 py-2 rounded-lg text-base font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-400',
+                    title: 'text-gray-800',
+                    htmlContainer: 'text-gray-600'
+                  }
+                });
+                toInput.value = '';
+                toInput.focus();
+                e && e.preventDefault();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (!validateDates(e)) {
+                e.preventDefault();
+            }
+        });
+    }
+
+    if (toInput) {
+        toInput.addEventListener('change', validateDates);
+    }
+});
 </script>
 </body>
 </html>
