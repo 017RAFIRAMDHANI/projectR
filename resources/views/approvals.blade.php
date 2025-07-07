@@ -346,18 +346,19 @@
                 <div class="flex">
                     <!-- Left Tab -->
                  <div class="left-tab">
-                        <div class="left-tab-item active" onclick="switchTab('visitor')">
-                            <div class="flex items-center space-x-3">
-                                <i class="fas fa-user text-blue-600"></i>
-                                <span>Visitor Permits</span>
-                            </div>
-                        </div>
-                        <div class="left-tab-item" onclick="switchTab('vendor')">
-                            <div class="flex items-center space-x-3">
-                                <i class="fas fa-truck text-purple-600"></i>
-                                <span>Work Permits</span>
-                            </div>
-                        </div>
+                      <div class="left-tab-item active" data-tab="visitor" onclick="switchTab('visitor')">
+    <div class="flex items-center space-x-3">
+        <i class="fas fa-user text-blue-600"></i>
+        <span>Visitor Permits</span>
+    </div>
+</div>
+<div class="left-tab-item" data-tab="vendor" onclick="switchTab('vendor')">
+    <div class="flex items-center space-x-3">
+        <i class="fas fa-truck text-purple-600"></i>
+        <span>Work Permits</span>
+    </div>
+</div>
+
                     </div>
 
                     <!-- Content Area -->
@@ -490,7 +491,7 @@
             name="search_vendor"
             value="{{ $searchVendor ?? '' }}"
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Search Vendor"
+            placeholder="Search Work"
         >
     </form>
     <form id="statusForm2" method="GET"  >
@@ -807,25 +808,32 @@ document.addEventListener("DOMContentLoaded", function () {
 //         switchTab(type);  // Panggil switchTab berdasarkan tab yang diklik
 //     });
 // });
+document.addEventListener('DOMContentLoaded', function() {
+    // Panggil switchTab hanya setelah konten dimuat
+    const activeTab = document.querySelector('.left-tab-item.active');
+    if (activeTab) {
+        // Mengambil data-tab dari tab yang aktif
+        switchTab(activeTab.dataset.tab);
+    }
+});
 
 function switchTab(type) {
-    console.log("SwitchTab called with type:", type);  // Log untuk memastikan dipanggil
-    // Menyembunyikan semua konten tab
+    // Menghapus kelas 'active' dari semua konten tab
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
 
-    // Menampilkan konten tab yang dipilih
-    document.getElementById(`${type}-tab`).classList.add('active');
+    // Menambahkan kelas 'active' pada konten tab yang dipilih
+    document.getElementById(type + '-tab').classList.add('active');
 
-    // Memperbarui tab-item dengan menambahkan kelas active
+    // Menghapus kelas 'active' dari semua tab
     document.querySelectorAll('.left-tab-item').forEach(item => {
         item.classList.remove('active');
     });
 
-    // Menambahkan kelas 'active' pada tab yang sesuai
+    // Menambahkan kelas 'active' pada tab yang dipilih berdasarkan data-tab
     document.querySelectorAll('.left-tab-item').forEach(item => {
-        if (item.textContent.toLowerCase().includes(type)) {
+        if (item.dataset.tab === type) {
             item.classList.add('active');
         }
     });
