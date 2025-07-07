@@ -103,7 +103,8 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="text-sm font-medium text-gray-900">{{$item->name}} ({{$item->type}})</h3>
-                            <p class="text-sm text-gray-500">{{$item->schedule}} reports are made on {{$item->created_at}}</p>
+                            <p class="text-sm text-gray-500">{{$item->schedule}} reports are made on <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/y H:i:s') }}</td>
+
                         </div>
                         <div class="flex items-center space-x-2">
    @if (Auth::user()->access_report_delete == 1)

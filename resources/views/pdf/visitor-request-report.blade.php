@@ -69,8 +69,9 @@
         <td>{{$item->name ?? ''}}</td>
         <td>{{$item->id_card ?? ''}}</td>
 
-        <td>{{$item->visitor->request_date_from ?? ''}}</td>
-        <td>{{$item->visitor->request_date_to ?? ''}}</td>
+   <td>{{ \Carbon\Carbon::parse($item->visitor->request_date_from ?? '')->format('d/m/y') }}</td>
+<td>{{ \Carbon\Carbon::parse($item->visitor->request_date_to ?? '')->format('d/m/y') }}</td>
+
 
 
 
@@ -80,7 +81,8 @@
         <td>{{$item->visitor->pic_name ?? ''}}</td>
         <td>{{$item->visitor->car_plate_no ?? ''}}</td>
         <td>{{$item->visitor->status ?? ''}}</td>
-        <td>{{$item->visitor->updated_at ?? ''}}</td>
+      <td>{{ \Carbon\Carbon::parse($item->visitor->updated_at ?? '')->format('d/m/y') }}</td>
+
 
 
       </tr>

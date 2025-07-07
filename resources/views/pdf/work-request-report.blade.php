@@ -69,8 +69,9 @@
         <td>{{$item->name ?? ''}}</td>
         <td>{{$item->id_card ?? ''}}</td>
 
-        <td>{{$item->vendor->validity_date_from ?? ''}}</td>
-        <td>{{$item->vendor->validity_date_to ?? ''}}</td>
+<td>{{ \Carbon\Carbon::parse($item->vendor->validity_date_from ?? '')->format('d/m/y') }}</td>
+<td>{{ \Carbon\Carbon::parse($item->vendor->validity_date_to ?? '')->format('d/m/y') }}</td>
+
 
 
         <td>Work</td>
@@ -79,7 +80,7 @@
         <td>{{$item->vendor->isolation_name ?? ''}}</td>
         <td>{{$item->vendor->number_plate ?? ''}}</td>
         <td>{{$item->vendor->status ?? ''}}</td>
-        <td>{{$item->vendor->updated_at ?? ''}}</td>
+<td>{{ \Carbon\Carbon::parse($item->vendor->updated_at ?? '')->format('d/m/y') }}</td>
 
 
       </tr>

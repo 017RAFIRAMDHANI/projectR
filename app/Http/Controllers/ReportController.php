@@ -188,7 +188,7 @@ class ReportController extends Controller
     }
 
     // Define the file path with the unique number
-    $filePath = storage_path('app/public/report/vendor-permit-' . $uniqueNumber . '.pdf');
+    $filePath = storage_path('app/public/report/work-permit-' . $uniqueNumber . '.pdf');
 
     // Save the PDF to the specified path
     $pdf->save($filePath);
