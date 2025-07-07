@@ -13,17 +13,17 @@
 
     @if ($status == 'Approved')
         <p>Your permit number is: <strong>{{ $permitNumber ?? '' }}</strong></p>
+        <p>Please be
+    reminded to bring the
+    ID Card submitted in
+    the application and
+    the approved visitor /
+    work permit
+    confirmation as
+    attached in this email
+    for security
+    verification on site.</p>
     @endif
-    <p>Please be
-reminded to bring the
-ID Card submitted in
-the application and
-the approved visitor /
-work permit
-confirmation as
-attached in this email
-for security
-verification on site.</p>
     <p>Thank you for your cooperation!</p>
 </body>
 </html>

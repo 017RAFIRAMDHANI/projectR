@@ -49,7 +49,7 @@ class VisitorStatusMail extends Mailable
         $email = $this->subject($subject)
                       ->view('emails.visitor_status') // Pastikan Anda sudah membuat view ini
                       ->with([
-                          'visitorName' => $this->visitor->pic_name,
+                          'visitorName' => $this->visitor->name_1,
                           'note_visitor' => $this->visitor->note_visitor,
                           'status' => $this->status,
                           'permitNumber' => $this->permitNumber,

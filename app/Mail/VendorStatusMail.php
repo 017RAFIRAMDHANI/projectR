@@ -46,6 +46,7 @@ class VendorStatusMail extends Mailable
                       ->with([
                           'vendorName' => $this->vendor->company_name,
                           'note_vendor' => $this->vendor->note_vendor,
+                          'requestor_name' => $this->vendor->requestor_name,
                           'status' => $this->status,
                           'permitNumber' => $this->permitNumber,
 

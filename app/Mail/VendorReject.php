@@ -27,13 +27,14 @@ class VendorReject extends Mailable
 
    public function build()
 {
-    $subject = 'Vendor Status Update: ' . $this->status;
+    $subject = 'Work Status Update: ' . $this->status;
 
     // Mengirim email dengan subject dan data vendor
     return $this->subject($subject)
                 ->view('emails.vendor_status') // Pastikan Anda sudah membuat view ini
                 ->with([
                     'vendorName' => $this->vendor->company_name,
+                    'requestor_name' => $this->vendor->requestor_name,
                     'status' => $this->status,
                 ]);
 }

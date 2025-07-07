@@ -167,13 +167,12 @@
                 $dateTo = Carbon::parse($visitor->request_date_to);
                 $duration = $dateFrom->diffInDays($dateTo);
             @endphp
-            <tr>
-                <td><strong>Requested Duration</strong></td>
-                <td> {{$duration}} Day</td>
-                {{-- belum dinamis --}}
-                <td><strong>Requested Date</strong></td>
-                <td>From: {{$visitor->request_date_from}} To: {{$visitor->request_date_to}}</td>
-            </tr>
+           <tr>
+        <td><strong>Requested Duration</strong></td>
+        <td>{{$duration}} Day(s)</td> <!-- Menampilkan durasi dalam hari -->
+        <td><strong>Requested Date</strong></td>
+        <td>From: {{ $dateFrom->format('d/m/Y') }} To: {{ $dateTo->format('d/m/Y') }}</td>
+    </tr>
             <tr>
                 <td><strong>Purpose</strong></td>
                 <td>
@@ -223,16 +222,17 @@
 </table>
 
 
-        <table class="delivery-table" style="margin-top: 3px;">
-            <thead>
-                <tr>
-                    <th class="section-header">If Delivery: Details Materials & Quantity</th>
-                    <th class="section-header">Materials</th>
-                    <th class="section-header">Qty</th>
-                </tr>
-            </thead>
-            <tbody>
+     <table class="delivery-table" style="margin-top: 3px;">
+    <thead>
+        <tr>
+            <th class="section-header">If Delivery: Details Materials & Quantity</th>
+            <th class="section-header">Materials</th>
+            <th class="section-header">Qty</th>
+        </tr>
+    </thead>
+    <tbody>
         @php $counter = 1; @endphp
+        @php $hasMaterial = false; @endphp
 
         @for ($i = 1; $i <= 30; $i++)
             @php
@@ -244,15 +244,25 @@
 
             @if(!empty($nameValue) || !empty($idValue))
                 <tr>
- <td style="border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: none; border-top: none; padding: 4px;"></td>
+                    <td style="border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: none; border-top: none; padding: 4px;"></td>
                     <td style="border: 1px solid #000; padding: 4px;">{{ $counter}}.{{$nameValue }}</td>
                     <td style="border: 1px solid #000; padding: 4px;">{{ $counter}}.{{$idValue }}</td>
                 </tr>
-                @php $counter++; @endphp
+                @php $counter++; $hasMaterial = true; @endphp
             @endif
         @endfor
+
+        <!-- Jika tidak ada material, tampilkan satu baris kosong -->
+        @if (!$hasMaterial)
+            <tr>
+                <td style="border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: none; border-top: none; padding: 4px;"></td>
+                <td style="border: 1px solid #000; padding: 4px;"></td>
+                <td style="border: 1px solid #000; padding: 4px;"></td>
+            </tr>
+        @endif
     </tbody>
-        </table>
+</table>
+
 
         <table class="person-charge-table" style="margin-top: 3px;">
              <tr>
@@ -270,7 +280,8 @@
             <tr>
                 <td>Date: __ / __ / 20__</td>
                 <td>Date: __ / __ / 20__</td>
-                <td>Date: 14 / 04 / 2025</td>
+               <td>Date: {{ \Carbon\Carbon::now()->format('d / m / Y') }}</td>
+
             </tr>
             <tr>
                 <td class="signature-box"></td>
