@@ -16,7 +16,6 @@ class ApprovedCloseController extends Controller
 
 
     }
-
 public function index(Request $request)
 {
     if (Auth::user()->access_visvin_view !== 1) {
@@ -38,6 +37,10 @@ public function index(Request $request)
     // Get today's date
     $currentDate = Carbon::today();
 
+    // Ambil page untuk masing-masing tab
+    $visitorPage = $request->get('visitor_page', 1);
+    $vendorPage = $request->get('vendor_page', 1);
+
     // Start the query for fetching the data from 'Approved' table
     $dataVisitor = Approved::with('visitor')->where('type','Visitor'); // Start with visitor relationship
     $dataVendor = Approved::with('vendor')->where('type','Vendor'); // Start with vendor relationship
@@ -58,7 +61,7 @@ public function index(Request $request)
 
 
     // Fetch the filtered visitor data
-$dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(5);
+$dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(5, ['*'], 'visitor_page', $visitorPage);
 
 
     // If there's a search term for Vendor, apply it to filter the results
@@ -76,7 +79,7 @@ $dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(5);
         $dataVendor = $dataVendor->where('status', 'like', '%' . $vendorStatusFilter . '%');
     }
     // Fetch the filtered vendor data
-    $dataVendor = $dataVendor->orderBy('created_at', 'desc')->paginate(5);
+    $dataVendor = $dataVendor->orderBy('created_at', 'desc')->paginate(5, ['*'], 'vendor_page', $vendorPage);
 
     $Close = Approved::all();
 

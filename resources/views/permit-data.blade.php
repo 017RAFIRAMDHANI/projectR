@@ -201,20 +201,26 @@
       };
 
       // Function to switch between Visitor and Vendor Permits tabs
-      function switchTab(tabType) {
-        // Hide all tab content
-        document.querySelectorAll('.tab-content').forEach(item => {
-          item.classList.remove('active');
-        });
-        // Show content for the selected tab
-        document.getElementById(tabType).classList.add('active');
+     function switchTab(tabType) {
+    // Hide all tab content
+    document.querySelectorAll('.tab-content').forEach(item => {
+        item.classList.remove('active');
+    });
 
-        // Update the active tab button style
-        document.querySelectorAll('.left-tab-item').forEach(item => {
-          item.classList.remove('active');
-        });
-        document.querySelector(`.left-tab-item[data-tab="${tabType}"]`).classList.add('active');
-      }
+    // Show content for the selected tab
+    document.getElementById(tabType).classList.add('active');
+
+    // Update the active tab button style
+    document.querySelectorAll('.left-tab-item').forEach(item => {
+        item.classList.remove('active');
+    });
+
+    const activeTab = document.querySelector(`.left-tab-item[data-tab="${tabType}"]`);
+    if (activeTab) {
+        activeTab.classList.add('active');
+    }
+}
+
     </script>
 
     <style>
@@ -408,8 +414,15 @@
                     </tbody>
                   </table>
                   <div class="p-3">
-
-                      {{ $dataVisitor->withQueryString()->links('pagination::tailwind') }}
+                      {!! $dataVisitor->appends([
+                          'visitor_page' => $dataVisitor->currentPage(),
+                          'vendor_page' => $dataVendor->currentPage(),
+                          'tab' => 'visitor',
+                          'search_visitor' => request('search_visitor'),
+                          'visitorStatusFilter' => request('visitorStatusFilter'),
+                          'search_vendor' => request('search_vendor'),
+                          'vendorStatusFilter' => request('vendorStatusFilter'),
+                      ])->links('pagination::tailwind') !!}
                     </div>
                 </div>
               </div>
@@ -511,8 +524,15 @@
                   </table>
                 </div>
                   <div class="p-3">
-
-                      {{ $dataVendor->withQueryString()->links('pagination::tailwind') }}
+                      {!! $dataVendor->appends([
+                          'visitor_page' => $dataVisitor->currentPage(),
+                          'vendor_page' => $dataVendor->currentPage(),
+                          'tab' => 'vendor',
+                          'search_visitor' => request('search_visitor'),
+                          'visitorStatusFilter' => request('visitorStatusFilter'),
+                          'search_vendor' => request('search_vendor'),
+                          'vendorStatusFilter' => request('vendorStatusFilter'),
+                      ])->links('pagination::tailwind') !!}
                     </div>
               </div>
             </div>
@@ -595,7 +615,7 @@ $(document).ready(function() {
     <script>
 
 function closePermit(permitId) {
-    const button = document.querySelector(`#permit-${permitId} .close-btn`);
+    const button = document.querySelector(#permit-${permitId} .close-btn);
 
     // Jika tombol sudah di-disable, tidak melakukan apa-apa lagi
     if (button.disabled) {
@@ -638,4 +658,16 @@ function closePermit(permitId) {
 }
 
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    if (tab) {
+        switchTab(tab);
+    } else {
+        switchTab('visitor');  // Default to 'visitor' if no tab is provided in the URL
+    }
+});
+
+</script>
 @endsection
