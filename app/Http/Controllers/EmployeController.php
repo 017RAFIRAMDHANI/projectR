@@ -101,8 +101,8 @@ public function index(Request $request)
                 'number_plate' => $validatedData['number_plate'] ?? null,
                 'type' => $validatedData['type'] ?? null,
                 'company' => $validatedData['company_name'] ?? null,
-                'date_from' => "-",
-                'date_to' => "-",
+                'date_from' => null,
+                'date_to' => null,
                 'id_employe' => $employee->id_employe ?? null,
                 'status' => 'Active',
             ]);
