@@ -39,8 +39,8 @@ public function index(Request $request)
     $currentDate = Carbon::today();
 
     // Start the query for fetching the data from 'Approved' table
-    $dataVisitor = Approved::with('visitor'); // Start with visitor relationship
-    $dataVendor = Approved::with('vendor'); // Start with vendor relationship
+    $dataVisitor = Approved::with('visitor')->where('type','Visitor'); // Start with visitor relationship
+    $dataVendor = Approved::with('vendor')->where('type','Vendor'); // Start with vendor relationship
 
     // If there's a search term for Visitor, apply it to filter the results
     if ($searchVisitor) {
@@ -58,7 +58,7 @@ public function index(Request $request)
 
 
     // Fetch the filtered visitor data
-    $dataVisitor = $dataVisitor->paginate(20);
+    $dataVisitor = $dataVisitor->paginate(5);
 
     // If there's a search term for Vendor, apply it to filter the results
     if ($searchVendor) {
@@ -75,7 +75,7 @@ public function index(Request $request)
         $dataVendor = $dataVendor->where('status', 'like', '%' . $vendorStatusFilter . '%');
     }
     // Fetch the filtered vendor data
-    $dataVendor = $dataVendor->paginate(20);
+    $dataVendor = $dataVendor->paginate(5);
 
     $Close = Approved::all();
 
