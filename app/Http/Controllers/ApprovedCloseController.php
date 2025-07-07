@@ -58,7 +58,8 @@ public function index(Request $request)
 
 
     // Fetch the filtered visitor data
-    $dataVisitor = $dataVisitor->paginate(5);
+$dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(5);
+
 
     // If there's a search term for Vendor, apply it to filter the results
     if ($searchVendor) {
@@ -75,7 +76,7 @@ public function index(Request $request)
         $dataVendor = $dataVendor->where('status', 'like', '%' . $vendorStatusFilter . '%');
     }
     // Fetch the filtered vendor data
-    $dataVendor = $dataVendor->paginate(5);
+    $dataVendor = $dataVendor->orderBy('created_at', 'desc')->paginate(5);
 
     $Close = Approved::all();
 
