@@ -23,8 +23,8 @@ class VisitorExport implements FromCollection, WithHeadings
                 $item->visitor->company_name ?? '',
                 $item->name ?? '',
                 $item->id_card ?? '',
-                $item->visitor->request_date_from ?? '',
-                $item->visitor->request_date_to ?? '',
+             \Carbon\Carbon::parse($item->visitor->request_date_from)->format('d/m/Y') ?? '',
+            \Carbon\Carbon::parse($item->visitor->request_date_to)->format('d/m/Y') ?? '',
                 $item->visitor->purpose_visit ?? '',
 
                 $item->visitor->purpose_detail ?? '',
@@ -32,7 +32,7 @@ class VisitorExport implements FromCollection, WithHeadings
                 $item->visitor->pic_name ?? '',
                 $item->visitor->car_plate_no ?? '',
                 $item->visitor->status ?? '',
-                $item->visitor->updated_at ?? '',
+                  \Carbon\Carbon::parse($item->visitor->updated_at)->format('d/m/Y') ?? '',
             ];
         });
     }

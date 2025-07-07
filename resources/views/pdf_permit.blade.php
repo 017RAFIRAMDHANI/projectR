@@ -130,7 +130,7 @@
     $logoSrc = 'data:image/png;base64,' . $logoBase64;
 @endphp
 
-<img src="{{ $logoSrc }}" alt="Digital Hyperspace Logo" class="logo"> 
+<img src="{{ $logoSrc }}" alt="Digital Hyperspace Logo" class="logo">
         </div>
 
         <table>
@@ -165,8 +165,9 @@
             </tr>
             <tr>
                 <td><strong>Validity Date</strong></td>
-                <td>From: {{$vendor->validity_date_from}}</td>
-                <td>To: {{$vendor->validity_date_to}}</td>
+<td>From: {{ \Carbon\Carbon::parse($vendor->validity_date_from)->format('d/m/Y') ?? 'N/A' }}</td>
+<td>To: {{ \Carbon\Carbon::parse($vendor->validity_date_to)->format('d/m/Y') ?? 'N/A' }}</td>
+
                 <td><strong>Permit No.</strong><br>{{$vendor->permit_number}}</td>
             </tr>
             <tr><td class="section-header" colspan="4">Part 1: Requested By</td></tr>
@@ -289,16 +290,17 @@
 
                 <td colspan="2"></td>
             </tr>
-            <tr>
-                <td colspan="2"><strong>Isolated by Name : {{$vendor->isolation_name}}</strong></td>
-                <td colspan="2"><strong>Date/Time :{{$vendor->isolation_date}}</strong></td>
-            </tr>
+           <tr>
+    <td colspan="2"><strong>Isolated by Name: {{$vendor->isolation_name}}</strong></td>
+    <td colspan="2"><strong>Date/Time: {{ \Carbon\Carbon::parse($vendor->isolation_date)->format('d/m/Y H:i:s') ?? 'N/A' }}</strong></td>
+</tr>
 
-            <tr><td class="section-header" colspan="4">Part 5: Approval - By Facility Manager</td></tr>
-            <tr>
-                <td colspan="2"><strong>Name :</strong> {{$vendor->pdf_nama}}</td>
-                <td colspan="2"><strong>Date/Time :</strong> {{ now()}}</td>
-            </tr>
+<tr><td class="section-header" colspan="4">Part 5: Approval - By Facility Manager</td></tr>
+<tr>
+    <td colspan="2"><strong>Name:</strong> {{$vendor->pdf_nama}}</td>
+    <td colspan="2"><strong>Date/Time:</strong> {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}</td>
+</tr>
+
         </table>
 
         <div class="notes-section" style="font-size: 8px; margin-top: 5px;">

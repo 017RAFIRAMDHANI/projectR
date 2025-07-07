@@ -388,7 +388,12 @@ Approval</h3>
 
                     <p class="text-xs text-gray-500">Work: {{$item->company_name}}</p>
                     <p class="text-xs text-gray-500">Purpose: {{$item->work_description}}</p>
-                    <p class="text-xs text-gray-500">Date: {{$item->validity_date_from}} - {{$item->validity_date_to}}</p>
+               <p class="text-xs text-gray-500">
+    Date:
+    {{ \Carbon\Carbon::parse($item->validity_date_from)->format('d/m/Y') ?? 'N/A' }} -
+    {{ \Carbon\Carbon::parse($item->validity_date_to)->format('d/m/Y') ?? 'N/A' }}
+</p>
+
                 </div>
                 <div class="flex space-x-2">
                       <div class="flex items-center space-x-2">
@@ -422,7 +427,12 @@ Approval</h3>
 
                     <p class="text-xs text-gray-500">Visitor: {{$item->company_name}}</p>
                     <p class="text-xs text-gray-500">Purpose: {{$item->purpose_detail}}</p>
-                    <p class="text-xs text-gray-500">Date: {{$item->request_date_from}} - {{$item->request_date_to}}</p>
+                   <p class="text-xs text-gray-500">
+    Date:
+    {{ \Carbon\Carbon::parse($item->request_date_from)->format('d/m/Y') ?? 'N/A' }} -
+    {{ \Carbon\Carbon::parse($item->request_date_to)->format('d/m/Y') ?? 'N/A' }}
+</p>
+
                 </div>
                 <div class="flex space-x-2">
                       <div class="flex items-center space-x-2">

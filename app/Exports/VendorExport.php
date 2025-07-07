@@ -23,15 +23,15 @@ class VendorExport implements FromCollection, WithHeadings
                 $item->vendor->company_name ?? '',
                 $item->name ?? '',
                 $item->id_card ?? '',
-                $item->vendor->validity_date_from ?? '',
-                $item->vendor->validity_date_to ?? '',
+               \Carbon\Carbon::parse($item->vendor->validity_date_from)->format('d/m/Y') ?? '',
+            \Carbon\Carbon::parse($item->vendor->validity_date_to)->format('d/m/Y') ?? '',
                 'Work',
                 $item->vendor->work_description ?? '',
                 $item->vendor->specific_location ?? '',
                 $item->vendor->isolation_name ?? '',
                 $item->vendor->number_plate ?? '',
                 $item->vendor->status ?? '',
-                $item->vendor->updated_at ?? '',
+                 \Carbon\Carbon::parse($item->vendor->updated_at)->format('d/m/Y') ?? '',
             ];
         });
     }
