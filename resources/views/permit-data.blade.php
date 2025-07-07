@@ -433,7 +433,7 @@
                <div class="px-6 py-4 border-b border-gray-200 flex gap-4 w-full">
     <!-- Search Form -->
     <form id="searchFormVendor" method="get" class="flex-1">
-        <input type="text" name="search_vendor" id="search_vendor" placeholder="Search Vendor..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <input type="text" name="search_vendor" id="search_vendor" placeholder="Search Work..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
     </form>
 
     <!-- Date Filter -->
