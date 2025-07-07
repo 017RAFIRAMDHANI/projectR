@@ -145,8 +145,8 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->type}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->name}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->company}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->date_from}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->date_to}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"> {{ \Carbon\Carbon::parse($item->date_from)->format('d/m/Y') ?? ' ' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($item->date_to)->format('d/m/Y') ?? ' ' }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                  <span class="px-2 py-1 text-xs font-medium rounded-full
     {{ $item->status == 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">

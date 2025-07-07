@@ -132,13 +132,18 @@
 <div class="grid grid-cols-2 gap-4 mb-2">
     <div>
         <p class="text-sm font-medium text-gray-500">Start Date</p>
-        <p class="text-base text-gray-900" id="startDate">{{ $dataVendor->validity_date_from }}</p>
+        <p class="text-base text-gray-900" id="startDate">
+            {{ \Carbon\Carbon::parse($dataVendor->validity_date_from)->format('d/m/Y') ?? 'N/A' }}
+        </p>
     </div>
     <div>
         <p class="text-sm font-medium text-gray-500">End Date</p>
-        <p class="text-base text-gray-900" id="endDate">{{ $dataVendor->validity_date_to }}</p>
+        <p class="text-base text-gray-900" id="endDate">
+            {{ \Carbon\Carbon::parse($dataVendor->validity_date_to)->format('d/m/Y') ?? 'N/A' }}
+        </p>
     </div>
 </div>
+
 
       <div class="mb-2">
     <p class="text-sm font-medium text-gray-500">Does work generate dust?</p>
@@ -225,7 +230,11 @@
                     <div class="flex-1">
                         <p class="text-sm font-medium text-gray-900">{{$item->judul ?? ''}}</p>
                         <p class="text-sm text-gray-500">{{$item->text ?? ''}}</p>
-                        <p class="text-xs text-gray-400">{{$item->created_at ?? ''}}</p>
+                      <p class="text-xs text-gray-400">
+    {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') ?? 'N/A' }}
+</p>
+
+
                     </div>
                 </div>
                 @endforeach

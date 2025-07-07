@@ -25,12 +25,66 @@ class DataMasuk extends Controller
        $this->fetchVisitorData();
        $this->autorejectvendor();
        $this->autorejectvisitor();
+       $this->auto7harivisitor();
+       $this->auto7harivendor();
 
     }
     public function index(Request $request){
 
     }
-  
+public function auto7harivendor()
+{
+    // Ambil semua data Approved dengan visitor dan vendor
+    $Close = Approved::all();
+
+    foreach ($Close as $approved) {
+        // Ambil data vendor untuk validasi
+        if (!empty($approved->vendor->validity_date_from) && !empty($approved->vendor->validity_date_to)) {
+            // Parse tanggal validity vendor
+            $vendorValidityFrom = Carbon::parse($approved->vendor->validity_date_from);
+            $vendorValidityTo = Carbon::parse($approved->vendor->validity_date_to);
+            $today = Carbon::now(); // Mendapatkan tanggal hari ini
+
+            // Cek apakah hari ini lebih besar dari tanggal validity_to dan status vendor adalah 'Pending'
+            if ($today->gt($vendorValidityTo) && $approved->vendor->status == 'Pending') {
+                // Ubah status menjadi 'Rejected'
+                $approved->vendor->status = 'Rejected';
+                $approved->vendor->save();
+
+                // Kirim email pemberitahuan
+                \Mail::to($approved->vendor->email)->send(new \App\Mail\VendorReject($approved->vendor, 'Rejected'));
+            }
+        }
+    }
+}
+
+ public function auto7harivisitor()
+{
+    // Ambil semua data Approved dengan visitor dan vendor
+    $Close = Approved::all();
+
+    foreach ($Close as $approved) {
+        // Ambil data visitor untuk validasi
+        if (!empty($approved->visitor->request_date_from) && !empty($approved->visitor->request_date_to)) {
+            // Parse tanggal request visitor
+            $visitorRequestFrom = Carbon::parse($approved->visitor->request_date_from);
+            $visitorRequestTo = Carbon::parse($approved->visitor->request_date_to);
+            $today = Carbon::now(); // Mendapatkan tanggal hari ini
+
+            // Cek apakah hari ini lebih besar dari tanggal request_to dan status visitor adalah 'Pending'
+            if ($today->gt($visitorRequestTo) && $approved->visitor->status == 'Pending') {
+                // Ubah status menjadi 'Rejected'
+                $approved->visitor->status = 'Rejected';
+                $approved->visitor->save();
+
+                // Kirim email pemberitahuan
+                Mail::to($approved->visitor->email)->send(new \App\Mail\VisitorReject($approved->visitor, 'Rejected'));
+            }
+        }
+    }
+}
+
+
     public function autorejectvisitor()
 {
     // Ambil semua data Approved dengan visitor dan vendor

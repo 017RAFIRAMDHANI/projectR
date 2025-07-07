@@ -372,7 +372,11 @@
   <td class="px-4 py-4 text-sm font-medium text-gray-900">{{ $visitor->visitor->permit_number }}</td>
   <td class="px-4 py-4 text-sm text-gray-500">{{ $visitor->visitor->pic_name }}</td>
   <td class="px-4 py-4 text-sm text-gray-500">{{ $visitor->visitor->purpose_detail }}</td>
-  <td class="px-4 py-4 text-sm text-gray-500">{{ $visitor->visitor->request_date_from }} - {{ $visitor->visitor->request_date_to }}</td>
+<td class="px-4 py-4 text-sm text-gray-500">
+    {{ \Carbon\Carbon::parse($visitor->visitor->request_date_from)->format('d/m/Y') ?? 'N/A' }} -
+    {{ \Carbon\Carbon::parse($visitor->visitor->request_date_to)->format('d/m/Y') ?? 'N/A' }}
+</td>
+
 <td class="px-4 py-4">
   <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
     @if($visitor->status == 'Open')
@@ -471,7 +475,11 @@
   <td class="px-4 py-4 text-sm font-medium text-gray-900">{{ $vendor->vendor->permit_number }}</td>
   <td class="px-4 py-4 text-sm text-gray-500">{{ $vendor->vendor->requestor_name }}</td>
   <td class="px-4 py-4 text-sm text-gray-500">{{ $vendor->vendor->work_description }}</td>
-  <td class="px-4 py-4 text-sm text-gray-500">{{ $vendor->vendor->validity_date_from }} - {{ $vendor->vendor->validity_date_to }}</td>
+<td class="px-4 py-4 text-sm text-gray-500">
+    {{ \Carbon\Carbon::parse($vendor->vendor->validity_date_from)->format('d/m/Y') ?? 'N/A' }} -
+    {{ \Carbon\Carbon::parse($vendor->vendor->validity_date_to)->format('d/m/Y') ?? 'N/A' }}
+</td>
+
 <td class="px-4 py-4">
   <span class="permit-status px-2 py-1 text-xs font-medium rounded-full
     @if($vendor->status == 'Open')

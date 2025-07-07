@@ -101,16 +101,21 @@
                 <p class="text-base text-gray-900" id="requestedDuration">{{ $duration ?? ''}} Day</p>
               </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-              <div>
-                <p class="text-sm font-medium text-gray-500">Requested Date From</p>
-                <p class="text-base text-gray-900" id="requestedDateFrom">  {{ $dataVisitor->request_date_from ?? '' }}</p>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-500">Requested Date To</p>
-                <p class="text-base text-gray-900" id="requestedDateTo">  {{ $dataVisitor->request_date_to ?? '' }}</p>
-              </div>
-            </div>
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+    <div>
+        <p class="text-sm font-medium text-gray-500">Requested Date From</p>
+        <p class="text-base text-gray-900" id="requestedDateFrom">
+            {{ \Carbon\Carbon::parse($dataVisitor->request_date_from)->format('d/m/Y') ?? 'N/A' }}
+        </p>
+    </div>
+    <div>
+        <p class="text-sm font-medium text-gray-500">Requested Date To</p>
+        <p class="text-base text-gray-900" id="requestedDateTo">
+            {{ \Carbon\Carbon::parse($dataVisitor->request_date_to)->format('d/m/Y') ?? 'N/A' }}
+        </p>
+    </div>
+</div>
+
             <div class="flex items-center space-x-4 mb-2">
               <span class="text-sm font-medium text-gray-500">Purpose: {{ $dataVisitor->purpose_visit ?? '' }}</span>
               <span class="text-base text-gray-900" id="purpose"></span>
@@ -240,7 +245,10 @@
                     <div class="flex-1">
                         <p class="text-sm font-medium text-gray-900">{{$item->judul ?? ''}}</p>
                         <p class="text-sm text-gray-500">{{$item->text ?? ''}}</p>
-                        <p class="text-xs text-gray-400">{{$item->created_at ?? ''}}</p>
+                       <p class="text-xs text-gray-400">
+    {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i:s') ?? 'N/A' }}
+</p>
+
                     </div>
                 </div>
                 @endforeach
