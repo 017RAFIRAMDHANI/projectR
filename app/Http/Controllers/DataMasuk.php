@@ -32,130 +32,103 @@ class DataMasuk extends Controller
     public function index(Request $request){
 
     }
+    
 public function auto7harivendor()
 {
-    // Ambil semua data Approved dengan visitor dan vendor
-    $Close = Approved::all();
+    // Ambil semua vendor dengan status Pending
+    $vendors = Vendor::where('status', 'Pending')->get();
 
-    foreach ($Close as $approved) {
-        // Ambil data vendor untuk validasi
-        if (!empty($approved->vendor->validity_date_from) && !empty($approved->vendor->validity_date_to)) {
-            // Parse tanggal validity vendor
-            $vendorValidityFrom = Carbon::parse($approved->vendor->validity_date_from);
-            $vendorValidityTo = Carbon::parse($approved->vendor->validity_date_to);
-            $today = Carbon::now(); // Mendapatkan tanggal hari ini
+    foreach ($vendors as $vendor) {
+        // Pastikan tanggal validity tidak kosong
+        if (!empty($vendor->validity_date_from) && !empty($vendor->validity_date_to)) {
+            $vendorValidityTo = Carbon::parse($vendor->validity_date_to);
+            $today = Carbon::now();
 
-            // Cek apakah hari ini lebih besar dari tanggal validity_to dan status vendor adalah 'Pending'
-            if ($today->gt($vendorValidityTo) && $approved->vendor->status == 'Pending') {
-                // Ubah status menjadi 'Rejected'
-                $approved->vendor->status = 'Rejected';
-                $approved->vendor->save();
+            // Cek apakah hari ini lewat dari validity_to
+            if ($today->gt($vendorValidityTo)) {
+                // Ubah status jadi Rejected
+                $vendor->status = 'Rejected';
+                $vendor->save();
 
                 // Kirim email pemberitahuan
-                \Mail::to($approved->vendor->email)->send(new \App\Mail\VendorReject($approved->vendor, 'Rejected'));
+                Mail::to($vendor->email)->send(new \App\Mail\VendorReject($vendor, 'Rejected'));
             }
         }
     }
 }
-
- public function auto7harivisitor()
+public function auto7harivisitor()
 {
-    // Ambil semua data Approved dengan visitor dan vendor
-    $Close = Approved::all();
+    // Ambil semua visitor dengan status Pending
+    $visitors = Visitor::where('status', 'Pending')->get();
 
-    foreach ($Close as $approved) {
-        // Ambil data visitor untuk validasi
-        if (!empty($approved->visitor->request_date_from) && !empty($approved->visitor->request_date_to)) {
-            // Parse tanggal request visitor
-            $visitorRequestFrom = Carbon::parse($approved->visitor->request_date_from);
-            $visitorRequestTo = Carbon::parse($approved->visitor->request_date_to);
-            $today = Carbon::now(); // Mendapatkan tanggal hari ini
+    foreach ($visitors as $visitor) {
+        // Pastikan tanggal tidak kosong
+        if (!empty($visitor->request_date_from) && !empty($visitor->request_date_to)) {
+            $visitorRequestTo = Carbon::parse($visitor->request_date_to);
+            $today = Carbon::now();
 
-            // Cek apakah hari ini lebih besar dari tanggal request_to dan status visitor adalah 'Pending'
-            if ($today->gt($visitorRequestTo) && $approved->visitor->status == 'Pending') {
-                // Ubah status menjadi 'Rejected'
-                $approved->visitor->status = 'Rejected';
-                $approved->visitor->save();
+            // Cek apakah hari ini lebih besar dari request_date_to
+            if ($today->gt($visitorRequestTo)) {
+                // Ubah status menjadi Rejected
+                $visitor->status = 'Rejected';
+                $visitor->save();
 
                 // Kirim email pemberitahuan
-                Mail::to($approved->visitor->email)->send(new \App\Mail\VisitorReject($approved->visitor, 'Rejected'));
+                Mail::to($visitor->email)->send(new \App\Mail\VisitorReject($visitor, 'Rejected'));
             }
         }
     }
 }
 
 
-    public function autorejectvisitor()
+   public function autorejectvisitor()
 {
-    // Ambil semua data Approved dengan visitor dan vendor
-    $Close = Approved::all();
+    // Ambil semua visitor dengan status Pending
+    $visitors = Visitor::where('status', 'Pending')->get();
 
-    foreach ($Close as $approved) {
-        $statusUpdated = false;
+    foreach ($visitors as $visitor) {
+        // Pastikan tanggal from & to tidak kosong
+        if (!empty($visitor->request_date_from) && !empty($visitor->request_date_to)) {
+            $requestFrom = Carbon::parse($visitor->request_date_from);
+            $requestTo = Carbon::parse($visitor->request_date_to);
 
-        // Ambil data visitor untuk validasi
-        if (!empty($approved->visitor->request_date_from) && !empty($approved->visitor->request_date_to)) {
-            // Parse tanggal request visitor
-            $visitorRequestFrom = Carbon::parse($approved->visitor->request_date_from);
-            $visitorRequestTo = Carbon::parse($approved->visitor->request_date_to);
+            // Hitung durasi request
+            $permitDuration = $requestFrom->diffInDays($requestTo) + 1;
 
-            // Hitung durasi permit
-            $permitDuration = $visitorRequestFrom->diffInDays($visitorRequestTo) + 1;
-
-            // Cek apakah durasi permit tidak sesuai dan status visitor adalah 'Pending'
-            if (($permitDuration < 3 || $permitDuration > 7) && $approved->visitor->status == 'Pending') {
-                // Ubah status menjadi 'Rejected'
-                $approved->visitor->status = 'Rejected';
-                $approved->visitor->save();
+            // Jika durasi < 3 atau > 7 hari
+            if ($permitDuration < 3 || $permitDuration > 7) {
+                // Ubah status menjadi Rejected
+                $visitor->status = 'Rejected';
+                $visitor->save();
 
                 // Kirim email pemberitahuan
-                Mail::to($approved->visitor->email)->send(new \App\Mail\VisitorReject($approved->visitor, 'Rejected'));
-
-                $statusUpdated = true;
+                Mail::to($visitor->email)->send(new \App\Mail\VisitorReject($visitor, 'Rejected'));
             }
-        }
-
-        // Jika status visitor telah diubah, lanjutkan
-        if ($statusUpdated) {
-            continue;
         }
     }
 }
 
 
-  public function autorejectvendor()
+public function autorejectvendor()
 {
-    // Ambil semua data Approved dengan visitor dan vendor
-    $Close = Approved::all();
+    $vendors = Vendor::all();
 
-    foreach ($Close as $approved) {
-        $statusUpdated = false;
+    foreach ($vendors as $vendor) {
+        if ($vendor->mode === 'Normal' && $vendor->status === 'Pending') {
 
-        // Ambil data vendor dan visitor untuk validasi
-        if (!empty($approved->vendor->validity_date_from) && !empty($approved->vendor->validity_date_to)) {
-            // Parse tanggal validity
-            $vendorValidityFrom = Carbon::parse($approved->vendor->validity_date_from);
-            $vendorValidityTo = Carbon::parse($approved->vendor->validity_date_to);
+            if (!empty($vendor->validity_date_from) && !empty($vendor->validity_date_to)) {
+                $vendorValidityFrom = Carbon::parse($vendor->validity_date_from);
+                $vendorValidityTo = Carbon::parse($vendor->validity_date_to);
 
-            // Hitung durasi permit
-            $permitDuration = $vendorValidityFrom->diffInDays($vendorValidityTo) + 1;
+                $permitDuration = $vendorValidityFrom->diffInDays($vendorValidityTo) + 1;
 
-            // Cek apakah durasi permit tidak sesuai dan status vendor adalah 'Pending'
-            if (($permitDuration < 3 || $permitDuration > 7) && $approved->vendor->status == 'Pending') {
-                // Ubah status menjadi 'Rejected'
-                $approved->vendor->status = 'Rejected';
-                $approved->vendor->save();
+                if ($permitDuration < 3 || $permitDuration > 7) {
+                    $vendor->status = 'Rejected';
+                    $vendor->save();
 
-                // Kirim email pemberitahuan
-                Mail::to($approved->vendor->email)->send(new \App\Mail\VendorReject($approved->vendor, 'Rejected'));
-
-                $statusUpdated = true;
+                    Mail::to($vendor->email)->send(new \App\Mail\VendorReject($vendor, 'Rejected'));
+                }
             }
-        }
-
-        // Jika status vendor telah diubah, lanjutkan
-        if ($statusUpdated) {
-            continue;
         }
     }
 }
@@ -180,7 +153,8 @@ public function auto7harivendor()
   foreach ($values2 as $key2 => $row2) {
             if ($key2 == 0) continue;  // Skip header row
 
-    $primary_number2 = isset($row2[134]) ? $row2[134] : null;
+    // $primary_number2 = isset($row2[134]) ? $row2[134] : null;
+$primary_number2 = isset($row2[134]) && !empty($row2[134]) ? $row2[134] : null;
 
             // Validasi apakah primary_number2 sudah ada di database
             $visitor = Visitor::where('primary_number', $primary_number2)->first();
@@ -384,8 +358,8 @@ $request_date_to = $visitor->request_date_to;
 
 
             // Ambil primary_number yang sudah ada di Google Sheets (asumsi kolom 10 untuk primary_number)
-            $primary_number = isset($row[81]) ? $row[81] : null;
-
+            // $primary_number = isset($row[81]) ? $row[81] : null;
+$primary_number = isset($row[81]) && !empty($row[81]) ? $row[81] : null;
             // Validasi apakah primary_number sudah ada di database
             $vendor = Vendor::where('primary_number', $primary_number)->first();
 
