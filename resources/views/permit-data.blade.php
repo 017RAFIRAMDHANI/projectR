@@ -398,7 +398,7 @@
 
   <td class="px-4 py-4 text-sm font-medium text-gray-900">
 
-    <a href="{{route('visitor_view',$visitor->visitor->id_visitor)}}" class="action-btn view">
+    <a href="{{route('visitor_view2',$visitor->visitor->id_visitor)}}" class="action-btn view">
       <i class="fas fa-eye"></i>
     </a>
 @if(Auth::user()->access_visvin_delete == 1)
@@ -506,7 +506,7 @@
   </span>
 </td>
   <td class="px-4 py-4 text-sm font-medium text-gray-900">
-  <a href="{{route('vendor_view',$vendor->vendor->id_vendor)}}" class="action-btn view">
+  <a href="{{route('vendor_view2',$vendor->vendor->id_vendor)}}" class="action-btn view">
                   <i class="fas fa-eye"></i>
                 </a>
                 @if(Auth::user()->access_visvin_delete == 1)

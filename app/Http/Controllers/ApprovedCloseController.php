@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Approved;
 use App\Models\Histori;
+use App\Models\Vendor;
+use App\Models\Visitor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +63,7 @@ public function index(Request $request)
 
 
     // Fetch the filtered visitor data
-$dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(5, ['*'], 'visitor_page', $visitorPage);
+$dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(20, ['*'], 'visitor_page', $visitorPage);
 
 
     // If there's a search term for Vendor, apply it to filter the results
@@ -166,6 +168,33 @@ $dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(5, ['*'], '
         "totalCount" => $totalCount,
     ]);
 }
+
+    public function view2($id_vendor){
+
+       $dataVendor =  Vendor::where('id_vendor',$id_vendor)->first();
+       $dataVendorHistori =  Histori::where('id_data',$id_vendor)->where('type', 'Vendor')->get();
+    //    dd($dataVendorHistori);
+
+        return view('permit-details-vendor2',[
+            "dataVendor" => $dataVendor,
+            "dataVendorHistori" => $dataVendorHistori,
+        ]);
+    }
+
+    public function view_visitor2($id_visitor){
+        $dataVisitor =  Visitor::where('id_visitor',$id_visitor)->first();
+ $dateFrom = Carbon::parse($dataVisitor->request_date_from);
+    $dateTo = Carbon::parse($dataVisitor->request_date_to);
+    $duration = $dateFrom->diffInDays($dateTo);
+     $dataVisitorHistori =  Histori::where('id_data',$id_visitor)->where('type', 'Visitor')->get();
+    // Menghitung durasi dalam hari
+
+        return view('permit-details-visitor2',[
+            "dataVisitor" => $dataVisitor,
+            "duration" => $duration,
+            "dataVisitorHistori" => $dataVisitorHistori
+        ]);
+    }
 
 public function updateStatus(Request $request)
 {

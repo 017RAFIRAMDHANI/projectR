@@ -64,6 +64,8 @@ Route::get('/view_visitor/{id_visitor}',[App\Http\Controllers\FHController::clas
 Route::get('/view_visitor/pdf_manual_visitor/{id_visitor}',[App\Http\Controllers\FHController::class, 'pdf_manual_visitor'])->name('pdf_manual_visitor');
 Route::get('/view/pdf_manual_vendor/{id_vendor}',[App\Http\Controllers\FHController::class, 'pdf_manual_vendor'])->name('pdf_manual_vendor');
 
+Route::get('/view_visitor2/{id_visitor}',[App\Http\Controllers\ApprovedCloseController::class, 'view_visitor2'])->name('visitor_view2');
+Route::get('/view2/{id_vendor}',[App\Http\Controllers\ApprovedCloseController::class, 'view2'])->name('vendor_view2');
 // DHI const
 Route::get('/dhi-dashboard',[App\Http\Controllers\DHIController::class, 'index'])->name('dhi-dashboard');
 Route::get('/regisuser',[App\Http\Controllers\DaftarUser::class, 'create'])->name('regisuser');
