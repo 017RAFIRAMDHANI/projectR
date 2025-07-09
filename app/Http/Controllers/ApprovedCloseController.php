@@ -79,7 +79,7 @@ $dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(5, ['*'], '
         $dataVendor = $dataVendor->where('status', 'like', '%' . $vendorStatusFilter . '%');
     }
     // Fetch the filtered vendor data
-    $dataVendor = $dataVendor->orderBy('created_at', 'desc')->paginate(5, ['*'], 'vendor_page', $vendorPage);
+    $dataVendor = $dataVendor->orderBy('created_at', 'desc')->paginate(20, ['*'], 'vendor_page', $vendorPage);
 
     $Close = Approved::all();
 
