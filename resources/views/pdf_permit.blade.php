@@ -292,7 +292,7 @@
             </tr>
            <tr>
     <td colspan="2"><strong>Isolated by Name: {{$vendor->isolation_name}}</strong></td>
-    <td colspan="2"><strong>Date/Time: {{ \Carbon\Carbon::parse($vendor->isolation_date)->format('d/m/Y H:i:s') ?? 'N/A' }}</strong></td>
+    <td colspan="2"><strong>Date/Time: {{ $vendor->isolation_date ?? ' '}}</strong></td>
 </tr>
 
 <tr><td class="section-header" colspan="4">Part 5: Approval - By Facility Manager</td></tr>
