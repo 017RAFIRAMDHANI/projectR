@@ -5,8 +5,86 @@
         #notificationsPanel {
         z-index: 9999 !important;
       }
-      .table-container, .main-content {
+      .table-container, .main-content, .content-area {
         overflow: visible !important;
+      }
+    </style>
+   <style>
+      html, body {
+        height: 100%;
+        overflow: hidden;
+      }
+      .btn-hover {
+        transition: background-color 0.2s ease;
+      }
+      .btn-hover:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .btn-hover:active {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      .menu-item {
+        transition: background-color 0.2s ease;
+      }
+      .menu-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .menu-item:active {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      .action-btn {
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        height: 28px;
+        margin: 0 2px;
+      }
+      .action-btn:hover {
+        transform: translateY(-1px);
+      }
+      .action-btn.edit {
+        background-color: rgba(37, 99, 235, 0.1);
+        color: #2563eb;
+      }
+      .action-btn.edit:hover {
+        background-color: rgba(37, 99, 235, 0.2);
+      }
+      .action-btn.view {
+        background-color: rgba(107, 114, 128, 0.1);
+        color: #4b5563;
+      }
+      .action-btn.view:hover {
+        background-color: rgba(107, 114, 128, 0.2);
+      }
+      .action-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+      }
+      /* Custom scrollbar styles */
+      .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #CBD5E0 #EDF2F7;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #EDF2F7;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #CBD5E0;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #A0AEC0;
       }
       /* Table container styles */
       .table-container {
@@ -28,8 +106,6 @@
         border-right: 1px solid #E5E7EB;
         height: fit-content;
         z-index: 20;
-        max-height: 80vh;
-        overflow-y: auto;
       }
       .left-tab-item {
         padding: 12px 16px;
@@ -81,7 +157,9 @@
         background-color: #A0AEC0;
       }
       /* Content area styles */
-      /* .content-area { overflow: visible; }  -- di-nonaktifkan agar .table-scroll bisa aktif */
+      .content-area {
+        overflow: visible;
+      }
       /* Table styles */
       table {
         width: 100%;
@@ -137,7 +215,7 @@
         item.classList.remove('active');
     });
 
-    const activeTab = document.querySelector(.left-tab-item[data-tab="${tabType}"]);
+    const activeTab = document.querySelector(`.left-tab-item[data-tab="${tabType}"]`);
     if (activeTab) {
         activeTab.classList.add('active');
     }
@@ -466,12 +544,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const searchVisitor = "{{ request('search_visitor') }}";
-        const searchVendor = "{{ request('search_vendor') }}";
+        const searchVisitor = '{{ request('search_visitor') }}';
+        const searchVendor = '{{ request('search_vendor') }}';
+
         if (searchVisitor) {
-            switchTab('visitor');
+            switchTab('visitor');  // Automatically switch to visitor tab if search_visitor is present
         } else if (searchVendor) {
-            switchTab('vendor');
+            switchTab('vendor');  // Automatically switch to vendor tab if search_vendor is present
         }
     });
 </script>
@@ -486,12 +565,13 @@
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const filterVisitor = "{{ request('visitorStatusFilter') }}";
-        const filterVendor = "{{ request('vendorStatusFilter') }}";
+        const filterVisitor = '{{ request('visitorStatusFilter') }}';
+        const filterVendor = '{{ request('vendorStatusFilter') }}';
+
         if (filterVisitor) {
-            switchTab('visitor');
+            switchTab('visitor');  // Automatically switch to visitor tab if search_visitor is present
         } else if (filterVendor) {
-            switchTab('vendor');
+            switchTab('vendor');  // Automatically switch to vendor tab if search_vendor is present
         }
     });
 </script>
