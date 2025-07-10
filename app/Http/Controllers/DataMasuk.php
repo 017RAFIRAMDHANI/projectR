@@ -32,7 +32,7 @@ class DataMasuk extends Controller
     public function index(Request $request){
 
     }
-    
+
 public function auto7harivendor()
 {
     // Ambil semua vendor dengan status Pending
@@ -41,12 +41,16 @@ public function auto7harivendor()
     foreach ($vendors as $vendor) {
         // Pastikan tanggal validity tidak kosong
         if (!empty($vendor->validity_date_from) && !empty($vendor->validity_date_to)) {
-            $vendorValidityTo = Carbon::parse($vendor->validity_date_to);
-            $today = Carbon::now();
+            // Mengambil tanggal tanpa waktu
+            $vendorValidityTo = Carbon::parse($vendor->validity_date_to)->toDateString(); // Hanya tanggalnya
+            $today = Carbon::now()->toDateString(); // Hanya tanggalnya
 
-            // Cek apakah hari ini lewat dari validity_to
-            if ($today->gt($vendorValidityTo)) {
-                // Ubah status jadi Rejected
+            // Debugging log untuk melihat nilai tanggal
+           // dd($today, $vendorValidityTo);
+
+            // Cek apakah hari ini lebih besar dari validity_date_to (hanya tanggal)
+            if ($today > $vendorValidityTo) {
+                // Ubah status menjadi Rejected
                 $vendor->status = 'Rejected';
                 $vendor->save();
 
@@ -56,6 +60,8 @@ public function auto7harivendor()
         }
     }
 }
+
+
 public function auto7harivisitor()
 {
     // Ambil semua visitor dengan status Pending
@@ -64,12 +70,17 @@ public function auto7harivisitor()
     foreach ($visitors as $visitor) {
         // Pastikan tanggal tidak kosong
         if (!empty($visitor->request_date_from) && !empty($visitor->request_date_to)) {
-            $visitorRequestTo = Carbon::parse($visitor->request_date_to);
-            $today = Carbon::now();
+            // Ambil tanggal tanpa waktu
+            $visitorRequestTo = Carbon::parse($visitor->request_date_to)->toDateString(); // Hanya tanggalnya
+            $today = Carbon::now()->toDateString(); // Hanya tanggalnya
 
-            // Cek apakah hari ini lebih besar dari request_date_to
-            if ($today->gt($visitorRequestTo)) {
+            // Debugging log untuk melihat nilai tanggal
+            // dd($today, $visitorRequestTo);
+
+            // Cek apakah hari ini lebih besar atau sama dengan request_date_to (hanya tanggalnya)
+            if ($today > $visitorRequestTo) {
                 // Ubah status menjadi Rejected
+               // dd("hmm");
                 $visitor->status = 'Rejected';
                 $visitor->save();
 
@@ -81,7 +92,8 @@ public function auto7harivisitor()
 }
 
 
-   public function autorejectvisitor()
+
+public function autorejectvisitor()
 {
     // Ambil semua visitor dengan status Pending
     $visitors = Visitor::where('status', 'Pending')->get();
@@ -93,12 +105,12 @@ public function auto7harivisitor()
             $requestTo = Carbon::parse($visitor->request_date_to);
 
             // Hitung durasi request
-            $permitDuration = $requestFrom->diffInDays($requestTo) + 1;
-
+            $permitDuration = $requestFrom->diffInDays($requestTo);
             // Jika durasi < 3 atau > 7 hari
             if ($permitDuration < 3 || $permitDuration > 7) {
                 // Ubah status menjadi Rejected
                 $visitor->status = 'Rejected';
+               // dd($permitDuration);
                 $visitor->save();
 
                 // Kirim email pemberitahuan
@@ -120,8 +132,8 @@ public function autorejectvendor()
                 $vendorValidityFrom = Carbon::parse($vendor->validity_date_from);
                 $vendorValidityTo = Carbon::parse($vendor->validity_date_to);
 
-                $permitDuration = $vendorValidityFrom->diffInDays($vendorValidityTo) + 1;
-
+                $permitDuration = $vendorValidityFrom->diffInDays($vendorValidityTo);
+            //  dd($permitDuration);
                 if ($permitDuration < 3 || $permitDuration > 7) {
                     $vendor->status = 'Rejected';
                     $vendor->save();
