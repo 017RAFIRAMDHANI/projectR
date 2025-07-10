@@ -59,7 +59,7 @@ public function pdf_manual_vendor(Request $request, $id_vendor)
     }
 
 
- 
+
 
 
 
@@ -249,54 +249,54 @@ $vendors = Vendor::orderByRaw("
     $jmlurgent = Vendor::where('mode','Urgent')->count();
 
     // Logic auto reject vendor
-    foreach ($vendors as $vendorVisitor) {
-        if ($vendorVisitor->mode == 'Urgent') {
-            continue;
-        }
+    // foreach ($vendors as $vendorVisitor) {
+    //     if ($vendorVisitor->mode == 'Urgent') {
+    //         continue;
+    //     }
 
-        if ($vendorVisitor->validity_date_from && $vendorVisitor->validity_date_to) {
-            $vendorValidityDateFrom = trim($vendorVisitor->validity_date_from);
-            $vendorValidityDateTo = trim($vendorVisitor->validity_date_to);
+    //     if ($vendorVisitor->validity_date_from && $vendorVisitor->validity_date_to) {
+    //         $vendorValidityDateFrom = trim($vendorVisitor->validity_date_from);
+    //         $vendorValidityDateTo = trim($vendorVisitor->validity_date_to);
 
-            try {
-                $vendorValidityFrom = \Carbon\Carbon::createFromFormat('Y-m-d', $vendorValidityDateFrom);
-                $vendorValidityTo = \Carbon\Carbon::createFromFormat('Y-m-d', $vendorValidityDateTo);
-                $today = \Carbon\Carbon::today();
-                $vendorDiffDays = $today->diffInDays($vendorValidityTo, false);
+    //         try {
+    //             $vendorValidityFrom = \Carbon\Carbon::createFromFormat('Y-m-d', $vendorValidityDateFrom);
+    //             $vendorValidityTo = \Carbon\Carbon::createFromFormat('Y-m-d', $vendorValidityDateTo);
+    //             $today = \Carbon\Carbon::today();
+    //             $vendorDiffDays = $today->diffInDays($vendorValidityTo, false);
 
-                if ($vendorDiffDays < 3 && $vendorVisitor->status == 'Pending') {
-                    $vendorVisitor->status = 'Rejected';
-                    $vendorVisitor->save();
-                    Mail::to($vendorVisitor->email)->send(new \App\Mail\VendorReject($vendorVisitor, 'Rejected'));
-                }
-            } catch (\Carbon\Exceptions\InvalidFormatException $e) {
-                dd("Error parsing date for vendor: ", $e->getMessage());
-            }
-        }
-    }
+    //             if ($vendorDiffDays < 3 && $vendorVisitor->status == 'Pending') {
+    //                 $vendorVisitor->status = 'Rejected';
+    //                 $vendorVisitor->save();
+    //                 Mail::to($vendorVisitor->email)->send(new \App\Mail\VendorReject($vendorVisitor, 'Rejected'));
+    //             }
+    //         } catch (\Carbon\Exceptions\InvalidFormatException $e) {
+    //             dd("Error parsing date for vendor: ", $e->getMessage());
+    //         }
+    //     }
+    // }
 
-    // Logic auto reject visitor
-    foreach ($visitors as $visitor) {
-        if ($visitor->request_date_from && $visitor->request_date_to) {
-            $visitorRequestDateFrom = trim($visitor->request_date_from);
-            $visitorRequestDateTo = trim($visitor->request_date_to);
+    // // Logic auto reject visitor
+    // foreach ($visitors as $visitor) {
+    //     if ($visitor->request_date_from && $visitor->request_date_to) {
+    //         $visitorRequestDateFrom = trim($visitor->request_date_from);
+    //         $visitorRequestDateTo = trim($visitor->request_date_to);
 
-            try {
-                $visitorRequestFrom = \Carbon\Carbon::createFromFormat('Y-m-d', $visitorRequestDateFrom);
-                $visitorRequestTo = \Carbon\Carbon::createFromFormat('Y-m-d', $visitorRequestDateTo);
-                $today = \Carbon\Carbon::today();
-                $visitorDiffDays = $today->diffInDays($visitorRequestTo, false);
+    //         try {
+    //             $visitorRequestFrom = \Carbon\Carbon::createFromFormat('Y-m-d', $visitorRequestDateFrom);
+    //             $visitorRequestTo = \Carbon\Carbon::createFromFormat('Y-m-d', $visitorRequestDateTo);
+    //             $today = \Carbon\Carbon::today();
+    //             $visitorDiffDays = $today->diffInDays($visitorRequestTo, false);
 
-                if ($visitorDiffDays < 3 && $visitor->status == 'Pending') {
-                    $visitor->status = 'Rejected';
-                    $visitor->save();
-                    Mail::to($visitor->email)->send(new \App\Mail\VisitorReject($visitor, 'Rejected'));
-                }
-            } catch (\Carbon\Exceptions\InvalidFormatException $e) {
-                dd("Error parsing date for visitor: ", $e->getMessage());
-            }
-        }
-    }
+    //             if ($visitorDiffDays < 3 && $visitor->status == 'Pending') {
+    //                 $visitor->status = 'Rejected';
+    //                 $visitor->save();
+    //                 Mail::to($visitor->email)->send(new \App\Mail\VisitorReject($visitor, 'Rejected'));
+    //             }
+    //         } catch (\Carbon\Exceptions\InvalidFormatException $e) {
+    //             dd("Error parsing date for visitor: ", $e->getMessage());
+    //         }
+    //     }
+    // }
 
     return view('approvals', compact(
         'vendors',

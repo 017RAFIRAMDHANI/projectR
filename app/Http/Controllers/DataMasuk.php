@@ -76,11 +76,11 @@ public function auto7harivisitor()
 
             // Debugging log untuk melihat nilai tanggal
             // dd($today, $visitorRequestTo);
-
+          // dd($today,$visitorRequestTo);
             // Cek apakah hari ini lebih besar atau sama dengan request_date_to (hanya tanggalnya)
             if ($today > $visitorRequestTo) {
                 // Ubah status menjadi Rejected
-               // dd("hmm");
+            //    dd("hmm");
                 $visitor->status = 'Rejected';
                 $visitor->save();
 
@@ -106,11 +106,14 @@ public function autorejectvisitor()
 
             // Hitung durasi request
             $permitDuration = $requestFrom->diffInDays($requestTo);
+
+            // Debugging log untuk memeriksa durasi
+         //   dd($requestFrom, $requestTo, $permitDuration);
+
             // Jika durasi < 3 atau > 7 hari
             if ($permitDuration < 3 || $permitDuration > 7) {
                 // Ubah status menjadi Rejected
                 $visitor->status = 'Rejected';
-               // dd($permitDuration);
                 $visitor->save();
 
                 // Kirim email pemberitahuan
@@ -119,6 +122,7 @@ public function autorejectvisitor()
         }
     }
 }
+
 
 
 public function autorejectvendor()
