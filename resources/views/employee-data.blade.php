@@ -38,13 +38,57 @@
       .table-row-hover:hover {
         background-color: rgba(0, 0, 0, 0.02);
       }
+
+.main-content {
+  height: calc(100vh - 64px); /* Subtract navbar height or any other elements that take space */
+  overflow-y: auto;  /* Scroll vertikal aktif */
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E0 #EDF2F7; /* Warna scrollbar */
+}
+
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #EDF2F7;
+  border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background-color: #CBD5E0;
+  border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background-color: #A0AEC0;
+}
+  .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #CBD5E0 #EDF2F7;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #EDF2F7;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #CBD5E0;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #A0AEC0;
+      }
     </style>
   </head>
   <body class="bg-gray-50">
     <!-- Navbar -->
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="main-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Back Button -->
       <div class="mb-6">
         <a href="{{route('/')}}" class="inline-flex items-center text-gray-600 hover:text-gray-900">
