@@ -409,7 +409,7 @@ class ReportController extends Controller
         if($type == "PDF"){
              if ($vendorVisitor == "Vendor") {
 
-        $pdf = FacadePdf::loadView('pdf.vendor-request-report', ['dataPermit' => $dataPermit]);
+        $pdf = FacadePdf::loadView('pdf.work-request-report', ['dataPermit' => $dataPermit]);
         return $pdf->download('data-permit.pdf');
 
              }else if($vendorVisitor == "Visitor"){

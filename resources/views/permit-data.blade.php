@@ -624,48 +624,49 @@ $(document).ready(function() {
 });
 </script>
     <script>
-
 function closePermit(permitId) {
-    const button = document.querySelector(#permit-${permitId} .close-btn);
+    console.log('closePermit called for permit ID:', permitId);  // Menambahkan log untuk memverifikasi
+    const button = document.querySelector(`#permit-${permitId} .close-btn`);
 
     // Jika tombol sudah di-disable, tidak melakukan apa-apa lagi
     if (button.disabled) {
+        console.log('Button is disabled, returning early');
         return;
     }
-  // Confirm before making the change
-  if (confirm("Are you sure you want to close this permit?")) {
 
-
-      button.disabled = true;
+    // Confirm before making the change
+    if (confirm("Are you sure you want to close this permit?")) {
+        console.log('Confirmed, disabling button');
+        button.disabled = true;
         button.classList.remove('bg-red-100', 'text-red-600');
         button.classList.add('bg-gray-100', 'text-gray-600', 'cursor-not-allowed'); // Disable cursor
 
-    // Send the AJAX request
-    $.ajax({
-      url: '{{ route("updatePermitStatus") }}',  // Define route for updating status
-      method: 'POST',
-      data: {
-        _token: '{{ csrf_token() }}',  // CSRF token for security
-        permit_id: permitId,           // Pass the permit ID
-        status: 'Closed'               // Set the new status to 'closed'
-      },
-      success: function(response) {
-        // If the status change is successful, update the status in the table
-        if (response.status === 'success') {
-          // Find the row with the matching permit ID and update the status column
-          const row = document.getElementById('permit-' + permitId);
-          row.querySelector('.permit-status').innerHTML = 'Closed';
-          row.querySelector('.permit-status').classList.remove('bg-green-100', 'text-green-800');
-          row.querySelector('.permit-status').classList.add('bg-gray-100', 'text-gray-600');
-        } else {
-          alert('Failed to close permit. Please try again.');
-        }
-      },
-      error: function(xhr, status, error) {
-        alert('An error occurred. Please try again.');
-      }
-    });
-  }
+        // Send the AJAX request
+        $.ajax({
+            url: '{{ route("updatePermitStatus") }}',  // Define route for updating status
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',  // CSRF token for security
+                permit_id: permitId,           // Pass the permit ID
+                status: 'Closed'               // Set the new status to 'closed'
+            },
+            success: function(response) {
+                // If the status change is successful, update the status in the table
+                if (response.status === 'success') {
+                    // Find the row with the matching permit ID and update the status column
+                    const row = document.getElementById('permit-' + permitId);
+                    row.querySelector('.permit-status').innerHTML = 'Closed';
+                    row.querySelector('.permit-status').classList.remove('bg-green-100', 'text-green-800');
+                    row.querySelector('.permit-status').classList.add('bg-gray-100', 'text-gray-600');
+                } else {
+                    alert('Failed to close permit. Please try again.');
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
 }
 
     </script>
