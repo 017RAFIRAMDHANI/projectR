@@ -76,11 +76,11 @@
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Visitor Information</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Destination Email</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Destination Email <span class="text-red-500">*</span></label>
                         <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="example@email.com">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Purpose</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Purpose   <span class="text-red-500">*</span></label>
                         <select name="purpose_visit" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Purpose</option>
                             <option value="Visitor">Visitor</option>
@@ -88,11 +88,11 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Requested Date From</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Requested Date From  <span class="text-red-500">*</span></label>
                         <input type="date" name="request_date_from" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                     </div>
           <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Requested Date To</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Requested Date To  <span class="text-red-500">*</span></label>
                         <input type="date" name="request_date_to" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                         <p class="text-xs text-gray-500 mt-1">* Maximum request period is 7 days from the requested date from.</p>
                     </div>
@@ -101,7 +101,7 @@
                         <textarea name="purpose_detail" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
                     </div>
                     <div class="md:col-span-2">
-                         <label class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                         <label class="block text-sm font-medium text-gray-700 mb-2">Company Name  <span class="text-red-500">*</span></label>
                         <input type="text" name="company_name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" >
                     </div>
 
@@ -113,7 +113,7 @@
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Destination</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Building</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Building  <span class="text-red-500">*</span></label>
                         <select id="buildingSelect" name="building" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" onchange="updateLevelOptions()">
                             <option value="">Select Building</option>
                             <option value="Admin Building">Admin Building</option>
@@ -122,14 +122,14 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Level</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Level  <span class="text-red-500">*</span></label>
                         <select id="levelSelect" name="level" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Level</option>
                         </select>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Specific Location / Room</label>
-                        <input type="text" name="specificLocation" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor">
+                        <input type="text" name="specificLocation"  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor">
                     </div>
           </div>
           </div>
@@ -138,7 +138,7 @@
             <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Visitor Details</h3>
           <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Number of Visitors</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Number of Visitors  <span class="text-red-500">*</span></label>
                     <select id="visitorCount" name="numberOfVisitors" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                         <option value="">Select Number of Visitors</option>
                         <option value="0">0 (No Visitors, e.g., for Delivery only)</option>
@@ -184,19 +184,19 @@
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">PIC & Vehicle Information</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">PIC Name</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">PIC Name  <span class="text-red-500">*</span></label>
                         <input type="text" name="pic_name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Visitor Contact Number</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Visitor Contact Number  <span class="text-red-500">*</span></label>
                         <input type="tel" name="pic_contact" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
               <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Plate No. <b>(A 1234 ABC)</b></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Plate No. <b>(A 1234 ABC)</b>  <span class="text-red-500">*</span></label>
                         <input type="text" name="car_plate_no" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
               </div>
               <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Type</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Type  <span class="text-red-500">*</span></label>
                         <select name="vehicle_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Vehicle Type</option>
                             <option value="Car">Car</option>
@@ -205,7 +205,7 @@
               </div>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File  <span class="text-red-500">*</span></label>
               <input required type="file" name="upload_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
               <p class="mt-1 text-sm text-gray-500">You can upload a single file containing scans of all workers' ID cards (KTP).</p>
         </div>
@@ -271,35 +271,35 @@
                 @csrf
           <!-- Vendor Information -->
           <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Vendor Information</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Work Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Email  <span class="text-red-500">*</span></label>
                 <input type="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Company Name  <span class="text-red-500">*</span></label>
                 <input type="text" name="company_name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
             </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Urgency</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Urgency  <span class="text-red-500">*</span></label>
                 <select name="mode" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                     <option value="Normal">Normal</option>
                     <option value="Urgent">Urgent</option>
                 </select>
               </div>
                <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Company Contact</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Company Contact  <span class="text-red-500">*</span></label>
                 <input type="text" name="company_contact" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Requestor Name</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Requestor Name  <span class="text-red-500">*</span></label>
                 <input type="text" name="requestor_name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                <input type="tel" name="phone_number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
+                <input type="tel" name="phone_number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" >
             </div>
           </div>
           </div>
@@ -309,11 +309,11 @@
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Validity Period</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Validity Date From</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Validity Date From  <span class="text-red-500">*</span></label>
                 <input type="date" name="validity_date_from" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Validity Date To</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Validity Date To  <span class="text-red-500">*</span></label>
                 <input type="date" name="validity_date_to" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
                 <p class="text-xs text-gray-500 mt-1">* Maximum validity period is 7 days from the validity date from.</p>
             </div>
@@ -325,8 +325,8 @@
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Work Description</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                <textarea name="work_description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Description  <span class="text-red-500">*</span></label>
+                <textarea required name="work_description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
             </div>
             </div>
           </div>
@@ -340,7 +340,7 @@
                 <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
           </div> -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Building</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Building  <span class="text-red-500">*</span></label>
                 <select id="vendorBuildingSelect" name="building" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" onchange="updateVendorLevelOptions()">
                   <option value="">Select Building</option>
                   <option value="Admin Building">Admin Building</option>
@@ -349,13 +349,13 @@
                 </select>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Level</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Level  <span class="text-red-500">*</span></label>
             <select id="vendorLevelSelect" name="level" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                 <option value="">Select Level</option>
             </select>
         </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Specific Location / Room for Workers</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Specific Location / Room for Workers  <span class="text-red-500">*</span></label>
                 <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Server Room A-01, Genset Area, Main Corridor" required>
           </div>
           </div>
@@ -365,7 +365,7 @@
           <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Worker Details</h3>
           <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700 mb-2">Number of Workers</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Number of Workers  <span class="text-red-500">*</span></label>
               <select id="workerCount" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" required>
                 <option value="">Select Number of Workers</option>
                 <option value="1">1 Worker</option>
@@ -410,7 +410,7 @@
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Safety Checklist</h3>
             <div class="space-y-6">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Does work generate dust?</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Does work generate dust?  <span class="text-red-500">*</span></label>
                 <div class="flex space-x-4">
               <label class="inline-flex items-center">
                     <input type="radio" name="generate_dust" value="Yes" class="form-radio" required>
@@ -424,16 +424,16 @@
           </div>
               <div id="dustDetails" class="hidden">
           <div class="mb-4">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Cause of dust</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Cause of dust  <span class="text-red-500">*</span></label>
                   <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" rows="2"></textarea>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Method to contain dust</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Method to contain dust  <span class="text-red-500">*</span></label>
                   <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" rows="2"></textarea>
           </div>
           </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Any Fire Protection System affected?</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Any Fire Protection System affected?  <span class="text-red-500">*</span></label>
                 <div class="flex space-x-4">
               <label class="inline-flex items-center">
                     <input type="radio" name="fire_system" value="Yes" class="form-radio" required>
@@ -484,12 +484,12 @@
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Vehicle Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Plate No. <b>(A 1234 ABC)</b></label>
-                <input type="text" name="number_plate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Plate No. <b>(A 1234 ABC)</b>  <span class="text-red-500">*</span></label>
+                <input type="text" required name="number_plate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
           </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Type </label>
-                <select name="vehicle_types" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Vehicle Type   <span class="text-red-500">*</span></label>
+                <select required name="vehicle_types" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                   <option value="">Select Vehicle Type</option>
                   <option value="Car">Car</option>
                   <option value="Motorcycle">Motorcycle</option>
@@ -503,13 +503,13 @@
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Attachments</h3>
             <div class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Upload MOS File (Optional)</label>
-                <input type="file" name="file_mos" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Upload MOS File   <span class="text-red-500">*</span></label>
+                <input type="file" required name="file_mos" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                 <p class="mt-1 text-sm text-gray-500">Method of Statement, Work Permit, or other supporting documents.</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File</label>
-                <input required type="file" name="up_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Upload ID Card(s) File    <span class="text-red-500">*</span> </label>
+                <input required  type="file" name="up_id_card_foto" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                 <p class="mt-1 text-sm text-gray-500">You can upload a single file containing scans of all workers' ID cards (KTP).</p>
 
 

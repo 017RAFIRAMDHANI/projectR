@@ -98,6 +98,10 @@
     <p class="text-sm font-medium text-gray-500">Company Name</p>
     <p class="text-base text-gray-900" id="companyName">{{ $dataVendor->company_name }}</p>
 </div>
+            <div>
+    <p class="text-sm font-medium text-gray-500">Company Contact</p>
+    <p class="text-base text-gray-900" id="companyName">{{ $dataVendor->company_contact }}</p>
+</div>
 <div>
     <p class="text-sm font-medium text-gray-500">Requestor Name</p>
     <p class="text-base text-gray-900" id="requestorName">{{ $dataVendor->requestor_name }}</p>
