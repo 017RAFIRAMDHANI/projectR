@@ -142,7 +142,7 @@ $dataVisitor = $dataVisitor->orderBy('created_at', 'desc')->paginate(20, ['*'], 
                             'id_data' => $approved->vendor->id_vendor ?? null,
                             'id_akun' => Auth::user()->id ?? null,
                             'type' => "Vendor",
-                            'judul' => "Vendor Permit Not Active (Expired)",
+                            'judul' => "Work Permit Not Active (Expired)",
                             'text' => "Permit request vendor has expired: " . $approved->vendor->permit_number ?? null,
                         ]);
                     }
@@ -217,7 +217,7 @@ public function updateStatus(Request $request)
                      'id_data' =>  $permit->vendor->id_vendor ?? null,
                      'id_akun' => Auth::user()->id ?? null,
                      'type' => "Vendor",
-                     'judul' => "Vendor Permit Not Active (Closed)",
+                     'judul' => "Work Permit Not Active (Closed)",
                     'text' => "Permit request vendor has been Closed is  " . $permit->vendor->permit_number ?? null,
 ]);
         }
