@@ -119,15 +119,15 @@ public function uploadPhoto(Request $request)
     $safetis = Safeti::with(['vendor', 'visitor', 'employe']);
 
     // Filter hanya relasi yang aktif
-    $safetis = $safetis->where(function ($query) {
-        $query->whereHas('vendor', function ($q) {
-            $q->where('status_aktif', 'Active');
-        })->orWhereHas('visitor', function ($q) {
-            $q->where('status_aktif', 'Active');
-        })->orWhereHas('employe', function ($q) {
-            $q->where('status', 'Active');
-        });
-    });
+    // $safetis = $safetis->where(function ($query) {
+    //     $query->whereHas('vendor', function ($q) {
+    //         $q->where('status_aktif', 'Active');
+    //     })->orWhereHas('visitor', function ($q) {
+    //         $q->where('status_aktif', 'Active');
+    //     })->orWhereHas('employe', function ($q) {
+    //         $q->where('status', 'Active');
+    //     });
+    // });
 
     // Filter berdasarkan input search
     if ($searchFilter) {

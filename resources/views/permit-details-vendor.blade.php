@@ -162,10 +162,24 @@
 <div class="mb-2">
     <p class="text-sm font-medium text-gray-500">Method of Statement (MOS)</p>
     <p class="text-base text-gray-900" id="mosFileName">
-        <button  class="view-pdf-btn" type="button" data-file="{{ Str::startsWith($dataVendor->file_mos, 'http') ? $dataVendor->file_mos : asset('storage/' . $dataVendor->file_mos) }}"
+        {{-- <button  class="view-pdf-btn" type="button" data-file="{{ Str::startsWith($dataVendor->file_mos, 'http') ? $dataVendor->file_mos : asset('storage/' . $dataVendor->file_mos) }}"
+>
+    LIHAT FILE
+</button> --}}
+        <button  class="view-pdf-btn" type="button" data-file="{{ Str::startsWith($dataVendor->file_mos, 'http') ? $dataVendor->file_mos : asset('mos_files/' . $dataVendor->file_mos) }}"
 >
     LIHAT FILE
 </button>
+        <button  class="view-pdf-btn" type="button" data-file="{{ Str::startsWith($dataVendor->file_mos_dua, 'http') ? $dataVendor->file_mos : asset('mos_files/' . $dataVendor->file_mos_dua) }}"
+>
+    LIHAT FILE 2
+</button>
+        <button  class="view-pdf-btn" type="button" data-file="{{ Str::startsWith($dataVendor->file_mos_tiga, 'http') ? $dataVendor->file_mos : asset('mos_files/' . $dataVendor->file_mos_tiga) }}"
+>
+    LIHAT FILE 3
+</button>
+
+
 
     </p>
 </div>

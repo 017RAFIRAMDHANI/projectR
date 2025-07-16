@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approved;
+use App\Models\Employe;
 use App\Models\Histori;
 use App\Models\Vehicle;
 use App\Models\Vendor;
@@ -12,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Google_Client;
 use Google_Service_Sheets;
+use Google_Service_Drive;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -383,6 +385,36 @@ $primary_number = isset($row[81]) && !empty($row[81]) ? $row[81] : null;
            $validity_date_to = isset($row[7]) ? Carbon::createFromFormat('m/d/Y', $row[7])->format('Y-m-d') : null;  // Column validity_date_from
 
             if (!$vendor) {
+
+//    $driveLinks = isset($row[80]) ? explode(',', $row[80]) : [];
+
+//         // Ensure we have at least 3 entries (if there are fewer, fill them with null)
+//         $driveLinks = array_pad($driveLinks, 3, null);
+
+//         // Download files if they exist
+//         foreach ($driveLinks as $key => $link) {
+//             if ($link) {
+//                 // Assuming your function to download files is as follows:
+//                 $this->downloadDriveFileToLocal($link, public_path('mos_files'));
+//             }
+//         }
+  $driveLinks = isset($row[80]) ? explode(',', $row[80]) : [];
+
+        // Ensure we have at least 3 entries (if there are fewer, fill them with null)
+        $driveLinks = array_pad($driveLinks, 3, null);
+
+        // Download files if they exist and get the local file paths
+        $localPaths = [];
+        foreach ($driveLinks as $key => $link) {
+            if ($link) {
+                $localPath = $this->downloadDriveFileToLocal($link, public_path('mos_files'));
+                $localPaths[] = $localPath;  // Add local path to array
+            } else {
+                $localPaths[] = null;  // If no link, store null
+            }
+        }
+
+
           $vendor = Vendor::create([
     'email' => isset($row[1]) ? $row[1] : null,
     'company_name' => isset($row[2]) ? $row[2] : null,
@@ -463,7 +495,9 @@ $primary_number = isset($row[81]) && !empty($row[81]) ? $row[81] : null;
     'isolation_name' => isset($row[77]) ? $row[77] : null,
     'isolation_date' => isset($row[78]) ? $row[78] : null,
     'up_id_card_foto' => isset($row[79]) ? $row[79] : null,
-    'file_mos' => isset($row[80]) ? $row[80] : null,
+        'file_mos' => isset($localPaths[0]) ? $localPaths[0] : null, // Save local file path
+                'file_mos_dua' => isset($localPaths[1]) ? $localPaths[1] : null, // Save local file path
+                'file_mos_tiga' => isset($localPaths[2]) ? $localPaths[2] : null, // Save local file path
     'primary_number' => isset($row[81]) ? $row[81] : null,
     'check_one_approve' => isset($row[82]) ? $row[82] : null,
     'status' => 'Pending',
@@ -500,10 +534,145 @@ $validity_date_to = $vendor->validity_date_to;
             'text' => "Work permit from " . $requestor_name ?? null,
             ]);
 
+     for ($i = 1; $i <= 30; $i++) {
+            $fieldName = "worker{$i}_name";
+            $fieldName2 = "worker{$i}_id_card";
+            $workerName = $vendor->$fieldName;
+            $workerIdCard = $vendor->$fieldName2;
+
+            // Cek apakah ada nama yang diisi
+            if (!empty($workerName) && trim($workerName) !== '') {
+
+                Employe::create([
+            'number_plate' => $number_plate ?? null,
+            'type' => $vehicle_types ?? null,
+            'type2' => "Work",
+            'name' => $workerName,
+            'company_name' =>  $company_name ?? '',
+            'position' => "Work",
+            'file_card' => isset($row[79]) ? $row[79] : null,
+            'status' => "Active",
+        ]);
+
+
+            }
+        }
+
+
 }
             }
 
         }
+
+//         public function downloadDriveFileToLocal($driveLink, $localPath)
+// {
+//     // Extract file ID from the URL
+//     $fileId = $this->extractFileIdFromLink($driveLink);
+//     if (!$fileId) {
+//         throw new \Exception("Invalid file ID");
+//     }
+
+//     // Initialize Google Drive client and service
+//     $client = new Google_Client();
+//     $client->setAuthConfig(config('google.credentials_path'));
+//     $client->addScope(Google_Service_Drive::DRIVE_READONLY);
+//     $driveService = new Google_Service_Drive($client);
+
+//     // Retrieve the file content
+//     $file = $driveService->files->get($fileId, ['alt' => 'media']);
+
+//     // Prepare the local storage path
+//     $fileName = 'mos_file_' . $fileId . '.pdf';  // You can change this to any appropriate extension
+//     $localFilePath = $localPath . '/' . $fileName;
+
+//     // Save the file to the local storage
+//     file_put_contents($localFilePath, $file->getBody());
+
+//     return $localFilePath;
+// }
+// public function downloadDriveFileToLocal($driveLink, $localPath)
+// {
+//     // Extract file ID from the URL
+//     $fileId = $this->extractFileIdFromLink($driveLink);
+//     if (!$fileId) {
+//         throw new \Exception("Invalid file ID");
+//     }
+
+//     // Initialize Google Drive client and service
+//     $client = new Google_Client();
+//     $client->setAuthConfig(config('google.credentials_path'));
+//     $client->addScope(Google_Service_Drive::DRIVE_READONLY);
+//     $driveService = new Google_Service_Drive($client);
+
+//     // Retrieve the file content
+//     $file = $driveService->files->get($fileId, ['alt' => 'media']);
+
+//     // Prepare the local storage path (storing file in public/mos_files folder)
+//     $fileName = 'mos_file_' . $fileId . '.pdf';  // You can change this to any appropriate extension
+//     $localFilePath = $localPath . '/' . $fileName;
+
+//     // Save the file to the local storage
+//     file_put_contents($localFilePath, $file->getBody());
+
+//     // Return the relative path to the file, not the absolute path
+//     return  $fileName;
+// }
+
+public function downloadDriveFileToLocal($driveLink, $localPath)
+{
+    // Extract file ID from the URL
+    $fileId = $this->extractFileIdFromLink($driveLink);
+    if (!$fileId) {
+        throw new \Exception("Invalid file ID");
+    }
+
+    // Initialize Google Drive client and service
+    $client = new Google_Client();
+    $client->setAuthConfig(config('google.credentials_path'));
+    $client->addScope(Google_Service_Drive::DRIVE_READONLY);
+    $driveService = new Google_Service_Drive($client);
+
+    // Retrieve the file metadata to get the MIME type
+    $fileMetadata = $driveService->files->get($fileId, ['fields' => 'mimeType']);
+    $mimeType = $fileMetadata->getMimeType();
+
+    // Determine the file extension based on MIME type
+    switch ($mimeType) {
+        case 'application/pdf':
+            $fileExtension = '.pdf';
+            break;
+        case 'image/jpeg':
+            $fileExtension = '.jpg';
+            break;
+        case 'image/png':
+            $fileExtension = '.png';
+            break;
+        default:
+            // For unsupported formats, save it as a generic file
+            $fileExtension = '.bin';
+            break;
+    }
+
+    // Prepare the local storage path (storing file in public/mos_files folder)
+    $fileName = 'mos_file_' . $fileId . $fileExtension;  // Use the appropriate file extension based on MIME type
+    $localFilePath = $localPath . '/' . $fileName;
+
+    // Retrieve the file content and save it to the local storage
+    $file = $driveService->files->get($fileId, ['alt' => 'media']);
+    file_put_contents($localFilePath, $file->getBody());
+
+    // Return the relative path to the file, not the absolute path
+    return $fileName;
+}
+
+ 
+
+public function extractFileIdFromLink($link)
+{
+    // Regex to extract file ID from Google Drive link
+    preg_match('/(?:id=|\/d\/)([a-zA-Z0-9_-]+)/', $link, $matches);
+    return $matches[1] ?? null;
+}
 
     }
 

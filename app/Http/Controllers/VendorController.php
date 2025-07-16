@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approved;
+use App\Models\Employe;
 use App\Models\Histori;
 use App\Models\Safeti;
 use App\Models\Vehicle;
@@ -475,6 +476,31 @@ $vendor = Vendor::create([
              'judul' => "New Permit Request",
             'text' => "Work permit from " . $vendor->requestor_name ?? null,
             ]);
+
+
+                for ($i = 1; $i <= 30; $i++) {
+            $fieldName = "worker{$i}_name";
+            $fieldName2 = "worker{$i}_id_card";
+            $workerName = $vendor->$fieldName;
+            $workerIdCard = $vendor->$fieldName2;
+
+            // Cek apakah ada nama yang diisi
+            if (!empty($workerName) && trim($workerName) !== '') {
+                
+                Employe::create([
+            'number_plate' => $validatedData['number_plate'] ?? null,
+            'type' => $validatedData['vehicle_types'] ?? null,
+            'type2' => "Work",
+            'name' => $workerName,
+            'company_name' =>  $vendor->company_name ?? '',
+            'position' => "Work",
+            'file_card' => $fileCard ?? null,
+            'status' => "Active",
+        ]);
+
+
+            }
+        }
 
         // Return a success response with data
         return redirect()->route('index_approve')->with('success', 'Work permit request submitted successfully!');

@@ -95,6 +95,8 @@ $table->string('isolation_name')->nullable();
 $table->string('isolation_date')->nullable();
 $table->string('up_id_card_foto')->nullable();
 $table->string('file_mos')->nullable();
+$table->string('file_mos_dua')->nullable();
+$table->string('file_mos_tiga')->nullable();
 $table->string('primary_number', 255)->nullable();
             $table->integer('check_one_approve')->nullable();
             $table->string('permit_number', 255)->nullable();

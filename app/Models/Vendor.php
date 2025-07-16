@@ -92,6 +92,8 @@ class Vendor extends Model
         'isolation_date',
         'up_id_card_foto',
         'file_mos',
+        'file_mos_dua',
+        'file_mos_tiga',
         'primary_number',
         'check_one_approve',
         'permit_number',
